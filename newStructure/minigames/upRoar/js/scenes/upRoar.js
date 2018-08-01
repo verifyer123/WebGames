@@ -82,7 +82,6 @@ var upRoar = function(){
             },
         ],
         images: [
-            
             {
 				name:'tutorial_image',
 				file:"%lang",

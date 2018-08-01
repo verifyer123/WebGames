@@ -836,8 +836,7 @@ var uni = function(){
 			animalsInStage[fill].container= this.game.add.image(animalsInStage[fill].x-50, animalsInStage[fill].y-100);
 			animalsInStage[fill].container.addChild(this.rect);
 			animalsInStage[fill].container.index=fill;
-			animalsInStage[fill].container.inputEnabled=true;
-			animalsInStage[fill].container.events.onInputDown.add(discardAnimal,this);
+			animalsInStage[fill].container.inputEnabled=false;
 			animalsInStage[fill].setAnimation(["jump"]);
 			
 			sound.play("horse_gallop")
@@ -852,6 +851,8 @@ var uni = function(){
 			buttonImg.inputEnabled=true;
 			for(var idle=0; idle<animalsInStage.length; idle++){
 				animalsInStage[idle].setAnimation(["idle"]);
+				animalsInStage[idle].container.inputEnabled=true;
+				animalsInStage[idle].container.events.onInputDown.add(discardAnimal,this);
 			}
 			dragableUnicorn.inputEnabled=true;
 			dragableUnicorn.input.enableDrag(true);

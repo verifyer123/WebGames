@@ -26,6 +26,8 @@ var instructions = function(){
         images: [
             {   name:"background",
 				file: "images/instructions/back.png"},
+            {   name:"instruccion",
+                file: "images/instructions/instruccion.png"},
 		],
         sounds: [
             {	name: "click",
@@ -52,7 +54,7 @@ var instructions = function(){
             platform = 'tap'
         }
         
-        var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
+        var instruction = circleGroup.create(0,0,'instruccion')
         instruction.anchor.setTo(0.5,0.5)
 
 		return circleGroup

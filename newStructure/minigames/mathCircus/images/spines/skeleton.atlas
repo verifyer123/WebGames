@@ -6,98 +6,105 @@ filter: Linear,Linear
 repeat: none
 normal/arm1
   rotate: false
-  xy: 417, 164
+  xy: 544, 213
   size: 34, 66
   orig: 34, 66
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 453, 180
+  xy: 580, 229
   size: 38, 50
   orig: 38, 50
   offset: 0, 0
   index: -1
 normal/ball
   rotate: false
-  xy: 276, 232
+  xy: 2, 237
   size: 262, 262
   orig: 262, 262
   offset: 0, 0
   index: -1
 normal/dm1
-  rotate: false
-  xy: 918, 209
-  size: 94, 102
-  orig: 94, 102
+  rotate: true
+  xy: 455, 198
+  size: 81, 87
+  orig: 81, 87
   offset: 0, 0
   index: -1
 normal/dm2
   rotate: false
-  xy: 2, 2
-  size: 198, 196
-  orig: 198, 196
+  xy: 266, 330
+  size: 170, 169
+  orig: 170, 169
   offset: 0, 0
   index: -1
 normal/dm3
-  rotate: false
-  xy: 2, 200
-  size: 272, 294
-  orig: 272, 294
+  rotate: true
+  xy: 2, 2
+  size: 233, 251
+  orig: 233, 251
   offset: 0, 0
   index: -1
 normal/dm4
-  rotate: true
-  xy: 918, 313
-  size: 181, 81
-  orig: 181, 81
+  rotate: false
+  xy: 455, 281
+  size: 182, 81
+  orig: 182, 81
   offset: 0, 0
   index: -1
 normal/head
   rotate: false
-  xy: 540, 359
-  size: 187, 135
-  orig: 187, 135
+  xy: 266, 194
+  size: 187, 134
+  orig: 187, 134
   offset: 0, 0
   index: -1
 normal/head1
   rotate: false
-  xy: 729, 359
+  xy: 438, 364
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/head2
   rotate: false
-  xy: 540, 222
+  xy: 627, 364
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/head3
   rotate: false
-  xy: 729, 222
+  xy: 816, 364
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/head4
-  rotate: true
-  xy: 202, 11
+  rotate: false
+  xy: 255, 57
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/leg
   rotate: false
-  xy: 339, 89
+  xy: 723, 305
   size: 39, 57
   orig: 39, 57
   offset: 0, 0
   index: -1
+normal/leg1_b
+  rotate: true
+  xy: 255, 18
+  size: 37, 73
+  orig: 37, 73
+  offset: 0, 0
+  index: -1
 normal/torso
-  rotate: false
-  xy: 339, 148
+  rotate: true
+  xy: 639, 286
   size: 76, 82
   orig: 76, 82
   offset: 0, 0

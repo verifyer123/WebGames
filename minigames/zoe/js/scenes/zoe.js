@@ -481,8 +481,9 @@ var zoe = function(){
     function tap(){
 
         if(player.inGround){
-        	//initTap = game.time.now
+
         	player.inGround = false
+
             var x = PLAYER_SPEED.x
             var y = PLAYER_SPEED.y
             if(Math.abs(player.body.velocity.x) > 300){
@@ -494,6 +495,27 @@ var zoe = function(){
             //console.log(player.body.velocity.x,player.body.velocity.y)
         	player.body.applyImpulse([x,y],player.contactPoint.x,player.contactPoint.y)
         	player.body.angularVelocity+= 2
+        }
+        else if(player.canSecondTap){
+            player.canSecondTap = false
+            var x = PLAYER_SPEED.x/2
+            var y = PLAYER_SPEED.y/2
+            if(Math.abs(player.body.velocity.x) > 300){
+                x =1
+            }
+            if(Math.abs(player.body.velocity.y) > 300){
+                y = 1
+            }
+            //console.log(player.body.velocity.x,player.body.velocity.y)
+            //player.body.applyImpulse([x,y],player.contactPoint.x,player.contactPoint.y)
+            player.body.velocity.x = 400
+            if(player.body.velocity.y>0){
+                player.body.velocity.y = -500
+            }
+            else{
+                player.body.velocity.y = -500
+            }
+            player.body.angularVelocity+= 1
         }
     }
 
@@ -547,10 +569,13 @@ var zoe = function(){
                 var localX = equation[0].contactPointB[0];
                 var localY = equation[0].contactPointB[1];
                 player.inGround = true
+                //console.log()
+                player.canSecondTap = true
                 player.contactPoint = {x:localX,y:localY}
             }
             else{
-                player.inGround = true
+                //player.inGround = true
+                player.canSecondTap = true
                 player.contactPoint = {x:3.4249191284179688,y:-5.950046539306641}
             }
     	}
@@ -688,6 +713,7 @@ var zoe = function(){
         game.physics.p2.enable(player,false)
         player.inGround = false
         player.body.onBeginContact.add(collideBody,this)
+        player.canSecondTap = true
 
         var floorLimit = sceneGroup.create(game.world.centerX,game.world.height - 250)
         game.physics.p2.enable(floorLimit,false)
@@ -1141,7 +1167,7 @@ var zoe = function(){
 
     function createPattern(){
     	var r = game.rnd.integerInRange(1,7)
-    	r = 3
+    	//r = 3
     	switch(r){
     		case 1:
     			createPatter1()
@@ -1209,9 +1235,9 @@ var zoe = function(){
     function createPatter3(){
     	var cajonera = getCajonera(currentX,game.world.height - 300)
     	var lampara = getLampara(currentX, game.world.height - 400)
-    	currentX += 400
-    	var librero = getLibrero(currentX,game.world.height - 450)
     	currentX += 500
+    	var librero = getLibrero(currentX,game.world.height - 450)
+    	currentX += 300
     	var clock = getClock(currentX, game.world.height - 500)
     	currentX += 300
     	var chair = getChair(currentX, game.world.height - 430)

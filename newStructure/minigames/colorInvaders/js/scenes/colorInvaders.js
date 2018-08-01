@@ -7,13 +7,15 @@ var colorInvaders = function(){
 		"EN":{
 			"howTo":"How to Play?",
 			"moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"tutorial_image":"images/colorInvaders/tutorial_image_EN.png",
 		},
 
 		"ES":{
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
-			"stop":"¡Detener!"
+			"stop":"¡Detener!",
+			"tutorial_image":"images/colorInvaders/tutorial_image_ES.png",
 		}
 	}
 
@@ -39,8 +41,8 @@ var colorInvaders = function(){
 		images: [
 			{
 				name:'tutorial_image',
-				file:"images/colorInvaders/gametuto.png"
-			}
+				file:"%lang",
+			},
 
 		],
 		sounds: [
@@ -96,6 +98,7 @@ var colorInvaders = function(){
 	var tutoGroup
 	var colorSong
 	var coin
+	var CENTER_VECTOR
 	var continueSpinning
 	var speed
 	var hand
@@ -113,12 +116,33 @@ var colorInvaders = function(){
 	var alienTweens=[]
 	var buttonTweens=[]
 	var rand
+	var distance = 950;
+	var speedStars = 3;
+	var star;
+	var star2;
+	var star3;
+	var texture;
+	var texture2;
+	var texture3;
+	var max = 1000;
+	var xx = [];
+	var yy = [];
+	var zz = [];
+	var xx2 = [];
+	var yy2 = [];
+	var zz2 = [];
+	var xx3 = [];
+	var yy3 = [];
+	var zz3 = [];
 	var TOTAL_ALIENS
+	var planet
+	var comet
 	var theOne
 	var timeAttack
 	var tutorial
 	var countAliens
 	var timer
+	var skinsNumber=[]
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -150,7 +174,7 @@ var colorInvaders = function(){
 			colorsText = ['Blue', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Yellow']
 		}
 		else{
-			colorsText = ['Azul', 'Verde', 'Naranja', 'Rosa', 'Purpura', 'Rojo', 'Amarillo']
+			colorsText = ['Azul', 'Verde', 'Naranja', 'Rosa', 'Púrpura', 'Rojo', 'Amarillo']
 		}
 
 		loadSounds()
@@ -188,12 +212,9 @@ var colorInvaders = function(){
 	} 
 
 	function tutoLevel(){
-
-
 		rand = getRand()
 		var color = placeAliens()
 		initGame()
-
 	}
 
 	function addNumberPart(obj,number,isScore){
@@ -291,7 +312,7 @@ var colorInvaders = function(){
 		heartsGroup = game.add.group()
 		heartsGroup.y = 10
 		sceneGroup.add(heartsGroup)
-
+		
 
 		var pivotX = 10
 		var group = game.add.group()
@@ -326,20 +347,9 @@ var colorInvaders = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
+			resultScreen.setScore(true, pointsBar.number,gameIndex)	
 			sceneloader.show("result")
 		})
-	}
-
-	function preload(){
-
-		//buttons.getImages(game)
-
-		//game.stage.disableVisibilityChange = false
-
-		//loadType(gameIndex)
 	}
 
 	function createTutorial(){
@@ -361,19 +371,172 @@ var colorInvaders = function(){
 	}
 
 	function createBackground(){
-
+		starField()
+		var rect = new Phaser.Graphics(game)
+		rect.beginFill(0x000000)
+		rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+		rect.alpha = 1
+		rect.endFill()
+		sceneGroup.add(rect)
 		tile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.colorInvaders", "tile")
+		tile.alpha=1;
 		sceneGroup.add(tile)
+		sceneGroup.add(game.add.sprite(0, 0, texture));
+		sceneGroup.add(game.add.sprite(0, 0, texture2));
+		sceneGroup.add(game.add.sprite(0, 0, texture3));
 	}
 
-	function update(){
-
-		tile.tilePosition.x += 2
-		tile.tilePosition.y += 2
+	function starField(){
+		star = game.make.sprite(-300, 0, "atlas.colorInvaders",'star_1');
+		star.scale.setTo(0.4,0.4)
+		star.anchor.setTo(0.5,0.5)
 		
+		star2 = game.make.sprite(-300, 0, "atlas.colorInvaders",'star_2');
+		star2.scale.setTo(0.5,0.5)
+		star2.anchor.setTo(0.5,0.5)
+		
+		star3 = game.make.sprite(-300, 0, "atlas.colorInvaders",'star_3');
+		star3.scale.setTo(0.5,0.5)
+		star3.anchor.setTo(0.5,0.5)
+		texture = game.add.renderTexture(game.world.width, game.world.height, 'texture');
+		texture2 = game.add.renderTexture(game.world.width, game.world.height, 'texture2');
+		texture3 = game.add.renderTexture(game.world.width, game.world.height, 'texture3');
+		
+		
+
+		for (var i = 0; i < max; i++)
+		{
+			xx[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			xx2[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy2[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz2[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			xx3[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy3[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz3[i] = Math.floor(Math.random() * 1700) - 100;
+		}
+		
+	}
+	function recursiveBody(body){
+		if(body==="comets"){
+			comets();
+		}else if(body==="planets"){
+			planets();
+		}
+	}
+	function comets(){
+		var positionY=game.rnd.integerInRange(0,game.world.centerY);
+		var sideOfScreen=game.rnd.integerInRange(0,1);
+		var next=0;
+		var timeSpeed=900*6;
+		
+		if(sideOfScreen==0){
+			comet.scale.setTo(-0.5,0.5);
+			comet.x=-200;
+			comet.y=positionY;
+			game.add.tween(comet).to({x:game.world.width+50,y:game.world.height-100},timeSpeed,Phaser.Easing.linear,true);
+		}else if(sideOfScreen==1){
+			comet.scale.setTo(0.5,0.5);
+			comet.x=game.world.width+200;
+			comet.y=positionY;
+			game.add.tween(comet).to({x:-50,y:game.world.height-100},timeSpeed,Phaser.Easing.linear,true);
+		}
+		comet.alpha=1
+		game.add.tween(comet).to({alpha:0},timeSpeed,Phaser.Easing.linear,true, 250)
+		game.add.tween(comet.scale).to({x:0,y:0}, timeSpeed, Phaser.Easing.Cubic.Out, true)
+		game.time.events.add(timeSpeed/2,function(){
+			next=game.rnd.integerInRange(0,1);
+			if(next==0){
+				recursiveBody("comets");
+			}else if(next==1){
+				recursiveBody("planets");
+			}
+		})
+	}
+	
+	function planets(){
+		var sideOfScreen=game.rnd.integerInRange(0,1);
+		var next=0;
+		var timeSpeed=900*10;
+		var planetTexture=game.rnd.integerInRange(0,1);
+		if(planetTexture==0){
+			planet.loadTexture("atlas.colorInvaders","planet")
+		}else{
+			planet.loadTexture("atlas.colorInvaders","planet_2")
+		}
+		if(sideOfScreen==0){
+			planet.scale.setTo(2,2);
+			planet.x=-300;
+			planet.y=game.world.centerY;
+		}else if(sideOfScreen==1){
+			planet.scale.setTo(2,2);
+			planet.x=game.world.width+300;
+			planet.y=game.world.centerY;
+		}
+		planet.alpha=1;
+		game.add.tween(planet).to({x:game.world.centerX,y:game.world.centerY},timeSpeed,Phaser.Easing.linear,true);
+		game.add.tween(planet.scale).to({x:0,y:0}, timeSpeed, Phaser.Easing.Cubic.Out, true)
+		game.add.tween(planet).to({alpha:0},timeSpeed,Phaser.Easing.linear,true, 250)
+		game.time.events.add(timeSpeed,function(){
+			next=game.rnd.integerInRange(0,1);
+			if(next==0){
+				recursiveBody("comets");
+			}else if(next==1){
+				recursiveBody("planets");
+			}
+		})
+	}
+	
+	function update(){
 		for(var follow=0; follow<countAliens; follow++){
 			buttonsGroup.children[follow].x=aliensGroup.children[follow].x-80;
 			buttonsGroup.children[follow].y=aliensGroup.children[follow].y-200;
+		}
+		
+		texture.clear();
+		texture2.clear();
+		texture3.clear();
+
+		for (var i = 0; i < max; i++)
+		{
+			var perspective = distance / (distance - zz[i]);
+			var x = game.world.centerX + xx[i] * perspective;
+			var y = game.world.centerY+ yy[i] * perspective;
+
+			zz[i] -= speedStars;
+			if (zz[i] < 100)
+			{
+				zz[i] = 950;
+			}
+			var newStar=game.rnd.integerInRange(0,2);
+			texture.renderXY(star, x, y);
+		}
+		for (var i = 0; i < max/2; i++)
+		{
+			var perspective = distance / (distance - zz2[i]);
+			var x = game.world.centerX + xx2[i] * perspective;
+			var y = game.world.centerY+ yy2[i] * perspective;
+
+			zz2[i] -= speedStars;
+			if (zz2[i] < 100)
+			{
+				zz2[i] = 950;
+			}
+			texture2.renderXY(star2, x, y);
+			
+			var perspective = distance / (distance - zz3[i]);
+			var x = game.world.centerX + xx3[i] * perspective;
+			var y = game.world.centerY+ yy3[i] * perspective;
+
+			zz3[i] -= speedStars;
+			if (zz3[i] < 100)
+			{
+				zz3[i] = 950;
+			}
+			texture3.renderXY(star3, x, y);
 		}
 		
 	}
@@ -404,7 +567,6 @@ var colorInvaders = function(){
 		for(var i = 0;i<particlesGroup.length;i++){
 
 			var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
 			if(!particle.used && particle.tag == key){
 
 				particle.used = true
@@ -474,7 +636,6 @@ var colorInvaders = function(){
 			particle.alpha = 0
 			particle.tag = tag
 			particle.used = false
-			//particle.anchor.setTo(0.5,0.5)
 			particle.scale.setTo(1,1)
 		}
 
@@ -598,9 +759,10 @@ var colorInvaders = function(){
 		coin.alpha = 0
 
 		hand = game.add.sprite(0, 0, "hand")
+		hand.anchor.setTo(0.5,0.5)
 		hand.animations.add('hand')
 		hand.animations.play('hand', 24, true)
-		hand.alpha = 0
+		hand.alpha =0
 
 	}
 
@@ -633,7 +795,6 @@ var colorInvaders = function(){
 
 		var name = new Phaser.Text(sceneGroup.game, container.x, container.y + 5, '', fontStyle)
 		name.anchor.setTo(0.5)
-		//name.setText('')
 		name.stroke = "#FFFFFF"
 		name.strokeThickness = 0
 		colorsGroup.add(name)
@@ -641,12 +802,23 @@ var colorInvaders = function(){
 
 
 
-		var colorName = [ "#2C83ED", "#A8ED5A", "#F26200", "#FA9DE0", "#6D34B3", "#FF6261", "#FFF561"]
+		var colorName = [ "#3966ED", "#99CC00", "#F26200", "#FF66CC", "#6D34B3", "#FF0000", "#FFC200"]
 		colorsGroup.colorName = colorName
 	}
 
 	function prometeus(){
 
+		
+		planet=game.add.sprite(0,0,'atlas.colorInvaders','planet');
+		planet.anchor.setTo(0.5,0.5);
+		planet.alpha=0;
+		sceneGroup.add(planet)
+				
+		comet=game.add.sprite(0,0,'atlas.colorInvaders','comet_1');
+		comet.anchor.setTo(0.5,0.5);
+		comet.alpha=0;
+		sceneGroup.add(comet)
+		
 		buttonsGroup = game.add.group()
 		sceneGroup.add(buttonsGroup)
 
@@ -658,6 +830,8 @@ var colorInvaders = function(){
 
 		var pivot = -250
 		var pivot2 = -250
+		
+		recursiveBody("comets")
 
 		for(var t = 0; t < 6; t++)
 		{
@@ -672,21 +846,31 @@ var colorInvaders = function(){
 			button.events.onInputDown.add(IChoseYou, this)
 			positionsGroup.add(box)
 			buttonsGroup.add(button)
+			
 
 			var al = game.add.spine(0, 0, "aliens")
-			al.setAnimationByName(0, "IDLE", true)
+			al.setAnimationByName(0, "idle", true)
 			al.setSkinByName("blue1")
 			aliensGroup.add(al)
 
 			pivot = pivot+170
 			
-			if(t==3 || t==4 || t==5){
+			if(t==3 || t==4 || t==5|| t==1){
 				button.x = game.world.centerX + pivot2
 				if(t==4){
-					button.y = game.world.centerY + 250;
+					
+					button.y = game.world.centerY +250;
+				}else if(t==1){
+					button.x = game.world.centerX - 80
+					button.y = game.world.centerY + 320;
+				}else if(t==5){
+					button.x = game.world.centerX - 80
+					button.y = game.world.centerY -100;
 				}else{
-					button.y = game.world.centerY + 150;
+					button.x = game.world.centerX - 250
+					button.y = game.world.centerY + 250;
 				}
+				
 				box.x = button.x
 				box.y = button.y
 				pivot2=pivot2+170
@@ -717,21 +901,26 @@ var colorInvaders = function(){
 		
 
 		for(var i = 0; i < 6; i++){
-
+			
 			aliensGroup.children[i].x = aliensGroup.children[i].originX
 			aliensGroup.children[i].y = aliensGroup.children[i].originY 
-			aliensGroup.children[i].scale.setTo(0.5,0.5)
-
+			aliensGroup.children[i].scale.setTo(0.7,0.7)
+			
+			
 			aliensGroup.children[i].boxX = positionsGroup.children[i].centerX
 			aliensGroup.children[i].boxY = positionsGroup.children[i].centerY + 50
 		}
 
 		var skins = ['blue', 'green', 'orange', 'pink', 'purple', 'red', 'yellow']
+		for(var refillSkins=0; refillSkins<skins.length; refillSkins++){
+			skinsNumber[refillSkins]=refillSkins;
+		}
 		aliensGroup.skins = skins
 	}
 
 	function IChoseYou(btn){
 
+		
 		if(gameActive){
             continueSpinning=false
 			gameActive = false
@@ -755,12 +944,12 @@ var colorInvaders = function(){
 			if(btn.correct){
 				sound.play("rightChoice")
 				addCoin(btn)
-				if(speed>300)speed=speed-100;
+				if(speed>300 && pointsBar.number>17)speed=speed-20;
 				particleCorrect.x = btn.centerX
 				particleCorrect.y = btn.centerY
 				particleCorrect.start(true, 1200, null, 10)
 				for(var i = 0; i < countAliens; i++){ 
-					aliensGroup.children[i].setAnimationByName(0, "WIN", true)
+					aliensGroup.children[i].setAnimationByName(0, "win", true)
 				}
 			}
 			else{
@@ -769,15 +958,15 @@ var colorInvaders = function(){
 				particleWrong.y = btn.centerY
 				particleWrong.start(true, 1200, null, 10)
 				for(var i = 0; i < countAliens; i++){ 
-					aliensGroup.children[i].setAnimationByName(0, "LOSE", true)
+					aliensGroup.children[i].setAnimationByName(0, "lose", true)
 				}
 			}
 
-			if(pointsBar.number === 10){
+			if(pointsBar.number === 3){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				timeAttack = true
 			}
-			if(pointsBar.number%8 == 0 && pointsBar.number!=0 && pointsBar.number!=1 ){
+			if(pointsBar.number%5 == 0 && pointsBar.number!=0 && pointsBar.number!=1 ){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				if(countAliens<6)countAliens++
 			}
@@ -814,7 +1003,10 @@ var colorInvaders = function(){
 	}
 
 	function initGame(){
-
+		
+		for(var reset=0; reset<aliensGroup.skins.length; reset++){
+			skinsNumber[reset]=reset;
+		}
 		rand = getRand()
 		var color = placeAliens()
         
@@ -847,12 +1039,6 @@ var colorInvaders = function(){
             nextAlien++;
 		}
 		Phaser.ArrayUtils.shuffle(positionsPatron)
-//		
-//		movable++;
-//		if(movable==countAliens){
-//			movable=1
-//		}
-//		nextAlien=movable;
 		game.time.events.add(speed+20,function(){
 			if(continueSpinning){
                 recursive();
@@ -863,14 +1049,20 @@ var colorInvaders = function(){
 		startSpinning();
 	}
 	function getRand(){
+		
 		var x = game.rnd.integerInRange(0, colorsText.length-1)
-		if(x === rand)
+		if(skinsNumber[x] === -1){
 			return getRand()
-		else
-			return x     
+		}
+		else{
+			skinsNumber[x]=-1;
+			return x
+		}    
 	}
 	function placeAliens(){
 
+		
+		
 		if(dificulty==2){
 			theOne = game.rnd.integerInRange(0,3)
 		}else{
@@ -881,8 +1073,6 @@ var colorInvaders = function(){
 
 
 		if(tutorial){
-			hand.x=buttonsGroup.children[theOne].x+50;
-			hand.y=buttonsGroup.children[theOne].y+50;
 			for(var deactivate=0; deactivate<countAliens; deactivate++){
 				if(deactivate!=theOne){
 					buttonsGroup.children[deactivate].inputEnabled=false;
@@ -893,11 +1083,16 @@ var colorInvaders = function(){
 		}else{
 			for(var activateAll=0; activateAll<countAliens; activateAll++){
 				buttonsGroup.children[activateAll].inputEnabled=true;
+				if(activateAll==theOne){
+				 	buttonsGroup.children[activateAll].input.priorityID = 1;
+				}else{
+					buttonsGroup.children[activateAll].input.priorityID = 0;
+				}
 			}
 		}
 		for(var i = 0; i < countAliens; i++){
 
-			var alienColor = getRandColor(rand)
+			var alienColor = getRandColor()
 			if(i !== theOne){
 				aliensGroup.children[i].setSkinByName(aliensGroup.skins[alienColor] + game.rnd.integerInRange(1, 2))
 			}
@@ -905,16 +1100,21 @@ var colorInvaders = function(){
 				aliensGroup.children[i].setSkinByName(aliensGroup.skins[rand] + game.rnd.integerInRange(1, 2))
 			}
 		}
-
+		
+		
 		var anim
 
 		game.time.events.add(500,function(){
 			sound.play("whoosh")
 			for(var i = 0; i < countAliens; i++){
-				game.rnd.integerInRange(0, 1) === 0 ? anim = "IDLE" : anim = "IDLE2"
+				game.rnd.integerInRange(0, 1) === 0 ? anim = "idle" : anim = "idle2"
 				aliensGroup.children[i].setAnimationByName(0, anim, true)
 				game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].boxX, y: aliensGroup.children[i].boxY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
-					if(tutorial)hand.alpha=1;
+					if(tutorial){
+						hand.x=buttonsGroup.children[theOne].x+150;
+						hand.y=buttonsGroup.children[theOne].y+200;
+						hand.alpha=1;
+					}
 				})
 			}
 		},this)
@@ -922,31 +1122,31 @@ var colorInvaders = function(){
 		return alienColor
 	}
 
-	function getRandColor(color){
-		var x = game.rnd.integerInRange(0, aliensGroup.skins.length-1)
-		if(x === color)
-			return getRandColor(color)
-		else
-			return x   
+	function getRandColor(){
+		
+		var x = game.rnd.integerInRange(0, aliensGroup.skins.length)
+		if(skinsNumber[x] == -1){
+			return getRandColor()
+		}
+		else{
+			skinsNumber[x]=-1;
+			return x
+			
+		}
 	}
 
 	return {
 
 		assets: assets,
+		localizationData: localizationData,
 		name: "colorInvaders",
 		update: update,
-		preload:preload,
 		create: function(event){
 
 			sceneGroup = game.add.group()
 
 			createBackground()
 			addParticles()
-
-			/*colorSong = game.add.audio('colorSong')
-            game.sound.setDecodedCallback(colorSong, function(){
-                colorSong.loopFull(0.6)
-            }, this);*/
 
 			initialize()
 			colorSong = sound.play("colorSong", {loop:true, volume:0.6})

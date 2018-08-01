@@ -322,9 +322,6 @@ var galactic = function(){
         
         game.load.audio('spaceSong', soundsPath + 'songs/childrenbit.mp3');
         
-		/*game.load.image('howTo',"images/galactic/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/galactic/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/galactic/introscreen.png")*/
         var inputName = 'movil'
         
         if(game.device.desktop){
@@ -354,10 +351,6 @@ var galactic = function(){
         //Aqui cargo el taco
         
         game.load.image('stick',"images/galactic/cue.png")
-        
-        
-		
-		    console.log(localization.getLanguage() + 'language')
            
         
     }
@@ -975,6 +968,7 @@ var galactic = function(){
             nebul[dissapearObjects].alpha=0
             
             dragablePlanets[dissapearObjects].inputEnabled = false;
+            dragablePlanets[dissapearObjects].input.priorityID = 2;
             dragablePlanets[dissapearObjects].input.enableDrag(false);
             dragablePlanets[dissapearObjects].body.gravity.set(0, 0);
 

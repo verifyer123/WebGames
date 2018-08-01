@@ -12,7 +12,6 @@ var sound = function(){
 		console.log("Decoding Sounds...")
 		
 		if(amazing.getMinigameId()){
-			
 			for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
 
 				var currentSoundData = soundStringArray[indexSound]
@@ -36,6 +35,14 @@ var sound = function(){
 			game.sound.setDecodedCallback(decodedSounds, function(){}, this)
 		}
 		
+	}
+
+	function muteAudios(mute,soundStringArray){
+		for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
+			var currentSoundData = soundStringArray[indexSound]
+			//console.log(decodedSounds[currentSoundData.name])
+			decodedSounds[currentSoundData.name].muted = mute
+		}
 	}
 
 	function play(soundId, isLoop){
@@ -82,6 +89,7 @@ var sound = function(){
 		decode: decode,
 		init: init,
 		play: play,
+		muteAudios:muteAudios
 	}
 
 }()

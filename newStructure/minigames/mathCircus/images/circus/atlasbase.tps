@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>4.8.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -207,6 +207,33 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">flash_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,15,30,31</rect>
+                <key>scale9Paddings</key>
+                <rect>15,15,30,31</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">flash_2.png</key>
+            <key type="filename">flash_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>15,15,30,30</rect>
+                <key>scale9Paddings</key>
+                <rect>15,15,30,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">fondo2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -282,6 +309,9 @@
             <filename>base.png</filename>
             <filename>fondo2.png</filename>
             <filename>btn.png</filename>
+            <filename>flash_1.png</filename>
+            <filename>flash_2.png</filename>
+            <filename>flash_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
