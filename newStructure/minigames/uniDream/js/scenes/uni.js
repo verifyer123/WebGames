@@ -836,7 +836,7 @@ var uni = function(){
 			animalsInStage[fill].container= this.game.add.image(animalsInStage[fill].x-50, animalsInStage[fill].y-100);
 			animalsInStage[fill].container.addChild(this.rect);
 			animalsInStage[fill].container.index=fill;
-			animalsInStage[fill].container.inputEnabled=true;
+			animalsInStage[fill].container.inputEnabled=false;
 			animalsInStage[fill].container.events.onInputDown.add(discardAnimal,this);
 			animalsInStage[fill].setAnimation(["jump"]);
 			
@@ -852,6 +852,7 @@ var uni = function(){
 			buttonImg.inputEnabled=true;
 			for(var idle=0; idle<animalsInStage.length; idle++){
 				animalsInStage[idle].setAnimation(["idle"]);
+				animalsInStage[fill].container.inputEnabled=true;
 			}
 			dragableUnicorn.inputEnabled=true;
 			dragableUnicorn.input.enableDrag(true);
