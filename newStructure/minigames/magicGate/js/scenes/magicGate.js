@@ -248,7 +248,7 @@ var magicGate = function(){
 		addNumberPart(pointsBar.text,'+' + number,true)		
 
 		if(timeToUse > 1000){
-			timeToUse-= 2000
+			timeToUse-= 500
 		}
 
 	}
