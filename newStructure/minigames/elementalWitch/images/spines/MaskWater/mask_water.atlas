@@ -1,41 +1,48 @@
 
 mask_water.png
-size: 256,256
+size: 256,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/drop
   rotate: false
   xy: 2, 2
-  size: 10, 13
-  orig: 10, 13
+  size: 5, 7
+  orig: 5, 7
   offset: 0, 0
   index: -1
 normal/mask_water
   rotate: false
-  xy: 2, 95
-  size: 147, 147
-  orig: 147, 147
+  xy: 2, 51
+  size: 74, 74
+  orig: 74, 74
+  offset: 0, 0
+  index: -1
+normal/mask_water_b
+  rotate: false
+  xy: 78, 51
+  size: 74, 74
+  orig: 74, 74
   offset: 0, 0
   index: -1
 normal/shadow
   rotate: false
-  xy: 2, 17
-  size: 117, 76
-  orig: 117, 76
+  xy: 2, 11
+  size: 59, 38
+  orig: 59, 38
   offset: 0, 0
   index: -1
 normal/water1
   rotate: false
-  xy: 151, 163
-  size: 38, 79
-  orig: 38, 79
+  xy: 154, 85
+  size: 19, 40
+  orig: 19, 40
   offset: 0, 0
   index: -1
 normal/water2
-  rotate: true
-  xy: 151, 104
-  size: 57, 35
-  orig: 57, 35
+  rotate: false
+  xy: 63, 31
+  size: 29, 18
+  orig: 29, 18
   offset: 0, 0
   index: -1
