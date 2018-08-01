@@ -1,8 +1,32 @@
 {"frames": [
 
 {
+	"filename": "bubblegum",
+	"frame": {"x":543,"y":1,"w":255,"h":223},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":223},
+	"sourceSize": {"w":255,"h":223}
+},
+{
+	"filename": "bubbles",
+	"frame": {"x":1,"y":1,"w":540,"h":180},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":28,"w":540,"h":180},
+	"sourceSize": {"w":540,"h":208}
+},
+{
+	"filename": "bubblesFront",
+	"frame": {"x":800,"y":1,"w":541,"h":95},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":95},
+	"sourceSize": {"w":541,"h":95}
+},
+{
 	"filename": "card0",
-	"frame": {"x":84,"y":325,"w":269,"h":109},
+	"frame": {"x":800,"y":98,"w":269,"h":109},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":269,"h":109},
@@ -10,7 +34,7 @@
 },
 {
 	"filename": "card1",
-	"frame": {"x":84,"y":436,"w":269,"h":108},
+	"frame": {"x":1342,"y":146,"w":269,"h":108},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":269,"h":108},
@@ -18,7 +42,7 @@
 },
 {
 	"filename": "card2",
-	"frame": {"x":355,"y":325,"w":269,"h":109},
+	"frame": {"x":1071,"y":98,"w":269,"h":109},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":269,"h":109},
@@ -26,7 +50,7 @@
 },
 {
 	"filename": "display",
-	"frame": {"x":84,"y":180,"w":288,"h":143},
+	"frame": {"x":1343,"y":1,"w":288,"h":143},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":288,"h":143},
@@ -34,7 +58,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":150,"y":600,"w":140,"h":55},
+	"frame": {"x":1,"y":183,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -42,7 +66,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":459,"y":180,"w":100,"h":93},
+	"frame": {"x":1613,"y":146,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -50,39 +74,15 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":84,"y":600,"w":64,"h":64},
+	"frame": {"x":310,"y":183,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
 	"sourceSize": {"w":64,"h":64}
 },
 {
-	"filename": "tile",
-	"frame": {"x":84,"y":1,"w":541,"h":177},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":24,"w":541,"h":177},
-	"sourceSize": {"w":541,"h":201}
-},
-{
-	"filename": "time",
-	"frame": {"x":1,"y":1,"w":81,"h":663},
-	"rotated": false,
-	"trimmed": true,
-	"spriteSourceSize": {"x":13,"y":0,"w":81,"h":663},
-	"sourceSize": {"w":107,"h":663}
-},
-{
-	"filename": "timebar",
-	"frame": {"x":627,"y":1,"w":17,"h":597},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":17,"h":597},
-	"sourceSize": {"w":17,"h":597}
-},
-{
 	"filename": "xpcoins",
-	"frame": {"x":292,"y":600,"w":165,"h":41},
+	"frame": {"x":143,"y":183,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -93,8 +93,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":645,"h":665},
+	"size": {"w":1714,"h":255},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:0058a722f32193f8d88410b576bc009d:568ba5d228c7538d10a60486c1d35697:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c4f584808965e81f106c7c3ba822a861:b466afa992bd7190a075f020b716abaf:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

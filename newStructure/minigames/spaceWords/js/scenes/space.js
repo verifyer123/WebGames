@@ -36,8 +36,8 @@ var space = function(){
 				name:'tutorial_image',
 				file:"images/space/tutorial_image.png"
 			},
-            {   name:"fondo",
-				file: "images/space/fondo.png"
+            {   name:"back",
+				file: "images/space/back.png"
             },
 
 		],
@@ -81,7 +81,7 @@ var space = function(){
         spines:[
 			{
 				name:"eagle",
-				file:"images/spines/skeleton1.json"
+				file:"images/spines/ship.json"
 			}
 		]
     }
@@ -103,6 +103,7 @@ var space = function(){
     var capsulesGroup
     var eagle
     var splashGroup
+    var waves = []
     var timeAttack
     var gameTime
     var answer
@@ -127,7 +128,7 @@ var space = function(){
         ['Cartón',['Cardboard','Cartoon']],
         ['Respuesta',['Answer','Contest']],
         ['Pan',['Bread','Bear']],
-        ['Once',['Eleven','Once']],
+        ['Once',['Eleven','Even']],
         ['Flor',['Flower','Flavor']],
         ['Leche',['Milk','Leech']],
         ['Uvas',['Grapes','Grapefruits']],
@@ -249,7 +250,14 @@ var space = function(){
         })
         
         if(lives == 0){
-            stopGame()
+            
+            game.add.tween(eagle).to({x: game.world.centerX, y:game.world.centerY - 200}, 400, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                eagle.setAnimationByName(0, "lose_parachute", true)
+                game.add.tween(eagle).to({y:game.world.height - 100}, 4000, Phaser.Easing.Cubic.in, true).onComplete.add(function(){
+                    eagle.addAnimationByName(0, "lose", true)
+                    stopGame()
+                })
+            })
         }
     }
     
@@ -295,15 +303,17 @@ var space = function(){
 
 	function createBackground(){
         
-        var background = sceneGroup.create(-2, -2, "fondo")
+        var background = sceneGroup.create(-2, -2, "back")
         background.width = game.world.width + 2
         background.height = game.world.height + 2
         
-        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 200, "atlas.space", "tile")
+        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 240, "atlas.space", "bubbles")
         pink.anchor.setTo(0, 1)
+        pink.rise = 1.2
         sceneGroup.add(pink)
         
-        sceneGroup.wave = game.add.tween(pink.scale).to( {y:1.2 }, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+        pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+        waves.push(pink)
     }
 
 	function update(){
@@ -334,7 +344,7 @@ var space = function(){
     function createTimer(){
         
         timerGroup = game.add.group()
-        timerGroup.alpha = 1
+        timerGroup.alpha = 0
         sceneGroup.add(timerGroup)
         
         var clock = timerGroup.create(game.world.centerX, 75, "atlas.time", "clock")
@@ -358,6 +368,7 @@ var space = function(){
         timerGroup.tweenTiempo.onComplete.add(function(){
             gameActive = false
             stopTimer()
+            win(null, null, false)
         })
     }
 	
@@ -393,6 +404,19 @@ var space = function(){
            game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
                game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
                    addPoint(1)
+                   if(pointsBar.number > 1){
+                       game.add.tween(timerGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
+                       timeAttack = true
+                   }
+                   
+                   if(timeAttack && pointsBar.number % 2){
+                           gameTime > 500 ? gameTime -= 500 : gameTime = 500
+                           waves.forEach(function(obj){
+                               obj.wave.stop()
+                               obj.wave = game.add.tween(obj.scale).to( {y:obj.rise}, gameTime * 0.5, Phaser.Easing.Sinusoidal.InOut, false, 0, -1, true)
+                               game.add.tween(obj.scale).to( {y:1}, 300, Phaser.Easing.linear, true).chain(obj.wave)
+                           })
+                    }
                })
            })
         })
@@ -409,7 +433,7 @@ var space = function(){
         board.scale.setTo(0)
         boardGroup.board = board
         
-        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
         var text = new Phaser.Text(sceneGroup.game, board.x, board.y + 10, "", fontStyle)
         text.anchor.setTo(0.5)
@@ -431,7 +455,7 @@ var space = function(){
             
             var capsule = game.add.group()
             capsule.x = game.world.centerX * pivot
-            capsule.y = game.world.height - 110
+            capsule.y = game.world.height - 120
             capsule.alpha = 0
             capsulesGroup.add(capsule)
             
@@ -459,6 +483,14 @@ var space = function(){
         
             pivot += 0.8
         }
+        
+        var pinkFront = game.add.tileSprite(0, game.world.height, game.world.width, 100, "atlas.space", "bubblesFront")
+        pinkFront.anchor.setTo(0, 1)
+        pinkFront.rise = 0.8
+        sceneGroup.add(pinkFront)
+        
+        pinkFront.wave = game.add.tween(pinkFront.scale).to( {y:0.8}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+        waves.push(pinkFront)
     }
     
     function changeImage(index,group){
@@ -476,8 +508,8 @@ var space = function(){
         eagle.initX = eagle.x
         eagle.initY = eagle.y
         eagle.scale.setTo(2.5)
-        eagle.setAnimationByName(0, "IDLE", true)
-        eagle.setSkinByName('normal')
+        eagle.setAnimationByName(0, "idle", true)
+        eagle.setSkinByName('ship')
         sceneGroup.add(eagle)
     }
     
@@ -513,7 +545,7 @@ var space = function(){
         }
     }
     
-    function win(x,y, ans){
+    function win(h,y, ans){
         
         var x
         for(var i = 0; i < capsulesGroup.length; i++){
@@ -530,12 +562,13 @@ var space = function(){
         
         if(ans){
             addCoin(eagle)
-            eagle.setAnimationByName(0, "WINSTILL", true)
+            eagle.setAnimationByName(0, "win", true)
         }
         else{
             missPoint(eagle)
             splashPink(splashGroup.children[x], 0)
-            eagle.setAnimationByName(0, "LOSE", true)
+            eagle.setAnimationByName(0, "hit", true)
+            eagle.addAnimationByName(0, "idle", true)
         }
        
         game.time.events.add(2000, restartLvl)
@@ -544,19 +577,19 @@ var space = function(){
     function restartLvl(){
         
         if(lives > 0){
-            
-            eagle.setAnimationByName(0, "IDLE", true)
             game.add.tween(eagle).to({x: eagle.initX, y:eagle.initY}, 500, Phaser.Easing.Cubic.InOut, true)
-            capsulesGroup.forEach(function(cap){
-                game.add.tween(cap).to({alpha: 0}, 500, Phaser.Easing.Cubic.InOut, true)
-            })
             game.time.events.add(1000, initGame)
         }
+        capsulesGroup.forEach(function(cap){
+            game.add.tween(cap).to({alpha: 0}, 800, Phaser.Easing.Cubic.InOut, true)
+        })
+        game.add.tween(boardGroup.text).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true)
     }
     
     function initGame(){
         
         throwCapsule()
+        eagle.addAnimationByName(0, "idle", true)
     }
     
     function throwCapsule(){
@@ -564,11 +597,12 @@ var space = function(){
         var side = [1, -1]
         var question = selectText()
         answer = question[1][0]
-        Phaser.ArrayUtils.shuffle(question[1])
+        var options = [0,1]
+        Phaser.ArrayUtils.shuffle(options)
         var delay = 1000
         
         boardGroup.text.setText(question[0])
-        var pop = game.add.tween(boardGroup.board.scale).to({x:1, y:1}, 500, Phaser.Easing.Elastic.InOut, true, delay)
+        var pop = game.add.tween(boardGroup.board.scale).to({x:1.3, y:1.3}, 500, Phaser.Easing.Elastic.InOut, true, delay)
         pop.chain(game.add.tween(boardGroup.text).to({alpha:1}, 300, Phaser.Easing.Cubic.In, false))
         pop.onComplete.add(startLanding)
         
@@ -578,7 +612,7 @@ var space = function(){
             var ang = game.rnd.integerInRange(25, 65) * 10 * side[game.rnd.integerInRange(0, 1)]
             var alt = game.rnd.integerInRange(10, 60) * 10
             
-            cap.text.setText(question[1][i])
+            cap.text.setText(question[1][options[i]])
             cap.alpha = 1
             changeImage(0, cap.cards)
             game.add.tween(cap).from({y:alt}, delay, Phaser.Easing.Cubic.In, true)
@@ -587,6 +621,8 @@ var space = function(){
             
             splashPink(splashGroup.children[i], 1000)
         }
+        
+        console.log(answer)
     }
     
     function selectText(){

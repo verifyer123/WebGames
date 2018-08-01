@@ -248,7 +248,7 @@ var magicGate = function(){
 		addNumberPart(pointsBar.text,'+' + number,true)		
 
 		if(timeToUse > 1000){
-			timeToUse-= 2000
+			timeToUse-= 500
 		}
 
 	}
@@ -381,11 +381,11 @@ var magicGate = function(){
 		sceneGroup.add(clouds)
 
 		for(var placeTowers=0; placeTowers<game.world.width;placeTowers+=140){
-			var towers = sceneGroup.create(placeTowers+80,game.world.centerY-150,'tower');
+			var towers = sceneGroup.create(placeTowers+80,game.world.centerY-120,'tower');
 			towers.anchor.setTo(0.5,0.5)
 		}
 		
-		for(var placeArcs=0; placeArcs<game.world.width;placeArcs+=133){
+		for(var placeArcs=0; placeArcs<game.world.width;placeArcs+=127){
 			var arcs = sceneGroup.create(placeArcs,game.world.centerY,'arc');
 			arcs.anchor.setTo(0.5,0.5)
 		}

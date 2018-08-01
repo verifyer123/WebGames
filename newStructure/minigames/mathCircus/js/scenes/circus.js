@@ -1,4 +1,3 @@
-
 var soundsPath = "../../shared/minigames/sounds/"
 
 var circus = function(){
@@ -18,7 +17,7 @@ var circus = function(){
 	}
     
 
-	assets = {
+	var assets = {
         atlases: [
             {   
                 name: "atlas.circus",
@@ -35,6 +34,8 @@ var circus = function(){
         images: [
 			{   name:"background",
 				file: "images/circus/fondo.png"},
+            {   name:"background2",
+                file: "images/circus/fondoG.png"},
             {   name:"tutorial_image",
 				file: "images/circus/tutorial_image.png"},
 		],
@@ -69,14 +70,24 @@ var circus = function(){
 				file: soundsPath + "punch1.mp3"},
             {	name: "spaceSong",
 				file: soundsPath + "songs/circus_gentlejammers.mp3"},
+            {   name: "cheers",
+                file: "sounds/cheers2seg.mp3"},
+            {   name: "cheersOver",
+                file: "sounds/lose2seg.mp3"}
 		],
         spritesheets: [
             {   name: "coin",
-                file: "images/spines/coin.png",
+                file: "images/circus/coin.png",
                 width: 122,
                 height: 123,
                 frames: 12
-            }
+            },
+            {   name: "hand",
+               file: "images/circus/hand.png",
+               width: 115,
+               height: 111,
+               frames: 23
+           }
         ],
         spines:[
 			{
@@ -86,309 +97,471 @@ var circus = function(){
 		]
     }
         
-        
-    var lives = null
-	var sceneGroup = null
-	var background,floor
-	var base, buttonsGroup, yogotar
-    var gameActive = true
-	var shoot
-	var particlesGroup, particlesUsed
-    var gameIndex = 38
-	var indexGame
-	var result
-    var overlayGroup
-    var spaceSong
-	var timerGroup
-	var numLimit, timeToUse
-	var clickLatch = false
-    var speed
-    var number2
-	
-	var numberOptions = [3,4,6]
+    var gameIndex = 38;    
+    var lives = null;
+	var sceneGroup = null;
+    var tutoGroup;
+    var heartsGroup = null;
+    var pointsBar;
+    var coin;
+    var particleCorrect;      
+    var particleWrong;
+    var hand;
+
+	var background,backgroundPeople,floor;
+	var base, buttonsGroup, yogotar;
+    var gameActive = true;
+	var shoot;
+    var spaceSong;
+	var timerGroup;
+	var numLimit, timeToUse;
+	var clickLatch = false;
+    var speed;
+    var number2;
+	var numberOptions = [3,4,6];
+    var levelZero;
+    var glitGroup;
+    var pivot;
+    var glitter = ['flash_1', 'flash_2', 'flash_3'];
 	
 	function loadSounds(){
-		sound.decode(assets.sounds)
+		sound.decode(assets.sounds);
 	}
 
 	function initialize(){
-        game.stage.backgroundColor = "#ffffff"
-        lives = 3
-		numLimit = 5
-		timeToUse = 5000
-        speed = 5
-        number2 = 0
+        game.stage.backgroundColor = "#ffffff";
+        lives = 3;
+		numLimit = 5;
+		timeToUse = 5000;
+        speed = 5;
+        number2 = 0;
+        levelZero = true;
+        pivot = 0;
         
-		loadSounds()
+		loadSounds();
 	}
+
+    function preload(){
+        game.stage.disableVisibilityChange = false;
+    }
+
+    function stopGame(win){
+        
+        loseGame();
+
+        gameActive = false;
+        spaceSong.stop();
+
+        var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
+        tweenScene.onComplete.add(function(){
+
+            var resultScreen = sceneloader.getScene("result");
+            resultScreen.setScore(true, pointsBar.number, gameIndex);
+            sceneloader.show("result");
+            sound.play("gameLose");
+        })
+    }
+
+    function loseGame(){
+        yogotar.setAnimationByName(0,"lose",false);
+        yogotar.addAnimationByName(0,"losestill",true);
+        
+        var obj = sceneGroup.create(yogotar.x, yogotar.y- 50,'atlas.circus','star');
+        obj.anchor.setTo(0.5,0.5);
+        obj.alpha = 0;
+        
+        game.time.events.add(500,function(){
+            sound.play("flesh");
+            
+        })
+        
+        game.time.events.add(750,function(){
+            sound.play("punch");
+        })
+    }
+
+    function createTutorial(){
+
+        tutoGroup = game.add.group();
+        sceneGroup.add(tutoGroup);
+
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay);
+
+    }
+
+    function onClickPlay(){
+        tutoGroup.y = -game.world.height;
+        showButtons(true);
+    }
+
+    function update(game){
+        background.tilePosition.x -= speed * 0.05;
+        backgroundPeople.tilePosition.x -= speed * 0.2;
+        floor.tilePosition.x -= speed;
+        for(var iPhoto=0; iPhoto<glitGroup.length; iPhoto++){
+            if(glitGroup.children[iPhoto].alpha > 0){
+                glitGroup.children[iPhoto].x -= speed * 0.2;
+            }
+        }
+
+    }
+
+    function createPointsBar(){
+        
+        pointsBar = game.add.group();
+        pointsBar.x = game.world.width;
+        pointsBar.y = 0;
+        sceneGroup.add(pointsBar);
+        
+        var pointsImg = pointsBar.create(-10,10,'atlas.circus','xpcoins');
+        pointsImg.anchor.setTo(1,0);
+    
+        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle);
+        pointsText.x = -pointsImg.width * 0.45;
+        pointsText.y = pointsImg.height * 0.25;
+        pointsBar.add(pointsText);
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        pointsBar.text = pointsText;
+        pointsBar.number = 0;
+        
+    }
+
+    function addPoint(number){
+        
+        sound.play("magic");
+        pointsBar.number+=number;
+        pointsBar.text.setText(pointsBar.number);
+        
+        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
+        scaleTween.onComplete.add(function(){
+            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true);
+        });
+        
+        addNumberPart(pointsBar.text,'+' + number,true);   
+        
+        if(pointsBar.number % 3 == 0){
+            if(numLimit < 9){
+                numLimit++;
+                timeToUse-=100;
+            }
+        }
+    }
+
+    function addCoin(obj){
+        
+        coin.x = obj.centerX;
+        coin.y = obj.centerY;
+        var time = 300;
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true);
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1);
+               })
+           })
+        })
+    }
+
+    function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin");
+       coin.anchor.setTo(0.5);
+       coin.scale.setTo(0.8);
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0;
+    }
+
+    function addNumberPart(obj,number,isScore){
+        var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle);
+        pointsText.x = obj.world.x;
+        pointsText.y = obj.world.y;
+        pointsText.anchor.setTo(0.5,0.5);
+        sceneGroup.add(pointsText);
+
+        game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true);
+        game.add.tween(pointsText).to({alpha:0},250,null,true,500);
+
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+    }
+
+    function createHearts(){
+        
+        heartsGroup = game.add.group();
+        heartsGroup.y = 10;
+        sceneGroup.add(heartsGroup);
+        
+        var pivotX = 10;
+        var group = game.add.group();
+        group.x = pivotX;
+        heartsGroup.add(group);
+
+        var heartImg = group.create(0,0,'atlas.circus','life_box');
+
+        pivotX+= heartImg.width * 0.45;
+        
+        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle);
+        pointsText.x = pivotX;
+        pointsText.y = heartImg.height * 0.15;
+        pointsText.setText('X ' + lives);
+        heartsGroup.add(pointsText);
+        
+        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+        
+        heartsGroup.text = pointsText;
+                
+    }
+
+    function missPoint(){
+        
+        sound.play("wrong");
+                
+        lives--;
+        heartsGroup.text.setText('X ' + lives);
+        
+        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true);
+        scaleTween.onComplete.add(function(){
+            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true);
+        });
+        
+        if(lives == 0){
+            stopGame(false);
+        }
+        
+        addNumberPart(heartsGroup.text,'-1',true);
+        
+    }
+
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+
+        particle.makeParticles('atlas.circus',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+
+        return particle;
+    }
+
+    function createBackground(){
+        
+        background = game.add.tileSprite(0,0,game.world.width, 236,'background');
+        sceneGroup.add(background);
+
+        backgroundPeople = game.add.tileSprite(0,background.height,game.world.width, 236,'background2');
+        sceneGroup.add(backgroundPeople);
+        
+        floor = game.add.tileSprite(0,backgroundPeople.y + backgroundPeople.height,game.world.width,497,'atlas.circus','fondo2');
+        sceneGroup.add(floor);
+    }
+
+    function createBase(){
+        
+        base = game.add.group();
+        base.x = game.world.centerX;
+        base.y = game.world.height - 25;
+        sceneGroup.add(base);
+        
+        var baseImg = base.create(0,0,'atlas.circus','base');
+        baseImg.anchor.setTo(0.5,1);
+        
+        var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
+        var pointsText = new Phaser.Text(sceneGroup.game, 0, -baseImg.height * 0.82, "3 X 5", fontStyle);
+        pointsText.anchor.setTo(0.5,0.5);
+        pointsText.alpha = 0;
+        base.add(pointsText);
+        
+        base.text = pointsText;
+        
+        yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar");
+        yogotar.setAnimationByName(0,"idle",true);
+        yogotar.setSkinByName("normal");
+        sceneGroup.add(yogotar);
+
+        hand = game.add.sprite(0, 0, "hand");
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha = 0;
+    }
+
+    function createButtons(){
+        
+        buttonsGroup = game.add.group();
+        sceneGroup.add(buttonsGroup);
+        
+        var pivotX = base.x - 150;
+        var pivotY = base.y - 100;
+        for(var i = 0;i < 3; i++){
+            
+            var button = game.add.group();
+            button.alpha = 0;
+            button.pressed = false;
+            button.x = pivotX;
+            button.y = pivotY;
+            buttonsGroup.add(button);
+            
+            var buttonImage = button.create(0,0,'atlas.circus','btn');
+            buttonImage.anchor.setTo(0.5,0.5);
+            //buttonImage.inputEnabled = true;
+            buttonImage.tint = 0x909090;
+            buttonImage.events.onInputDown.add(inputButton);
+            
+            var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"};
+            var pointsText = new Phaser.Text(sceneGroup.game, 0,0, "0", fontStyle);
+            pointsText.anchor.setTo(0.5,0.5);
+            button.add(pointsText);
+            
+            button.text = pointsText;
+            
+            pivotX+= button.width * 1.12;
+        }
+    }
+
+    function showButtons(appear){
+        
+        var delay = 0;
+        for(var i = 0; i < buttonsGroup.length;i++){
+            
+            var button = buttonsGroup.children[i];
+            if(appear){
+                popObject(button,delay,appear);
+            }else{
+                popObject(button,delay,appear);
+            }
+            
+            delay+= 100;
+            
+        }
+        
+        if(appear){
+            
+            setOperation();
+            
+            game.time.events.add(delay,function(){
+                gameActive = true;
+                popObject(base.text,200,true);
+                if(!levelZero){
+                    game.time.events.add(500, startTimer, this, timeToUse);
+                }
+            })
+        }
+    }
+
+    function createTimer(){
+        
+        timerGroup = game.add.group();
+        //timerGroup.alpha = 0;
+        sceneGroup.add(timerGroup);
+        
+        var clock = timerGroup.create(game.world.centerX, 75, "atlas.time", "clock");
+        clock.anchor.setTo(0.5);
+        
+        var timeBar = timerGroup.create(clock.centerX - 175, clock.centerY + 19, "atlas.time", "bar");
+        timeBar.anchor.setTo(0, 0.5);
+        timeBar.scale.setTo(11.5, 0.65);
+        timerGroup.timeBar = timeBar;
+   }
+    
+    function stopTimer(){
+        timerGroup.tweenTiempo.stop();
+        game.add.tween(timerGroup.timeBar.scale).to({x:11.5}, 100, Phaser.Easing.Linear.Out, true, 100);
+   }
+    
+    function startTimer(time){
+        
+        timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100);
+        timerGroup.tweenTiempo.onComplete.add(function(){
+            gameActive = false;
+            stopTimer();
+            for(var i = 0; i < buttonsGroup.length; i++){
+                var btn = buttonsGroup.children[i];
+                if(btn.number !== result){
+                    game.add.tween(btn.scale).to({x:0,y:0},250,"Linear",true);
+                }
+            }
+            speed = 0;
+            sound.play("cheersOver");
+            particleWrong.x = yogotar.x;
+            particleWrong.y = yogotar.y - yogotar.height/2;
+            particleWrong.start(true, 1000, null, 5);
+            missPoint();
+            if(lives > 0){
+                yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
+                    speed = 5;
+                }
+                yogotar.addAnimationByName(0,"idle",true);
+                game.time.events.add(1800, restartScene);
+            }
+        });
+        for(var b=0; b<buttonsGroup.length; b++){
+            buttonsGroup.children[b].children[0].inputEnabled = true;
+        }
+    }
 
     function popObject(obj,delay,appear){
         
         game.time.events.add(delay,function(){
             
-            sound.play("cut")
+            sound.play("cut");
 			if(appear){
 
-				obj.alpha = 1
-            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+				obj.alpha = 1;
+            	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true);
 			}else{
 				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
-					obj.scale.setTo(1,1)
-					obj.alpha = 0
+					obj.scale.setTo(1,1);
+					obj.alpha = 0;
 				})
 			}
-            
         },this)
     }
-    
-    function animateScene() {
-                
-        gameActive = false
-        
-        var startGroup = new Phaser.Group(game)
-        sceneGroup.add(startGroup)
-                
-        sceneGroup.alpha = 0
-        game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
-    }
-	
-    function changeImage(index,group){
-        for (var i = 0;i< group.length; i ++){
-            group.children[i].alpha = 0
-            if( i == index){
-                group.children[i].alpha = 1
-            }
-        }
-    } 
-    
-    function addNumberPart(obj,number,isScore){
-        
-        var pointsText = lookParticle('text')
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y
-            pointsText.anchor.setTo(0.5,0.5)
-            pointsText.setText(number)
-            pointsText.scale.setTo(1,1)
-
-            var offsetY = -100
-
-            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-            
-            deactivateParticle(pointsText,800)
-            if(isScore){
-                
-                pointsText.scale.setTo(0.7,0.7)
-                var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-                tweenScale.onComplete.add(function(){
-                    game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-                })
-
-                offsetY = 100
-            }
-            
-            game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        }
-        
-    }
-    
-    function missPoint(){
-        
-        sound.play("wrong")
-		        
-        lives--;
-        heartsGroup.text.setText('X ' + lives)
-        
-        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
-        
-        if(lives == 0){
-            stopGame(false)
-        }
-        
-        addNumberPart(heartsGroup.text,'-1',true)
-        
-    }
-    
-    function addPoint(number){
-        
-        sound.play("magic")
-        pointsBar.number+=number;
-        pointsBar.text.setText(pointsBar.number)
-        
-        var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
-        scaleTween.onComplete.add(function(){
-            game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
-        
-        addNumberPart(pointsBar.text,'+' + number,true)		
-		
-		if(pointsBar.number % 3 == 0){
-			if(numLimit < 9){
-				numLimit++
-				timeToUse-=100
-			}
-		}
-        
-    }
-    
-    function createPointsBar(){
-        
-        pointsBar = game.add.group()
-        pointsBar.x = game.world.width
-        pointsBar.y = 0
-        sceneGroup.add(pointsBar)
-        
-        var pointsImg = pointsBar.create(-10,10,'atlas.circus','xpcoins')
-        pointsImg.anchor.setTo(1,0)
-    
-        var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-        pointsText.x = -pointsImg.width * 0.45
-        pointsText.y = pointsImg.height * 0.25
-        pointsBar.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        pointsBar.text = pointsText
-        pointsBar.number = 0
-        
-    }
-    
-    function createHearts(){
-        
-        heartsGroup = game.add.group()
-        heartsGroup.y = 10
-        sceneGroup.add(heartsGroup)
-        
-        
-        var pivotX = 10
-        var group = game.add.group()
-        group.x = pivotX
-        heartsGroup.add(group)
-
-        var heartImg = group.create(0,0,'atlas.circus','life_box')
-
-        pivotX+= heartImg.width * 0.45
-        
-        var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-        pointsText.x = pivotX
-        pointsText.y = heartImg.height * 0.15
-        pointsText.setText('X ' + lives)
-        heartsGroup.add(pointsText)
-        
-        pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        heartsGroup.text = pointsText
-                
-    }
-    
-    function stopGame(win){
-        
-		sound.play("wrong")
-		sound.play("gameLose")
-		
-		yogotar.setAnimationByName(0,"lose",false)
-		yogotar.addAnimationByName(0,"losestill",true)
-		
-		var obj = sceneGroup.create(yogotar.x, yogotar.y- 50,'atlas.circus','star')
-		obj.anchor.setTo(0.5,0.5)
-		obj.alpha = 0
-
-		createPart('smoke',obj)
-		
-		game.time.events.add(500,function(){
-			sound.play("flesh")
-			
-		})
-		
-		game.time.events.add(750,function(){
-			sound.play("punch")
-		})
-		
-        gameActive = false
-        spaceSong.stop()
-        		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2200)
-		tweenScene.onComplete.add(function(){
-            
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
-            sceneloader.show("result")
-		})
-    }
-     
-    function preload(){
-        game.stage.disableVisibilityChange = false;
-		epicparticles.loadEmitter(game.load, "pickedEnergy")
-		epicparticles.loadEmitter(game.load, "fireFloor")
-    }
-    
-	function showButtons(appear){
-		
-		var delay = 0
-		for(var i = 0; i < buttonsGroup.length;i++){
-			
-			var button = buttonsGroup.children[i]
-			if(appear){
-				popObject(button,delay,appear)
-			}else{
-				popObject(button,delay,appear)
-			}
-			
-			delay+= 100
-			
-		}
-		
-		if(appear){
-			
-			setOperation()
-			
-			game.time.events.add(delay,function(){
-				gameActive = true
-				popObject(base.text,200,true)
-                
-                game.time.events.add(500, startTimer, this, timeToUse)
-			})
-		}
-	}
 	
 	function setOperation(){
 		
-		var number1 = numberOptions[game.rnd.integerInRange(0, numberOptions.length - 1)]
-		number2 = getRand(number2)
+		var number1 = numberOptions[game.rnd.integerInRange(0, numberOptions.length - 1)];
+		number2 = getRand(number2);
 		
-		base.text.setText(number1 + ' X ' + number2)
-		result = number1 * number2
+		base.text.setText(number1 + ' X ' + number2);
+		result = number1 * number2;
 		
-		var index =  game.rnd.integerInRange(0,2)
-        buttonsGroup.children[index].number = result
+		var index =  game.rnd.integerInRange(0,2);
+        buttonsGroup.children[index].number = result;
+        if(levelZero){
+            hand.x = buttonsGroup.children[index].x;
+            hand.y = buttonsGroup.children[index].y;
+            buttonsGroup.children[index].children[0].inputEnabled = true;
+            buttonsGroup.children[index].children[0].tint = 0xffffff;
+            game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        }
         
 		for(var i = 0; i < buttonsGroup.length;i++){
 			
-			var button = buttonsGroup.children[i]
+			var button = buttonsGroup.children[i];
 			if(i !== index){
                 do{
-                    var number1 = game.rnd.integerInRange(2, numLimit)
-                    var number3 = game.rnd.integerInRange(2, numLimit)
-                    var opt = number1 * number3
+                    var number1 = game.rnd.integerInRange(2, numLimit);
+                    var number3 = game.rnd.integerInRange(2, numLimit);
+                    var opt = number1 * number3;
                 }while(checkExist(opt))
                 
-				buttonsGroup.children[i].number = opt
+				buttonsGroup.children[i].number = opt;
 			}
 			
-			button.text.setText(button.number)
+			button.text.setText(button.number);
 		}
 		
-		popObject(button.text,0,true)
+		popObject(button.text,0,true);
 	}
     
     function checkExist(opt){
@@ -396,514 +569,189 @@ var circus = function(){
         for(var i = 0; i < buttonsGroup.length; i++){
             
             if(buttonsGroup.children[i].number === opt){
-                return true
+                return true;
             }
         }
-        return false
+        return false;
     }
     
     function getRand(opt){
-        var x = game.rnd.integerInRange(2, numLimit)
+        var x = game.rnd.integerInRange(2, numLimit);
         if(x === opt)
-            return getRand(opt)
+            return getRand(opt);
         else
-            return x     
-    }
-	
-    function createOverlay(){
-        
-        overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
-        sceneGroup.add(overlayGroup)
-
-        tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            rect.inputEnabled = false
-			sound.play("pop")
-            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
-                
-				overlayGroup.y = -game.world.height
-				showButtons(true)
-            })
-            
-        })
-        
-        overlayGroup.add(rect)
-        
-        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.circus','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		console.log(inputName)
-		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.circus',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.circus','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
+            return x;     
     }
 
-    function onClickPlay(){
-    	
-		overlayGroup.y = -game.world.height
-		showButtons(true)
-    }
-    
-    function releaseButton(obj){
-        
-        obj.parent.children[1].alpha = 1
-    }
-
-	function createBackground(){
-		
-		background = game.add.tileSprite(0,0,game.world.width, 501,'background')
-		sceneGroup.add(background)
-		
-		floor = game.add.tileSprite(0,background.height,game.world.width,497,'atlas.circus','fondo2')
-		sceneGroup.add(floor)
-	}
-	
-	function update(game){
-		//epicparticles.update()
-
-        //if(gameActive){
-            background.tilePosition.x -= speed * 0.2
-            floor.tilePosition.x -= speed
-        //}
-
-		/*if (game.input.activePointer.isDown == true){
-			if (clickLatch == false) {
-				var emitter = epicparticles.newEmitter("pickedEnergy")
-				emitter.x = game.input.activePointer.x
-				emitter.y = game.input.activePointer.y
-			}
-
-			clickLatch = true
-		} else {
-			clickLatch = false
-		}*/
-	}
-	
-	function createTextPart(text,obj){
-        
-        var pointsText = lookParticle('text')
-        
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
-            pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
-
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-
-            deactivateParticle(pointsText,750)
-        }
-        
-    }
-    
-    function lookParticle(key){
-        
-        for(var i = 0;i<particlesGroup.length;i++){
-            
-            var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
-            if(!particle.used && particle.tag == key){
-                
-				particle.used = true
-                particle.alpha = 1
-                
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-				
-				//console.log(particle)
-                
-                return particle
-                break
-            }
-        }
-        
-    }
-    
-    function deactivateParticle(obj,delay){
-        
-        game.time.events.add(delay,function(){
-            
-            obj.used = false
-            
-            particlesUsed.remove(obj)
-            particlesGroup.add(obj)
-            
-        },this)
-    }
-    
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        var particle = lookParticle(key)
-		
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            //game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            //game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            particle.start(true, 1500, null, 6);
-			
-			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
-				deactivateParticle(particle,0)
-			})
-			
-        }
-        
-        
-    }
-    
-    function createParticles(tag,number){
-                
-        for(var i = 0; i < number;i++){
-            
-            var particle
-            if(tag == 'text'){
-                
-                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-                
-                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
-                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-                particlesGroup.add(particle)
-                
-            }else{
-                var particle = game.add.emitter(0, 0, 100);
-
-				particle.makeParticles('atlas.circus',tag);
-				particle.minParticleSpeed.setTo(-200, -50);
-				particle.maxParticleSpeed.setTo(200, -100);
-				particle.minParticleScale = 0.6;
-				particle.maxParticleScale = 1.5;
-				particle.gravity = 150;
-				particle.angularDrag = 30;
-				
-				particlesGroup.add(particle)
-				
-            }
-            
-            particle.alpha = 0
-            particle.tag = tag
-            particle.used = false
-            //particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1,1)
-        }
-        
-        
-    }
-	
-	function addParticles(){
-		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
-		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
-		
-		createParticles('star',3)
-		createParticles('text',5)
-		createParticles('smoke',1)
-
-	}
-
-	function setExplosion(obj){
-        
-        var posX = obj.x
-        var posY = obj.y
-        
-        if(obj.world){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xffffff)
-        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-        rect.alpha = 0
-        rect.endFill()
-		sceneGroup.add(rect)
-		
-		game.add.tween(rect).from({alpha:1},500,"Linear",true)
-		
-        var exp = sceneGroup.create(0,0,'atlas.circus','cakeSplat')
-        exp.x = posX
-        exp.y = posY
-        exp.anchor.setTo(0.5,0.5)
-
-        exp.scale.setTo(6,6)
-        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
-        particlesNumber = 8
-            
-        var particlesGood = game.add.emitter(0, 0, 100);
-
-        particlesGood.makeParticles('atlas.circus','smoke');
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
-
-        particlesGood.x = posX;
-        particlesGood.y = posY;
-        particlesGood.start(true, 1000, null, particlesNumber);
-
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
-        
-    }
-	
 	function inputButton(obj){
 		
 		if(!gameActive){
-			return
+			return;
 		}
 		
-        stopTimer()
-		var parent = obj.parent
+        if(!levelZero){
+            stopTimer();
+        }
+		var parent = obj.parent;
 		
-		sound.play("pop")
+		sound.play("pop");
 		
-		game.add.tween(parent.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0,true)
+		game.add.tween(parent.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0,true);
         
         for(var i = 0; i < buttonsGroup.length; i++){
-            var btn = buttonsGroup.children[i]
+            var btn = buttonsGroup.children[i];
+            buttonsGroup.children[i].children[0].inputEnabled = false;
             if(btn.number !== result){
-                game.add.tween(btn.scale).to({x:0,y:0},250,"Linear",true)
+                game.add.tween(btn.scale).to({x:0,y:0},250,"Linear",true);
             }
         }
 		
-		gameActive = false
+		gameActive = false;
 		
 		if(parent.number == result){
-			addCoin(yogotar)
-			createPart('star',obj)
-			speed = 0
-			yogotar.setAnimationByName(0,"win",false).onComplete = function(){
-                speed = 5
+            if(!levelZero){
+		        addCoin(yogotar);
+            }else{
+                game.add.tween(hand).to( { alpha: 0 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
             }
-			yogotar.addAnimationByName(0,"idle",true)
-			game.time.events.add(1800, restartScene)
+            sound.play("cheers");
+            particleCorrect.x = yogotar.x;
+            particleCorrect.y = yogotar.y - yogotar.height/2;
+            particleCorrect.start(true, 1000, null, 5);
+			speed = 0;
+			yogotar.setAnimationByName(0,"win",false).onComplete = function(){
+                speed = 5;
+            }
+			yogotar.addAnimationByName(0,"idle",true);
+			game.time.events.add(1800, restartScene);
 		}else{
-			createPart('smoke',obj)
-            speed = 0
-            missPoint()
+            sound.play("cheersOver");
+			particleWrong.x = yogotar.x;
+            particleWrong.y = yogotar.y - yogotar.height/2;
+            particleWrong.start(true, 1000, null, 5);
+            speed = 0;
+            if(!levelZero){
+                missPoint();
+            }
             if(lives > 0){
                 yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
-                    speed = 5
+                    speed = 5;
                 }
-                yogotar.addAnimationByName(0,"idle",true)
-                game.time.events.add(1800, restartScene)
+                yogotar.addAnimationByName(0,"idle",true);
+                game.time.events.add(1800, restartScene);
             }
 		}
 		
 	}
 	
 	function restartScene(){
+
+        if(levelZero){
+            levelZero = false;
+            for(var i = 0; i < buttonsGroup.length; i++){
+                buttonsGroup.children[i].children[0].tint = 0xffffff;
+            }
+        }
 		
-		showButtons(false)
-		game.add.tween(base.text).to({alpha:0},300,"Linear",true,200)
+		showButtons(false);
+		game.add.tween(base.text).to({alpha:0},300,"Linear",true,200);
 		
 		game.time.events.add(1000,function(){
-			showButtons(true)
+			showButtons(true);
 		})
 		
 	}
-	
-	function createBase(){
-		
-		base = game.add.group()
-		base.x = game.world.centerX
-		base.y = game.world.height - 25
-		sceneGroup.add(base)
-		
-		var baseImg = base.create(0,0,'atlas.circus','base')
-		baseImg.anchor.setTo(0.5,1)
-		
-		var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var pointsText = new Phaser.Text(sceneGroup.game, 0, -baseImg.height * 0.82, "3 X 5", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
-		pointsText.alpha = 0
-        base.add(pointsText)
-		
-		base.text = pointsText
-		
-		yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar")
-		yogotar.setAnimationByName(0,"idle",true)
-		yogotar.setSkinByName("normal")
-		sceneGroup.add(yogotar)
-	}
-	
-	function createButtons(){
-		
-		buttonsGroup = game.add.group()
-		sceneGroup.add(buttonsGroup)
-		
-		var pivotX = base.x - 150
-		var pivotY = base.y - 100
-		for(var i = 0;i < 3; i++){
-			
-			var button = game.add.group()
-			button.alpha = 0
-			button.pressed = false
-			button.x = pivotX
-			button.y = pivotY
-			buttonsGroup.add(button)
-			
-			var buttonImage = button.create(0,0,'atlas.circus','btn')
-			buttonImage.anchor.setTo(0.5,0.5)
-			buttonImage.inputEnabled = true
-			buttonImage.events.onInputDown.add(inputButton)
-			
-			var fontStyle = {font: "65px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-			var pointsText = new Phaser.Text(sceneGroup.game, 0,0, "0", fontStyle)
-			pointsText.anchor.setTo(0.5,0.5)
-			button.add(pointsText)
-			
-			button.text = pointsText
-			
-			pivotX+= button.width * 1.12
-		}
-		
-	}
+
+    function createParticles(){
+        particleCorrect = createPart("star");
+        sceneGroup.add(particleCorrect);
+
+        particleWrong = createPart("smoke");
+        sceneGroup.add(particleWrong);
+    }
+
+    function createFlashes(){
+           
+        glitGroup = game.add.group();
+        glitGroup.x = backgroundPeople.x;
+        glitGroup.y = backgroundPeople.y;
+        glitGroup.width = backgroundPeople.width;
+        glitGroup.height = backgroundPeople.height;
+        sceneGroup.add(glitGroup);
+        
+        for(var l = 0; l < 10; l ++){
+            var glit = game.add.sprite(0, 0, "atlas.circus", glitter[game.rnd.integerInRange(0, 2)]);
+            glit.alpha = 0;
+            glitGroup.add(glit);
+        }
+        
+        takePhotosFlashes();
+    }
     
-    function createTimer(){
-        
-        timerGroup = game.add.group()
-        //timerGroup.alpha = 0
-        sceneGroup.add(timerGroup)
-        
-        var clock = timerGroup.create(game.world.centerX, 75, "atlas.time", "clock")
-        clock.anchor.setTo(0.5)
-        
-        var timeBar = timerGroup.create(clock.centerX - 175, clock.centerY + 19, "atlas.time", "bar")
-        timeBar.anchor.setTo(0, 0.5)
-        timeBar.scale.setTo(11.5, 0.65)
-        timerGroup.timeBar = timeBar
-   }
+    function takePhotosFlashes(){
+        glitGroup.children[pivot].alpha = 1;
+        glitGroup.children[pivot].x = game.rnd.integerInRange(0, backgroundPeople.width);
+        glitGroup.children[pivot].y = game.rnd.integerInRange(15, backgroundPeople.height - 80);
     
-    function stopTimer(){
-        
-        timerGroup.tweenTiempo.stop()
-        game.add.tween(timerGroup.timeBar.scale).to({x:11.5}, 100, Phaser.Easing.Linear.Out, true, 100)
-   }
-    
-    function startTimer(time){
-        
-        timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100)
-        timerGroup.tweenTiempo.onComplete.add(function(){
-            gameActive = false
-            stopTimer()
-            speed = 0
-            missPoint()
-            if(lives > 0){
-                yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
-                    speed = 5
-                }
-                yogotar.addAnimationByName(0,"idle",true)
-                game.time.events.add(1800, restartScene)
+        game.time.events.add(150,function(){
+            game.add.tween(glitGroup.children[pivot]).to({ alpha: 0 }, 1000, Phaser.Easing.linear, true);
+            
+            if(pivot < 9){
+                pivot++;
             }
-        })
-    }
-    
-    function createCoin(){
-        
-       coin = game.add.sprite(0, 0, "coin")
-       coin.anchor.setTo(0.5)
-       coin.scale.setTo(0.8)
-       coin.animations.add('coin');
-       coin.animations.play('coin', 24, true);
-       coin.alpha = 0
-    }
+            else{
+                pivot = 0;
+            }
+            
+            game.time.events.add(500,function(){
+                takePhotosFlashes();
+            },this);
 
-    function addCoin(obj){
-        
-        coin.x = obj.centerX
-        coin.y = obj.centerY
-        var time = 300
-
-        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
-        
-        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
-                   addPoint(1)
-               })
-           })
-        })
+        }, this);
     }
 	
 	return {
-		
 		assets: assets,
 		name: "circus",
 		update: update,
-        preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
+        preload:preload,
+        getGameData:function () { 
+            var games = yogomeGames.getGames(); 
+            return games[gameIndex];
+        },
 		create: function(event){
             
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
-			
-			createBackground()
-			createBase()
-			createButtons()
-			createTimer()
-            createCoin()
-			addParticles()
-                        			
-            spaceSong = game.add.audio('spaceSong')
-            game.sound.setDecodedCallback(spaceSong, function(){
-                spaceSong.loopFull(0.6)
-            }, this);
-            
+			sceneGroup = game.add.group(); 
+            yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+
             game.onPause.add(function(){
-                game.sound.mute = true
+                game.sound.mute = true;
             } , this);
 
             game.onResume.add(function(){
-                game.sound.mute = false
+                game.sound.mute = false;
             }, this);
-            
-            initialize()
-			            
-			createPointsBar()
-			createHearts()
+
+            spaceSong = game.add.audio('spaceSong');
+            game.sound.setDecodedCallback(spaceSong, function(){
+                spaceSong.loopFull(0.6);
+            }, this);
 			
-			buttons.getButton(spaceSong,sceneGroup)
-            createOverlay()
+			createBackground();
+            initialize();
+
+            createFlashes();
+			createBase();
+			createButtons();
+			createTimer();
             
-            animateScene()
+            createHearts();           			
+            createPointsBar();
+            createCoin();
+            createParticles();
+            createTutorial();
+			
+			buttons.getButton(spaceSong,sceneGroup);
             
 		},
 	}

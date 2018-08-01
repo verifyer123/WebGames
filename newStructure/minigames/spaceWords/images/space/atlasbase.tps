@@ -181,6 +181,45 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">bubblegum.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,56,127,111</rect>
+                <key>scale9Paddings</key>
+                <rect>64,56,127,111</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">bubbles.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>135,52,270,104</rect>
+                <key>scale9Paddings</key>
+                <rect>135,52,270,104</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">bubblesFront.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>135,24,271,47</rect>
+                <key>scale9Paddings</key>
+                <rect>135,24,271,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">card0.png</key>
             <key type="filename">card2.png</key>
             <struct type="IndividualSpriteSettings">
@@ -260,45 +299,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">tile.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>135,50,271,101</rect>
-                <key>scale9Paddings</key>
-                <rect>135,50,271,101</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">time.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>27,166,53,331</rect>
-                <key>scale9Paddings</key>
-                <rect>27,166,53,331</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">timebar.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>4,149,9,299</rect>
-                <key>scale9Paddings</key>
-                <rect>4,149,9,299</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -320,12 +320,12 @@
             <filename>card0.png</filename>
             <filename>card1.png</filename>
             <filename>card2.png</filename>
-            <filename>tile.png</filename>
-            <filename>time.png</filename>
-            <filename>timebar.png</filename>
             <filename>display.png</filename>
             <filename>star.png</filename>
             <filename>smoke.png</filename>
+            <filename>bubbles.png</filename>
+            <filename>bubblesFront.png</filename>
+            <filename>bubblegum.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
