@@ -1,0 +1,179 @@
+/*THEME*/
+body {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1d1864;
+    overflow: hidden;
+    font-family: 'Baloo Chettan', cursive; 
+}
+#container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+/*    background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);*/
+    background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);
+    transition: background 0.8s ease;
+
+}
+
+#header{
+    position: relative;
+    width: 100%;
+    height: 10%;
+    background-color: #2b8ecd;
+}
+
+#selectgame{
+    position: absolute;
+    width: 50%;
+    margin: 1vw;
+    right: 3%;
+    height: 80%;
+    overflow-y: scroll;
+    /*transform-style: preserve-3d;
+    transform: rotateY(-55deg) rotateZ(32deg);*/
+}
+
+.container-gameSelect{
+    position: relative;
+    width: 90%;
+    border-radius: 1vw; 
+    margin: 1vw;
+    right: 0;
+    overflow: hidden;  
+    background-repeat: no-repeat;
+}
+
+.container-gameSelect p{
+    line-height:0;
+    font-size: 20px;
+    color: #FFF;
+    margin: 0;
+}
+
+.name-select{ 
+    position: relative;
+    /*background: linear-gradient(to right, rgb(40, 153, 235) 40%, rgba(255,255,255,0.7) 100%);*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 40px;
+    padding: 2vw;
+    border-radius: 1vw;   
+    overflow: hidden;
+    color:#fff;
+    z-index: 1;
+}
+
+.bg-selectgGame{
+    border-radius: 1vw;   
+    position: absolute;
+    width: 120%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 70%;
+    z-index: 0;
+    top: 2%;
+    left: 0%;
+    opacity: 0.5;
+}
+
+#bannerGame{
+    position: absolute;
+    top:6%;
+    width: 45%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/bgbannerblue.png");
+    background-repeat: no-repeat;
+    background-size: 81%;
+    background-position: center; 
+    z-index: 1;
+}
+
+#bannerGame img{
+    transition: width 0.5s;
+    width: 70%;
+    border-radius: 3vw;
+/*    transform: skew(10deg,-40deg) scaleX(0.6);*/   
+}
+
+
+
+#difficultyGame{
+    position: absolute;
+    top: 51%;
+    width: 45%;
+}
+
+#difficultyGame p{
+    position: absolute;
+    color: #FFF;
+    left: 11%;
+    z-index: 2;
+    top: -25%;
+    font-size: 1.4vw;
+}
+
+#imgDifficulty{
+    position: relative;
+    width: 80%;
+    left: 10%;
+    z-index: 1;
+}
+
+#gradientDifficulty{
+    transition: width 0.5s;
+    position: absolute;
+    width: 70%;
+    height:45%;
+    top: 0%;
+    left: 18%;
+    transform: translate(0%,3%);
+    background: linear-gradient(to right, rgba(247,148,0,1)  0%,rgba(241,74,36,1) 100%);
+}
+
+#bgwhiteDifficulty{
+    position: relative;
+    width: 70%;
+    height:100%;
+    padding: 1vw;
+    transform: translate(18%,-130%);
+    background-color: #FFF;
+}
+
+/*CHART*/
+.wrapper canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+    background-color:rgba(250,250,250,0.8);
+}
+
+#radar{
+    position: absolute;
+    top: 57%;
+    left:3%;
+    width: 40%;
+    background-image: url("../images/gameradar.png");
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: 47%;
+    
+}
+
+/*FOOTER*/
+/*
+footer{
+    position: relative;
+    bottom: -4%;
+    width: 100%;
+    height: 6%;
+    background-color: #2b8ecd;
+    
+}*/
