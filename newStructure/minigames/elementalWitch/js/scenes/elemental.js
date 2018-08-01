@@ -340,6 +340,9 @@ var elemental = function(){
         
         particleWrong = createPart('smoke')
         sceneGroup.add(particleWrong)
+		
+		particleHit = createPart('spark')
+        sceneGroup.add(particleHit)
     }
     
     function createCoin(){
@@ -416,7 +419,7 @@ var elemental = function(){
         witch = game.add.sprite(game.world.centerX, 150, 'IDLE')
         witch.anchor.setTo(0.5)
         witch.animations.add('IDLE', null, 12, true)
-        witch.animations.add('ATTACK', null, 18)
+        witch.animations.add('ATTACK', null, 12)
         witch.animations.add('LOSESTILL', null, 12)
         witch.animations.add('HIT', null, 12)
         witch.animations.add('LOSE', null, 12)
@@ -550,6 +553,9 @@ var elemental = function(){
 			}
             
             if(mask){
+				particleHit.x = witch.centerX+50 
+				particleHit.y = witch.centerY+150
+				particleHit.start(true, 1200, null, 10)
                 gem.floating.pause()
                 sound.play("robotBeep")
                 game.add.tween(gem).to({x:mask.x, y:mask.y}, 300, Phaser.Easing.Cubic.InOut, true, 0, 0, true).onComplete.add(function(){
@@ -564,7 +570,9 @@ var elemental = function(){
 				particleWrong.y = witch.centerY+150
 				particleWrong.start(true, 1200, null, 2)
 			}
-			witch.canAttack = true
+			game.time.events.add(600,function(){
+				witch.canAttack = true;
+			})
         }
     }
     
@@ -581,20 +589,6 @@ var elemental = function(){
 				mask.healtPoints--
                 setDamage(mask)
             }
-//            else{
-//                if(lives > 1){
-//                    missPoint(mask)
-//                    game.time.events.add(200, function(){
-//                        mask.body.velocity.y = -speed
-//                    })
-//                }
-//                else{
-//                    gemsGroup.setAll("inputEnabled", false)
-//                    witchAnim('LOSE')
-//                    game.time.events.add(900, witchAnim, this, "LOSESTILL")
-//                    game.time.events.add(1000, missPoint, this, witch)
-//                }
-//            }
         }
     }
     
@@ -651,8 +645,9 @@ var elemental = function(){
             if(lives > 1){
                 witchAnim("HIT")
                 missPoint(witch)
+				goalMask--;
                 game.time.events.add(600, witchAnim, this, "IDLE")
-                game.time.events.add(1000, initGame)
+               if(goalMask==0)game.time.events.add(1000, initGame)
             }
             else if(lives > 0){
                 gemsGroup.setAll("inputEnabled", false)
@@ -785,6 +780,9 @@ var elemental = function(){
         var taget = enemiesGroup.getFirstExists()
 
         if(taget){
+			particleHit.x = witch.centerX+50 
+			particleHit.y = witch.centerY+150
+			particleHit.start(true, 1200, null, 10)
             gem.floating.pause()
             sound.play("robotBeep")
             game.add.tween(gem).to({x:taget.x, y:taget.y}, 300, Phaser.Easing.Cubic.InOut, true, 0, 0, true).onComplete.add(function(){

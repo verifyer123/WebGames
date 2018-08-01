@@ -386,7 +386,7 @@ var magicGate = function(){
 		}
 		
 		for(var placeArcs=0; placeArcs<game.world.width;placeArcs+=133){
-			var arcs = sceneGroup.create(placeArcs,game.world.centerY-70,'arc');
+			var arcs = sceneGroup.create(placeArcs,game.world.centerY,'arc');
 			arcs.anchor.setTo(0.5,0.5)
 		}
 
