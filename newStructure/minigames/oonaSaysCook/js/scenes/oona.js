@@ -704,23 +704,27 @@ var oona = function(){
     }
 
     function startTime(){
-        var timerInTime = 400 + (250*totalRecipeElements);
-        timeGroup.time.scale.x = 11.5;
+        if(lives>0){
+            var timerInTime = 400 + (250*totalRecipeElements);
+            timeGroup.time.scale.x = 11.5;
 
-        createQuestion();
-        
-        game.time.events.add(timerInTime, function() 
-        {
-            if(!levelZero){
-                tweenTime = game.add.tween(timeGroup.time.scale).to({x: 0}, roundTime, Phaser.Easing.linear, true);
+            createQuestion();
             
-                tweenTime.onComplete.add(function(){
-                    oonaAvatar.setAnimationByName(0, 'lose', false);
-                    oonaAvatar.addAnimationByName(0, 'idle', true);
-                    endRound(true);
-                });
-            }
-        }, this);
+            game.time.events.add(timerInTime, function() 
+            {
+                if(!levelZero){
+                    tweenTime = game.add.tween(timeGroup.time.scale).to({x: 0}, roundTime, Phaser.Easing.linear, true);
+                
+                    tweenTime.onComplete.add(function(){
+                        oonaAvatar.setAnimationByName(0, 'lose', false);
+                        oonaAvatar.addAnimationByName(0, 'idle', true);
+                        okBtnImg.events.onInputUp.removeAll();
+                        okBtnImg.inputEnabled = false;
+                        endRound(true);
+                    });
+                }
+            }, this);
+        }
     }
 
     return {
