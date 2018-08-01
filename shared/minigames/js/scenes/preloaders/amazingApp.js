@@ -8,10 +8,10 @@ var preloaderIntro = function(){
 				image: "../../shared/minigames/images/preloaders/amazing/atlas.png"}
 		],
 		images: [
-			{
+			/*{
 				name:"MeizyGif",
 				file:"../../shared/minigames/images/preloaders/amazing/spine.gif"
-			}
+			}*/
 		],
 		sounds: [],
 	}

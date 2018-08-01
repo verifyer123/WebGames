@@ -327,7 +327,7 @@ var wonderHood = function(){
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,10,'atlas.game','xpcoins')
+        var pointsImg = pointsBar.create(0,50,'atlas.game','xpcoins')
         pointsImg.x = game.world.width - pointsImg.width * 1.2
         pointsImg.width *=1
         pointsImg.height *=1
@@ -335,7 +335,8 @@ var wonderHood = function(){
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
         pointsText.x = pointsImg.x + pointsImg.width * 0.75
-        pointsText.y = pointsImg.height * 0.3
+        pointsText.y = 50
+        pointsText.anchor.setTo(1,0)
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -346,7 +347,7 @@ var wonderHood = function(){
     function createHearts(){
         
         heartsGroup = game.add.group()
-        heartsGroup.y = 10
+        heartsGroup.y = 50
         sceneGroup.add(heartsGroup)
         
         
