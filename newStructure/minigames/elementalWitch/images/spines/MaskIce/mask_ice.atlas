@@ -1,41 +1,41 @@
 
 mask_ice.png
-size: 512,64
+size: 1024,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/acebread
   rotate: false
-  xy: 269, 12
-  size: 50, 43
-  orig: 50, 43
+  xy: 527, 22
+  size: 99, 86
+  orig: 99, 86
   offset: 0, 0
   index: -1
 normal/clowd
-  rotate: true
-  xy: 208, 2
-  size: 13, 14
-  orig: 13, 14
+  rotate: false
+  xy: 408, 3
+  size: 26, 27
+  orig: 26, 27
   offset: 0, 0
   index: -1
 normal/mask_ace
   rotate: true
   xy: 2, 2
-  size: 53, 101
-  orig: 53, 101
+  size: 106, 201
+  orig: 106, 201
   offset: 0, 0
   index: -1
 normal/mask_ace_b
   rotate: true
-  xy: 105, 2
-  size: 53, 101
-  orig: 53, 101
+  xy: 205, 2
+  size: 106, 201
+  orig: 106, 201
   offset: 0, 0
   index: -1
 normal/shadow
   rotate: false
-  xy: 208, 17
-  size: 59, 38
-  orig: 59, 38
+  xy: 408, 32
+  size: 117, 76
+  orig: 117, 76
   offset: 0, 0
   index: -1
