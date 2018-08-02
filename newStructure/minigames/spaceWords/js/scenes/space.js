@@ -307,7 +307,7 @@ var space = function(){
         background.width = game.world.width + 2
         background.height = game.world.height + 2
         
-        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 240, "atlas.space", "bubbles")
+        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 250, "atlas.space", "bubbles")
         pink.anchor.setTo(0, 1)
         pink.rise = 1.2
         sceneGroup.add(pink)
