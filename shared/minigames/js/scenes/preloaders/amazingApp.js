@@ -40,6 +40,7 @@ var preloaderIntro = function(){
             
             var image = game.add.image(game.world.centerX,game.world.centerY,"gif")
             image.anchor.setTo(0.5)
+            image.scale.setTo(2)
             var anim = image.animations.add("walk")
             anim.play(30, true);
 			
