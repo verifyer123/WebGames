@@ -721,9 +721,9 @@ var sushi = function(){
                     container.inputEnabled = true
                 }
                 for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
-                    if(checkOverlap(option.container,sushisInGame[lineToCollide][checkPositions])){
-                        option.y-=sushisInGame[lineToCollide][checkPositions].height;
-                    }
+//                    if(checkOverlap(option.container,sushisInGame[lineToCollide][checkPositions])){
+//                        option.y-=sushisInGame[lineToCollide][checkPositions].height;
+//                    }
                     if(option.y<sushisInGame[lineToCollide][checkPositions].y){
                         cont++;
                     }else{
