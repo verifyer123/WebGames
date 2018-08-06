@@ -563,20 +563,29 @@ var elemental = function(){
                     if(mask.healtPoints > 0){
                         mask.touch = false
                     }
+//					game.time.events.add(600,function(){
+//						witch.canAttack = true;
+//					})
                 })
             }else{
 				particleWrong.x = witch.centerX+50 
 				particleWrong.y = witch.centerY+150
-				particleWrong.start(true, 1200, null, 2)		
-//				mask.anim.setAnimationByName(0, "win", false).onComplete = function(){
-//					mask.anim.setAnimationByName(0, "idle", true);
-//				};
+				particleWrong.start(true, 1200, null, 2)
+				for(var checkMask=0; checkMask<enemiesGroup.length; checkMask++){
+					if(enemiesGroup.children[checkMask].exists){
+						enemiesGroup.children[checkMask].anim.setAnimationByName(0, "win", false).onComplete=function(){
+							for(var idleMask=0; idleMask<enemiesGroup.length; idleMask++){
+								if(enemiesGroup.children[idleMask].exists){
+									enemiesGroup.children[idleMask].anim.setAnimationByName(0, "idle", true)
+								}
+							}
+							witch.canAttack = true;
+						}
+					}
+				}
 			}
-			game.time.events.add(600,function(){
-				witch.canAttack = true;
-			})
         }
-    }
+	}
     
     
     function hitEnemy(gem, mask){
@@ -607,6 +616,8 @@ var elemental = function(){
 					goalMask--
 					if(goalMask==0){
 						witch.canAttack = false	
+					}else{
+						witch.canAttack = true
 					}
 					if(goalMask==0)game.time.events.add(500, initGame)
 				}
@@ -618,6 +629,7 @@ var elemental = function(){
                 game.add.tween(mask).to({y: mask.y + 100}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function(){
                     mask.body.velocity.y = -speed
                     mask.touch = false
+					witch.canAttack = true;
                 })
             break
 
@@ -627,6 +639,7 @@ var elemental = function(){
                 game.add.tween(mask).to({y: mask.y + 100}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function(){
                     mask.body.velocity.y = -speed
                     mask.touch = false
+					witch.canAttack = true;
                 })
             break
             }
