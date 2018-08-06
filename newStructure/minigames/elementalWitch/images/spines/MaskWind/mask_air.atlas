@@ -1,62 +1,62 @@
 
 mask_air.png
-size: 256,128
+size: 512,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/feather
   rotate: false
-  xy: 198, 10
-  size: 25, 10
-  orig: 25, 10
+  xy: 387, 35
+  size: 50, 19
+  orig: 50, 19
   offset: 0, 0
   index: -1
 normal/mask_wind
   rotate: false
-  xy: 68, 2
-  size: 63, 120
-  orig: 63, 120
+  xy: 131, 2
+  size: 126, 240
+  orig: 126, 240
   offset: 0, 0
   index: -1
 normal/mask_wind_b
   rotate: false
-  xy: 133, 2
-  size: 63, 120
-  orig: 63, 120
+  xy: 259, 2
+  size: 126, 240
+  orig: 126, 240
   offset: 0, 0
   index: -1
 normal/mask_wind_c
   rotate: false
   xy: 2, 2
-  size: 64, 120
-  orig: 64, 120
+  size: 127, 240
+  orig: 127, 240
   offset: 0, 0
   index: -1
 normal/shadow
-  rotate: true
-  xy: 198, 63
-  size: 59, 38
-  orig: 59, 38
+  rotate: false
+  xy: 387, 166
+  size: 117, 76
+  orig: 117, 76
   offset: 0, 0
   index: -1
 normal/wind1
-  rotate: true
-  xy: 238, 80
-  size: 42, 16
-  orig: 42, 16
+  rotate: false
+  xy: 387, 133
+  size: 83, 31
+  orig: 83, 31
   offset: 0, 0
   index: -1
 normal/wind2
   rotate: false
-  xy: 198, 22
-  size: 28, 15
-  orig: 28, 15
+  xy: 387, 56
+  size: 56, 30
+  orig: 56, 30
   offset: 0, 0
   index: -1
 normal/wind3
   rotate: false
-  xy: 198, 39
-  size: 30, 22
-  orig: 30, 22
+  xy: 387, 88
+  size: 60, 43
+  orig: 60, 43
   offset: 0, 0
   index: -1
