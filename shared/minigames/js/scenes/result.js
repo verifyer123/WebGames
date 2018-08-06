@@ -110,14 +110,13 @@ var result = function(){
 		totalGoal = 1
 		totalTime = 0
         win = didWin
-        //if(icons[gameIndex].demo==null){
-            /*mixpanel.track(
-                "finishGame",
-                {"gameName": gameName, "win":didWin, "numberOfObjects":score, "email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-            );*/
-
-        amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
-        //}
+        //console.log("finishGame")
+        if(icons[gameIndex].demo!=null){
+            if(!icons[gameIndex].demo){
+                //console.log("mixpanel finish game")
+                amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
+            }
+        }
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
         var text = new Phaser.Text(game, -100, -100,"test", fontStyle)
@@ -169,13 +168,11 @@ var result = function(){
 
 
 	function shareEvent(){
-        //if(icons[gameIndex].demo==null){
-            /*mixpanel.track(
-                "pressFacebook",
-                {"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-            );*/
-            amazing.setMixPanelTrack(gameName,"pressFacebook")
-        //}
+        if(icons[gameIndex].demo!=null){
+            if(!icons[gameIndex].demo){
+                amazing.setMixPanelTrack(gameName,"pressFacebook")
+            }
+        }
 
         if(!minigameId){
             FB.ui({
@@ -221,20 +218,18 @@ var result = function(){
                 },this)
 
             }else if(parent.tag == 'reintentar'){
-                //if(icons[gameIndex].demo==null){
-    				/*mixpanel.track(
-    					"retryGame",
-    					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-    				);*/
-                    amazing.setMixPanelTrack(gameName,"retryGame")
 
-    				/*mixpanel.track(
-    					"enterGame",
-    					{"gameName": gameName,"email":amazing.getEmail(),"gender":amazing.getGender(),"birthday":amazing.getBirthday()}
-    				);*/
+                if(icons[gameIndex].demo!=null){
+                    if(!icons[gameIndex].demo){
+                        amazing.setMixPanelTrack(gameName,"retryGame")
+                    }
+                }
 
-                    amazing.setMixPanelTrack(gameName,"enterGame")
-                //}
+                if(icons[gameIndex].demo!=null){
+                    if(!icons[gameIndex].demo){
+                        amazing.setMixPanelTrack(gameName,"enterGame")
+                    }
+                }
 
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
@@ -859,6 +854,13 @@ var result = function(){
 	                    var coupon = sceneGroup.create(game.world.centerX, game.world.centerY +10,'coupon')
 	                    coupon.anchor.setTo(0.5,0.5)
 	                    coupon.scale.setTo(0.9)
+
+                        if(couponData.link != null){
+                            coupon.inputEnabled = true
+                            coupon.events.onInputDown.add(function(){
+                                //amazing.goTickets()
+                            })
+                        }
 
 	                }
 	                else{

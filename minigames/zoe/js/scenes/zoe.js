@@ -1,5 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var zoe = function(){
+var zoeKids = function(){
 
     var OBJETC_TYPES = {
         REPISA:0,
@@ -57,7 +57,7 @@ var zoe = function(){
     var PLAYER_SPEED = {x:-10,y:45}
     var PATTERN_COUNT = 5
     var PLANE_VEL = 3
-    var GIVED_COINS = 5
+    var GIVED_COINS = 10
     var FORCE_AVAILBLE = false
     var MIN_TIME = 0
     var MAX_TIME = 1000
@@ -69,7 +69,7 @@ var zoe = function(){
     var skinTable
     
     var gameIndex = 32
-    var gameId = 100009
+    var gameId = 51
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -96,6 +96,10 @@ var zoe = function(){
     var currentMeters, nextCountMeters, meterstext
 
     var spaceBar, canTap
+    var lastLevel1
+
+    var indexObject, currentLevel
+    var nextX 
 
     function getSkins(){
         
@@ -128,6 +132,9 @@ var zoe = function(){
         currentMeters = 0
         nextCountMeters = DELTA_COUNT_METERS
         canTap = true
+        lastLevel1 = false
+        indexObject = -1
+        currentLevel = 0
     }
     
 
@@ -209,8 +216,9 @@ var zoe = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.75
+        pointsText.x = pointsImg.x + pointsImg.width * 0.6
         pointsText.y = pointsImg.height * 0.3
+        pointsText.anchor.setTo(0.5,0)
         pointsBar.add(pointsText)
         
         pointsBar.text = pointsText
@@ -416,7 +424,8 @@ var zoe = function(){
             currentMeters += (delta*0.1)
 
             if(currentMeters >= nextCountMeters){
-                
+
+                addPoint(GIVED_COINS,{x:game.world.width - 100,y:30})
                 meterstext.text = nextCountMeters+" mts"
                 nextCountMeters+= DELTA_COUNT_METERS
 
@@ -433,7 +442,7 @@ var zoe = function(){
             updateGroup(arcadeGroup,delta)
             updateGroup(bocinaGroup,delta)
             updateGroup(burroGroup,delta)
-            updateGroup(ironGroup,delta)
+            //updateGroup(ironGroup,delta)
             updateGroup(cuadro1Group,delta)
             updateGroup(cuadro2Group,delta)
             updateGroup(cuadro3Group,delta)
@@ -455,8 +464,8 @@ var zoe = function(){
 					}
 				}
 			}
-            if(lastObject.body.x < game.world.width){
-            	currentX=lastObject.body.x+350
+            if(lastObject.body.x < game.world.width+200){
+            	
             	createPattern()
             }
 
@@ -466,12 +475,14 @@ var zoe = function(){
     function updateGroup(group,delta){
     	//console.log(group)
     	for(var i =0; i < group.length;i++){
+    		
 			if(group.children[i].visible){
 				group.children[i].body.x -= delta
 				if(group.children[i].body.x < -200){
 					group.children[i].visible = false
 
 					group.children[i].body.data.shapes[0].sensor=true;
+					group.children[i].body.moves = false
 					
 				}
 			}
@@ -525,8 +536,6 @@ var zoe = function(){
     	var offset = {x:0,y:0}
     	var deltaTime = game.time.now - inTap
 
-    	console.log(deltaTime)
-
     	if(deltaTime < MAX_TIME){
     		offset.x = EXTRA_FORCE.x * (deltaTime/MAX_TIME)
     		offset.y = EXTRA_FORCE.y * (deltaTime/MAX_TIME)
@@ -561,7 +570,7 @@ var zoe = function(){
 	    	}
 
 	    	if(body.sprite.givedCoin){
-	    		addPoint(GIVED_COINS,{x:game.world.width - 100,y:30})
+	    		//addPoint(GIVED_COINS,{x:game.world.width - 100,y:30})
 	    		body.sprite.givedCoin = false
 	    	}
 
@@ -598,10 +607,18 @@ var zoe = function(){
     	controlsRentangle.drawRect(0,0,game.world.width-40,game.world.height - controlsRentangle.y -20)
     	sceneGroup.add(controlsRentangle)
 
-    	var logo = sceneGroup.create(game.world.centerX - 160, game.world.height - 100,"atlas.game","lgo")
+    	var sca = 1
+
+    	if(game.world.width < 560){
+    		sca = game.world.width/560
+    	}
+
+    	var logo = sceneGroup.create(game.world.centerX - game.world.centerX*0.55, game.world.height - 100,"atlas.game","lgo")
+    	logo.scale.setTo(sca)
     	logo.anchor.setTo(0.5)
 
-    	logo = sceneGroup.create(game.world.centerX + 160, game.world.height - 100,"atlas.game","lgo")
+    	logo = sceneGroup.create(game.world.centerX + game.world.centerX*0.55, game.world.height - 100,"atlas.game","lgo")
+    	logo.scale.setTo(sca)
     	logo.anchor.setTo(0.5)
 
     	tapButton = sceneGroup.create(game.world.centerX, game.world.height - 100,"atlas.game","boton")
@@ -681,6 +698,8 @@ var zoe = function(){
     	appleGroup = game.add.group()
     	sceneGroup.add(appleGroup)
 
+
+
        var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
                 
         meterstext = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
@@ -705,7 +724,7 @@ var zoe = function(){
        	game.physics.p2.enable(repisa,false)
        	repisa.body.kinematic = true
 
-       	currentX = 420
+       	currentX = null
        	createPattern()
 
         player = sceneGroup.create(repisa.x,repisa.y-100,"atlas.game","botella_zoe_kids")
@@ -737,6 +756,7 @@ var zoe = function(){
 	    		chairGroup.children[i].givedCoin = true
 	    		//chairGroup.children[i].static = false
 	    		chairGroup.children[i].body.data.shapes[0].sensor=false;
+	    		chairGroup.children[i].body.moves = true
 	    		return chairGroup.children[i]
 	    	}
     	}
@@ -764,6 +784,7 @@ var zoe = function(){
 	    		clockGroup.children[i].body.angle = 0
 	    		clockGroup.children[i].visible = true
 	    		clockGroup.children[i].body.data.shapes[0].sensor=false;
+	    		clockGroup.children[i].body.moves = true
 	    		return clockGroup.children[i]
 	    	}
     	}
@@ -787,6 +808,7 @@ var zoe = function(){
 	    		tableGroup.children[i].body.y = y
 	    		tableGroup.children[i].givedCoin = true
 	    		tableGroup.children[i].body.data.shapes[0].sensor=false;
+	    		tableGroup.children[i].body.moves = true
 	    		return tableGroup.children[i]
 	    	}
     	}
@@ -810,6 +832,7 @@ var zoe = function(){
 	    		ariplaneGroup.children[i].visible = true
 	    		ariplaneGroup.children[i].givedCoin = true
 	    		ariplaneGroup.children[i].body.data.shapes[0].sensor=false;
+	    		ariplaneGroup.children[i].body.moves = true
 	    		return ariplaneGroup.children[i]
 	    	}
     	}
@@ -832,6 +855,7 @@ var zoe = function(){
 	    		bocinaGroup.children[i].visible = true
 	    		bocinaGroup.children[i].givedCoin = true
 	    		bocinaGroup.children[i].body.data.shapes[0].sensor=false;
+	    		bocinaGroup.children[i].body.moves = true
 	    		return bocinaGroup.children[i]
 	    	}
     	}
@@ -853,6 +877,7 @@ var zoe = function(){
 	    		arcadeGroup.children[i].visible = true
 	    		arcadeGroup.children[i].givedCoin = true
 	    		arcadeGroup.children[i].body.data.shapes[0].sensor=false;
+	    		arcadeGroup.children[i].body.moves = true
 	    		return arcadeGroup.children[i]
 	    	}
     	}
@@ -862,7 +887,7 @@ var zoe = function(){
     	arcade.givedCoin = true
     	game.physics.p2.enable(arcade,false)
     	arcade.body.kinematic = true
-    	arcade.objectType = OBJETC_TYPES.BOCINA
+    	arcade.objectType = OBJETC_TYPES.ARCADE
     	return arcade
     }
 
@@ -874,6 +899,7 @@ var zoe = function(){
 	    		burroGroup.children[i].visible = true
 	    		burroGroup.children[i].givedCoin = true
 	    		burroGroup.children[i].body.data.shapes[0].sensor=false;
+	    		burroGroup.children[i].body.moves = true
 	    		getApple(x+50,y-100)
 	    		return burroGroup.children[i]
 	    	}
@@ -904,6 +930,7 @@ var zoe = function(){
 	    		ironGroup.children[i].visible = true
 	    		ironGroup.children[i].givedCoin = false
 	    		ironGroup.children[i].body.data.shapes[0].sensor=false;
+	    		ironGroup.children[i].body.moves = true
 	    		//return ironGroup.children[i]
 	    	}
     	}
@@ -918,6 +945,7 @@ var zoe = function(){
     }
 
     function getApple(x,y){
+
     	for(var i =0; i < appleGroup.length;i++){
     		if(!appleGroup.children[i].visible){
     			appleGroup.children[i].body.velocity.x = 0
@@ -930,7 +958,9 @@ var zoe = function(){
 	    		appleGroup.children[i].visible = true
 	    		appleGroup.children[i].givedCoin = false
 	    		appleGroup.children[i].body.data.shapes[0].sensor=false;
+	    		appleGroup.children[i].body.moves = true
 	    		//return ironGroup.children[i]
+                return appleGroup.children[i]
 	    	}
     	}
 
@@ -942,6 +972,7 @@ var zoe = function(){
     	game.physics.p2.enable(apple,false)
     	apple.objectType = OBJETC_TYPES.APPLE
     	//return burro
+        return apple
     }
 
     function getEscritorio(x,y){
@@ -952,6 +983,7 @@ var zoe = function(){
 	    		escritorioGroup.children[i].visible = true
 	    		escritorioGroup.children[i].givedCoin = true
 	    		escritorioGroup.children[i].body.data.shapes[0].sensor=false;
+	    		escritorioGroup.children[i].body.moves = true
 	    		return escritorioGroup.children[i]
 	    	}
     	}
@@ -975,6 +1007,7 @@ var zoe = function(){
 	    		cuadro1Group.children[i].visible = true
 	    		cuadro1Group.children[i].givedCoin = true
 	    		cuadro1Group.children[i].body.data.shapes[0].sensor=false;
+	    		cuadro1Group.children[i].body.moves = true
 	    		return cuadro1Group.children[i]
 	    	}
     	}
@@ -996,6 +1029,7 @@ var zoe = function(){
 	    		cuadro2Group.children[i].visible = true
 	    		cuadro2Group.children[i].givedCoin = true
 	    		cuadro2Group.children[i].body.data.shapes[0].sensor=false;
+	    		cuadro2Group.children[i].body.moves = true
 	    		return cuadro2Group.children[i]
 	    	}
     	}
@@ -1017,6 +1051,7 @@ var zoe = function(){
 	    		cuadro3Group.children[i].visible = true
 	    		cuadro3Group.children[i].givedCoin = true
 	    		cuadro3Group.children[i].body.data.shapes[0].sensor=false;
+	    		cuadro3Group.children[i].body.moves = true
 	    		return cuadro3Group.children[i]
 	    	}
     	}
@@ -1038,6 +1073,7 @@ var zoe = function(){
 	    		libreroGroup.children[i].visible = true
 	    		libreroGroup.children[i].givedCoin = true
 	    		libreroGroup.children[i].body.data.shapes[0].sensor=false;
+	    		libreroGroup.children[i].body.moves = true
 	    		return libreroGroup.children[i]
 	    	}
     	}
@@ -1063,6 +1099,7 @@ var zoe = function(){
 	    		lamparaGroup.children[i].visible = true
 	    		lamparaGroup.children[i].givedCoin = true
 	    		lamparaGroup.children[i].body.data.shapes[0].sensor=false;
+	    		lamparaGroup.children[i].body.moves = true
 	    		return lamparaGroup.children[i]
 	    	}
     	}
@@ -1085,6 +1122,7 @@ var zoe = function(){
 	    		librosGroup.children[i].visible = true
 	    		librosGroup.children[i].givedCoin = true
 	    		librosGroup.children[i].body.data.shapes[0].sensor=false;
+	    		librosGroup.children[i].body.moves = true
 	    		return librosGroup.children[i]
 	    	}
     	}
@@ -1107,6 +1145,7 @@ var zoe = function(){
 	    		mesaGroup.children[i].visible = true
 	    		mesaGroup.children[i].givedCoin = true
 	    		mesaGroup.children[i].body.data.shapes[0].sensor=false;
+	    		mesaGroup.children[i].body.moves = true
 	    		return mesaGroup.children[i]
 	    	}
     	}
@@ -1128,6 +1167,7 @@ var zoe = function(){
 	    		teleGroup.children[i].visible = true
 	    		teleGroup.children[i].givedCoin = true
 	    		teleGroup.children[i].body.data.shapes[0].sensor=false;
+	    		teleGroup.children[i].body.moves = true
 	    		return teleGroup.children[i]
 	    	}
     	}
@@ -1151,6 +1191,7 @@ var zoe = function(){
 	    		cajoneraGroup.children[i].visible = true
 	    		cajoneraGroup.children[i].givedCoin = true
 	    		cajoneraGroup.children[i].body.data.shapes[0].sensor=false;
+	    		cajoneraGroup.children[i].body.moves = true
 	    		return cajoneraGroup.children[i]
 	    	}
     	}
@@ -1166,29 +1207,57 @@ var zoe = function(){
 
 
     function createPattern(){
-    	var r = game.rnd.integerInRange(1,7)
+    	var r
+    	if(indexObject == -1){
+	    	r = game.rnd.integerInRange(1,7)
+	    	//r = 1
+	    	indexObject = 0
+	    	if(currentX==null){
+	    		currentX = 420
+	    	}
+	    	else{
+	    		currentX=lastObject.body.x+400
+	    	}
+	    }
+	    else{
+	    	currentX = lastObject.body.x + nextX
+	    	r = currentLevel
+	    }
     	//r = 3
+        /*if(lastLevel1){
+            currentX += 200
+        }*/
+
+        currentLevel = r
+
     	switch(r){
     		case 1:
     			createPatter1()
+                lastLevel1 = true
     		break
     		case 2:
     			createPatter2()
+                lastLevel1 = false
     		break
     		case 3:
     			createPatter3()
+                lastLevel1 = false
     		break
     		case 4:
     			createPatter4()
+                lastLevel1 = false
     		break
     		case 5:
     			createPatter5()
+                lastLevel1 = false
     		break
     		case 6:
     			createPatter6()
+                lastLevel1 = false
     		break
     		case 7:
     			createPatter7()
+                lastLevel1 = false
     		break
     		case 8:
     			createPatter8()
@@ -1200,120 +1269,255 @@ var zoe = function(){
     			createPatter10()
     		break
     	}
+        
     }
 
     function createPatter1(){
-    	var chair = getChair(currentX,game.world.height - 430)
-    	currentX+=400
-    	var clock = getClock(currentX,game.world.height - 700)
-    	currentX+=240
-    	var table = getTable(currentX,game.world.height - 350)
-    	currentX += 200
-    	var aiprlane = getAirplane(currentX,game.world.height - 550)
-    	currentX += 200
-    	var bocina = getBocina(currentX,game.world.height - 350)
-        currentX += 200
-        var burro = getBurro(currentX,game.world.height - 330)
-    	lastObject = bocina
+    	var object 
+    	switch(indexObject){
+    		case 0:
+		    	object = getChair(currentX,game.world.height - 430)
+		    	nextX=400
+	    	break;
+	    	case 1: 
+		    	object = getClock(currentX,game.world.height - 700)
+		    	nextX=240
+	    	break;
+	    	case 2:
+		    	object = getTable(currentX,game.world.height - 350)
+		    	nextX = 200
+	    	break;
+	    	case 3:
+		    	object = getAirplane(currentX,game.world.height - 550)
+		    	nextX = 200
+		    break;
+		    case 4:
+		    	object = getBocina(currentX,game.world.height - 350)
+		        nextX = 200
+	        break;
+	        case 5:
+        		object = getBurro(currentX,game.world.height - 330)
+        	break;
+    	
+    	}
+    	indexObject ++
+    	if(indexObject == 6){
+    		indexObject = -1
+    	}
+    	lastObject = object
+        //lastLevel1 = true
     }
 
     function createPatter2(){
-    	var burro = getBurro(currentX,game.world.height - 330)
-    	currentX+=200
-    	var cuadro = getCuadro1(currentX,game.world.height - 600)
-    	currentX+=140
-    	cuadro = getCuadro2(currentX,game.world.height - 500)
-    	currentX += 150
-    	cuadro = getCuadro3(currentX,game.world.height - 450)
-    	currentX += 250
-    	var arcade = getTable(currentX,game.world.height - 350)
-    	currentX+=350
-    	var cajonera = getCajonera(currentX,game.world.height - 350)
-    	lastObject = cajonera
+        var object 
+    	switch(indexObject){
+    		case 0:
+	    	object = getBurro(currentX,game.world.height - 330)
+	    	nextX=200
+	    	break;
+	    	case 1:
+	    	object = getCuadro1(currentX,game.world.height - 600)
+	    	nextX=140
+	    	break
+	    	case 2:
+	    	object = getCuadro2(currentX,game.world.height - 500)
+	    	nextX= 150
+	    	break
+	    	case 3:
+	    	object = getCuadro3(currentX,game.world.height - 450)
+	    	nextX= 250
+	    	break
+	    	case 4:
+	    	object = getTable(currentX,game.world.height - 350)
+	    	nextX=350
+	    	break
+	    	case 5:
+	    	object = getCajonera(currentX,game.world.height - 350)
+	    	break
+	    }
+	    indexObject ++
+    	if(indexObject == 6){
+    		indexObject = -1
+    	}
+    	lastObject = object
     }
 
     function createPatter3(){
-    	var cajonera = getCajonera(currentX,game.world.height - 300)
-    	var lampara = getLampara(currentX, game.world.height - 400)
-    	currentX += 500
-    	var librero = getLibrero(currentX,game.world.height - 450)
-    	currentX += 300
-    	var clock = getClock(currentX, game.world.height - 500)
-    	currentX += 300
-    	var chair = getChair(currentX, game.world.height - 430)
-    	currentX += 300
-    	var table = getTable(currentX, game.world.height - 350)
-    	lastObject = table
+    	var object 
+    	switch(indexObject){
+    		case 0:
+	    	var cajonera = getCajonera(currentX,game.world.height - 300)
+	    	object = getLampara(currentX, game.world.height - 400)
+	    	nextX= 500
+	    	break
+	    	case 1:
+	    	object = getLibrero(currentX,game.world.height - 450)
+	    	nextX= 300
+	    	break
+	    	case 2:
+	    	object = getClock(currentX, game.world.height - 500)
+	    	nextX= 300
+	    	break
+	    	case 3:
+	    	object = getChair(currentX, game.world.height - 430)
+	    	nextX = 300
+	    	break
+	    	case 4:
+	    	object = getTable(currentX, game.world.height - 350)
+	    	break
+	    }
+	    indexObject ++
+    	if(indexObject == 5){
+    		indexObject = -1
+    	}
+    	lastObject = object
 
     }
 
     function createPatter4(){
-        var table = getTable(currentX,game.world.height - 350)
-    	currentX += 500
-    	var burro = getBurro(currentX,game.world.height - 330)
-        currentX+=350
-        var clock = getClock(currentX, game.world.height - 500)
-        currentX +=200
-    	var bocina = getBocina(currentX,game.world.height - 350)
-    	currentX += 200
-    	var chair = getChair(currentX, game.world.height - 430)
-    	currentX += 300
-        var aiprlane = getAirplane(currentX,game.world.height - 550)
-        currentX += 200
-        var cajonera = getCajonera(currentX, game.world.height - 350)
-        lastObject = cajonera
+    	var object 
+    	switch(indexObject){
+    		case 0:
+	        object = getTable(currentX,game.world.height - 350)
+	    	nextX= 500
+	    	break
+	    	case 1:
+	    	object = getBurro(currentX,game.world.height - 330)
+	        nextX=350
+	        break
+	        case 2:
+	        object = getClock(currentX, game.world.height - 500)
+	        nextX=200
+	        break
+	        case 3:
+	    	object = getBocina(currentX,game.world.height - 350)
+	    	nextX = 200
+	    	break
+	    	case 4:
+	    	object = getChair(currentX, game.world.height - 430)
+	    	nextX= 300
+	    	break
+	    	case 5:
+	        object = getAirplane(currentX,game.world.height - 550)
+	        nextX= 200
+	        break
+	        case 6:
+	        object = getCajonera(currentX, game.world.height - 350)
+	        break
+	    }
+        indexObject ++
+    	if(indexObject == 7){
+    		indexObject = -1
+    	}
+    	lastObject = object
     }
 
     function createPatter5(){
-        var arcade = getArcade(currentX,game.world.height - 400)
-        currentX += 250
-        var ariplane = getAirplane(currentX, game.world.height - 500)
-        currentX += 450
-        var librero = getLibrero(currentX,game.world.height - 450)
-        currentX += 400
-        var clock = getClock(currentX, game.world.height - 500)
-        currentX += 300
-        var chair = getChair(currentX, game.world.height - 430)
-        currentX += 300
-        var table = getTable(currentX, game.world.height - 350)
-        lastObject = table
+    	var object 
+    	switch(indexObject){
+    		case 0:
+	        object= getArcade(currentX,game.world.height - 400)
+	        nextX= 250
+	        break
+	        case 1:
+	        object = getAirplane(currentX, game.world.height - 500)
+	        nextX= 450
+	        break
+	        case 2:
+	        object = getLibrero(currentX,game.world.height - 450)
+	        nextX= 400
+	        break
+	        case 3:
+	        object = getClock(currentX, game.world.height - 500)
+	        nextX= 300
+	        break
+	        case 4:
+	        object = getChair(currentX, game.world.height - 430)
+	        nextX= 300
+	        break
+	        case 5:
+	        object = getTable(currentX, game.world.height - 350)
+	        break
+	    }
+        indexObject ++
+    	if(indexObject == 6){
+    		indexObject = -1
+    	}
+    	lastObject = object
     }
 
     
     function createPatter6(){
-        var escritorio = getEscritorio(currentX+100,game.world.height - 350)
-        currentX += 300
-        var cuadro = getCuadro1(currentX,game.world.height - 550)
-        currentX+=140
-        cuadro = getCuadro1(currentX,game.world.height - 600)
-        currentX += 150
-        cuadro = getCuadro3(currentX,game.world.height - 650)
-        currentX += 250
-        var clock = getClock(currentX, game.world.height - 500)
-        currentX +=350
-        var arcade = getArcade(currentX,game.world.height - 400)
-        currentX += 200
-        lastObject = arcade
+    	var object 
+    	switch(indexObject){
+    		case 0:
+	        object = getEscritorio(currentX+100,game.world.height - 350)
+	        nextX= 300
+	        break
+	        case 1:
+	        object= getCuadro1(currentX,game.world.height - 550)
+	        nextX=140
+	        break
+	        case 2:
+	        object = getCuadro1(currentX,game.world.height - 600)
+	        nextX= 150
+	        break
+	        case 3:
+	        object = getCuadro3(currentX,game.world.height - 650)
+	        nextX= 250
+	        break
+	        case 4:
+	        object = getClock(currentX, game.world.height - 500)
+	        nextX=350
+	        break
+	        case 5:
+	        object = getArcade(currentX,game.world.height - 400)
+	        break
+        }
+        indexObject ++
+    	if(indexObject == 6){
+    		indexObject = -1
+    	}
+    	lastObject = object
     }
 
     function createPatter7(){
-        var clock = getClock(currentX, game.world.height - 500)
-        currentX +=350
-        var tele = getTele(currentX, game.world.height-380)
-        currentX+=300
-        var ariplane = getAirplane(currentX, game.world.height - 500)
-        currentX += 150
-        var table = getTable(currentX,game.world.height - 350)
-        currentX += 200
-        var clock = getClock(currentX, game.world.height - 500)
-        currentX +=300
-        var chair = getChair(currentX,game.world.height - 430)
-        currentX+=400
-        var cajonera = getCajonera(currentX,game.world.height - 300)
-        var lampara = getLampara(currentX, game.world.height - 400)
-        //currentX += 500
-
-        lastObject = cajonera
+    	var object 
+    	switch(indexObject){
+    		case 0:
+	        object = getClock(currentX, game.world.height - 500)
+	        nextX=350
+	        break
+	        case 1:
+	        object = getTele(currentX, game.world.height-380)
+	        nextX=300
+	        break
+	        case 2:
+	        object = getAirplane(currentX, game.world.height - 500)
+	        nextX= 150
+	        break
+	        case 3:
+	        object = getTable(currentX,game.world.height - 350)
+	        nextX= 200
+	        break
+	        case 4:
+	        object = getClock(currentX, game.world.height - 500)
+	        nextX=300
+	        break
+	        case 5:
+	        object = getChair(currentX,game.world.height - 430)
+	        nextX=400
+	        break
+	        case 6:
+	        object = getCajonera(currentX,game.world.height - 300)
+	        var lampara = getLampara(currentX, game.world.height - 400)
+	        break
+        }
+        indexObject ++
+    	if(indexObject == 7){
+    		indexObject = -1
+    	}
+    	lastObject = object
     }
     
     function createObjects(){
@@ -1329,6 +1533,138 @@ var zoe = function(){
         createParticles('text',8)
                 
     }
+
+    function createInitialObjects(){
+    	for(var i =0; i < 2; i ++){
+    		var o = getChair(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getClock(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getCajonera(-1000,0)
+    		o.visible = false
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getTable(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getAirplane(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getTele(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getEscritorio(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getCuadro1(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getCuadro2(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getCuadro3(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getArcade(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getCajonera(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getBocina(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getLampara(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getLibrero(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getBurro(-1000,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	for(var i =0; i < 2; i ++){
+    		var o = getApple(0,0)
+    		
+    		o.body.data.shapes[0].sensor=true;
+    	}
+
+    	dissapeadInit(chairGroup)
+        dissapeadInit(clockGroup)
+        dissapeadInit(tableGroup)
+        dissapeadInit(arcadeGroup)
+        dissapeadInit(bocinaGroup)
+        dissapeadInit(burroGroup)
+        //updateGroup(ironGroup,delta)
+        dissapeadInit(cuadro1Group)
+        dissapeadInit(cuadro2Group)
+        dissapeadInit(cuadro3Group)
+        dissapeadInit(cajoneraGroup)
+        dissapeadInit(escritorioGroup)
+        dissapeadInit(lamparaGroup)
+        dissapeadInit(libreroGroup)
+        dissapeadInit(mesaGroup)
+        dissapeadInit(teleGroup)
+        dissapeadInit(appleGroup)
+        dissapeadInit(ariplaneGroup)
+    }
+
+    function dissapeadInit(group){
+    	for(var i =0; i < group.length; i++){
+    		group.children[i].visible = false
+    	}
+    }
+
+
 
     function create(){
     	
@@ -1370,6 +1706,7 @@ var zoe = function(){
         spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createBackground()
+        //createInitialObjects()
         createPlayer()
 
         createPointsBar()
@@ -1386,7 +1723,7 @@ var zoe = function(){
     
     return {
         assets: assets,
-        name: "zoe",
+        name: "zoeKids",
         create: create,
         preload: preload,
         update: update
