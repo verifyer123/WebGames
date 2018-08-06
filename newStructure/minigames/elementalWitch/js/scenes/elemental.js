@@ -551,7 +551,6 @@ var elemental = function(){
 					var mask=enemiesGroup.children[checkMask];
 				}
 			}
-            
             if(mask){
 				particleHit.x = witch.centerX+50 
 				particleHit.y = witch.centerY+150
@@ -568,7 +567,10 @@ var elemental = function(){
             }else{
 				particleWrong.x = witch.centerX+50 
 				particleWrong.y = witch.centerY+150
-				particleWrong.start(true, 1200, null, 2)
+				particleWrong.start(true, 1200, null, 2)		
+//				mask.anim.setAnimationByName(0, "win", false).onComplete = function(){
+//					mask.anim.setAnimationByName(0, "idle", true);
+//				};
 			}
 			game.time.events.add(600,function(){
 				witch.canAttack = true;
