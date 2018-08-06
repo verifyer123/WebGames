@@ -212,6 +212,20 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">brick.png</key>
+            <key type="filename">brick2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,11,32,22</rect>
+                <key>scale9Paddings</key>
+                <rect>16,11,32,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">button1.png</key>
             <key type="filename">button2.png</key>
             <struct type="IndividualSpriteSettings">
@@ -249,19 +263,6 @@
                 <rect>128,48,257,96</rect>
                 <key>scale9Paddings</key>
                 <rect>128,48,257,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">container.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>25,27,49,54</rect>
-                <key>scale9Paddings</key>
-                <rect>25,27,49,54</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -331,19 +332,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">result_container.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>45,27,89,54</rect>
-                <key>scale9Paddings</key>
-                <rect>45,27,89,54</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">sky.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -410,6 +398,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../../../../../Downloads/MagicGate/container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>29,27,59,54</rect>
+                <key>scale9Paddings</key>
+                <rect>29,27,59,54</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../../../../../../Downloads/MagicGate/result_container.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,27,89,54</rect>
+                <key>scale9Paddings</key>
+                <rect>45,27,89,54</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -418,20 +432,22 @@
             <filename>button2.png</filename>
             <filename>clock.png</filename>
             <filename>clouds.png</filename>
-            <filename>container.png</filename>
             <filename>desktop.png</filename>
             <filename>gate.png</filename>
             <filename>grass.png</filename>
             <filename>life_box.png</filename>
             <filename>minus.png</filename>
             <filename>plus.png</filename>
-            <filename>result_container.png</filename>
             <filename>sky.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
             <filename>tower.png</filename>
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>../../../../../../../../Downloads/MagicGate/container.png</filename>
+            <filename>../../../../../../../../Downloads/MagicGate/result_container.png</filename>
+            <filename>brick.png</filename>
+            <filename>brick2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

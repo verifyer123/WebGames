@@ -414,7 +414,7 @@ var mathRun = function(){
                 }
             }
 
-            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 5){
+            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10){
                 
                 newPath()
                 coinCounter++
@@ -441,7 +441,7 @@ var mathRun = function(){
                 }
             }
             
-            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 5){
+            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 30){
                 tutoPath()
             }
         }
@@ -491,7 +491,6 @@ var mathRun = function(){
                     game.add.tween(hand).to({alpha:0},250,Phaser.Easing.linear,true).onComplete.add(function(){
                         hand.animations.stop()
                         hand.destroy()
-                        boardGroup.forEachAlive(fadeOut, this)
                     })
                 }
             }
@@ -778,7 +777,7 @@ var mathRun = function(){
         coinsGroup.rand = getRand(2,5, 0)
         coinsGroup.delay = 150
     }
-    
+     
     function createEnemies(){
         
         enemiesGroup = game.add.group()
@@ -794,7 +793,7 @@ var mathRun = function(){
         enemiesGroup.setAll('visible', false)
         enemiesGroup.setAll('.body.allowGravity', true)
         enemiesGroup.setAll('.body.bounce.y', 0.4)
-        enemiesGroup.canThrow = true
+        enemiesGroup.canThrow = false
         enemiesGroup.rand = getRand(2,5, 0)
         sceneGroup.add(landGroup)
         

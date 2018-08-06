@@ -54,7 +54,7 @@ var oona = function(){
             {   name: "right",
                 file: soundsPath + "rightChoice.mp3"},
             {   name: "onnaSong",
-                file: soundsPath + 'songs/wormwood.mp3'}
+                file: soundsPath + 'songs/cooking_in_loop.mp3'}
         ],
         spritesheets:[
             {   name: "coin",
@@ -78,41 +78,39 @@ var oona = function(){
         ]
     }
 
-    var lives = null;
-    var sceneGroup = null;
-    var background;
-    var gameActive = true;
     var gameIndex = 98;
-    var onnaSong;
-    var oonaAvatar;
-    var cap;
-    var gameTime;
-    var board;
-    var recipeGroup;
-    var toolsGroup;
-    var okBtn;
-    var okBtnImg;
-    var toolsTkn = ['mixTkn','pourTkn','cutTkn','ovenTkn','roastTkn','friedTkn'];
-    var orders = ['mix','pour','cut','oven','roast','fried'];
-    var aux;
-    var storePos;
-    var correctAnswer = [0,1,2,3,4,5];
-    var inputAnswer = [];
-    var animations = ['MIX', 'PERCOLATE', 'CUT', 'BAKE', 'STEW', 'FRY', 'LOSE'];
-    var toolsArray = [];
-    var points;
-    var levelZero;
-    var levelZeroRecipe;
-    var levelZeroIndex;
-    var lzChangeHand;
-    var tweenSwipe;
-    var particleCorrect;      
-    var particleWrong;
-    var hand;
+    var lives;
+    var sceneGroup = null;
     var tutoGroup;
     var heartsGroup = null;
     var pointsBar;
     var coin;
+    var particleCorrect;      
+    var particleWrong;
+    var hand;
+
+    var onnaSong;
+    var oonaAvatar;
+    var board;
+    var okBtn;
+    var okBtnImg;
+    var toolsTkn = ['mixTkn','pourTkn','cutTkn','ovenTkn','roastTkn','friedTkn'];
+    var orders = ['mix','pour','cut','oven','roast','fried'];
+    var animations = ['mix', 'percolate', 'cut', 'bake', 'stew', 'fry', 'lose'];
+    var buttosGroup;
+    var recipeGroup;
+    var answerGroup;
+    var tweenSwipe;
+    var tweenTime;
+    var food;
+    var foodIndex;
+    var totalRecipeElements;
+    var round;
+    var buttonWidthWithSpace = 73.5;
+    var levelZero;
+    var levelZeroIndex;
+    var correctAnswer = [0,1,2,3,4,5];
+    var roundTime;
     
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -122,23 +120,16 @@ var oona = function(){
 
         game.stage.backgroundColor = "#ffffff";
         lives = 3;
-        aux = 0;
-        storePos = 0;
-        cap = 2;
-        gameTime = 15000;
-        inputAnswer = [cap];
-        toolsArray = [];
-        gameActive = false;
-        points = 0;
+        totalRecipeElements = 2;
+        round = 0;
         levelZero = true;
-        levelZeroRecipe = [];
         levelZeroIndex = 0;
-        lzChangeHand = false;
+        roundTime = 15000;
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
 
-        loadSounds();                               //Cargar siempre los sonidos
+        loadSounds();
 
     }
 
@@ -174,10 +165,7 @@ var oona = function(){
 
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height;
-
-        game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
-        gameActive = true;
-        startTime();
+        startTutorial();
     }
 
     function update() {
@@ -323,483 +311,103 @@ var oona = function(){
         return particle;
     }
 
-    function changeImage(index,group){
-        for (var i = 0;i< group.length; i ++){
-            group.children[i].alpha = 0
-            if( i == index){
-                group.children[i].alpha = 1
-            }
-        }
-    }
-
-    function releaseButton(obj){
-        
-        obj.parent.children[1].alpha = 1
-    }
-
     function createBackground(){
         var fondo = sceneGroup.create(game.world.centerX, game.world.centerY, 'atlas.oona', "fondo");
-        fondo.anchor.setTo(0.5, 0.5)
-        fondo.width = game.world.width
-        fondo.height = game.world.height    
+        fondo.anchor.setTo(0.5, 0.5);
+        fondo.width = game.world.width;
+        fondo.height = game.world.height;    
         
         var bricks = sceneGroup.create(game.world.centerX, game.world.centerY, "bricks");
-        bricks.anchor.setTo(0.5, 0.5)
-        bricks.width = game.world.width 
-        bricks.height = game.world.height * 0.5
+        bricks.anchor.setTo(0.5, 0.5);
+        bricks.width = game.world.width; 
+        bricks.height = game.world.height * 0.5;
         
-        board = sceneGroup.create(0,0,'atlas.oona','board')
-        board.scale.setTo(0.9, 0.9)
-        board.anchor.setTo(0.5, 0.5)
-        board.x = game.world.centerX - 40;// - 65 (sin valor);
-        board.y = game.world.centerY - board.height * 0.45
+        board = sceneGroup.create(0,0,'atlas.oona','board');
+        board.scale.setTo(0.9, 0.9);
+        board.anchor.setTo(0.5, 0.5);
+        board.x = game.world.centerX;
+        board.y = game.world.centerY - board.height * 0.52;
     }
 
-    function setExplosion(obj){
-        
-        var posX = obj.x
-        var posY = obj.y
-        
-        if(obj.world){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-        var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xffffff)
-        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-        rect.alpha = 0
-        rect.endFill()
-        sceneGroup.add(rect)
-        
-        game.add.tween(rect).from({alpha:1},500,"Linear",true)
-        
-        var exp = sceneGroup.create(0,0,'atlas.oona','cakeSplat')
-        exp.x = posX
-        exp.y = posY
-        exp.anchor.setTo(0.5,0.5)
-
-        exp.scale.setTo(6,6)
-        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
-        particlesNumber = 8
-            
-        var particlesGood = game.add.emitter(0, 0, 100);
-
-        particlesGood.makeParticles('atlas.oona','smoke');
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
-
-        particlesGood.x = posX;
-        particlesGood.y = posY;
-        particlesGood.start(true, 1000, null, particlesNumber);
-
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
-        
-    }
-
-    function inputButton(obj){
-
-        if(gameActive && obj.pressed == false){
-            inputAnswer[aux] = obj.parent.number
-            
-           if(aux == cap)
-            {
-                gameActive = false
-            }
-
-            obj.pressed = true
-        }
-    }
-    
-    function fixLocation(item) {
-    
-        sound.play("drag")
-
-        if(levelZero){
-            if(item.parent.number != correctAnswer[levelZeroIndex]){
-                if (item.x >= 90 || item.x <= 90) {
-                    item.x = 0;
-                }
-                item.y = 0;
-                return;
-            }else if(levelZeroIndex<cap-1){
-                levelZeroIndex++;
-                changeHand(levelZeroIndex);
-            }else{
-                hand.x = okBtn.x;
-                hand.y = okBtn.y;
-                tweenSwipe.stop();
-                okBtnImg.events.onInputUp.add(cook);
-            }
-        }
-        
-        if (item.x >= 90 || item.x <= 90) {
-            item.x = 0;
-        }
-        if(item.y <= -40){
-            item.y = 0;
-        }else if(item.y >= 40){
-            item.y = 120;
-            item.x = item.parent.number * -73 + storePos;       
-            item.input.draggable = false;
-            storePos += 73;
-            aux++;
-        }
-    }
-    
-    function drawAxis(){
-        
-    }
-
-    function createTimeBar(){        
-        timeGroup = game.add.group()
-        timeGroup.x = game.world.centerX
-        timeGroup.y = 97
-        sceneGroup.add(timeGroup)
-        
-        var clock = timeGroup.create(0, 0, 'atlas.oona','clock')
-        clock.y = - clock.height * 0.3
-        clock.anchor.setTo(0.5,0.5)
-        
-        var timeBar = timeGroup.create(0, 0, 'atlas.oona','bar')
-        timeBar.scale.setTo(11.5, 0.7)
-        timeBar.anchor.setTo(0,0.5)
-        timeBar.x = clock.x - clock.width * 0.38
-        timeBar.y = clock.y + 20
-        timeGroup.time = timeBar
-
-    }
-    
-    function startTime(){
-        
-        toolsGroup.alpha = 1;
-        var timer = 400;
-
-        enterRecipe();
-        okBtnImg.inputEnabled = false;
-
-        for (var i = 0; i < toolsGroup.length; i++)
-        {
-            popObject(toolsGroup.children[i], timer);
-            toolsGroup.children[i].image.pressed = false;
-            timer += 250;
-        }
-        
-        game.time.events.add(timer, function() 
-        {
-            game.add.tween(recipeGroup).to({alpha: 1}, 200, Phaser.Easing.linear, true)
-            gameActive = true;
-            okBtnImg.inputEnabled = true;
-
-            if(!levelZero){
-                timeGroup.tween = game.add.tween(timeGroup.time.scale).to({x: 0}, gameTime, Phaser.Easing.linear, true)
-            
-                timeGroup.tween.onComplete.add(function() 
-                {
-                    oonaAvatar.setAnimationByName(0, 'LOSE', false);
-                    endGame(true);
-                    gameActive = false;
-                });
-            }
-        }, this);
-    }
-    
-    function endGame(timeEnded){
-        
-        if(timeGroup.tween != null){
-            timeGroup.tween.stop();
-        }
-        okBtnImg.inputEnabled = false;
-        
-        if(timeEnded)
-        {
-            //oonaAvatar.setAnimationByName(0, "LOSE", false)
-            particleWrong.x = oonaAvatar.x + 150;
-            particleWrong.y = oonaAvatar.y - oonaAvatar.height/2;
-            particleWrong.start(true, 1000, null, 5);
-            if(!levelZero){
-                missPoint();
-            }
-        }
-        else
-        {
-            oonaAvatar.setAnimationByName(0, "WIN", false)
-            //addPoint(1);
-            particleCorrect.x = oonaAvatar.x + 150;
-            particleCorrect.y = oonaAvatar.y - oonaAvatar.height/2;
-            particleCorrect.start(true, 1000, null, 5);
-            if(levelZero){
-                levelZero = false;
-            }else{
-                points++;
-                addCoin(oonaAvatar);
-            }
-        }
-        
-        oonaAvatar.addAnimationByName(0, "IDLE", true);
-        
-        gameActive = false;
-        if(lives>0){   
-            game.time.events.add(900, function() 
-            {
-                reloadElements()
-            },this)
-        }
-    }
-    
-    function reloadElements(){
-        
-        for(var r = 0; r < cap; r++)
-        {
-            inputAnswer[r] = null
-        }
-        
-        aux = 0
-        storePos = 0
-        
-        toolsGroup.destroy()
-        tools()
-        recipeGroup.destroy()
-        recipe()
-        
-        gameActive = true
-        
-        game.add.tween(timeGroup.time.scale).to({x: 12}, 300, Phaser.Easing.linear, true)
-        startTime()
-    }
-        
     function createOona(){
-        oonaAvatar = game.add.spine(game.world.centerX, game.world.height, "oonaAvatar")
-        oonaAvatar.scale.setTo(0.9, 0.9)
-        oonaAvatar.setAnimationByName(0, "IDLE", true)
-        oonaAvatar.setSkinByName("normal")
-        sceneGroup.add(oonaAvatar)
+        oonaAvatar = game.add.spine(game.world.centerX - 35, game.world.height, "oonaAvatar");
+        oonaAvatar.scale.setTo(0.9, 0.9);
+        oonaAvatar.setAnimationByName(0, "idle", true);
+        oonaAvatar.setSkinByName("normal");
+        sceneGroup.add(oonaAvatar);
+        var slot = getSpineSlot(oonaAvatar, "empty");
+        var imgFood = game.add.sprite(0,0, 'atlas.oona', "food_1");
+        imgFood.anchor.setTo(0.5,0.5);
+        slot.add(imgFood);
  
-        okBtn = game.add.group()
-        okBtn.x = game.world.centerX + 250;// 200;
-        okBtn.y = game.world.height/2 - 38;// - 85;
-        sceneGroup.add(okBtn)
+        okBtn = game.add.group();
+        okBtn.x = game.world.centerX + 200;
+        okBtn.y = game.world.height/2 + 38 ;// - 85;
+        sceneGroup.add(okBtn);
 
-            okBtnImg = okBtn.create(0, 0, 'atlas.oona', 'ok_01');//'okBtn')
-            okBtnImg.scale.setTo(0.4, 0.4);
-            okBtnImg.anchor.setTo(0.5, 0.5);
-            okBtnImg.inputEnabled = true;
-            okBtnImg.pressed = false;
-            //okBtnImg.events.onInputUp.add(cook)
-        
-            // if(localization.getLanguage() == 'EN')
-            // {
-            //     text = 'OK!'
-            // }
-            // else
-            // {
-            //     text = '¡OK!'
-            // }
-
-            // fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-            // okText = new Phaser.Text(sceneGroup.game, 0, 0, text, fontStyle)
-            // okText.x = okBtnImg.x
-            // okText.y = okBtnImg.y
-            // okText.anchor.setTo(0.5, 0.5)
-            // okBtn.add(okText)
-        
-        okBtnImg.events.onInputDown.add(function(){
-        
-            game.add.tween(okBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(okBtn.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true)
-            })
-            sound.play("pop")
-        })
+        okBtnImg = okBtn.create(0, 0, 'atlas.oona', 'ok_01');
+        okBtnImg.scale.setTo(0.35, 0.35);
+        okBtnImg.anchor.setTo(0.5, 0.5);
 
         hand = game.add.sprite(0, 0, "hand");
         hand.animations.add('hand');
         hand.animations.play('hand', 24, true);
         hand.alpha = 0;
     }
-    
-    function cook(){
-        //console.log("Prees ok button")
 
-        if(levelZero){
-            game.add.tween(hand).to( { alpha: 0 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
-        }
-
-        for(var t =0; t < 6; t ++){
-            toolsArray[t].inputEnabled = false
-        }
-
-        if(timeGroup.tween!=null){
-            timeGroup.tween.stop();
-        }
-        var timer = 500;
-        var fin = true;
-        okBtnImg.pressed = true;
-        okBtnImg.inputEnabled = false;
-       
-        if(aux == cap){
-            gameActive = false;
-            for (var i = 0; i < cap; i++)
+    function addClickButtonOK(){
+        okBtnImg.inputEnabled = true;
+        okBtnImg.events.onInputDown.add(function(){
+        
+            game.add.tween(okBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
             {
-                if(inputAnswer[i] == correctAnswer[i]){
-                    animateOona(animations[inputAnswer[i]], timer)
-                    colorTools(timer, i, 0x00ff00) 
-                    timer += 1000
-                    fin = false
-                }
-                else {
-                    animateOona(animations[6], timer)
-                    colorTools(timer, i, 0xF63A3A)
-                    timer += 1000
-                    fin = true
-                    break;
-                }
-            }
-            animateOona('', timer)
-            timer += 500    
-        }else {
-            animateOona(animations[6], timer)
-            fin = true
-        }
-        
-         game.time.events.add(timer,function(){
-             endGame(fin)
-         },this)
-        
+                game.add.tween(okBtn.scale).to({x: 1, y: 1}, 200, Phaser.Easing.linear, true);
+            })
+            sound.play("pop");
+        })
     }
-    
-    function animateOona(action, delay){
-        
-        game.time.events.add(delay,function(){
-            
-            switch(action){
-                case 'MIX':
-                    sound.play("right")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                case 'PERCOLATE':
-                    sound.play("right")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                case 'CUT':
-                    sound.play("right")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                case 'BAKE':
-                    sound.play("right")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                case 'STEW':
-                    sound.play("right")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                case 'FRY':
-                    sound.play("right")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                case 'LOSE':
-                    sound.play("error")
-                    oonaAvatar.setAnimationByName(0, action, false)
-                    break;
-                default:
-                    oonaAvatar.setAnimationByName(0, 'IDLE', true)
-                    break;
-            }
-        },this)
-    }
-    
-    function colorTools(delay, pos, color){
-        
-        game.time.events.add(delay,function(){
-            if(toolsGroup.children[inputAnswer[pos]]!=null){
-                toolsGroup.children[inputAnswer[pos]].image.tint = color;
-            }
-            
-            game.add.tween(toolsGroup.children[inputAnswer[pos]].image.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
-            {
-                game.add.tween(toolsGroup.children[inputAnswer[pos]].image.scale).to({x: 0.9, y: 0.9}, 200, Phaser.Easing.linear, true)
-            });
-        },this)
-        
-    }
-    
-    function recipe(){
-        recipeGroup = game.add.group();
-        recipeGroup.x = game.world.centerX - board.width * 0.42;//0.35;
-        recipeGroup.y = board.y - board.height * 0.3;
-        sceneGroup.add(recipeGroup);
-    }
-    
-    function enterRecipe(){
-        
-        recipeGroup.removeAll()
-        Phaser.ArrayUtils.shuffle(correctAnswer);
-        recipeGroup.alpha = 0
 
-        if(!levelZero){
-            if(!levelZero && points % 4 == 0 && cap < 6){
-                cap++;
-            }else if(cap >= 6){
-                gameTime -= 1000;
-            }
-        }else{
-            levelZeroIndex = 0;
-            changeHand(0);
-        }
+    function getSpineSlot(spine, slotName){
         
-        for(var r = 0; r < cap; r++)
-        {
-            var steps = game.add.group()
-            recipeGroup.add(steps)
-                        
-            var stepsImg = steps.create(0, 0, 'atlas.oona', orders[correctAnswer[r]])
-            stepsImg.scale.setTo(0.9, 0.9)
-            stepsImg.anchor.setTo(0.5, 0.5)
-            
-            steps.x = r * 70;
+        var slotIndex;
+        var n = spine.skeletonData.slots.length;
+        for(var index = 0; index < n; index++){
+            var slotData = spine.skeletonData.slots[index];
+            if(slotData.name === slotName){
+                slotIndex = index;
+            }
+        }
+
+        if (slotIndex){
+            return spine.slotContainers[slotIndex];
         }
     }
-     
-    function tools(){
-        toolsArray = []
-        toolsGroup = game.add.group()
-        toolsGroup.x =  game.world.centerX - board.width * 0.46;//0.38;
-        toolsGroup.y = board.y - 6
-        sceneGroup.add(toolsGroup)
-        
-         for(var t = 0; t < 6; t++)
-        {
-            var tool = game.add.group()
-            tool.alpha = 0
-            toolsGroup.add(tool)
-            
-            var toolImg = tool.create(0, 0, 'atlas.oona', toolsTkn[t])
-            toolImg.anchor.setTo(0.5, 0.5)
-            toolImg.scale.setTo(0.9, 0.9)
-            toolImg.inputEnabled = true
-            toolImg.input.enableDrag()
-            toolImg.input.enableSnap(40, 40, false, true);
-            toolImg.events.onDragStop.add(fixLocation);
-            //toolImg.events.onDragStart.add(onDragStart, this)
-            //toolImg.events.onDragUpdate.add(onDragUpdate, this)
-            toolImg.pressed = false
-            toolImg.events.onInputUp.add(inputButton)
-            
-            tool.x = t * toolImg.width * 1.03
-            tool.number = t
-            tool.image = toolImg
-            tool.originPosX = tool.x
-            tool.originPosY = tool.y
 
-            toolsArray.push(toolImg)
-        }
+    function createTimeBar(){        
+        timeGroup = game.add.group();
+        timeGroup.x = game.world.centerX;
+        timeGroup.y = 97;
+        sceneGroup.add(timeGroup);
+        
+        var clock = timeGroup.create(0, 0, 'atlas.oona','clock');
+        clock.y = - clock.height * 0.3;
+        clock.anchor.setTo(0.5,0.5);
+        
+        var timeBar = timeGroup.create(0, 0, 'atlas.oona','bar');
+        timeBar.scale.setTo(11.5, 0.7);
+        timeBar.anchor.setTo(0,0.5);
+        timeBar.x = clock.x - clock.width * 0.38;
+        timeBar.y = clock.y + 20;
+        timeGroup.time = timeBar;
+
+    }
+
+    function getRand(){
+        var x = game.rnd.integerInRange(1, 4);
+        if(x === foodIndex)
+            return getRand();
+        else
+            return x;
     }
 
     function changeHand(index){
@@ -807,34 +415,316 @@ var oona = function(){
             if(tweenSwipe!= null){
                 tweenSwipe.stop();
             }
-            hand.x = toolsGroup.x + toolsGroup.getAt(correctAnswer[index]).x;
-            hand.y = toolsGroup.y + toolsGroup.getAt(correctAnswer[index]).y;
+            hand.x = buttosGroup.x + buttonWidthWithSpace*correctAnswer[index];
+            hand.y = buttosGroup.y;
             tweenSwipe = game.add.tween(hand).to( { y: hand.y + 100 }, 500, Phaser.Easing.Linear.InOut, true, 0, -1, true, 0);
+
+            for(rev=0; rev<buttosGroup.length; rev++){
+                if(buttosGroup.children[rev].number == correctAnswer[levelZeroIndex]){
+                    activateButton(buttosGroup.children[rev]);
+                }
+            }
         }
     }
-    
-    // function onDragUpdate(obj, pointer, x, y) {
-    //     var option = obj.parent
-    //     obj.x = 0
-    //     obj.y = 0
-    //     option.x = x - option.deltaX
-    //     option.y = y - option.deltaY
-    // }
-    
-    // function onDragStart(obj, pointer) {
-    //     var option = obj.parent
-    //     option.deltaX = pointer.x - obj.world.x
-    //     option.deltaY = pointer.y - obj.world.y
-    // }
 
-    function popObject(obj,delay){
+    function createAnswers(){
+        buttosGroup.removeAll();
+        answerGroup.removeAll();
+        answerGroup.alpha = 1;
+        sound.play("cut");
+        for(var ans = 0 ; ans < toolsTkn.length; ans++){
+            var buttonAns = buttosGroup.create(buttonWidthWithSpace*ans,0,'atlas.oona', toolsTkn[ans]);
+            buttonAns.scale.setTo(0.9, 0);
+            if(!levelZero){
+                buttonAns.inputEnabled = true;
+                buttonAns.input.enableDrag();
+                buttonAns.input.enableSnap(40, 40, false, true);  
+            }
+            buttonAns.number = ans;
+            buttonAns.originPosX = buttonAns.x;
+            buttonAns.originPosY = buttonAns.y;
+            buttonAns.parentColocation = "original";
+            buttonAns.events.onDragStart.add(getFront);
+            buttonAns.events.onDragStop.add(fixLocation);
+            game.add.tween(buttonAns.scale).to( { y:0.9 }, 500, Phaser.Easing.Linear.InOut, true, 0, 0).onComplete.add(function(){
+                if(!levelZero){
+                    addClickButtonOK();
+                    okBtnImg.events.onInputUp.add(cook);
+                }
+            });
+        }        
+    }
+
+    function createSpaceQuestionAndAnswer(){
+        recipeGroup = game.add.group();
+        recipeGroup.x = game.world.centerX - board.width * 0.42;
+        recipeGroup.y = board.y - 135;
+        sceneGroup.add(recipeGroup);
+
+        buttosGroup = game.add.group();
+        buttosGroup.x = game.world.centerX - board.width * 0.45;
+        buttosGroup.y = board.y - 43;
+        sceneGroup.add(buttosGroup);
+
+        answerGroup = game.add.group();
+        answerGroup.x = game.world.centerX - board.width * 0.45;
+        answerGroup.y = board.y + 75;
+        sceneGroup.add(answerGroup);
+    }
+
+    function createQuestion(){
+        recipeGroup.scale.x = 0;
+        Phaser.ArrayUtils.shuffle(correctAnswer);
+        recipeGroup.removeAll();
+        sound.play("cut");
+        for(var re = 0 ; re < totalRecipeElements; re++){
+            var recipe = recipeGroup.create(buttonWidthWithSpace*re,0,'atlas.oona', orders[correctAnswer[re]]);
+            recipe.scale.setTo(0.9, 0.9);
+            recipe.number = re;
+        }
+        game.add.tween(recipeGroup.scale).to( { x:1 }, 500, Phaser.Easing.Linear.InOut, true, 0, 0).onComplete.add(function(){
+            createAnswers();
+            if(levelZero){
+                if(levelZeroIndex==0){
+                    game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+                }
+                changeHand(levelZeroIndex);
+            }
+        });
+    }
+
+    function fixLocation(item) {
+        if(buttosGroup.length>0 && (item.y >=80 && item.y<=200)){
+            sound.play("drag");
+            buttosGroup.remove(item);
+            answerGroup.add(item);
+            colocationAnswer(item);
+            item.parentColocation = "answer";
+            if(levelZero && levelZeroIndex<totalRecipeElements-1){
+                levelZeroIndex++;
+                changeHand(levelZeroIndex);
+            }else if(levelZero && levelZeroIndex==totalRecipeElements-1){
+                tweenSwipe.stop();
+                answerGroup.children[answerGroup.length-1].inputEnabled = false;
+                hand.x = okBtn.x;
+                hand.y = okBtn.y;
+                addClickButtonOK();
+                okBtnImg.events.onInputUp.add(cook);
+            }
+        }else if(item.parentColocation =="answer" && (item.y >=-200 && item.y<=-40)){
+            answerGroup.remove(item);
+            buttosGroup.add(item);
+            colocationOriginal(item);
+            item.parentColocation = "original";
+            for(var g=0; g<answerGroup.length; g++){
+                answerGroup.children[g].x = buttonWidthWithSpace*g;
+            }
+        }else if(item.parentColocation == "original"){
+            colocationOriginal(item);
+        }else{
+            colocationAnswer(item);
+        }
+    }
+
+    function getFront(item){
+        item.bringToTop();
+        if(item.parentColocation == "answer"){
+            sceneGroup.bringToTop(answerGroup);
+        }else if(item.parentColocation == "original"){
+            sceneGroup.bringToTop(buttosGroup);
+        }
+    }
+
+    function colocationOriginal(itemCol){
+        itemCol.x = itemCol.originPosX;
+        itemCol.y = itemCol.originPosY;
+        itemCol.newPos = -1;
+    }
+
+    function colocationAnswer(itemCol){
+        if(itemCol.parentColocation =="answer"){
+            itemCol.x = buttonWidthWithSpace*(itemCol.newPos);
+            itemCol.y = 0;
+        }else{
+            itemCol.x = buttonWidthWithSpace*(answerGroup.length-1);
+            itemCol.y = 0;
+            itemCol.newPos = answerGroup.length-1;
+        }
+    }
+
+    function startTutorial(){
+        startTime();
+    }
+
+    function cook(){
+        if(levelZero){
+            game.add.tween(hand).to( { alpha:0 }, 300, Phaser.Easing.Linear.InOut, true, 0, 0);
+            levelZero = false;
+        }
+
+        for(var ac = 0 ; ac < buttosGroup.length; ac++){
+            buttosGroup.children[ac].inputEnabled = false;
+        }
+        for(var an = 0 ; an < answerGroup.length; an++){
+            answerGroup.children[an].inputEnabled = false;
+        }
+        okBtnImg.events.onInputUp.removeAll();
+
+        if(tweenTime!=null){
+             tweenTime.stop();
+        }
+        var timer = 0;
+        okBtnImg.inputEnabled = false;
+        var result = false;
+       
+        for (var i = 0; i < totalRecipeElements; i++){
+            if(answerGroup.length>0 && answerGroup.length<=totalRecipeElements && answerGroup.children[i].number == correctAnswer[i]){
+                animateOona(animations[correctAnswer[i]], timer);
+                colorTools(timer, i, 0x00ff00);
+                timer += 1000;
+            }
+            else {
+                result = true;
+                animateOona(animations[6], timer);
+                if(answerGroup.length>totalRecipeElements){
+                    for (var it = 0; it < totalRecipeElements; it++){
+                        if(answerGroup.children[it].number != correctAnswer[it]){
+                            colorTools(timer, it, 0xF63A3A);
+                        }else if(answerGroup.children[it].number == correctAnswer[it]){
+                            colorTools(timer, it, 0x00ff00);
+                        }
+                    }
+                    for(var t=totalRecipeElements; t<answerGroup.length; t++){
+                        colorTools(timer, t, 0xF63A3A);
+                    }
+                }else{
+                    colorTools(timer, i, 0xF63A3A);
+                }
+                timer += 1000;
+                break;
+            }
+        }
+        
+        game.time.events.add(timer,function(){
+            endRound(result);
+        },this);
+    }
+
+    function endRound(wasLost){
+        
+        if(timeGroup.tween != null){
+            timeGroup.tween.stop();
+        }
+
+        game.add.tween(answerGroup).to( { alpha : 0 }, 500, Phaser.Easing.Linear.InOut, true, 0, 0);
+
+        if(wasLost){
+            particleWrong.x = oonaAvatar.x + 150;
+            particleWrong.y = oonaAvatar.y - oonaAvatar.height/2;
+            particleWrong.start(true, 1000, null, 5);
+            if(!levelZero){
+                missPoint();
+            }
+        }else{
+            var slot = getSpineSlot(oonaAvatar, "empty");
+            foodIndex = getRand();
+            slot.children[0].loadTexture('atlas.oona', "food_"+foodIndex);
+            oonaAvatar.setAnimationByName(0, "good", false);
+            oonaAvatar.addAnimationByName(0, "idle", true);
+            particleCorrect.x = oonaAvatar.x + 150;
+            particleCorrect.y = oonaAvatar.y - oonaAvatar.height/2;
+            particleCorrect.start(true, 1000, null, 5);
+            //Subir numero de elementos de receta
+            if(totalRecipeElements == 2){
+                totalRecipeElements++;
+            }else{
+                round++;
+                if(round == 5){
+                    round = 0;
+                    totalRecipeElements++;
+                    if(totalRecipeElements==7){
+                        totalRecipeElements--;
+                        round = 4;
+                        //Bajar tiempo
+                        if(roundTime<=0){
+                            roundTime = 1;
+                        }else{
+                            roundTime-=750;
+                        }
+                    }
+                }
+            }
+            if(!levelZero){
+                addCoin(oonaAvatar);
+            }
+        }
+
+        game.time.events.add(500,function(){
+            startTime();
+        },this);
+    }
+
+    function activateButton(buttonToActive){
+
+        for(var ac = 0 ; ac < buttosGroup.length; ac++){
+            buttosGroup.children[ac].inputEnabled = false;
+        }
+
+        for(var an = 0 ; an < answerGroup.length; an++){
+            answerGroup.children[an].inputEnabled = false;
+        }
+
+        buttonToActive.inputEnabled = true;
+        buttonToActive.input.enableDrag();
+        buttonToActive.input.enableSnap(40, 40, false, true);
+    }
+
+    function animateOona(action, delay){
         
         game.time.events.add(delay,function(){
-            
-            sound.play("cut")
-            obj.alpha = 1
-            game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
+            if(action == 'lose'){
+                sound.play("error");
+            }else{
+                sound.play("right");
+            }
+            oonaAvatar.setAnimationByName(0, action, false);
+            if(action == 'lose'){
+                oonaAvatar.addAnimationByName(0, "idle", true);
+            }
+        },this);
+    }
+    
+    function colorTools(delay, pos, color){     
+        game.time.events.add(delay,function(){
+            if(answerGroup.length>0){
+                answerGroup.children[pos].tint = color;
+            }
         },this)
+        
+    }
+
+    function startTime(){
+        if(lives>0){
+            var timerInTime = 400 + (250*totalRecipeElements);
+            timeGroup.time.scale.x = 11.5;
+
+            createQuestion();
+            
+            game.time.events.add(timerInTime, function() 
+            {
+                if(!levelZero){
+                    tweenTime = game.add.tween(timeGroup.time.scale).to({x: 0}, roundTime, Phaser.Easing.linear, true);
+                
+                    tweenTime.onComplete.add(function(){
+                        oonaAvatar.setAnimationByName(0, 'lose', false);
+                        oonaAvatar.addAnimationByName(0, 'idle', true);
+                        okBtnImg.events.onInputUp.removeAll();
+                        okBtnImg.inputEnabled = false;
+                        endRound(true);
+                    });
+                }
+            }, this);
+        }
     }
 
     return {
@@ -858,20 +748,20 @@ var oona = function(){
             game.onResume.add(function(){
                 game.sound.mute = false;
             }, this);
-
-            sceneGroup.stage.backgroundColor = "#000000";
-            createBackground();    
+   
             onnaSong = game.add.audio('onnaSong');
             game.sound.setDecodedCallback(onnaSong, function(){
                 onnaSong.loopFull(0.6);
             }, this);
 
+            sceneGroup.stage.backgroundColor = "#000000";
+            createBackground(); 
+
             initialize();
-            tools();
-            recipe();
             createOona();
             createTimeBar();
-
+            createSpaceQuestionAndAnswer();
+            
             createHearts();
             createPointsBar();
             createCoin();

@@ -795,7 +795,7 @@ var clash = function(){
         startIndicator(initialDelay + delayBetween * (NUM_OPTIONS + 1))
 
         inputsEnabled = true
-
+        game.time.events.add(initialDelay + delayBetween * (NUM_OPTIONS + 1), iceStatus)
     }
     
     function createClashUI() {
@@ -1023,6 +1023,27 @@ var clash = function(){
             }
             obj.circle.inputEnabled = true
         })
+    }
+    
+    function iceStatus(){
+    
+        /*for(var i = 0; i < clashGroup.options.length; i++){
+            
+            var pic = clashGroup.options[i]
+            var pos = i + 1 >= clashGroup.options.length ? 0 : i + 1
+            var next = clashGroup.options[pos]
+               
+            game.add.tween(pic).to({x: next.x}, 1000, Phaser.Easing.Cubic.Out, true)
+        }*/
+        
+        for(var i = 0; i < clashGroup.options.length; i++){
+            
+            var pic = clashGroup.options[i]
+            if (pic.number !== clashGroup.answer) {
+                pic.number--
+                pic.text.setText(pic.number)
+            }        
+        }
     }
 
     return {

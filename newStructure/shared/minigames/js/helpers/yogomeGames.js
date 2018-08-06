@@ -21,7 +21,8 @@ var yogomeGames = function () {
 		"iMagicGames",
 		"optimizedGames",
 		"onGoingGames",
-		"aprendeGames"
+		"aprendeGames",
+        "michoMauGames"
 	]
 
 	function getGames(pathTag){

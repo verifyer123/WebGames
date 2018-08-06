@@ -25,7 +25,7 @@ var preloaderIntro = function(){
 
 		create: function(event){
             
-            game.stage.backgroundColor = "#d1196d"
+            //game.stage.backgroundColor = "#d1196d"
             
 			var a = game.add.sprite(game.world.centerX-142,game.world.centerY,"a")
 	        a.anchor.setTo(0.5)
@@ -79,7 +79,7 @@ var preloaderIntro = function(){
 	        signo.x = game.world.width + 50
 
 	        var maskGetIn = game.add.graphics(game.world.centerX+43,game.world.centerY+35)
-	        maskGetIn.beginFill(0xd1196d)
+	        maskGetIn.beginFill(backgroundColor)
 	        maskGetIn.drawRect(-50,-15,100,30)
 	        maskGetIn.endFill()
 	        //maskGetIn.scale.setTo(1,1)
@@ -105,7 +105,7 @@ var preloaderIntro = function(){
 	                        	setTimeout(function(){
 	                        		completeAnimation = true
 	                        		if(completeLoading){
-	                        			sceneloader.show("instructions")
+	                        			sceneloader.show(window.game.nextTitleScene)
 	                        		}
 	                        	},1000)
 	                        })

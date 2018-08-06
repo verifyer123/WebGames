@@ -1,0 +1,221 @@
+/*THEME*/
+body {
+    position: re;
+    margin: 0;
+    background-color: rgba(100,44,148,1);
+    width: 100%;
+    height: 100%;
+    font-family: 'Baloo Chettan', cursive;  
+}
+
+#container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-repeat: repeat;
+    background-size: contain;
+    background: url("../images/stars01.png"), linear-gradient(to bottom, rgba(100,44,148,1) 0%, rgba(27,20,100,1) 100%);
+
+}
+
+#header{
+    background-color: #2b8ecd;
+    text-align: left;
+}
+
+#header img{
+    margin-left: 5%;;
+}
+
+#header img{
+    width: 10%;
+    
+}
+
+h1{
+    position: absolute;
+    color: #FFF;
+    width: 60%;
+    right: 0;
+    font-size: 3vw;
+    text-align: center;
+}
+
+#selectgame{
+    position: absolute;
+    width: 50%;
+    right: 0%;
+    height: 90%;
+    overflow-y: scroll;
+    /*transform-style: preserve-3d;
+    transform: rotateY(-55deg) rotateZ(32deg);*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+#carrousel{
+    width: 100%;
+    height: 50%;
+    transform: translate(0,-25%);
+}
+
+.container-gameSelect{
+    position: relative;
+    width: 90%;
+    border-radius: 1vw; 
+    margin: 1vw;
+    right: 0;
+    overflow: hidden;  
+    
+}
+
+.container-gameSelect p{
+    line-height:0;
+    font-size: 20px;
+    color: #e3e3e3;
+    margin: 0;
+}
+
+.name-select{
+      
+    position: relative;
+    background: linear-gradient(to right, rgb(40, 153, 235) 40%, rgba(255,255,255,0.7) 100%);
+    font-size: 30px;
+    padding: 1vw;
+    border-radius: 1vw;   
+    overflow: hidden;
+    color:#fff;
+    
+}
+
+.bg-selectgGame{
+    
+    border-radius: 1vw;   
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 60%;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    
+}
+
+.left-section{
+    position: absolute;
+    width: 50%;
+}
+
+#bannerGame{
+    position: relative;
+    width: 100%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top:20%;
+    
+}
+
+#bannerGame img{
+    width: 80%;
+    border-radius: 1vw;
+    box-shadow: 10px 10px 10px rgba(0,0,0,0.3);
+/*    transform: skew(10deg,-40deg) scaleX(0.6);*/   
+}
+
+/*ButtonSTART*/
+
+#StartGame{
+    color: #FFF;
+    font-family: "Gotham Black";
+    font-size: 2vw;
+    position: relative;
+    text-align: center;
+    width: 90%;
+    background-image: url("../images/button.png");
+    padding: 5%;
+    margin-top:5%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    z-index: 1;
+    
+}
+
+/*CHART*/
+.wrapper canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+    background-color:rgba(250,250,250,0.8);
+}
+
+#radar{
+    position: absolute;
+    top: 50%;
+    left:5%;
+    width: 35%;
+    padding: 1vw;
+    background-image: url("../images/glooberadar.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    
+}
+
+footer{
+    position: absolute;
+    width: 100%;
+    height: 10%;
+    bottom: 0;
+    background-color: #2b8ecd;
+    z-index: 0;
+    color: white;
+    
+    display: flex;
+    
+}
+
+.left-footer{
+    position: relative;
+    width: 50%;
+    margin-left: 5%;
+
+    
+}
+
+.left-footer p{
+    float: left;
+    width: 30%;
+    
+}
+
+.left-footer img{
+    width: 20%;
+    margin-left: 5%;
+    transform: translate(0,20%);
+}
+
+.rigth-footer{
+    position: relative;
+    width: 50%;
+    margin-left: 5%;
+
+}
+.rigth-footer p{
+    float: left;
+    width: 20%;
+}
+
+.rigth-footer img{
+    width: 20%;
+    margin-left: 0%;
+    transform: translate(0,10%);
+}
+

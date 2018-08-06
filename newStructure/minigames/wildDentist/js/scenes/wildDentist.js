@@ -196,10 +196,10 @@ var wildDentist = function(){
             incrementType = 0.04;
             timeParticles = 650;
         }else{
-            speedMove = [2.5,1.0,1.7];
-            minSpeed = 1.0;
-            maxSpeed = 2.5;
-            incrementType = 0.1;
+            speedMove = [1.3,0.8,1.1];
+            minSpeed = 0.8;
+            maxSpeed = 1.3;
+            incrementType = 0.08;
             timeParticles = 500;
         }
         tutorial = true;
@@ -720,57 +720,34 @@ var wildDentist = function(){
         container.y = game.height - container.height + 10;
         container.width = game.width;
         
-        var square = sceneGroup.create(0,0,"atlas.game","brush");
-        square.y = game.height - square.height/2 - 10;
-        square.x = square.width;
-        square.anchor.setTo(0.5,0.5);
-        buttonsSquare.push(square);
-
-        square = sceneGroup.create(0,0,"atlas.game","floss");
-        square.y = game.height - square.height/2 - 10;
-        square.x = game.world.centerX + 5;
-        square.anchor.setTo(0.5,0.5);
-        buttonsSquare.push(square);
-
-        square = sceneGroup.create(0,0,"atlas.game","enjuague");
-        square.y = game.height - square.height/2 - 10;
-        square.x = game.width - square.width;
-        square.anchor.setTo(0.5,0.5);
-        buttonsSquare.push(square);
-
-        buttonsOptions[0] = sceneGroup.create(0,0,"atlas.game","brush_iso");
-        buttonsOptions[0].id = 0;
-        buttonsOptions[0].y = game.height - buttonsOptions[0].height/2 - 10;    
-        buttonsOptions[0].x = buttonsOptions[0].width;
-        buttonsOptions[0].posx = buttonsOptions[0].x;
-        buttonsOptions[0].posy = buttonsOptions[0].y;
-        buttonsOptions[0].inputEnabled = true;
-        buttonsOptions[0].anchor.setTo(0.3,0.65);
-        
-        buttonsOptions[1] = sceneGroup.create(0,0,"atlas.game","floss_iso");
-        buttonsOptions[1].id = 1;
-        buttonsOptions[1].y = game.height - buttonsOptions[1].height/2 - 10;    
-        buttonsOptions[1].x = game.world.centerX + 5;
-        buttonsOptions[1].anchor.setTo(0.5,0.5);
-        buttonsOptions[1].posx = buttonsOptions[1].x;
-        buttonsOptions[1].posy = buttonsOptions[1].y;
-        buttonsOptions[1].inputEnabled = true;
-        buttonsOptions[1].anchor.setTo(0.3,0.9);
-        buttonsSquare[1].tint = 0x909090;
-        buttonsOptions[1].tint = 0x909090; 
-        
-        buttonsOptions[2] = sceneGroup.create(0,0,"atlas.game","wash_iso");
-        buttonsOptions[2].id = 2;
-        buttonsOptions[2].y = game.height - buttonsOptions[2].height/2 - 10;   
-        buttonsOptions[2].x = game.width - buttonsOptions[2].width;
-        buttonsOptions[2].anchor.setTo(0.5,0.5);
-        buttonsOptions[2].anchor.setTo(0.5,0.5);
-        buttonsOptions[2].posx = buttonsOptions[2].x;
-        buttonsOptions[2].posy = buttonsOptions[2].y;
-        buttonsOptions[2].inputEnabled = true;
-        buttonsOptions[2].anchor.setTo(1.1,0.6); 
-        buttonsSquare[2].tint = 0x909090;
-        buttonsOptions[2].tint = 0x909090; 
+        var square;
+        var nameSquare = ["brush","floss","enjuague"];
+        var nameElement = ["brush_iso","floss_iso","wash_iso"];
+        var spaceQuare = 0.4;
+        var anchorX = [0.5,0.35,0.5];
+        var anchorY = [0.65,0.9,0.6];
+        var tintSquare = [0xffffff,0x909090,0x909090];
+        for(var sindex=0; sindex<3; sindex++){
+            square = sceneGroup.create(0,0,"atlas.game",nameSquare[sindex]);
+            square.y = game.height - square.height/2 - 10;
+            square.x = game.world.centerX * spaceQuare;
+            square.anchor.setTo(0.5,0.5);
+            buttonsSquare.push(square);
+            spaceQuare+=0.6;
+        }
+        for(var bindex = nameElement.length - 1; bindex>=0; bindex--){
+            spaceQuare-=0.6;
+            buttonsOptions[bindex] = sceneGroup.create(0,0,"atlas.game",nameElement[bindex]);
+            buttonsOptions[bindex].id = bindex;
+            buttonsOptions[bindex].y = game.height - buttonsOptions[bindex].height/2 - 10;    
+            buttonsOptions[bindex].x = game.world.centerX * spaceQuare;
+            buttonsOptions[bindex].posx = buttonsOptions[bindex].x;
+            buttonsOptions[bindex].posy = buttonsOptions[bindex].y;
+            buttonsOptions[bindex].inputEnabled = true;
+            buttonsOptions[bindex].anchor.setTo(anchorX[bindex],anchorY[bindex]);
+            buttonsSquare[bindex].tint = tintSquare[bindex];
+            buttonsOptions[bindex].tint = tintSquare[bindex];
+        }
 
         hand = game.add.sprite(0, 0, "hand");
         hand.animations.add('hand');
@@ -876,6 +853,10 @@ var wildDentist = function(){
         name: "wildDentist",
         preload:preload,
         update:update,
+        getGameData:function () {
+            var games = yogomeGames.getGames()
+            return games[gameIndex]
+        },
         create: function(event){
 
             sceneGroup = game.add.group();
