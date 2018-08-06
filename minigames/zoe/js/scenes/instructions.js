@@ -32,9 +32,6 @@ var instructions = function(){
         
         var game = sceneGroup.game
         var circleGroup = new Phaser.Group(sceneGroup.game)
-
-        /*var ins = circleGroup.create(0,0,'ins')
-        ins.anchor.setTo(0.5,0.5)*/
         
         var platform = 'click'
         
@@ -45,8 +42,6 @@ var instructions = function(){
         var instruction = circleGroup.create(0,0,'inst-'+ platform)
         instruction.anchor.setTo(0.5,0.5)
         
-        
-
         return circleGroup
     }
 
@@ -67,11 +62,11 @@ var instructions = function(){
             
             var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
-                sceneloader.show("zoe")
+                sceneloader.show("zoeKids")
             })
         })
 
-        amazing.setMixPanelTrack("zoe","enterGame")
+        amazing.setMixPanelTrack("zoeKids","enterGame")
         
     }
     
@@ -152,7 +147,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        amazing.setMixPanelTrack("zoe","loadGame")
+        amazing.setMixPanelTrack("zoeKids","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

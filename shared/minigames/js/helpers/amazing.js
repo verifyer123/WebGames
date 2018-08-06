@@ -14,6 +14,7 @@ var urlShare
 
 var url
 
+
 amazing.saveScore = function(score){
     console.log("Saving Score win...")
     var params = {
@@ -134,10 +135,11 @@ amazing.getGames = function(){
         {name:'Pin Dots',iconName:'pinDots',url:'http://amazingapp.mx/juegos/pinDots/',coupon : false,mixName:'pinDots',demo:false,id:31},//29
         {name:'Wonder Hood',iconName:'wonderHood',url:'http://amazingapp.mx/juegos/wonderHood/',coupon : false,mixName:'wonderHood',demo:false,id:1},//30
         {name:'Torre Helado\n Obscuro',iconName:'heladoObscuro',url:'http://amazingapp.mx/juegos/heladoObscuro/',coupon : false,mixName:'heladoObscuro',demo:false,id:22},//31
-        {name:'Zoé Water',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoe',demo:true,id:100009},//32
+        {name:'Zoé Kids',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoeKids',demo:false,id:51},//32
         {name:'Bebe Mundo',iconName:'bebeMundo',url:'http://amazingapp.mx/juegos/bebeMundo/',coupon : false,mixName:'bebeMundo',demo:true,id:100010},//33
         {name:'Amazing Bros',iconName:'amazingbros',url:'http://amazingapp.mx/juegos/amazingbros/',coupon : false,mixName:'amazingbros',demo:true,id:100011},//34
         {name:'Megablocks',iconName:'megablockTower',url:'http://amazingapp.mx/juegos/megablockTower/',coupon : false,mixName:'megablockTower',demo:true,id:100012},//35
+        {name:'Snake vs Block',iconName:'snakeVsBlock',url:'http://amazingapp.mx/juegos/snakeVsBlock/',coupon : false,mixName:'snakeVsBlock',demo:true,id:100013},//36
         //
     ]
 
@@ -506,6 +508,7 @@ amazing.getFromApp = function(){
 }
 
 amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
+    //console.log(minigameName)
     if(event=="finishGame"){
         mixpanel.track(
             event,
@@ -529,6 +532,7 @@ amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
        }
    }
     parent.postMessage(JSON.stringify(params), "*")
+    
 }
 
 amazing.getPoll = function(){
