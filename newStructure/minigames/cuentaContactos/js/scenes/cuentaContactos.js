@@ -100,7 +100,7 @@ var cuentaContactos = function(){
 	var hidePositions3X= new Array(2)
 	var hidePositions3Y= new Array(2)
     
-    var correct, correctOnes, timedHides
+    var correct, correctOnes, timedhides
     
     var cortina
     var timer
@@ -147,6 +147,7 @@ var cuentaContactos = function(){
         consecFloor = 0
         consecBricks = 0
         skinTable = []
+        timedhides=3200
 	}
     
     function animateScene() {
@@ -938,9 +939,9 @@ var cuentaContactos = function(){
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 900, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
             
-			var resultScreen = sceneloader.getScene("result")
+			var resultScreen = sceneloader.getScene("resultMichou")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-			sceneloader.show("result")
+			sceneloader.show("resultMichou")
 		})
     }
     

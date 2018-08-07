@@ -67,7 +67,7 @@ function startGame(){
 
     	preloadScenes([
             cuentaContactos,
-            result
+            resultMichou
     	])
     }
 }
