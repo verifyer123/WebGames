@@ -122,6 +122,7 @@ var galacticPool = function(){
 	var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
+	var physicPlanets
 	var gameIndex = 1
 	var tutoGroup
 	var indexGame
@@ -142,12 +143,35 @@ var galacticPool = function(){
 	var tweenActualPlanet;
 	var hand;
 	var START_TIMING;
+	var star;
+	var star2;
+	var star3;
+	var texture;
+	var texture2;
+	var texture3;
+	var distance = 950;
+	var max = 1000;
+	var xx = [];
+	var yy = [];
+	var zz = [];
+	var xx2 = [];
+	var yy2 = [];
+	var zz2 = [];
+	var xx3 = [];
+	var yy3 = [];
+	var zz3 = [];
+	var a1 = [];
+	var a2 = [];
+	var a3 = [];
+	var speedStars = 3;
 	var planets=[];
 	var tutorial;
 	var targets=[];
 	var speedTimer;
 	var nebul=[];
 	var planetsNames;
+	var positionPoolX=[];
+	var positionPoolY=[];
 	var target=[];
 	var handFollowing;
 	var tutoPlanet;
@@ -218,23 +242,29 @@ var galacticPool = function(){
 
 
 	function reset(){
-		for(var resetGame=0; resetGame<planets.length; resetGame++){
-			game.add.tween(planets[resetGame].spines).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-			planets[resetGame].x=positionX[resetGame];
-			planets[resetGame].y=positionY[resetGame];
-			planets[resetGame].spines.x=positionX[resetGame];
-			planets[resetGame].spines.y=positionY[resetGame];
-			planets[resetGame].text.x=positionX[resetGame]+50;
-			planets[resetGame].text.y=positionY[resetGame];
-			planets[resetGame].text.alpha=1;
+		
+		for(var resetPlanets=0; resetPlanets<planets.length; resetPlanets++){
+			game.add.tween(planets[resetPlanets].spines).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
 		}
 		if(pointsBar.number>40 && dificulty<2){
 			dificulty++;
 		}
 		game.time.events.add(3000, function(){
+			for(var resetGame=0; resetGame<planets.length; resetGame++){
+				planets[resetGame].body.x=positionPoolX[resetGame];
+				planets[resetGame].body.y=positionPoolY[resetGame];
+				planets[resetGame].spines.x=positionX[resetGame];
+				planets[resetGame].spines.y=positionY[resetGame];
+				planets[resetGame].text.x=positionX[resetGame]+50;
+				planets[resetGame].text.y=positionY[resetGame];
+				planets[resetGame].body.data.shapes[0].sensor= false
+				planets[resetGame].text.alpha=1;
+			}
+			game.physics.p2.updateBoundsCollisionGroup();
 			UIGroup.alpha=1;
-			planets[8].x=game.world.centerX
-			planets[8].y=game.world.height-100
+
+			planets[8].body.x=game.world.centerX
+			planets[8].body.y=game.world.height-100
 			for(var resetPlanets=0; resetPlanets<planets.length; resetPlanets++){
 				game.add.tween(planets[resetPlanets].spines).to({alpha:1},1000,Phaser.Easing.Cubic.In,true)
 			}
@@ -252,8 +282,8 @@ var galacticPool = function(){
 			planets[planetsTargets].spines.setSkinByName(planetsNames[planetsTargets].SKIN);
 			planets[planetsTargets].spines.setAnimationByName(0, "IDLE", true);
 			planets[planetsTargets].spines.alpha=1;
-			planets[planetsTargets].x=positionX[planetsTargets];
-			planets[planetsTargets].y=positionY[planetsTargets];
+			planets[planetsTargets].body.x=positionX[planetsTargets];
+			planets[planetsTargets].body.y=positionY[planetsTargets];
 			planets[planetsTargets].tag=planetsNames[planetsTargets].word;
 			planets[planetsTargets].spines.x=positionX[planetsTargets];
 			planets[planetsTargets].spines.y=positionY[planetsTargets];
@@ -261,9 +291,6 @@ var galacticPool = function(){
 			planets[planetsTargets].text.x=positionX[planetsTargets]+50;
 			planets[planetsTargets].text.y=positionY[planetsTargets];
 			planets[planetsTargets].text.setText(planetsNames[planetsTargets].word);
-			game.physics.enable(planets[planetsTargets], Phaser.Physics.ARCADE)
-			planets[planetsTargets].body.collideWorldBounds = true;
-			planets[planetsTargets].body.bounce.set(BOUNCE_LEVEL);
 			targets[planetsTargets]=game.add.sprite(0,0,"atlas.galacticPool","destino");
 			targets[planetsTargets].x=positionX[planetsTargets];
 			targets[planetsTargets].y=positionY[planetsTargets];
@@ -271,14 +298,13 @@ var galacticPool = function(){
 			targets[planetsTargets].tag=planetsNames[planetsTargets].word;
 			targets[planetsTargets].alpha=0;
 			if(planetsTargets==8){
-				planets[planetsTargets].x=game.world.centerX
-				planets[planetsTargets].y=game.world.height-100
+				planets[planetsTargets].body.x=game.world.centerX
+				planets[planetsTargets].body.y=game.world.height-100
 				planets[planetsTargets].text.x=game.world.centerX+50;
 				planets[planetsTargets].text.y=game.world.height-100;
 			}
 		}
 		for(var addInRest=0; addInRest<TOTAL_PLANETS; addInRest++){
-			planetsGroup.add(planets[addInRest]);
 			planetsGroup.add(planets[addInRest].spines);
 			targetsGroup.add(targets[addInRest]);
 		}
@@ -291,8 +317,7 @@ var galacticPool = function(){
 
 	function dragging(obj){
 		if(dificulty>=2){
-			obj.body.enabled=false;
-			obj.body.enabled=false;
+
 			canCollide=false;
 			obj.body.velocity.setTo(0,0);
 			obj.body.gravity.set(0, 0);
@@ -300,6 +325,8 @@ var galacticPool = function(){
 		if(dificulty>=3){
 			obj.changing=false;
 		}
+		obj.body.x=game.input.x;
+		obj.body.y=game.input.y;
 	}
 	function changePlanetToRock(obj,howManyRocks){
 		obj.loadTexture("atlas.galacticPool","rock");
@@ -326,10 +353,9 @@ var galacticPool = function(){
 		game.time.events.add(6000,function(){
 			for(var stopPlanets=0; stopPlanets<planets.length; stopPlanets++){
 				if(dificulty<2){
-					planets[stopPlanets].body.enabled=false;
 					canCollide=false;
-					planets[stopPlanets].body.velocity.setTo(0,0);
-					planets[stopPlanets].body.gravity.set(0, 0);
+					planets[stopPlanets].body.setZeroVelocity();
+					planets[stopPlanets].body.data.shapes[0].sensor= true
 				}
 			}
 			if(tutoPlanet!=TOTAL_PLANETS)tutorial=true;
@@ -353,17 +379,6 @@ var galacticPool = function(){
 
 
 		});
-	}
-	function collidingPlanets(colliding,colliding2){
-		for(var colliding=0; colliding<planets.length; colliding++){
-			for(var colliding2=0; colliding2<planets.length; colliding2++){
-				if(colliding!=colliding2){
-					planets[colliding2].body.gravity.set(game.rnd.integerInRange(400, -400), 0);
-					game.physics.arcade.collide(planets[colliding2],planets[colliding]);
-					game.physics.arcade.collide(planets[colliding],wall);
-				}
-			}
-		}
 	}
 	function placeNebuls(howManyNebuls){
 		nebulsInGame=howManyNebuls;
@@ -406,8 +421,8 @@ var galacticPool = function(){
 			correctParticle.x = planet.centerX
 			correctParticle.y = planet.centerY
 			correctParticle.start(true, 1200, null, 10)
-			planet.x=target.x;
-			planet.y=target.y;
+			planet.body.x=target.x;
+			planet.body.y=target.y;
 			planet.text.alpha=1;
 			speedTimer-=200;
 			planet.inputEnabled=false;
@@ -431,8 +446,8 @@ var galacticPool = function(){
 			missPoint();
 			for(var checkRightPlace=0; checkRightPlace<planets.length; checkRightPlace++){
 				if(planet.tag==targets[checkRightPlace].tag){
-					planet.x=positionX[checkRightPlace];
-					planet.y=positionY[checkRightPlace];
+					planet.body.x=positionX[checkRightPlace];
+					planet.body.y=positionY[checkRightPlace];
 					planet.text.alpha=1;
 					planet.inputEnabled=false;
 				}
@@ -442,7 +457,48 @@ var galacticPool = function(){
 			boomParticle.start(true, 1200, null, 10)
 		}
 	}
+	function starField(){
+		star = game.make.sprite(-300, 0, "atlas.galacticPool",'star_1');
+		star.scale.setTo(0.4,0.4)
+		star.anchor.setTo(0.5,0.5)
+		
+		star2 = game.make.sprite(-300, 0, "atlas.galacticPool",'star_2');
+		star2.scale.setTo(0.5,0.5)
+		star2.anchor.setTo(0.5,0.5)
+		star2.tint=0xff0000
+		
+		star3 = game.make.sprite(-300, 0, "atlas.galacticPool",'star_3');
+		star3.scale.setTo(0.5,0.5)
+		star3.anchor.setTo(0.5,0.5)
+		star3.tint=0xffff00
+		
+		texture = game.add.renderTexture(game.world.width, game.world.height, 'texture');
+		texture2 = game.add.renderTexture(game.world.width, game.world.height, 'texture2');
+		texture3 = game.add.renderTexture(game.world.width, game.world.height, 'texture3');
+		
+		
+		
 
+		for (var i = 0; i < max; i++)
+		{
+			xx[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			xx2[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy2[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz2[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			xx3[i] = Math.floor(Math.random() * game.world.width) - 400;
+			yy3[i] = Math.floor(Math.random() * game.world.height) - 300;
+			zz3[i] = Math.floor(Math.random() * 1700) - 100;
+			
+			a1[i]=1;
+			a2[i]=1;
+			a3[i]=1;
+		}
+		
+	}
 	function positionTimer(){
 
 		clock=game.add.image(game.world.centerX-150,80,"atlas.time","clock")
@@ -455,6 +511,11 @@ var galacticPool = function(){
 		UIGroup.add(timeBar);
 		UIGroup.alpha=0;
 	}
+	function biggerBlackHole(){
+		game.add.tween(hole.scale).to({x:hole.scale.x-1,y:hole.scale.y-1}, time, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+			game.add.tween(hole.scale).to({x:hole.scale.x+4,y:hole.scale.y+4}, time, Phaser.Easing.Linear.Out, true)
+		});
+	}
 	function startTimer(time){
 		var SWITCHING=false;
 		tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, delayDefault)
@@ -462,9 +523,9 @@ var galacticPool = function(){
 			boomParticle.x = clock.centerX
 			boomParticle.y = clock.centerY
 			boomParticle.start(true, 1200, null, 10)
-			for(var feedBack=0; feedBack<planets.length; feedBack++){
-				planets[feedBack].x=target[feedBack].x;
-				planets[feedBack].y=target[feedBack].y;	
+			for(var feedBack=0; feedBack<TOTAL_PLANETS; feedBack++){
+				planets[feedBack].x=targets[feedBack].x;
+				planets[feedBack].y=targets[feedBack].y;	
 				planets[feedBack].text.alpha=1;
 			}
 			goal=0;
@@ -490,10 +551,10 @@ var galacticPool = function(){
 				game.add.tween(stick).to({y:stick.y-200},200,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					canCollide=true;
 					game.add.tween(stick).to({alpha: 0}, 1000, Phaser.Easing.Cubic.In, true)
-					planets[planets.length-1].body.velocity.setTo(game.rnd.integerInRange(100,200),-500);
+					planets[8].body.velocity.y = -2000;
 					stick.x=game.world.centerX-20;
 					stick.y=game.world.height-100;
-					stopAllPlanets(START);	
+					stopAllPlanets(START);
 				})
 			})
 		})
@@ -573,11 +634,9 @@ var galacticPool = function(){
 
 				offsetY = 100
 			}
-
 			game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
 			game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
 		}
-
 	}
 
 	function missPoint(){
@@ -591,7 +650,7 @@ var galacticPool = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-
+		//biggerBlackHole();
 		if(lives == 0){
 			stopGame(false)
 		}
@@ -637,7 +696,6 @@ var galacticPool = function(){
 		pointsBar.number = 0
 
 	}
-
 	function createHearts(){
 
 		heartsGroup = game.add.group()
@@ -693,7 +751,8 @@ var galacticPool = function(){
 	}
 
 	function createBackground(){
-
+		
+		starField();
 		var pivotX;
 		var pivotY=200;
 		var PLANETS_TOTAL=9;
@@ -714,10 +773,33 @@ var galacticPool = function(){
 		coinsGroup = game.add.group()
 		sceneGroup.add(coinsGroup)
 
-		back=game.add.sprite(0,0,"atlas.galacticPool","fondo");
-		back.scale.setTo(2,1)
-		backgroundGroup.add(back)
+		physicPlanets = game.add.group();
+		sceneGroup.add(physicPlanets);
+
+		planetsGroup.add(game.add.sprite(0, 0, texture));
+		planetsGroup.add(game.add.sprite(0, 0, texture2));
+		planetsGroup.add(game.add.sprite(0, 0, texture3));
+
+		positionTimer()
+
+		var pivotXPool=clock.x+20;
+		var pivotYPool=clock.y+200;
+
 		//Aqui inicializo los botones
+
+		game.physics.startSystem(Phaser.Physics.P2JS);
+		game.physics.p2.setImpactEvents(true);
+		game.physics.p2.restitution = 0.8;
+		game.physics.p2.updateBoundsCollisionGroup();
+
+		var allPlanets= game.physics.p2.createCollisionGroup();
+
+		physicPlanets.enableBody=true;
+		physicPlanets.physicsBodyType = Phaser.Physics.P2JS;
+		
+
+
+
 		controles=game.input.keyboard.createCursorKeys();
 
 		correctParticle = createPart("star")
@@ -726,7 +808,7 @@ var galacticPool = function(){
 		sceneGroup.add(wrongParticle)
 		boomParticle = createPart("smoke")
 		sceneGroup.add(boomParticle)
-		
+
 		planetsNames=[
 			{SKIN:"neptune",word:localization.getString(localizationData,"planet9")},
 			{SKIN:"uranus",word:localization.getString(localizationData,"planet8")},
@@ -738,24 +820,42 @@ var galacticPool = function(){
 			{SKIN:"mercury",word:localization.getString(localizationData,"planet2")},
 			{SKIN:"sun",word:localization.getString(localizationData,"planet1")}
 		];
-
+		wall=physicPlanets.create(100,100,"atlas.galacticPool","fondo");
+		//wall.scale.setTo(0.1,0.1)
+		//game.physics.p2.enable(wall)
+		wall.alpha=1;
+		wall.body.setCollisionGroup(allPlanets);
+		wall.body.kinematic=true;
+		wall.body.collides(allPlanets);
+		physicPlanets.add(wall)
 		for(var placingPositions=0; placingPositions<PLANETS_TOTAL; placingPositions++){
-			planets[placingPositions]=game.add.sprite(0,0,"atlas.galacticPool",planetsNames[placingPositions].SKIN);
+			planets[placingPositions]=physicPlanets.create(0,0,"atlas.galacticPool",planetsNames[placingPositions].SKIN);
 			planets[placingPositions].anchor.setTo(0.5,0.5);
 			planets[placingPositions].scale.setTo(0.7,0.7);
 			planets[placingPositions].alpha=0;
+			planets[placingPositions].body.x=placingPositions*10
+			planets[placingPositions].body.setCircle(35);
+			planets[placingPositions].body.setZeroVelocity();
+			planets[placingPositions].body.setCollisionGroup(allPlanets);
+			planets[placingPositions].body.collides(allPlanets);
 			positionX[placingPositions]=game.rnd.integerInRange(game.world.centerX-100, game.world.centerX+100);
 			positionY[placingPositions]=pivotY;
 			pivotY+=80;
 		}
+		for(var poolPositions=0; poolPositions<PLANETS_TOTAL; poolPositions++){
+			positionPoolX[poolPositions]=pivotXPool;
+			positionPoolY[poolPositions]=pivotYPool;
+			pivotXPool+=90;
+			if(poolPositions==3){
+				pivotXPool=positionPoolX[1]-50;
+				pivotYPool=pivotYPool+70;
+			}
+			if(poolPositions==6){
+				pivotXPool=positionPoolX[4]+85;
+				pivotYPool=pivotYPool+80;
+			}
+		}
 		planets[PLANETS_TOTAL-1].scale.setTo(0.5,0.5);
-		wall=game.add.sprite(0,0,"atlas.galacticPool","fondo");
-		wall.scale.setTo(game.world.width,0.11)
-		backgroundGroup.add(wall)
-		game.physics.enable(wall, Phaser.Physics.ARCADE)
-		wall.body.bounce.set(1);
-		wall.alpha=0;
-		wall.body.immovable=true;
 
 		
 		for(var positionNebuls=0;positionNebuls<TOTAL_PLANETS;positionNebuls++){
@@ -768,9 +868,9 @@ var galacticPool = function(){
 		stick=game.add.sprite(game.world.centerX-20,game.world.height-100,"atlas.galacticPool","cue");
 		planetsGroup.add(stick)
 		placePlanetsAndTargets();
-		positionTimer();
+		//positionTimer();
 		initCoin();
-		
+
 
 	}
 
@@ -820,12 +920,8 @@ var galacticPool = function(){
 
 	function update(){
 
-
 		if(startGame){
 			epicparticles.update();
-			if(canCollide){
-				collidingPlanets();
-			}
 			if(tutorial && !handFollowing){
 				handFollowing=true;
 				handFollow(tutoPlanet);
@@ -836,10 +932,58 @@ var galacticPool = function(){
 					planets[followPlanetSpine].spines.y=planets[followPlanetSpine].y;
 				}
 			}
+			movingStars()
 		}
-
 	}
 
+	function movingStars(){
+			
+		texture.clear();
+		texture2.clear();
+		texture3.clear();
+
+		for (var i = 0; i < max; i++)
+		{
+			var perspective = distance / (distance - zz[i]);
+			var x = game.world.centerX + xx[i] * perspective;
+			var y = game.world.centerY+ yy[i] * perspective;
+
+			zz[i] -= speedStars;
+			if (zz[i] < 100)
+			{
+				zz[i] = 950;
+			}
+			var newStar=game.rnd.integerInRange(0,2);
+			star.alpha=0.9;
+			texture.renderXY(star, x, y);
+		}
+		for (var i = 0; i < max/2; i++)
+		{
+			var perspective = distance / (distance - zz2[i]);
+			var x = game.world.centerX + xx2[i] * perspective;
+			var y = game.world.centerY+ yy2[i] * perspective;
+
+			zz2[i] -= speedStars;
+			if (zz2[i] < 100)
+			{
+				zz2[i] = 950;
+			}
+			star2.alpha=0.7;
+			texture2.renderXY(star2, x, y);
+			var perspective = distance / (distance - zz3[i]);
+			var x = game.world.centerX + xx3[i] * perspective;
+			var y = game.world.centerY+ yy3[i] * perspective;
+			
+			zz3[i] -= speedStars;
+			if (zz3[i] < 100)
+			{
+				zz3[i] = 950;
+			}	
+			star3.alpha=0.5
+			texture3.renderXY(star3, x, y);
+		}
+	}
+	
 
 	function createTextPart(text,obj){
 
@@ -1016,7 +1160,6 @@ var galacticPool = function(){
 		}
 
 	}
-
 	return {
 
 		assets: assets,
@@ -1032,7 +1175,6 @@ var galacticPool = function(){
 
 
 			sceneGroup = game.add.group()
-
 			createBackground()
 			addParticles()
 			baseSong = sound.play("acornSong", {loop:true, volume:0.6})

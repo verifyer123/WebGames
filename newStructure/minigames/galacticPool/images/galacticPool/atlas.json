@@ -20,7 +20,7 @@
 },
 {
 	"filename": "earth",
-	"frame": {"x":1163,"y":1320,"w":71,"h":71},
+	"frame": {"x":1163,"y":1374,"w":71,"h":71},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":71},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "gametuto",
-	"frame": {"x":941,"y":1152,"w":183,"h":191},
+	"frame": {"x":941,"y":1175,"w":183,"h":191},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":2,"y":5,"w":183,"h":191},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":1004,"y":1345,"w":157,"h":97},
+	"frame": {"x":1004,"y":1368,"w":157,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":157,"h":97},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "neptune",
-	"frame": {"x":1163,"y":1393,"w":71,"h":71},
+	"frame": {"x":1236,"y":1374,"w":71,"h":71},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":71,"h":71},
@@ -169,6 +169,33 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
 	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star_1",
+	"frame": {"x":889,"y":884,"w":33,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":33,"h":33},
+	"sourceSize": {"w":33,"h":33},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star_2",
+	"frame": {"x":941,"y":1149,"w":25,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":5,"w":25,"h":24},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "star_3",
+	"frame": {"x":889,"y":919,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -223,6 +250,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1352,"h":1471},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:61e9aeb0c05d6aac283c1eac90331471:6bf03065b878bacf3f1ecc51384ab45b:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:bfe35e0c8125245b7aab336e732de584:2767b476d5d5d8ad8cf725b58e4e0a3d:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
