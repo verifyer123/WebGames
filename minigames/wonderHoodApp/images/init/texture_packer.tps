@@ -225,6 +225,22 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">mute.png</key>
+            <key type="filename">pause.png</key>
+            <key type="filename">play.png</key>
+            <key type="filename">sound.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,17,31,33</rect>
+                <key>scale9Paddings</key>
+                <rect>16,17,31,33</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">wonder_logo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -244,6 +260,10 @@
             <filename>base_botton.png</filename>
             <filename>botton.png</filename>
             <filename>wonder_logo.png</filename>
+            <filename>mute.png</filename>
+            <filename>pause.png</filename>
+            <filename>play.png</filename>
+            <filename>sound.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

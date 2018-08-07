@@ -225,6 +225,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Mizzy_finish.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,45,96,89</rect>
+                <key>scale9Paddings</key>
+                <rect>48,45,96,89</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Pausa_tablero.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>115,80,229,159</rect>
+                <key>scale9Paddings</key>
+                <rect>115,80,229,159</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Pyt.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -235,6 +261,19 @@
                 <rect>18,27,36,55</rect>
                 <key>scale9Paddings</key>
                 <rect>18,27,36,55</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Pyt_finish.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>44,40,89,79</rect>
+                <key>scale9Paddings</key>
+                <rect>44,40,89,79</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -251,6 +290,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">Spoty_finish.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,30,95,61</rect>
+                <key>scale9Paddings</key>
+                <rect>47,30,95,61</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Yax.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -261,6 +313,19 @@
                 <rect>23,24,47,47</rect>
                 <key>scale9Paddings</key>
                 <rect>23,24,47,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Yax_finish.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>52,35,103,69</rect>
+                <key>scale9Paddings</key>
+                <rect>52,35,103,69</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -446,19 +511,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">mizzy_finish.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>48,45,96,89</rect>
-                <key>scale9Paddings</key>
-                <rect>48,45,96,89</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">montaña_ventana.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -605,19 +657,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">pyt_finish.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>44,40,89,79</rect>
-                <key>scale9Paddings</key>
-                <rect>44,40,89,79</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">r0.png</key>
             <key type="filename">r1.png</key>
             <struct type="IndividualSpriteSettings">
@@ -707,19 +746,6 @@
                 <rect>10,9,21,17</rect>
                 <key>scale9Paddings</key>
                 <rect>10,9,21,17</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">spoty_finish.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>47,30,95,61</rect>
-                <key>scale9Paddings</key>
-                <rect>47,30,95,61</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -840,19 +866,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">yax_finish.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>52,35,103,69</rect>
-                <key>scale9Paddings</key>
-                <rect>52,35,103,69</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -867,7 +880,6 @@
             <filename>flecha.png</filename>
             <filename>manzana.png</filename>
             <filename>Meizy.png</filename>
-            <filename>Mizzy.png</filename>
             <filename>montañas.png</filename>
             <filename>naranja.png</filename>
             <filename>nube1.png</filename>
@@ -905,11 +917,13 @@
             <filename>r2.png</filename>
             <filename>r3.png</filename>
             <filename>tablero_finish.png</filename>
-            <filename>mizzy_finish.png</filename>
-            <filename>pyt_finish.png</filename>
-            <filename>spoty_finish.png</filename>
-            <filename>yax_finish.png</filename>
             <filename>reintentar.png</filename>
+            <filename>Mizzy_finish.png</filename>
+            <filename>Pyt_finish.png</filename>
+            <filename>Spoty_finish.png</filename>
+            <filename>Yax_finish.png</filename>
+            <filename>Mizzy.png</filename>
+            <filename>Pausa_tablero.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

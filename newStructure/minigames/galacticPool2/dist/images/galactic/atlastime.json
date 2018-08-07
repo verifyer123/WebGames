@@ -1,0 +1,39 @@
+{"frames": [
+
+{
+	"filename": "bar",
+	"frame": {"x":137,"y":101,"w":30,"h":34},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":34},
+	"sourceSize": {"w":30,"h":34},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "clock",
+	"frame": {"x":1,"y":1,"w":456,"h":98},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":456,"h":98},
+	"sourceSize": {"w":456,"h":98},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "nebula",
+	"frame": {"x":1,"y":101,"w":134,"h":134},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":134},
+	"sourceSize": {"w":134,"h":134},
+	"pivot": {"x":0.5,"y":0.5}
+}],
+"meta": {
+	"app": "http://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "atlastime.png",
+	"format": "RGBA8888",
+	"size": {"w":458,"h":236},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:ced3375b19637556a3da059807c090db:4b13d11fb4dbb649a5df0aa4d44cecb8:004828b01311f2214c7d3b58092cb22a$"
+}
+}

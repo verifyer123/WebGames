@@ -73,13 +73,13 @@ var elemental = function(){
                 file: "images/spines/witch/IDLE.png",
                 width: 240,
                 height: 287,
-                frames: 23
+                frames: 48
             },
             {   name: "ATTACK",
                 file: "images/spines/witch/ATTACK.png",
-                width: 328,
+                width: 329,
                 height: 300,
-                frames: 9
+                frames: 22
             },
             {   name: "LOSE",
                 file: "images/spines/witch/LOSE.png",
@@ -91,13 +91,13 @@ var elemental = function(){
                 file: "images/spines/witch/HIT.png",
                 width: 260,
                 height: 294,
-                frames: 5
+                frames: 24
             },
             {   name: "LOSESTILL",
                 file: "images/spines/witch/LOSESTILL.png",
                 width: 260,
-                height: 272,
-                frames: 8
+                height: 273,
+                frames: 24
             },
         ],
         spines:[
@@ -418,11 +418,11 @@ var elemental = function(){
         
         witch = game.add.sprite(game.world.centerX, 150, 'IDLE')
         witch.anchor.setTo(0.5)
-        witch.animations.add('IDLE', null, 12, true)
-        witch.animations.add('ATTACK', null, 12)
-        witch.animations.add('LOSESTILL', null, 12)
-        witch.animations.add('HIT', null, 12)
-        witch.animations.add('LOSE', null, 12)
+        witch.animations.add('IDLE', null, 24, true)
+        witch.animations.add('ATTACK', null, 24)
+        witch.animations.add('LOSESTILL', null, 24)
+        witch.animations.add('HIT', null, 24)
+        witch.animations.add('LOSE', null, 24)
         witch.canAttack = false
         sceneGroup.add(witch)
                 
@@ -523,7 +523,7 @@ var elemental = function(){
             enemiesGroup.add(box)
             
             var anim = game.add.spine(0, 180, assets.spines[i].name)
-            anim.setAnimationByName(0, "IDLE", true)
+            anim.setAnimationByName(0, "idle", true)
             anim.setSkinByName("normal")
             box.addChild(anim)
             box.anim = anim
@@ -551,7 +551,6 @@ var elemental = function(){
 					var mask=enemiesGroup.children[checkMask];
 				}
 			}
-            
             if(mask){
 				particleHit.x = witch.centerX+50 
 				particleHit.y = witch.centerY+150
@@ -564,17 +563,29 @@ var elemental = function(){
                     if(mask.healtPoints > 0){
                         mask.touch = false
                     }
+//					game.time.events.add(600,function(){
+//						witch.canAttack = true;
+//					})
                 })
             }else{
 				particleWrong.x = witch.centerX+50 
 				particleWrong.y = witch.centerY+150
 				particleWrong.start(true, 1200, null, 2)
+				for(var checkMask=0; checkMask<enemiesGroup.length; checkMask++){
+					if(enemiesGroup.children[checkMask].exists){
+						enemiesGroup.children[checkMask].anim.setAnimationByName(0, "win", false).onComplete=function(){
+							for(var idleMask=0; idleMask<enemiesGroup.length; idleMask++){
+								if(enemiesGroup.children[idleMask].exists){
+									enemiesGroup.children[idleMask].anim.setAnimationByName(0, "idle", true)
+								}
+							}
+							witch.canAttack = true;
+						}
+					}
+				}
 			}
-			game.time.events.add(600,function(){
-				witch.canAttack = true;
-			})
         }
-    }
+	}
     
     
     function hitEnemy(gem, mask){
@@ -600,11 +611,13 @@ var elemental = function(){
             case 0:
                 sound.play("right")
                 getCoins(mask)
-				mask.anim.setAnimationByName(0, "LOSE", false).onComplete = function(){
+				mask.anim.setAnimationByName(0, "lose", false).onComplete = function(){
 					mask.kill()
 					goalMask--
 					if(goalMask==0){
 						witch.canAttack = false	
+					}else{
+						witch.canAttack = true
 					}
 					if(goalMask==0)game.time.events.add(500, initGame)
 				}
@@ -616,6 +629,7 @@ var elemental = function(){
                 game.add.tween(mask).to({y: mask.y + 100}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function(){
                     mask.body.velocity.y = -speed
                     mask.touch = false
+					witch.canAttack = true;
                 })
             break
 
@@ -625,6 +639,7 @@ var elemental = function(){
                 game.add.tween(mask).to({y: mask.y + 100}, 500, Phaser.Easing.Cubic.Out, true).onComplete.add(function(){
                     mask.body.velocity.y = -speed
                     mask.touch = false
+					witch.canAttack = true;
                 })
             break
             }
@@ -692,7 +707,7 @@ var elemental = function(){
 					mask.shield.alpha = 1
 				}
 				var rand = game.rnd.realInRange(0.4, 1.6)
-				mask.anim.setAnimationByName(0, "IDLE", true)
+				mask.anim.setAnimationByName(0, "idle", true)
 				mask.healtPoints = level
 				mask.touch = false
 				mask.reset(game.world.centerX * rand, game.world.height + 150)
@@ -713,7 +728,7 @@ var elemental = function(){
             
             if(mask){
                 
-                mask.anim.setAnimationByName(0, "IDLE", true)
+                mask.anim.setAnimationByName(0, "idle", true)
                 mask.healtPoints = level
                 mask.touch = false
                 mask.reset(game.world.centerX * pivotX, game.world.height + 150)
@@ -792,7 +807,7 @@ var elemental = function(){
                 particleCorrect.x = taget.centerX 
                 particleCorrect.y = taget.centerY
                 particleCorrect.start(true, 1200, null, 10)
-                taget.anim.setAnimationByName(0, "LOSE", false).onComplete = function(){
+                taget.anim.setAnimationByName(0, "lose", false).onComplete = function(){
                     taget.kill()
                     posHand(gem.element + 1)
                 }
