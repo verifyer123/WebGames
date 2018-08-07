@@ -18,7 +18,7 @@ var gameList={
 
     minigames : [
 
-        {name:'MichoMau Corto Circuito',url:'cortoCircuito/cortoCircuito',mapUrl:'cortoCircuito', sceneName:'cortoCircuito',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
+        {name:'MichoMau Corto Circuito',url:'cortoCircuito/cortoCircuito/',mapUrl:'cortoCircuito', sceneName:'cortoCircuito',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
         {name:'MichoMau Cuenta Contactos',url:'cuentaContactos/cuentaContactos',mapUrl:'cuentaContactos', sceneName:'cuentaContactos',subject:'geography', review:false,objective:15,demo:false,type:gameTypeEnum.TARGET},
         {name:'MichoMau Esquiva Cohetes',url:'esquivaCohetes/esquivaCohetes',mapUrl:'esquivaCohetes', sceneName:'esquivaCohetes',subject:'health', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},
         {name:'MichoMau Humo Cocina',url:'humo_enlacocina/humo_enlacocina',mapUrl:'humoCocina', sceneName:'humoCocina',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
