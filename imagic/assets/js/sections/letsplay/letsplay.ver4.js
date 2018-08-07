@@ -247,7 +247,7 @@ for(var i= 0;i<=subjectsButtons.length-1;i++){
 	})
 }
 
-
+var listajuegos = new Array;
 
 
 function showGames(){
@@ -256,8 +256,9 @@ function showGames(){
 	var games = yogomeGames.getGames("custom");
 	for(var i = 0 ; i<= choiceGames.length-1 ;i++){
 		var num =  i;
-       
 			var minigameHref;
+        listajuegos[i] = games[choiceGames[i]]
+
 			if(language != "ES" ){
                 
 				minigameHref = "playweb/gamesite/" + games[choiceGames[i]].mapUrl + "?language=EN";
@@ -268,7 +269,7 @@ function showGames(){
 			}
 
 			
-
+            
                 $("#minigamesContainer").append("<a href='https://play.yogome.com/"+ minigameHref +"' rev='"+games[choiceGames[i]].name+"' class='gameCatalog " +games[ choiceGames[i] ].subject +"' id='gameimg" + choiceGames[num] +"'><div id='btnMinigame" + i + "' class='minigameBg col-xs-6 col-sm-4'></div></a>");
 			
 
@@ -308,6 +309,6 @@ function callBackLogIn(){
 	showGames();
 
 }
-
+document.getElementById('listagames').innerHTML= "sadsads";
 showGames();
 
