@@ -10,11 +10,11 @@
 },
 {
 	"filename": "bubbles",
-	"frame": {"x":1,"y":1,"w":540,"h":180},
+	"frame": {"x":1,"y":1,"w":540,"h":170},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":28,"w":540,"h":180},
-	"sourceSize": {"w":540,"h":208}
+	"spriteSourceSize": {"x":0,"y":28,"w":540,"h":170},
+	"sourceSize": {"w":540,"h":200}
 },
 {
 	"filename": "bubblesFront",

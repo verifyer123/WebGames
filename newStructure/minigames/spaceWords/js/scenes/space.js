@@ -39,6 +39,9 @@ var space = function(){
             {   name:"back",
 				file: "images/space/back.png"
             },
+            {   name:"bubbles",
+				file: "images/space/bubbles.png"
+            },
 
 		],
 		sounds: [
@@ -307,11 +310,10 @@ var space = function(){
         background.width = game.world.width + 2
         background.height = game.world.height + 2
         
-        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 250, "atlas.space", "bubbles")
+        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 250, "bubbles")
         pink.anchor.setTo(0, 1)
         pink.rise = 1.2
         sceneGroup.add(pink)
-        
         pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
         waves.push(pink)
     }

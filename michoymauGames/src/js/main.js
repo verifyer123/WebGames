@@ -21,7 +21,7 @@ $(document).on('ready', function() {
         $("#btnOptimized" + i).click(function(){
             var place = $(this).attr("number")
             var texto = minigame[place].url//minigame[place].name.replace(/\s/g, "")
-           window.location = "../../newStructure/minigames/michoymau/" + texto //"https://yogome.github.io/WebGames/newStructure/gamesite/#/minigames/" + texto
+           window.location = "../../newStructure/minigames/michoymau/dist/" + texto //"https://yogome.github.io/WebGames/newStructure/gamesite/#/minigames/" + texto
         });   
     }
     

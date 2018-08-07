@@ -1,0 +1,235 @@
+/*THEME*/
+body {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #1d1864;
+    overflow: hidden;
+    font-family: 'Baloo Chettan', cursive; 
+    
+}
+
+
+
+#starsField{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    
+}
+#container{
+    position: absolute;
+    height: 100%;
+    width: 100%;
+/*    background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);*/
+    background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);
+    transition: background 0.8s ease;
+    
+
+}
+
+#header{
+    position: relative;
+    width: 100%;
+    height: 10%;
+    background-color: #2b8ecd;
+    z-index: 1;
+    box-shadow: 10px 3px 10px rgba(0,0,0,0.5);
+}
+
+#header .logo{
+    position: relative;
+    height: 100%;
+    background-color: #2b8ecd;
+    padding: 1vw;
+    left: 50%;
+    transform: translate(-50%,0);
+    border-radius: 0.7vw;
+}
+
+#selectgame{
+    position: absolute;
+    width: 50%;
+    margin: 0vw;
+    right: 3%;
+    height: 95%;
+    overflow-y: scroll;
+    right: 0;
+    /*transform-style: preserve-3d;
+    transform: rotateY(-55deg) rotateZ(32deg);*/
+}
+
+.container-gameSelect{
+    position: relative;
+    width: 80%;
+    border-radius: 1vw; 
+    margin: 1vw;    overflow: hidden;  
+    background-repeat: no-repeat;
+    transition: transform 0.5s ease;
+    transform: translate(20%,0);
+}
+
+.container-gameSelect p{
+    line-height:0;
+    font-size: 20px;
+    color: #FFF;
+    margin: 0;
+    
+}
+
+.name-select{ 
+    position: relative;
+    /*background: linear-gradient(to right, rgb(40, 153, 235) 40%, rgba(255,255,255,0.7) 100%);*/
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-size: 40px;
+    padding: 2vw;
+    border-radius: 1vw;   
+    overflow: hidden;
+    color:#fff;
+    z-index: 1;
+    
+}
+
+.bg-selectgGame{
+    border-radius: 1vw;   
+    position: absolute;
+    width: 120%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: center right;
+    background-size: 70%;
+    z-index: 0;
+    top: 2%;
+    left: 0%;
+    opacity: 0.5;
+    
+}
+
+
+#bannerGame{
+    position: absolute;
+    top:6%;
+    width: 45%;
+    height: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../images/bgbannerblue.png");
+    background-repeat: no-repeat;
+    background-size: 81%;
+    background-position: center; 
+    z-index: 1;
+}
+
+#bannerGame img{
+    transition: width 0.5s;
+    width: 70%;
+    border-radius: 3vw;   
+}
+
+
+
+#difficultyGame{
+    position: absolute;
+    top: 51%;
+    width: 45%;
+    z-index: 1;
+}
+
+#difficultyGame p{
+    position: absolute;
+    color: #FFF;
+    left: 11%;
+    z-index: 2;
+    top: -25%;
+    font-size: 1.4vw;
+    
+}
+
+#imgDifficulty{
+    position: relative;
+    width: 80%;
+    left: 10%;
+    z-index: 1;
+    
+}
+
+#gradientDifficulty{
+    transition: width 0.5s;
+    position: absolute;
+    width: 70%;
+    height:45%;
+    top: 0%;
+    left: 18%;
+    transform: translate(0%,3%);
+    background: linear-gradient(to right, rgba(247,148,0,1)  0%,rgba(241,74,36,1) 100%);
+}
+
+#bgwhiteDifficulty{
+    position: relative;
+    width: 70%;
+    height:100%;
+    padding: 1vw;
+    transform: translate(18%,-130%);
+    background-color: #FFF;
+}
+
+/*CHART*/
+.wrapper canvas {
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+    background-color:rgba(250,250,250,0.8);
+}
+
+#radar{
+    position: absolute;
+    top: 57%;
+    left:-2%;
+    width: 35%;
+    background-image: url("../images/gameradar.png");
+    background-repeat: no-repeat;
+    background-position:center;
+    background-size: 47%;
+    
+}
+
+#playGameButton{
+    background-color: #4fb502;
+    padding: 0.5vw;
+    font-size: 2vw;
+    width: 10%;
+    text-align: center;
+    border-radius: 1vw;
+    box-shadow: 0px 5px 0px #005e2f, 0px 2px 0px 8px #FFF;
+    position: absolute;
+    color:#FFF;
+    top:54%;
+    left:35%;
+    transform: translate(-50%,50%);
+    z-index: 2;
+}
+
+/*FOOTER*/
+
+footer{
+    position: absolute;
+    bottom: 0%;
+    width: 100%;
+    height: 6%;
+/*
+    background-color: rgba(43, 142, 205,0.6);
+    z-index: 2;
+*/
+}
+
+#cherry{
+    position: absolute;
+    z-index: 12;
+    bottom: -40%;
+    left: 50%;
+    transform: translate(-50%,0);
+}
