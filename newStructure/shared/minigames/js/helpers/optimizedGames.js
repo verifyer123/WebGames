@@ -23,5 +23,10 @@ var optimizedGames={
         {name:'Optimized Wild Dentist',url:'wildDentist/',mapUrl:'wildDentist', sceneName:'wildDentist',subject:'health', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},
         {name:'Optimized Sushi Towers',url:'sushiTowers/',mapUrl:'sushiTowers', sceneName:'sushi',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
         {name:'Optimized Math Run',url:'mathRun/',mapUrl:'mathRun', sceneName:'mathRun',subject:'math',review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
+		{name:'Optimized Dinamita Dance',url:'dinamitaDance/',mapUrl:'dinamitaDance', sceneName:'dinamitaDance',subject:'language', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
+		{name:'Optimized Oona Says Cook',url:'oonaSaysCook/',mapUrl:'oonaSaysCook', sceneName:'oona',subject:'coding', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
+		{name:'Optimized Magnet Ride',url:'magnetRide/',mapUrl:'magnetRide', sceneName:'magnet',subject:'science',review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
+		{name:'Optimized River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability', review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},
 		]
+	
 	}

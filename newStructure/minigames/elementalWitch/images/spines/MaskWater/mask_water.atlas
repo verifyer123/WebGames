@@ -25,6 +25,13 @@ normal/mask_water_b
   orig: 147, 147
   offset: 0, 0
   index: -1
+normal/mask_water_c
+  rotate: false
+  xy: 300, 95
+  size: 146, 147
+  orig: 146, 147
+  offset: 0, 0
+  index: -1
 normal/shadow
   rotate: false
   xy: 2, 17
@@ -34,7 +41,7 @@ normal/shadow
   index: -1
 normal/water1
   rotate: false
-  xy: 300, 163
+  xy: 448, 163
   size: 38, 79
   orig: 38, 79
   offset: 0, 0

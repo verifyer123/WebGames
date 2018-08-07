@@ -1,17 +1,24 @@
 html, body {
       margin: 0;
       padding: 0;
-        font-family: "arial";
+     font-family: 'Lobster', cursive;
+background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);
+    height: 100%;
+    width: 100%;
+    transition: background 0.8s ease;
+    color:#FFF;
     }
 
 #logo{
-    background-color: aqua;
+    background: linear-gradient(to bottom, #6d769d 90%, #1b1464 100%);;
     text-align: center;
     width: 100%;
+    padding: 0.4vw;
 }
 
 #logo img{ 
     width: 10%;
+    margin: 1%
 }
 
 .text-title{

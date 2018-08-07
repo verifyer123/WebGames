@@ -102,6 +102,13 @@ normal/mask_fire_b
   orig: 106, 188
   offset: 0, 0
   index: -1
+normal/mask_fire_c
+  rotate: false
+  xy: 1322, 294
+  size: 106, 188
+  orig: 106, 188
+  offset: 0, 0
+  index: -1
 normal/shadow
   rotate: false
   xy: 2, 2

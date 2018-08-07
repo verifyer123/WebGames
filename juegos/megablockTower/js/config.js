@@ -1,6 +1,6 @@
 window.amazing = {
 	config: {
-		name: "Megablocks",
+		name: "Megablock Tower",
 		language: "en",
 		minigameUrl: "../../minigames/megablockTower/index.html",
 		desktopUrl: "./desktop.html",

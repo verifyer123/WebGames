@@ -21,7 +21,6 @@ var onGoingGames={
 			{name:'Space Words',url:'spaceWords/',mapUrl:'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Water Morphosis',url:'waterMorph/',mapUrl:'waterMorph', sceneName:'water',subject:'science',review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Ice Cream Numbers',url:'numberIce/',mapUrl:'numberIce', sceneName:'ice',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
-			{name:'Magnet Ride',url:'magnetRide/',mapUrl:'magnetRide', sceneName:'magnet',subject:'science',review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
 			{name:'Salad Cards',url:'tapcards/',mapUrl:'tapcards', sceneName:'tapcards',subject:'language',review:false,objective:30,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Sky Language',url:'skyLanguage/',mapUrl:'skyLanguage', sceneName:'skyLanguage',subject:'language',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
@@ -111,9 +110,7 @@ var onGoingGames={
 			{name:'Dr Zombie',url:'drZombie/',mapUrl:'drZombie', sceneName:'drzombie',subject:'health', review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},//94
 			{name:'Cog Count',url:'cogCount/',mapUrl:'cogCount', sceneName:'cog',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.COUNT},//96
 			{name:'Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galactic',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//97
-			{name:'Oona Says Cook',url:'oonaSaysCook/',mapUrl:'oonaSaysCook', sceneName:'oona',subject:'coding', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},//98
 			{name:'River Rescue',url:'riverRescue/',mapUrl:'riverRescue', sceneName:'riverRescue',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//99
-			{name:'River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability', review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},//100
 			{name:'Garbage Diving',url:'garbageDiving/',mapUrl:'garbageDiving', sceneName:'garbageDiving',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//101
 			{name:'Space Vaccum',url:'spaceVaccum/',mapUrl:'spaceVaccum', sceneName:'spaceVaccum',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//102
 			{name:'Garbage Mole',url:'garbageMole/',mapUrl:'garbageMole', sceneName:'mole',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//103
@@ -131,7 +128,6 @@ var onGoingGames={
 		   {name:'H2Orbit',url:'H2Orbit/',mapUrl:'H2Orbit', sceneName:'H2Orbit',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},//116
 		   {name:'Fridge',url:'fridge/',mapUrl:'fridge', sceneName:'fridge',subject:'health', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//117
 		   {name:'Sympho Master',url:'symphoMaster/',mapUrl:'symphoMaster', sceneName:'symphoMaster',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//118
-		   {name:'Dinamita Dance',url:'dinamitaDance/',mapUrl:'dinamitaDance', sceneName:'dinamitaDance',subject:'language', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//119
 		   {name:'Rabbit Trace',url:'rabitTrace/',mapUrl:'rabitTrace', sceneName:'rabitTrace',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.TRACE},//120
 		   {name:'Noisy Monsters',url:'noisyMonsters/',mapUrl:'noisyMonsters', sceneName:'noisyMonsters',subject:'sustainability', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//121
 		   {name:'Balance Science',url:'balanceScience/',mapUrl:'balanceScience', sceneName:'balanceScience',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//122
