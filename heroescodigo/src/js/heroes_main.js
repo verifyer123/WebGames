@@ -220,7 +220,8 @@ for(var i = 0; i<= choiceGames.length-1;i++){
                 //3 izq, 2 abajo, 1 derecha, 3 arriba, 1 abajo
                 $("#container").append(`<img id="cherry" src="images/cherryparrot.gif">`);
                 TweenMax.to($("#cherry"),2,{bottom:"0%",delay:2});
-                TweenMax.to($("#cherry"),2,{bottom:"-40%",delay:25});
+                TweenMax.to($("#cherry"),2,{bottom:"-40%",delay:8,onComplete:songStopCheat});
+                function songStopCheat(){previewSong.pause();}
                 previewSong.src ="songs/" + songs[7] + ".mp3";
                 previewSong.play();
             break;
