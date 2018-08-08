@@ -44,7 +44,7 @@ var cuentaContactos = function(){
     var OFF_BRICK = 330
     var BOT_OFFSET = 0
     
-    var gameIndex = 4
+    var gameIndex = 3
     var skullTrue = false
     var marioSong = null
     var enemyNames = null

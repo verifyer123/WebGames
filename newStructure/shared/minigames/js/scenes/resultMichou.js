@@ -160,7 +160,7 @@ var resultMichou = function(){
         
         var buttonTexts = ['retryText']
         
-        var pivotX = game.world.centerX - 125
+        var pivotX = game.world.centerX
         var pivotY = pivot
         for(var i = 0;i<buttonNames.length;i++){
         

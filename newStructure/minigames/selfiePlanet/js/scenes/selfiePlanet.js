@@ -131,7 +131,7 @@ var selfiePlanet = function(){
     var photo
     var target
     var speed
-    var playTuto = true
+    var playTuto
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -143,6 +143,7 @@ var selfiePlanet = function(){
         lives = 3
         gameActive = false
         clickDown = false
+        playTuto = true
         speed = 10000
         
         loadSounds()
@@ -486,6 +487,8 @@ var selfiePlanet = function(){
     
     function createCamera(){
         
+        createText()
+        
         var top = game.add.graphics(0, 0)
         top.beginFill(0x000000, 0.5)
         top.drawRect(0, 0, game.world.width, 100)
@@ -509,18 +512,15 @@ var selfiePlanet = function(){
         }, this)
         target.input.enableDrag(true)
         target.events.onDragUpdate.add(moveWorld)
+        target.inputEnabled = false
+    }
+    
+    function createText(){
         
         var panel = game.add.graphics(0, game.world.height - 100)
         panel.beginFill(0x000000, 0.5)
         panel.drawRect(0, 0, game.world.width, 130)
         sceneGroup.add(panel)
-        
-        target.inputEnabled = false
-        
-        createText(panel)
-    }
-    
-    function createText(panel){
         
         var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#FFFFFF", align: "center"}
         
@@ -963,11 +963,11 @@ var selfiePlanet = function(){
 			            
             createPlanets()
             createEagle()
+            createHand()
             createCamera()
 			createPointsBar()
 			createHearts()
             createCoin()
-            createHand()
             createParticles()
 			
 			buttons.getButton(gameSong,sceneGroup)

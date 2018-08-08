@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "dpy3ACqL0wAgA9RJFuFJH/L70hg", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"skeleton": { "hash": "uOB0oyuffwr6xI/Ym61DU5qeWkc", "spine": "3.2.01", "width": 189.69, "height": 294.7, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "length": 91.08, "rotation": 90, "y": 76.32 },
@@ -381,8 +381,8 @@
 					{ "time": 1.6666, "color": "ffffff00" }
 				],
 				"attachment": [
-					{ "time": 0, "name": "mask_water" },
-					{ "time": 1.6666, "name": "mask_water" }
+					{ "time": 0, "name": "mask_wind_b" },
+					{ "time": 1.6666, "name": "mask_wind_b" }
 				]
 			},
 			"normal/feather": {
