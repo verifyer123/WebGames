@@ -58,17 +58,17 @@ var routing = function () {
                 
                 function imageExists(url, callback) {
                     var img = new Image();
-                    img.onload = callback(true); 
-                    img.onerror = callback(false); 
+                    img.onload = function(){ callback(true); }
+                    img.onerror = function(){ callback(false); }
                     img.src = url;
                 }
                 
-                var imageUrl = "https://play.yogome.com/shared/minigames/images/icons/"+ game.sceneName + ".png"
-      
+                var imageUrl = "../shared/minigames/images/icons/" + game.sceneName + ".png"
+                
                 imageExists(imageUrl, function(exists) {
                     
                     if(exists){
-                        $(".bgIcon img").attr("src","..shared/minigames/images/icons/"+game.sceneName + ".png");
+                        $(".bgIcon img").attr("src","../shared/minigames/images/icons/" + game.sceneName + ".png");
                     }
                     else{
                         $(".bgIcon img").attr("src","../shared/minigames/images/icons/default.png");
