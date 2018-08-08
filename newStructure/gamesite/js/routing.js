@@ -71,8 +71,7 @@ var routing = function () {
                         $(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/"+game.sceneName + ".png");
                     }
                     else{
-                        $(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/default.png");
-                        console.log("no imagen");
+                        $(".bgIcon img").attr("src","../shared/minigames/images/icons/default.png");
                     }
                 });
 
