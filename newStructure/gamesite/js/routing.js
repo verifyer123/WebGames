@@ -68,7 +68,7 @@ var routing = function () {
                 imageExists(imageUrl, function(exists) {
                     
                     if(exists){
-                        $(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/"+game.sceneName + ".png");
+                        $(".bgIcon img").attr("src","..shared/minigames/images/icons/"+game.sceneName + ".png");
                     }
                     else{
                         $(".bgIcon img").attr("src","../shared/minigames/images/icons/default.png");
