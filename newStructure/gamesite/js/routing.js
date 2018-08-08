@@ -55,7 +55,27 @@ var routing = function () {
 				console.log(src)
 
 				$(".game-canvas p").text("")
-				$(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/"+game.sceneName + ".png");
+                
+                function imageExists(url, callback) {
+                    var img = new Image();
+                    img.onload = callback(true); 
+                    img.onerror = callback(false); 
+                    img.src = url;
+                }
+                
+                var imageUrl = "https://play.yogome.com/shared/minigames/images/icons/"+ game.sceneName + ".png"
+      
+                imageExists(imageUrl, function(exists) {
+                    
+                    if(exists){
+                        $(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/"+game.sceneName + ".png");
+                    }
+                    else{
+                        $(".bgIcon img").attr("src","https://play.yogome.com/shared/minigames/images/icons/default.png");
+                        console.log("no imagen");
+                    }
+                });
+
                 
 				//TODO: check mixpanel
 				// mixpanel.track(
