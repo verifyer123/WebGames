@@ -35,9 +35,12 @@ var choiceGames = [
     
     function _updateBanner(num){
         var banner = $("#bannerGame");
-            TweenMax.fromTo(banner,0.2,{scale:1.2},{scale:1});
-            banner.html("<img src='https://yogome.github.io/WebGames/newStructure/minigames/" +optimized[num].mapUrl+ "/images/fbpost.png' />");
-            banner.css("background-image","url(images/bgbanner"+optimized[num].subject+".png)");
+            TweenMax.fromTo(banner,0.2,{rotationX:0},{rotationX:90,onComplete:changeImage});
+            TweenMax.fromTo(banner,0.2,{rotationX:90},{rotationX:0,delay:0.2});
+            function changeImage(){
+              banner.find("img").attr("src","https://yogome.github.io/WebGames/newStructure/minigames/" +optimized[num].mapUrl+ "/images/fbpost.png");
+                banner.css("background-image","url(images/bgbanner"+optimized[num].subject+".png)");  
+            }   
     }
     
 for(var i = 0; i<= choiceGames.length-1;i++){
@@ -60,9 +63,9 @@ for(var i = 0; i<= choiceGames.length-1;i++){
             levelDifficulty(optimized[place].age);
             updateRadar(optimized[place].type, optimized[place].age);
             for(var i = 0; i<= choiceGames.length-1;i++){
-                $(".container-gameSelect").css("transform","translate(20%,0%)"); 
+                $(".container-gameSelect").removeClass("game-active"); 
             }
-            $(this).css("transform","translate(0%,0%)");    
+            $(this).addClass("game-active");    
             minigameHref ="https://play.yogome.com/playweb/gamesite/#/minigames/" + texto + "?language=EN";    
             
             
