@@ -896,7 +896,7 @@ var snoopyEnBuscaDelSabor = function(){
                     object.tilePosition.x+=1
                     object.front.tilePosition.x-=1
 
-                    for(var j =0; j < object.wood.length; j++){
+                    /*for(var j =0; j < object.wood.length; j++){
                         var wood = object.wood[j]
                         wood.x = object.x - (wood.width/2) + (object.width/2)
                         //console.log(wood.x)
@@ -935,7 +935,50 @@ var snoopyEnBuscaDelSabor = function(){
 
                         game.physics.arcade.overlap(player,wood,hitSprite); 
 
+                    }*/
+
+                    var wood = object.wood
+                    wood.x = object.x - (wood.width/2) + (object.width/2)
+                    //console.log(wood.x)
+                    if(wood.state == WOODS_STATE.INIT){
+                        wood.y += WOOD_VELOCITY_FALLING
+                        if(wood.y >= FLOOR_Y + 120){
+                            wood.y = FLOOR_Y + 120
+                            //wood.alpha = 0
+                            wood.state = WOODS_STATE.END
+                        }
+
                     }
+                    /*else if(wood.state == WOODS_STATE.FALLING){
+                        wood.y += WOOD_VELOCITY_FALLING
+                        if(wood.y >= FLOOR_Y + 120){
+                            wood.y = FLOOR_Y + 120
+                            wood.alpha = 0
+                            wood.state = WOODS_STATE.END
+                        }
+                    }*/
+                    else if(wood.state == WOODS_STATE.END){
+                        wood.y -= WOOD_VELOCITY_FALLING
+                        if(wood.y < FLOOR_Y+10){
+                            wood.y = FLOOR_Y+10
+                            //wood.alpha = 1
+                            wood.state = WOODS_STATE.INIT
+                        }
+                    }
+                    /*else if(wood.state == WOODS_STATE.ASCENDING){
+                        wood.y -= WOOD_VELOCITY_FALLING
+                        if(wood.y < FLOOR_Y+10){
+                            wood.y = FLOOR_Y+10
+                            wood.alpha = 1
+                            wood.state = WOODS_STATE.INIT
+                        }
+                    }*/
+
+
+                    game.physics.arcade.overlap(player,wood,hitSprite);
+
+
+
                 }
                 else if(object.objectType == OBJECT_TYPE.HOUSE){
                 	if(object.x < X_DISSAPEAR){
@@ -988,6 +1031,12 @@ var snoopyEnBuscaDelSabor = function(){
 	        	currentSpeed = -currentSpeed
 	            player.scale.setTo(-player.scale.x,player.scale.y)
 	        }
+
+	        if(moreVelocity){
+	        	///currentSpeed = 
+	        	moreVelocity = false
+	        }
+
         }
 
         if(inHit && currentSpeed!=0){
@@ -1138,7 +1187,7 @@ var snoopyEnBuscaDelSabor = function(){
 
         if(!inHit){
         	if(lives>0){
-	        	player.spine.setAnimationByName(0,"fly",true)
+	        	player.spine.setAnimationByName(0,"run",true)
 	        	player.body.allowGravity = true
 	        }
         }
@@ -1218,9 +1267,14 @@ var snoopyEnBuscaDelSabor = function(){
             jumpToOtherSide = true
 
         }
-        else if(sprite2.objectType == OBJECT_TYPE.PLATFORM_SPECIAL && currentSpeed >= 0){
+        else if(sprite2.objectType == OBJECT_TYPE.PLATFORM_SPECIAL){
+        	//if(sprite2.canHitSpecial){
+        		//sprite2.timeWait = game.time.now + 500
+        		//sprite2.canHitSpecial = false
+        		jumpToOtherSide = true
+        	//}
 
-        	jumpToOtherSide = true
+        	
         }
 
     }
@@ -1611,10 +1665,10 @@ var snoopyEnBuscaDelSabor = function(){
         for(var i =0; i < grassGroup.length; i++){
             var grass = grassGroup.children[i]
             //console.log(grass.x,_x)
-            if(grass.x>=_x){
+            if(grass.x+grass.width/2>=_x){
                 grass.visible = false
                 if(!found){	
-	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS) + _x + 512
+	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS) + _x + 512+ grass.width
 	                lastGrass = getGrass(d)
 	            }
 	            found = true
@@ -1629,10 +1683,10 @@ var snoopyEnBuscaDelSabor = function(){
         for(var i =0; i < dryLeaves.length; i++){
             var leaves = dryLeaves.children[i]
             //console.log(grass.x,_x)
-            if(leaves.x>=_x){
+            if(leaves.x+leaves.width/2>=_x){
                 leaves.visible = false
                 if(!found){	
-	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES) + _x + 512
+	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES) + _x + 512+ leaves.width
 	                lastDryLeaves = getDry(d)
 	            }
 	            found = true
@@ -1679,8 +1733,16 @@ var snoopyEnBuscaDelSabor = function(){
         var waterFront = game.add.tileSprite(0,0,512,256,"atlas.game","agua_front")
         water.addChild(waterFront)
         water.front = waterFront
-        water.wood = []
-        for(var i =0; i < 2; i ++){
+
+        water.wood = woodGroup.create(_x,FLOOR_Y+10,"atlas.game","tronco")
+        water.wood.anchor.setTo(0)
+        water.wood.scale.setTo(1,1)
+        game.physics.arcade.enable(water.wood)
+        water.wood.objectType == OBJECT_TYPE.PLATFORM
+        water.wood.body.allowGravity = false
+        water.wood.state = WOODS_STATE.INIT
+        //water.wood = []
+        /*for(var i =0; i < 2; i ++){
             var wood = woodGroup.create(_x,FLOOR_Y+10,"atlas.game","tronco")
            
             wood.anchor.setTo(0)
@@ -1691,12 +1753,12 @@ var snoopyEnBuscaDelSabor = function(){
             wood.state = WOODS_STATE.INIT
             water.wood.push(wood)
             //wood.parentObject = water
-        }
+        }*/
 
-        water.wood[1].scale.setTo(1)
+        /*water.wood[1].scale.setTo(1)
         water.wood[1].alpha = 0
         water.wood[1].y =FLOOR_Y+120
-        water.wood[1].state = WOODS_STATE.END
+        water.wood[1].state = WOODS_STATE.END*/
 
         /*water.wood[2].scale.setTo(0)
         water.wood[2].alpha = 0
@@ -1808,6 +1870,8 @@ var snoopyEnBuscaDelSabor = function(){
         game.physics.arcade.enable(piso)
         piso.body.allowGravity = false
         piso.body.setSize(128,400,0,0)
+        piso.timeWait = 0
+        piso.canHitSpecial = true
 
         var tierra = game.add.tileSprite(0,128,128,300,"atlas.game","tierra")
         //var tierra = game.add.sprite(0,150,"atlas.game","tierra")
