@@ -293,7 +293,7 @@ var elemental = function(){
         back.height = game.world.height
         
         weves = game.add.tileSprite(0, 0, game.world.width * 2, game.world.height, "atlas.elemental", 'wave')
-        weves.anchor.setTo(0.5, 0)
+        weves.anchor.setTo(0, 0)
         weves.aux = 0
         sceneGroup.add(weves)
         
@@ -706,7 +706,7 @@ var elemental = function(){
 					mask.shield.loadTexture("atlas.elemental", "shield" + mask.element)
 					mask.shield.alpha = 1
 				}
-				var rand = game.rnd.realInRange(0.4, 1.6)
+				var rand = game.rnd.realInRange(0.45, 1.3)
 				mask.anim.setAnimationByName(0, "idle", true)
 				mask.healtPoints = level
 				mask.touch = false
