@@ -60,12 +60,35 @@ var snoopyEnBuscaDelSabor = function(){
                 file: soundsPath + "gameLose.mp3"},
             {   name: "falling",
                 file: soundsPath + "falling.mp3"},  
+            {
+            	name:"coin",
+            	file: soundsPath + "coin.wav"
+            },
+            {
+            	name:"spring",
+            	file: soundsPath + "spring.wav"
+            },
+            {
+            	name:"projectile",
+            	file: soundsPath + "projectile.wav"
+            },
+            {
+            	name:"jump",
+            	file: soundsPath + "jump.wav"
+            },
+            {
+            	name:"water",
+            	file: soundsPath + "water.wav"
+            }
+
+
+
         ],
     }
     
     var INITIAL_LIVES = 3
     var INITIAL_SPEED = 3
-    var DELTA_SPEED = 0.03
+    var DELTA_SPEED = 0.1
     var SWIPE_MAGNITUD = 150
     var FALLING_SPEED = 2
 
@@ -84,8 +107,8 @@ var snoopyEnBuscaDelSabor = function(){
     var DELTA_BALLON_CHANGE = 200
     var DELTA_PUCH = 3
 
-    var BLINK_TIMES = 3
-    var TIME_BLINK = 400
+    var BLINK_TIMES = 5
+    var TIME_BLINK = 300
     var BIRD_SPEED = 2
 
     var DISTANCE_MIN_MOUNTAIN = 400
@@ -93,6 +116,9 @@ var snoopyEnBuscaDelSabor = function(){
 
     var DISTANCE_MIN_GRASS = 165
     var DISTANCE_MAX_GRASS = 500
+
+    var DISTANCE_MIN_LEAVES = 500
+    var DISTANCE_MAX_LEAVES = 800
 
     var DISTANCE_MIN_FENCE = 300
     var DISTANCE_MAX_FENCE = 500
@@ -111,7 +137,11 @@ var snoopyEnBuscaDelSabor = function(){
     	
     var X_DISSAPEAR
     var JUMP_VELOCITY = 450
-    var JUMP_TRAMPOLIN = 800
+    var JUMP_TRAMPOLIN = 900
+
+    var DELTA_MIN_TIME_DIRIGIBLE = 2500
+    var DELTA_MAX_TIME_DIRIGIBLE = 3500
+    var DIRIGIBLE_SPEED = -4
 
     var gameIndex = 31
     var gameId = 100012
@@ -136,7 +166,8 @@ var snoopyEnBuscaDelSabor = function(){
     var currentDistanceMountain, lastMountain
     var grassGroup, lastGrass
     var fenceGroup, lastFence
-    var cloudGroup
+    var dryLeaves, lastDryLeaves, dryEmitter1, dryEmitter2
+    var cloudGroup, cloudGroup2
     var lastSpeed
     var woodGroup 
     var nextPlatfromsWater
@@ -147,6 +178,8 @@ var snoopyEnBuscaDelSabor = function(){
     var moreVelocity
     var stopByHouse, lastFrameStopHouse
     var randomLevel
+    var dirigible 
+
     function loadSounds(){
         sound.decode(assets.sounds)
     }
@@ -156,14 +189,14 @@ var snoopyEnBuscaDelSabor = function(){
         //gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         lives = INITIAL_LIVES
-        currentSpeed = 0
+        currentSpeed = INITIAL_SPEED
         canTouch = true
         levelIndex = 0
         FLOOR_Y = game.world.height - 150
         inHit = false
         X_DISSAPEAR = -game.world.width * 2
         jumpToOtherSide = false
-        firstTouch = true
+        firstTouch = false
         moreVelocity = false
         stopByHouse = false
         lastFrameStopHouse = false
@@ -195,7 +228,7 @@ var snoopyEnBuscaDelSabor = function(){
         /*if(amazing.getMinigameId()){
             marioSong = sound.setSong(soundsPath + 'songs/timberman.mp3',0.3)
         }else{*/
-            game.load.audio('arcadeSong', soundsPath + 'songs/timberman.mp3');
+            game.load.audio('arcadeSong', soundsPath + 'costena_sound.mp3');
         //}
 
         game.load.spine('snoopy','images/spine/snoopy/snoopy.json')
@@ -211,6 +244,7 @@ var snoopyEnBuscaDelSabor = function(){
 
         //gameActive = false
         currentSpeed = 0
+
         
         /*if(amazing.getMinigameId() && marioSong!=null){
             marioSong.pause()
@@ -438,6 +472,7 @@ var snoopyEnBuscaDelSabor = function(){
     	}
 
     	var cs = currentSpeed
+    	//console.log(currentSpeed)
         if(moreVelocity){
         	cs = currentSpeed*2
         }
@@ -454,7 +489,19 @@ var snoopyEnBuscaDelSabor = function(){
             }
         }
 
-        if(firstTouch){
+        for(var i =0; i < cloudGroup2.length; i++){
+            if(cloudGroup2.children[i].visible){
+                var object = cloudGroup2.children[i]
+                //console.log(object.vel)
+                object.x -= (object.vel+cs)
+                if(object.x < X_DISSAPEAR){
+                    object.visible = false
+                    getCloud2(game.world.width*2,game.rnd.integerInRange(0,game.world.centerY-100))
+                }
+            }
+        }
+
+        /*if(firstTouch){
 			
             if(game.input.activePointer.isDown){
                 currentSpeed = INITIAL_SPEED
@@ -468,17 +515,18 @@ var snoopyEnBuscaDelSabor = function(){
             
             //return
         }
-        else{
-
+        else{*/
+	
             updateInput()
-        }
+        //}
 
         //console.log(player.body.gravity)
         //var collideFloor = false
 
-        if(player.x > INITAL_X){
-            player.x-=DELTA_X
-            
+        if(player.x < INITAL_X){
+        	console.log("sgdasfdfas")
+            player.x+=(cs*3)
+           	cs = -(cs*2)
         }
 
 
@@ -487,9 +535,9 @@ var snoopyEnBuscaDelSabor = function(){
             if(mountainGroup.children[i].visible){
                 var object = mountainGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
                 if(object.x < X_DISSAPEAR){
                     object.visible = false
                 }
@@ -501,9 +549,9 @@ var snoopyEnBuscaDelSabor = function(){
             if(fenceGroup.children[i].visible){
                 var object = fenceGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
                 if(object.x < X_DISSAPEAR){
                     object.visible = false
                 }
@@ -514,12 +562,29 @@ var snoopyEnBuscaDelSabor = function(){
             if(grassGroup.children[i].visible){
                 var object = grassGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
                 if(object.x < X_DISSAPEAR){
                     object.visible = false
                 }
+            }
+        }
+
+        for(var i =0; i < dryLeaves.length; i++){
+            if(dryLeaves.children[i].visible){
+                var object = dryLeaves.children[i]
+                object.x -= cs
+                /*if(player.x > INITAL_X){
+                    object.x-=DELTA_X
+                }*/
+                if(object.x < X_DISSAPEAR){
+                    object.visible = false
+                }
+
+               	if(!object.hitted){
+               		game.physics.arcade.overlap(player,object,hitLeaves);
+               	}
             }
         }
         
@@ -534,18 +599,25 @@ var snoopyEnBuscaDelSabor = function(){
             lastGrass = getGrass(d)
         }
 
+        if(lastDryLeaves.x -(lastDryLeaves.width/2) < game.world.width+10){
+            var d  = game.rnd.integerInRange(DISTANCE_MIN_LEAVES,DISTANCE_MAX_LEAVES) + lastDryLeaves.x
+            lastDryLeaves = getDry(d)
+        }
+
         if(lastFence.x -(lastFence.width/2) < game.world.width+10){
             var d  = game.rnd.integerInRange(DISTANCE_MIN_FENCE,DISTANCE_MAX_FENCE) + lastFence.x
             lastFence = getFence(d)
         }
 
+        //console.log(cs)
+
         for(var i =0; i < backgroundGroup.length; i++){
             if(backgroundGroup.children[i].visible){
                 var object = backgroundGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
             
                 if(object.objectType == OBJECT_TYPE.PLATFORM){
 
@@ -594,6 +666,8 @@ var snoopyEnBuscaDelSabor = function(){
                     if(!object.haveDrop){
                         if(object.x <= object.dropX){
                             object.haveDrop = true
+
+                            //sound.play("falling")
                         }
 
                         object.dropObject.y = object.y + DELTA_BIRD_DROP
@@ -606,7 +680,12 @@ var snoopyEnBuscaDelSabor = function(){
                     else{
                         object.dropObject.y+=FALLING_SPEED
                         if(object.dropObject.visible){
-                            game.physics.arcade.overlap(player,object.dropObject,hitEnemy);
+                        	if(player.shield.visible){
+                        		game.physics.arcade.overlap(player.shield,object.dropObject,hitEnemy);
+                        	}
+                        	else{
+                            	game.physics.arcade.overlap(player,object.dropObject,hitEnemy);
+                            }
                         }
 
                         if(object.x < X_DISSAPEAR && (object.dropObject.y>game.world.height +object.dropObject.height || !object.dropObject)){
@@ -618,11 +697,18 @@ var snoopyEnBuscaDelSabor = function(){
                     if(object.x < X_DISSAPEAR){
                         object.visible = false
                     }
-
-                    game.physics.arcade.overlap(player,object,hitEnemy);
+                    if(player.shield.visible){
+                    	game.physics.arcade.overlap(player.shield,object,hitSprite);
+                    }
+                    else{
+                    	game.physics.arcade.overlap(player,object,hitSprite);
+                    }
 
                     if(object.timeWait <= game.time.now){
-                        getBullet(object.x,object.y)
+                    	if(object.x >0){
+                    		sound.play("projectile")
+                    	}
+                        getBullet(object.x+10,object.y+85)
                         object.timeWait = game.time.now+DELTA_TIME_SHOOT
                     }
                 }
@@ -634,8 +720,12 @@ var snoopyEnBuscaDelSabor = function(){
                     object.x -= BULLET_SPEED
                     object.y += object.velocityY
                     object.velocityY += BULLET_ACELERATION_Y
-
-                    game.physics.arcade.overlap(player,object,hitEnemy);
+                    if(player.shield.visible){
+                    	game.physics.arcade.overlap(player.shield,object,hitEnemy);
+                    }
+                    else{
+                    	game.physics.arcade.overlap(player,object,hitEnemy);
+                    }
 
                 }
                 else if(object.objectType == OBJECT_TYPE.ENEMY_WATER_STATIC){
@@ -651,6 +741,9 @@ var snoopyEnBuscaDelSabor = function(){
                             object.water2.visible = !object.water2.visible
                             object.timeWait = game.time.now +100//+ DELTA_TIME_SHOOT
                             object.state = HYDRANT_STATE.FIRING
+                            if(object.x >0){
+                            	sound.play("water")
+                            }
                         }
                     }
                     else if(object.state == HYDRANT_STATE.FIRING){
@@ -710,9 +803,14 @@ var snoopyEnBuscaDelSabor = function(){
                             else if(object.water2[j].direction == -1 && object.water2[j].scale.y <=0.7){
                             	object.water2[j].direction = 1
                             }
-
-                            game.physics.arcade.overlap(player,object.water1[j],hitEnemy);
-                            game.physics.arcade.overlap(player,object.water2[j],hitEnemy);
+                            if(player.shield.visible){
+	                            game.physics.arcade.overlap(player.shield,object.water1[j],hitEnemy);
+	                            game.physics.arcade.overlap(player.shield,object.water2[j],hitEnemy);
+	                        }
+	                        else{
+	                        	game.physics.arcade.overlap(player,object.water1[j],hitEnemy);
+	                            game.physics.arcade.overlap(player,object.water2[j],hitEnemy);
+	                        }
                         }
                     }
 
@@ -727,11 +825,14 @@ var snoopyEnBuscaDelSabor = function(){
                     //console.log(object.timeWait,game.time.now)
                     if(object.timeWait <= game.time.now && !object.hitObject.visible){
                         object.hitObject.visible = !object.hitObject.visible
+
+                        if(object.hitObject.visible && object.x >0){
+                        	sound.play("spring")
+                        }
                         //object.timeWait += DELTA_TIME_SHOOT
                     }
 
                     if(object.hitObject.visible){
-
                         object.hitObject.x = object.x - object.hitObject.currentDelta
                         game.physics.arcade.overlap(player,object.hitObject,hitEnemy);
                         object.hitObject.currentDelta += DELTA_PUCH*object.hitObject.direction
@@ -739,10 +840,12 @@ var snoopyEnBuscaDelSabor = function(){
                         	if(object.hitObject.currentDelta > (object.hitObject.width/3)*2){
                         		object.timeWait = game.time.now + 800
                         		object.hitObject.direction = 0
+
                         	}
                         }
                         else if(object.hitObject.direction==0 && object.timeWait<=game.time.now){
                         	object.hitObject.direction = -1
+                        	
                         }
                         else if(object.hitObject.direction == -1){
                         	if(object.hitObject.currentDelta <=0){
@@ -761,8 +864,12 @@ var snoopyEnBuscaDelSabor = function(){
                 	if(object.x < X_DISSAPEAR){
                         object.visible = false
                     }
-
-                    game.physics.arcade.overlap(player,object,hitEnemy);
+                    if(player.shield.visible){
+                    	game.physics.arcade.overlap(player.shield,object,hitEnemy);
+                    }
+                    else{
+                    	game.physics.arcade.overlap(player,object,hitEnemy);
+                    }
 
                 }
                 else if(object.objectType == OBJECT_TYPE.TRAMPOLIN){
@@ -848,12 +955,12 @@ var snoopyEnBuscaDelSabor = function(){
             	if(backgroundGroup.children[i].visible && backgroundGroup.children[i].objectType == OBJECT_TYPE.FLOOR){
             		var b = backgroundGroup.children[i]
             		//console.log(b.x,player.x)
-            		if(b.x < 690 && b.x>player.x){
+            		if(b.x > -500 && b.x<player.x-50){
             			if(nextP==null){
             				nextP = b
             			}
             			else{
-            				if(nextP.x > b.x){
+            				if(nextP.x < b.x){
             					nextP = b
             				}
             			}
@@ -911,6 +1018,16 @@ var snoopyEnBuscaDelSabor = function(){
                 //lastObject = null
             }
         }
+
+
+        if(dirigible.timeWait <= game.time.now){
+        	dirigible.x += DIRIGIBLE_SPEED
+        	if(dirigible.x <= -500){
+        		dirigible.x = game.world.width + 500
+        		dirigible.timeWait = game.time.now = game.rnd.integerInRange(DELTA_MIN_TIME_DIRIGIBLE, DELTA_MAX_TIME_DIRIGIBLE)
+        		//dirigible.y = game.rnd.integerInRange(200,game.world.centerY)
+        	}
+        }
     }
 
 
@@ -956,7 +1073,9 @@ var snoopyEnBuscaDelSabor = function(){
             	currentSpeed = lastSpeed
             	player.invensible = false
             	player.shield.visible = false
-            	player.spine.setAnimationByName(0,"run",true)
+            	if(lives>0){
+            		player.spine.setAnimationByName(0,"run",true)
+            	}
             }
 
             tapPosition = null
@@ -971,7 +1090,7 @@ var snoopyEnBuscaDelSabor = function(){
     		lastSpeed = currentSpeed
     	}
     	currentSpeed = 0
-    	if(!inHit){
+    	if(!inHit && lives>0){
     		player.spine.setAnimationByName(0,"idle",true)
     	}
     }
@@ -986,15 +1105,19 @@ var snoopyEnBuscaDelSabor = function(){
         //if(player.)
 
         if(player.numberjumps<2){
+
             //player.body.allowGravity = true
             player.numberjumps ++
             player.body.velocity.y =-JUMP_VELOCITY
-            if(player.numberjumps ==1){
-                player.spine.setAnimationByName(0,"jump",true)
-            }
-            else{
-                player.spine.setAnimationByName(0,"fly",true)
-            }
+            if(lives>0){
+            	//sound.play("jump")
+	            if(player.numberjumps ==1){
+	                player.spine.setAnimationByName(0,"jump",true)
+	            }
+	            else{
+	                player.spine.setAnimationByName(0,"fly",true)
+	            }
+	        }
             
         }
 
@@ -1014,14 +1137,16 @@ var snoopyEnBuscaDelSabor = function(){
         }
 
         if(!inHit){
-        	player.spine.setAnimationByName(0,"fly",true)
-        	player.body.allowGravity = true
+        	if(lives>0){
+	        	player.spine.setAnimationByName(0,"fly",true)
+	        	player.body.allowGravity = true
+	        }
         }
         setTimeout(function(){
         	moreVelocity = false
         	//if()
         	player.body.allowGravity = true
-        	if(player.numberjumps == 0){
+        	if(player.numberjumps == 0 && lives>0){
         		player.spine.setAnimationByName(0,"run",true)
         	}
         },3000)
@@ -1031,6 +1156,16 @@ var snoopyEnBuscaDelSabor = function(){
     function swipeLeft(){
         //console.log("swipe Left")
         jumpToOtherSide = true
+    }
+
+    function hitLeaves(sprite1,sprite2) {
+    	dryEmitter1.x = player.x
+    	dryEmitter1.y = player.y
+    	dryEmitter2.x = player.x
+    	dryEmitter2.y = player.y
+    	dryEmitter1.start(true,500,null,5)
+    	dryEmitter2.start(true,500,null,5)
+    	sprite2.hitted = true
     }
 
     function hitSprite (sprite1, sprite2) {
@@ -1060,27 +1195,30 @@ var snoopyEnBuscaDelSabor = function(){
 	            }
 
 	            if(player.numberjumps!=0 && !inHit && !player.shield.visible){
-	                if(currentSpeed==0){
-	                    player.spine.setAnimationByName(0,"idle",true)
-	                }
-	                else{
-	                    player.spine.setAnimationByName(0,"run",true)
-	                }
+	            	if(lives>0){
+		                if(currentSpeed==0){
+		                    player.spine.setAnimationByName(0,"idle",true)
+		                }
+		                else{
+		                    player.spine.setAnimationByName(0,"run",true)
+		                }
+		            }
 	            }
 	            player.numberjumps = 0
 	        }
 
         }
         
-        else if(sprite2.objectType == OBJECT_TYPE.HOUSE ){
+        else if(sprite2.objectType == OBJECT_TYPE.HOUSE  && currentSpeed >= 0){
 
-            stopByHouse = true
+            /*stopByHouse = true
             if(player.body.velocity.y >=0){
             	player.spine.setAnimationByName(0,"idle",true)
-            }
+            }*/
+            jumpToOtherSide = true
 
         }
-        else if(sprite2.objectType == OBJECT_TYPE.PLATFORM_SPECIAL){
+        else if(sprite2.objectType == OBJECT_TYPE.PLATFORM_SPECIAL && currentSpeed >= 0){
 
         	jumpToOtherSide = true
         }
@@ -1088,10 +1226,12 @@ var snoopyEnBuscaDelSabor = function(){
     }
 
     function hitEnemy(sprite1, sprite2){
-    	if(!player.invensible){
+    	if(!player.invensible && lives>0){
+    		sound.play("pop")
 	        sprite2.visible = false
 	        sprite2.x = -1000
 	        player.invensible = true
+	        
             var anim = player.spine.setAnimationByName(0,"hit",false)
             inHit = true
             if(currentSpeed!=0){
@@ -1146,7 +1286,7 @@ var snoopyEnBuscaDelSabor = function(){
     }
 
     function hitCoin(sprite1, sprite2){
-
+    	sound.play("coin")
         sprite2.visible = false
         sprite2.x = -1000
         if(sprite2.objectType == OBJECT_TYPE.COIN){
@@ -1160,6 +1300,7 @@ var snoopyEnBuscaDelSabor = function(){
     function hitTrampolin(sprite1, sprite2){
     	player.numberjumps =1
     	player.body.velocity.y =-JUMP_TRAMPOLIN
+    	//sound.play("jump")
     }
 
 
@@ -1464,7 +1605,7 @@ var snoopyEnBuscaDelSabor = function(){
     }
 
     function getWater(_x){
-
+    	sound.play("water")
         //hay que evaluar si existe una cerca o un arbusto sobre el agua
         var found = false
         for(var i =0; i < grassGroup.length; i++){
@@ -1482,6 +1623,24 @@ var snoopyEnBuscaDelSabor = function(){
         if(!found){
         	var d  = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS) + _x + 512
 	        lastGrass = getGrass(d)
+        }
+
+        found = false
+        for(var i =0; i < dryLeaves.length; i++){
+            var leaves = dryLeaves.children[i]
+            //console.log(grass.x,_x)
+            if(leaves.x>=_x){
+                leaves.visible = false
+                if(!found){	
+	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES) + _x + 512
+	                lastDryLeaves = getDry(d)
+	            }
+	            found = true
+            }
+        }
+        if(!found){
+        	var d  = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES) + _x + 512
+	        lastDryLeaves = getDry(d)
         }
 
 
@@ -1708,7 +1867,7 @@ var snoopyEnBuscaDelSabor = function(){
         	randomLevel = temp
         }
 
-        //randomLevel = 5
+        //randomLevel = 8
 
         switch(randomLevel){
         	case 1:
@@ -2083,14 +2242,46 @@ var snoopyEnBuscaDelSabor = function(){
         distance = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS)
         lastGrass = getGrass(distance)
 
+        dryLeaves = game.add.group()
+        sceneGroup.add(dryLeaves)
+
+        distance = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES)
+        lastDryLeaves = getDry()
+
+        dryEmitter1 = game.add.emitter(0, 0, 100);
+        dryEmitter1.makeParticles("atlas.game","dryLeavesParticles");
+        dryEmitter1.gravity = -1500;
+        dryEmitter1.maxParticles = 2
+
+        dryEmitter2 = game.add.emitter(0, 0, 100);
+        dryEmitter2.makeParticles("atlas.game","dryLeavesParticles2");
+        dryEmitter2.gravity = -1500;
+        dryEmitter2.maxParticles = 2
+
         cloudGroup = game.add.group()
         sceneGroup.add(cloudGroup)
 
-        for(var i =0; i < 10; i++){
-            var _x = game.rnd.integerInRange(0,game.world.width*2)
+        for(var i =0; i < 7; i++){
+            var _x = game.rnd.integerInRange(0,game.world.width*3)
             var _y = game.rnd.integerInRange(0,game.world.centerY-100)
             var cloud = getCloud(_x,_y)
         }
+
+        dirigible = sceneGroup.create(game.world.width+500,200,"atlas.game","dirigible")
+        dirigible.anchor.setTo(0.5)
+        dirigible.scale.setTo(0.8)
+        dirigible.timeWait = game.time.now + game.rnd.integerInRange(DELTA_MIN_TIME_DIRIGIBLE,DELTA_MAX_TIME_DIRIGIBLE)
+
+
+        cloudGroup2 = game.add.group()
+        sceneGroup.add(cloudGroup2)
+
+        for(var i =0; i < 7; i++){
+            var _x = game.rnd.integerInRange(0,game.world.width*3)
+            var _y = game.rnd.integerInRange(0,game.world.centerY-100)
+            var cloud = getCloud2(_x,_y)
+        }
+
 
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
@@ -2190,6 +2381,45 @@ var snoopyEnBuscaDelSabor = function(){
         return cloud
     }
 
+    function getCloud2(_x,_y){
+        for(var i = 0; i < cloudGroup2.length; i++){
+            if(!cloudGroup2.children[i].visible){
+                var cloud = cloudGroup2.children[i]
+                cloud.visible = true
+                cloud.x = _x
+                cloud.y + _y
+                cloud.loadTexture("atlas.game","cloud_"+game.rnd.integerInRange(1,7))
+                cloud.vel = game.rnd.frac()*VEL_MAX_CLOUD
+                return cloud
+            }
+        }
+
+        var cloud = cloudGroup2.create(_x,_y,"atlas.game","cloud_"+game.rnd.integerInRange(1,7))
+        cloud.anchor.setTo(0.5,1)
+        cloud.vel = game.rnd.frac()*VEL_MAX_CLOUD
+        return cloud
+    }
+
+    function getDry(_x){
+    	for(var i = 0; i < dryLeaves.length; i++){
+           if(!dryLeaves.children[i].visible){
+           	var dry = dryLeaves.children[i]
+           	dry.visible = true
+           	dry.hitted = false
+           	dry.x = _x
+           	return dry
+           }
+       }
+
+       var dry = dryLeaves.create(_x,FLOOR_Y+10,"atlas.game","dryLeaves")
+       dry.anchor.setTo(0.5,1)
+       game.physics.arcade.enable(dry)
+       dry.body.allowGravity = false
+       dry.hitted = false
+       dry.body.setSize(260,50,20,50)
+       return dry
+    }
+
 
     
 
@@ -2217,7 +2447,7 @@ var snoopyEnBuscaDelSabor = function(){
 
         var playerSpine = game.add.spine(0,50,"snoopy")
         playerSpine.setSkinByName("normal")
-        playerSpine.setAnimationByName(0,"idle",true)
+        playerSpine.setAnimationByName(0,"run",true)
         player.addChild(playerSpine)
         playerSpine.scale.setTo(0.5)
         player.spine = playerSpine
@@ -2228,6 +2458,9 @@ var snoopyEnBuscaDelSabor = function(){
         player.addChild(shield)
         player.shield = shield
         shield.visible = false
+        game.physics.arcade.enable(shield)
+        shield.body.allowGravity = false
+        shield.body.setCircle(65,30,30)
     }
 
 
@@ -2282,14 +2515,14 @@ var snoopyEnBuscaDelSabor = function(){
 
         //game.camera.focusOnXY(game.world.centerX, game.world.centerY);
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.arcade.gravity.y = 650;
+        game.physics.arcade.gravity.y = 800;
 
         initialize()
 
         createBackground()
 
         //if(!amazing.getMinigameId()){
-			marioSong = game.add.audio('timberman')
+			marioSong = game.add.audio('arcadeSong')
 			game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.6)
 			}, this);	
@@ -2355,8 +2588,15 @@ var snoopyEnBuscaDelSabor = function(){
 
     function render(){
         game.debug.body(player)
+        if(player.shield.visible){
+        	game.debug.body(player.shield)
+        }
         for(var i=0; i < backgroundGroup.length; i++){
             game.debug.body(backgroundGroup.children[i])
+        }
+
+        for(var i=0; i < dryLeaves.length; i++){
+        	game.debug.body(dryLeaves.children[i])
         }
 
 
