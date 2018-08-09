@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "IDmJTwiKCCwS0p8QQTKadEkmwLU", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"skeleton": { "hash": "5L1q1gEpqgWGRgvEz2h74z25j5I", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{
@@ -488,8 +488,8 @@
 					{ "time": 1.6666, "color": "ffffff00" }
 				],
 				"attachment": [
-					{ "time": 0, "name": "mask_water" },
-					{ "time": 1.6666, "name": "mask_water" }
+					{ "time": 0, "name": "mask_water_b" },
+					{ "time": 1.6666, "name": "mask_water_b" }
 				]
 			},
 			"shadow": {
@@ -777,7 +777,7 @@
 			},
 			"waterR": {
 				"rotate": [
-					{ "time": 0, "angle": 0 }
+					{ "time": 0, "angle": -5.54 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 }

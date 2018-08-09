@@ -26,8 +26,6 @@ body {
 /*    background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);*/
     background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);
     transition: background 0.8s ease;
-    
-
 }
 
 #header{
@@ -65,11 +63,16 @@ body {
     position: relative;
     width: 80%;
     border-radius: 1vw; 
-    margin: 1vw;    overflow: hidden;  
+    margin: 1vw;    
+    overflow: hidden;  
     background-repeat: no-repeat;
     transition: transform 0.5s ease;
     transform: translate(20%,0);
 }
+
+    .game-active{
+         transform: translate(0%,0);
+    }
 
 .container-gameSelect p{
     line-height:0;
@@ -108,7 +111,6 @@ body {
     
 }
 
-
 #bannerGame{
     position: absolute;
     top:6%;
@@ -130,30 +132,32 @@ body {
     border-radius: 3vw;   
 }
 
-
-
 #difficultyGame{
     position: absolute;
     top: 51%;
-    width: 45%;
+    width: 50%;
+    height: 6%;
     z-index: 1;
 }
 
 #difficultyGame p{
     position: absolute;
     color: #FFF;
-    left: 11%;
+    left: 7%;
     z-index: 2;
-    top: -25%;
-    font-size: 1.4vw;
-    
+    top: -40%;
+    font-size: 1.4vw; 
 }
 
 #imgDifficulty{
-    position: relative;
+    position: absolute;
+    height: 100%;
     width: 80%;
-    left: 10%;
-    z-index: 1;
+    left: 5%;
+    z-index: 2;
+    background-image: url("../images/difficultygame.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
     
 }
 
@@ -161,20 +165,23 @@ body {
     transition: width 0.5s;
     position: absolute;
     width: 70%;
-    height:45%;
-    top: 0%;
-    left: 18%;
-    transform: translate(0%,3%);
+    height:85%;
+    top: 3%;
+    left: 13%;
+    transform: translate(0%,0%);
     background: linear-gradient(to right, rgba(247,148,0,1)  0%,rgba(241,74,36,1) 100%);
+    z-index: 0;
 }
 
 #bgwhiteDifficulty{
-    position: relative;
+    position: absolute;
     width: 70%;
-    height:100%;
-    padding: 1vw;
-    transform: translate(18%,-130%);
+    height:85%;
+    top: 3%;
+    left: 13%;
+    transform: translate(0%,0%);
     background-color: #FFF;
+    z-index: 0;
 }
 
 /*CHART*/
@@ -187,7 +194,7 @@ body {
 
 #radar{
     position: absolute;
-    top: 57%;
+    top: 60%;
     left:-2%;
     width: 35%;
     background-image: url("../images/gameradar.png");
@@ -207,7 +214,7 @@ body {
     box-shadow: 0px 5px 0px #005e2f, 0px 2px 0px 8px #FFF;
     position: absolute;
     color:#FFF;
-    top:54%;
+    top:58%;
     left:35%;
     transform: translate(-50%,50%);
     z-index: 2;
@@ -232,4 +239,140 @@ footer{
     bottom: -40%;
     left: 50%;
     transform: translate(-50%,0);
+}
+
+/*Small devices (landscape phones, 576px and up)*/
+@media screen and (orientation: portrait) {
+    #header .logo{
+        position: relative;
+        height: 90%;
+        left: 50%;
+        background: none;
+    }
+    
+    #selectgame{
+        position: absolute;
+        width: 100%;
+        height: 45%;
+        top: 45%;
+        left: 0%;
+        text-align: center;
+        overflow-y: scroll;
+        z-index: 2;
+    }    
+    
+
+    .container-gameSelect{
+        position: relative;
+        left:5%;
+        width: 90%;
+        opacity: 0.5;
+        border-radius: 14vw; 
+        margin: 1vw;    
+        overflow: hidden;  
+        background-repeat: no-repeat;
+        background-position: center;
+        
+        transition: opacity 0.5s ease;
+        transform: translate(0%,0%);
+    } 
+    
+    .game-active{
+        opacity: 1;
+    }
+
+    .bg-selectgGame{
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        top: 2%;
+        left: 0%;
+        opacity: 0.5;
+
+    }    
+
+    #bannerGame{
+        top:0%;
+        width: 100%;
+        background-size: 90%;
+    }
+
+    #bannerGame img{
+        width: 78%;
+        border-radius: 5vw;   
+    }    
+    
+    #radar{
+    display: none;
+    }
+    
+
+    #difficultyGame{
+        top: 39%;
+        width: 100%;
+        z-index: 1;
+        left: 0%;
+        height: 5%;
+        
+    }
+
+    #difficultyGame p{
+        position: absolute;
+        color: #FFF;
+        left: 11%;
+        z-index: 2;
+        top: -25%;
+        font-size: 1.4vw; 
+        display: none;
+    }
+
+    #imgDifficulty{
+        position: relative;
+        width: 100%;
+        left: 0%;
+        z-index: 1;
+       background-image: url("../images/levelnumbers.png");
+        background-size: 90%;
+        background-position: center;
+    }
+
+    #gradientDifficulty{
+        transition: width 0.5s;
+        position: absolute;
+        width: 70%;
+        height:100%;
+        top: 0%;
+        left: 0%;
+        transform: translate(0%,0%) scaleX(1.85);
+        background: linear-gradient(to right, rgba(247,148,0,1)  0%,rgba(241,74,36,1) 100%);
+    }
+
+    #bgwhiteDifficulty{
+        position: absolute;
+        width: 70%;
+        height:100%;
+        top: 0%;
+        left: 0%;
+        padding: 0;
+        transform: translate(0%,0%)  scaleX(1.85);
+        background-color: #FFF;
+    }
+
+    #playGameButton{
+        font-size:6vw;
+        width: 50%;
+        top:90%;;
+        left:50%;
+    }
+   
+    
+}
+
+
+
+/*Extra large devices (large desktops, 1200px and up)*/
+@media (min-width: 1200px) {
+    #container{
+    background:url("../images/stars01.png"), linear-gradient(to bottom, #632c94 0%, #1b1464 100%);
+    }
 }

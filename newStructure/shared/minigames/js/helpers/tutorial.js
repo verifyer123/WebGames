@@ -101,6 +101,14 @@ var tutorialHelper = function () {
 		var anim = spine.setAnimationByName(0,"idle",false)
 		anim.onComplete = repeatSpine
 		group.add(spine)
+        
+        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        
+        var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
+        typeText.stroke = '#000000';
+        typeText.strokeThickness = 6;
+        typeText.anchor.setTo(0.5)
+        group.add(typeText)
 
 		// }
 
@@ -138,8 +146,6 @@ var tutorialHelper = function () {
 
             tween_1.start()
 
-
-            var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
             coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+198, "1 pts", fontStyle)
             coinText_1.stroke = '#000000';
             coinText_1.strokeThickness = 5;
@@ -161,11 +167,6 @@ var tutorialHelper = function () {
             coinText_3.scale.setTo(0.8)
             group.add(coinText_3)
 
-            var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
-            typeText.stroke = '#000000';
-            typeText.strokeThickness = 6;
-            typeText.anchor.setTo(0.5)
-            group.add(typeText)
         }else if(configuration=="nostars"){
             return
         }

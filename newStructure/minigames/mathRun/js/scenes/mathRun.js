@@ -122,6 +122,7 @@ var mathRun = function(){
     var result
     var playingTuto
     var easyMode
+    var COIN_LIMIT
     
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -151,7 +152,6 @@ var mathRun = function(){
             button.isPressed = false
         })
         sceneGroup.add(button)
-        
         loadSounds()
 	}
     
@@ -644,7 +644,7 @@ var mathRun = function(){
                 
         var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         
-        var bar = new Phaser.Graphics(game, game.world.centerX - 250, 80)
+        var bar = new Phaser.Graphics(game, game.world.centerX - 260, 70)
         bar.beginFill(0x000000)
         bar.drawRoundedRect(0, 0, 500, 150, 30)
         bar.endFill()
@@ -691,7 +691,9 @@ var mathRun = function(){
         boardGroup.coinResult = coin
         
         boardGroup.setAll("alpha", 0)
-        bar.scale.setTo(1,0)
+        //bar.scale.setTo(1,0)
+        
+        COIN_LIMIT = boardGroup.bar.centerY + 160
     }
     
     function createLand(){
@@ -844,7 +846,12 @@ var mathRun = function(){
                 obj.reset(game.world.width, platform.y - platform.height - (100 * game.rnd.integerInRange(1, 2)))
             }
             else{
-                obj.reset(game.world.width, platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(2, 6)))
+                var coinHeight = platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(2, 6))
+                
+                if(coinHeight < COIN_LIMIT)
+                    coinHeight += 200
+                
+                obj.reset(game.world.width, coinHeight)
             }
             
             obj.body.velocity.x = -225
@@ -1161,16 +1168,17 @@ var mathRun = function(){
                 game.sound.mute = false
             }, this)
 			            
-			createPointsBar()
-			createHearts()
-            createBoard()
+			
             createLand()
             createCoins()
             createEnemies()
             createPlayer()
+            createBoard()
+            createPointsBar()
+			createHearts()
+            
             createCoin()
             createParticles()
-			
 			buttons.getButton(gameSong,sceneGroup)
             createTutorial()
             

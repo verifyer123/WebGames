@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "rsmFzRRIHmvHTTLes/rWlgDp10Q", "spine": "3.2.01", "width": 385.33, "height": 439.65, "images": "" },
+"skeleton": { "hash": "rsmFzRRIHmvHTTLes/rWlgDp10Q", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "mask", "parent": "root", "length": 140.74, "rotation": 89.76, "x": -0.37, "y": 41.74, "color": "9b000280" },
