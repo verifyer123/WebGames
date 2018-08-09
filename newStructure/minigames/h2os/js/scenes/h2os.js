@@ -823,7 +823,7 @@ var h2os = function(){
         }else{
             particleWrong.x = object.world.x;
             particleWrong.y = object.world.y;
-            particleWrong.start(true, 1000, null, 1)
+            particleWrong.start(true, 1000, null, 5);
             replaceGroup(object,grabGroup,reuseGroup,0,0);
         }
 
@@ -994,7 +994,7 @@ var h2os = function(){
             particleCorrect = createPart('star');
             sceneGroup.add(particleCorrect);
 
-            particleWrong = createPart('wrong');
+            particleWrong = createPart('smoke');
             sceneGroup.add(particleWrong);
 
             buttons.getButton(h2osSong,sceneGroup)
