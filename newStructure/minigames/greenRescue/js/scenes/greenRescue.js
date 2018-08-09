@@ -196,7 +196,6 @@ var greenRescue = function(){
 
 			deactivateParticle(pointsText,800)
 			if(isScore){
-
 				pointsText.scale.setTo(0.7,0.7)
 				var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
 				tweenScale.onComplete.add(function(){
@@ -395,7 +394,6 @@ var greenRescue = function(){
 		boomParticle = createPart("smoke");
 		sceneGroup.add(boomParticle);
 
-
 		//Coins
 		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
 		coins.anchor.setTo(0.5)
@@ -455,6 +453,7 @@ var greenRescue = function(){
 
 		for(var loadFloor=0; loadFloor<3; loadFloor++){
 			floor=game.add.spine(game.world.centerX,game.world.centerY,"floor");
+			floor.setSkinByName("normal");
 			platformsGroup.add(floor);
 		}
 
@@ -793,38 +792,38 @@ var greenRescue = function(){
 		game.time.events.add(1500,function(){
 			for(var platformsInGame=0; platformsInGame<platformsGroup.length; platformsInGame){
 				platformsGroup.children[platformsInGame].x=positionPlatformsX[platformsInGame];
-				platformsGroup.children[platformsInGame].setAnimationByName(0,"idle",false).onComplete.add=function(){
-//					for(var appearTrashandIcons=0; appearTrashandIcons<TOTAL_OBJS; appearTrashandIcons++){
-//						if(placeHolders[appearTrashandIcons].state=="trash"){
-//							trash[appearTrashandIcons].alpha=1;
-//							placeHolders[appearTrashandIcons].inputEnabled=true;
-//							iconAnimation[appearTrashandIcons]=game.add.tween(icons[appearTrashandIcons]).to({alpha:0},500,Phaser.Easing.Linear.Out,true);
-//						}
-//						if(placeHolders[appearTrashandIcons].state=="tree"){
-//							placeHolders[appearTrashandIcons].inputEnabled=true;
-//						}
-//					}
+				platformsGroup.children[platformsInGame].setAnimationByName(0,"start_dirty",false).onComplete.add=function(){
+					for(var appearTrashandIcons=0; appearTrashandIcons<TOTAL_OBJS; appearTrashandIcons++){
+						if(placeHolders[appearTrashandIcons].state=="trash"){
+							trash[appearTrashandIcons].alpha=1;
+							placeHolders[appearTrashandIcons].inputEnabled=true;
+							iconAnimation[appearTrashandIcons]=game.add.tween(icons[appearTrashandIcons]).to({alpha:0},500,Phaser.Easing.Linear.Out,true);
+						}
+						if(placeHolders[appearTrashandIcons].state=="tree"){
+							placeHolders[appearTrashandIcons].inputEnabled=true;
+						}
+					}
 				};
 			}
 		});
 	}
 	function tutorialLevel(){
 		for(var platformsInGame=0; platformsInGame<platformsGroup.length; platformsInGame){
-			platformsGroup.children[platformsInGame].setAnimationByName(0,"idle",false);
+			platformsGroup.children[platformsInGame].setAnimationByName(0,"start_dirty",false);
 		}
-		placeHolders[1].state="trash";
-		placeHolders[4].state="tree";
-		placeHolders[7].state="tree";
-
-		placeHolders[1].inputEnabled=true;
-		placeHolders[4].inputEnabled=false;
-		placeHolders[7].inputEnabled=false;
-
-		hand.x=broomIco.x;
-		hand.y=broomIco.y;
-
-		tutorialHand=game.add.tween(hand).to({x:placeHolders[1].x, y:placeHolders[1].y},500,Phaser.Easing.Cubic.Out).loop(true);
-		tutorial=0;
+//		placeHolders[1].state="trash";
+//		placeHolders[4].state="tree";
+//		placeHolders[7].state="tree";
+//        
+//		placeHolders[1].inputEnabled=true;
+//		placeHolders[4].inputEnabled=false;
+//		placeHolders[7].inputEnabled=false;
+//
+//		hand.x=broomIco.x;
+//		hand.y=broomIco.y;
+//
+//		tutorialHand=game.add.tween(hand).to({x:placeHolders[1].x, y:placeHolders[1].y},500,Phaser.Easing.Cubic.Out).loop(true);
+//		tutorial=0;
 	}
 	function createTextPart(text,obj){
 

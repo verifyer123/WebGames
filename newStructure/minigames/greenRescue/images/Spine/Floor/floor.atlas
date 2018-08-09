@@ -1,48 +1,20 @@
 
 floor.png
-size: 1005,693
+size: 1024,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 first
   rotate: false
-  xy: 2, 292
+  xy: 2, 2
   size: 389, 399
   orig: 389, 399
   offset: 0, 0
   index: -1
 fist1
   rotate: false
-  xy: 393, 292
+  xy: 393, 2
   size: 389, 399
   orig: 389, 399
-  offset: 0, 0
-  index: -1
-last
-  rotate: true
-  xy: 784, 16
-  size: 336, 218
-  orig: 336, 218
-  offset: 0, 0
-  index: -1
-last1
-  rotate: true
-  xy: 784, 354
-  size: 337, 219
-  orig: 337, 219
-  offset: 0, 0
-  index: -1
-middle
-  rotate: false
-  xy: 2, 2
-  size: 365, 288
-  orig: 365, 288
-  offset: 0, 0
-  index: -1
-middle1
-  rotate: false
-  xy: 369, 2
-  size: 365, 288
-  orig: 365, 288
   offset: 0, 0
   index: -1
