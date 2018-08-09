@@ -273,47 +273,6 @@ var galacticPool = function(){
 		});
 	}
 
-	function placePlanetsAndTargets(){
-		var BOUNCE_LEVEL=1;
-		var SWITCHING=true;
-		fontStyleWord = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		for(var planetsTargets=0; planetsTargets<TOTAL_PLANETS; planetsTargets++){
-			planets[planetsTargets].spines=game.add.spine(0, 0, PLANETS_SPINES);
-			planets[planetsTargets].spines.setSkinByName(planetsNames[planetsTargets].SKIN);
-			planets[planetsTargets].spines.setAnimationByName(0, "IDLE", true);
-			planets[planetsTargets].spines.alpha=1;
-			planets[planetsTargets].body.x=positionX[planetsTargets];
-			planets[planetsTargets].body.y=positionY[planetsTargets];
-			planets[planetsTargets].tag=planetsNames[planetsTargets].word;
-			planets[planetsTargets].spines.x=positionX[planetsTargets];
-			planets[planetsTargets].spines.y=positionY[planetsTargets];
-			planets[planetsTargets].text= new Phaser.Text(planetsGroup.game, 0, 0, "", fontStyleWord)
-			planets[planetsTargets].text.x=positionX[planetsTargets]+50;
-			planets[planetsTargets].text.y=positionY[planetsTargets];
-			planets[planetsTargets].text.setText(planetsNames[planetsTargets].word);
-			targets[planetsTargets]=game.add.sprite(0,0,"atlas.galacticPool","destino");
-			targets[planetsTargets].x=positionX[planetsTargets];
-			targets[planetsTargets].y=positionY[planetsTargets];
-			targets[planetsTargets].anchor.setTo(0.5,0.5);
-			targets[planetsTargets].tag=planetsNames[planetsTargets].word;
-			targets[planetsTargets].alpha=0;
-			if(planetsTargets==8){
-				planets[planetsTargets].body.x=game.world.centerX
-				planets[planetsTargets].body.y=game.world.height-100
-				planets[planetsTargets].text.x=game.world.centerX+50;
-				planets[planetsTargets].text.y=game.world.height-100;
-			}
-		}
-		for(var addInRest=0; addInRest<TOTAL_PLANETS; addInRest++){
-			planetsGroup.add(planets[addInRest].spines);
-			targetsGroup.add(targets[addInRest]);
-		}
-		for(var addInGroup=0; addInGroup<TOTAL_PLANETS; addInGroup++){
-			planetsGroup.add(planets[addInGroup].text);
-			planetsGroup.add(nebul[addInGroup]);
-		}
-	}
-
 
 	function dragging(obj){
 		if(dificulty>=2){
@@ -328,6 +287,7 @@ var galacticPool = function(){
 		obj.body.x=game.input.x;
 		obj.body.y=game.input.y;
 	}
+	//Si en algun momento se le quiere meter una nueva dificultad usar esta funcion y modificar a gusto.
 	function changePlanetToRock(obj,howManyRocks){
 		obj.loadTexture("atlas.galacticPool","rock");
 		game.time.events.add(500,function(){
@@ -336,7 +296,7 @@ var galacticPool = function(){
 	}
 	function stopDragging(obj){
 		for(var overTargets=0; overTargets<planets.length; overTargets++){
-			if(checkOverlap(obj,targets[overTargets])){
+			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled){
 				checkIfCorrect(obj,targets[overTargets]);
 			}
 		}
@@ -416,6 +376,7 @@ var galacticPool = function(){
 	}
 	function checkIfCorrect(planet,target){
 		goal++;
+		console.log("paso")
 		if(planet.tag==target.tag){
 			getCoins(planet);
 			correctParticle.x = planet.centerX
@@ -749,6 +710,46 @@ var galacticPool = function(){
 
 		obj.parent.children[1].alpha = 1
 	}
+	function placePlanetsAndTargets(){
+		var BOUNCE_LEVEL=1;
+		var SWITCHING=true;
+		fontStyleWord = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		for(var planetsTargets=0; planetsTargets<TOTAL_PLANETS; planetsTargets++){
+			planets[planetsTargets].spines=game.add.spine(0, 0, PLANETS_SPINES);
+			planets[planetsTargets].spines.setSkinByName(planetsNames[planetsTargets].SKIN);
+			planets[planetsTargets].spines.setAnimationByName(0, "IDLE", true);
+			planets[planetsTargets].spines.alpha=1;
+			planets[planetsTargets].body.x=positionX[planetsTargets];
+			planets[planetsTargets].body.y=positionY[planetsTargets];
+			planets[planetsTargets].tag=planetsNames[planetsTargets].word;
+			planets[planetsTargets].spines.x=positionX[planetsTargets];
+			planets[planetsTargets].spines.y=positionY[planetsTargets];
+			planets[planetsTargets].text= new Phaser.Text(planetsGroup.game, 0, 0, "", fontStyleWord)
+			planets[planetsTargets].text.x=positionX[planetsTargets]+50;
+			planets[planetsTargets].text.y=positionY[planetsTargets];
+			planets[planetsTargets].text.setText(planetsNames[planetsTargets].word);
+			targets[planetsTargets]=game.add.sprite(0,0,"atlas.galacticPool","destino");
+			targets[planetsTargets].x=positionX[planetsTargets];
+			targets[planetsTargets].y=positionY[planetsTargets];
+			targets[planetsTargets].anchor.setTo(0.5,0.5);
+			targets[planetsTargets].tag=planetsNames[planetsTargets].word;
+			targets[planetsTargets].alpha=0;
+			if(planetsTargets==8){
+				planets[planetsTargets].body.x=game.world.centerX
+				planets[planetsTargets].body.y=game.world.height-100
+				planets[planetsTargets].text.x=game.world.centerX+50;
+				planets[planetsTargets].text.y=game.world.height-100;
+			}
+		}
+		for(var addInRest=0; addInRest<TOTAL_PLANETS; addInRest++){
+			planetsGroup.add(planets[addInRest].spines);
+			targetsGroup.add(targets[addInRest]);
+		}
+		for(var addInGroup=0; addInGroup<TOTAL_PLANETS; addInGroup++){
+			planetsGroup.add(planets[addInGroup].text);
+			planetsGroup.add(nebul[addInGroup]);
+		}
+	}
 
 	function createBackground(){
 		
@@ -820,10 +821,9 @@ var galacticPool = function(){
 			{SKIN:"mercury",word:localization.getString(localizationData,"planet2")},
 			{SKIN:"sun",word:localization.getString(localizationData,"planet1")}
 		];
-		wall=physicPlanets.create(100,100,"atlas.galacticPool","fondo");
-		//wall.scale.setTo(0.1,0.1)
-		//game.physics.p2.enable(wall)
-		wall.alpha=1;
+		wall=physicPlanets.create(game.world.centerX,-350,"atlas.galacticPool","fondo");
+		wall.scale.setTo(2,1)
+		wall.alpha=0;
 		wall.body.setCollisionGroup(allPlanets);
 		wall.body.kinematic=true;
 		wall.body.collides(allPlanets);
