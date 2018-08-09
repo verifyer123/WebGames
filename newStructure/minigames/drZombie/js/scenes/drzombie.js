@@ -401,9 +401,11 @@ var drzombie = function(){
 			var organ = organsGroup.children[i];
 			var organ2 = organsContainers.children[i];
 
-			game.add.tween(organ2).to({alpha:0},500,"Linear",true);
+			game.add.tween(organ).to({alpha:0},500,"Linear",true);	//Desaparece los organos del drag
+			game.add.tween(organ2).to({alpha:0},500,"Linear",true); //Desaparece los slots de organos
 			organ.x = -100;
 			organ.y = -200;
+
 		}
 	}
 
@@ -558,14 +560,19 @@ var drzombie = function(){
 		trashPrefab.scale.setTo(0.6,0.6);
 		trashPrefab.inputEnabled = true;
 		trashPrefab.input.enableDrag(true);
+		trashPrefab.events.onDragStart.add(bringToTopTrash, this);
 		trashPrefab.events.onDragStop.add(deleteTrash, this);
 		trashPrefab.release = organ;
 		organ.active = false;
 		arrayTrash.push(trashPrefab);
 	}
 
-	function deleteTrash(obj){                               
-		game.add.tween(obj).to( { alpha: 0 }, 800, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
+	function bringToTopTrash(obj){
+		game.world.bringToTop(obj);  
+	}
+
+	function deleteTrash(obj){            
+		game.add.tween(obj).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
 			obj.release.active = true;
 			obj.destroy();
 		});
@@ -612,7 +619,7 @@ var drzombie = function(){
 		var ligth = sceneGroup.create(game.world.centerX*0.25,0,'atlas.zombie','lights');
 		game.add.tween(ligth).to( { alpha: 0}, 500, Phaser.Easing.Bounce.InOut, true, 0, -1, 500, true);
 		var ligth2 = sceneGroup.create(game.world.centerX*1.25,0,'atlas.zombie','lights');
-		game.time.events.add(50,function(){
+		game.time.events.add(100,function(){
 			game.add.tween(ligth2).to( { alpha: 0}, 500, Phaser.Easing.Bounce.InOut, true, 0, -1, 500, true);
 		});
 		
@@ -736,7 +743,10 @@ var drzombie = function(){
 		nameOrgan.text.setText(localization.getString(localizationData,obj.tag));
         
         sound.play("drag");
-        
+
+        obj.bringToTop();
+        sceneGroup.bringToTop(organsGroup);
+        sceneGroup.bringToTop(particleCorrect);
     }
 	
 	function onDragStop(obj){
@@ -760,7 +770,7 @@ var drzombie = function(){
 				
 				particleCorrect.x = obj.x;
                 particleCorrect.y = obj.y;
-                particleCorrect.start(true, 1000, null, 5);
+                particleCorrect.start(true, 800, null, 5);
                 if(levelZero){
                 	sound.play("magic");
                 	game.add.tween(hand).to( { alpha: 0 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
@@ -815,9 +825,11 @@ var drzombie = function(){
 			}
 		}
 		
-		game.add.tween(obj).to({x:obj.origX, y:obj.origY},500,"Linear",true).onComplete.add(function(){
+		if(obj.alpha == 1){
+			game.add.tween(obj).to({x:obj.origX, y:obj.origY},500,"Linear",true).onComplete.add(function(){
 			obj.inputEnabled = true;
-		})
+			})
+		}
 	}
 		
 	function checkOverlap(spriteA, spriteB) {
