@@ -520,22 +520,24 @@ var uni = function(){
 	function showDream() {
 		sound.play("swipe")
 		var showDream = game.add.tween(dreamGroup).to({y: -2},1200,Phaser.Easing.Exponential.Out,true)
-		game.add.tween(nubesTop).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
-		game.add.tween(counterTable).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
-		game.add.tween(uniIco).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
-		game.add.tween(donkIco).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
-		game.add.tween(donkText).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
-		game.add.tween(uniText).to({alpha:1}, 800, Phaser.Easing.Linear.In, true,1200)
+		game.add.tween(nubesTop).to({alpha:1}, 400, Phaser.Easing.Linear.In, true,1000)
+		game.add.tween(counterTable).to({alpha:1}, 400, Phaser.Easing.Linear.In, true,1000)
+		game.add.tween(uniIco).to({alpha:1}, 400, Phaser.Easing.Linear.In, true,1000)
+		game.add.tween(donkIco).to({alpha:1}, 400, Phaser.Easing.Linear.In, true,1000)
+		game.add.tween(donkText).to({alpha:1}, 400, Phaser.Easing.Linear.In, true,1000)
+		game.add.tween(uniText).to({alpha:1}, 400, Phaser.Easing.Linear.In, true,1000)
 		showDream.onComplete.add(function () {
 			dreamGroup.add(bed)
 			dreamGroup.add(buro)
-			dreamGroup.add(clockCounter)
-			dreamGroup.add(buttonImg)
+            dreamGroup.add(clockCounter)
 			dreamGroup.add(theffanie)
 			
 			sound.play("brightTransition")
-			game.add.tween(dreamGroup.bright).to({alpha: 1},1000,Phaser.Easing.Cubic.Out,true).yoyo(true)
-			var bgAppear = game.add.tween(dreamGroup.bg).to({alpha:1}, 1000, Phaser.Easing.Cubic.In, true)
+			game.add.tween(dreamGroup.bright).to({alpha: 1},500,Phaser.Easing.Cubic.Out,true).yoyo(true)
+			var bgAppear = game.add.tween(dreamGroup.bg).to({alpha:1}, 500, Phaser.Easing.Cubic.In, true)
+            bgAppear.onComplete.add(function(){
+                dreamGroup.add(buttonImg)
+            })
 			bgAppear.onComplete.add(startRound)
 		})
 	}
@@ -1193,6 +1195,8 @@ var uni = function(){
 			}
 			if(animalsInStage.length>goalUni && tutorial){
 				handAnimation.stop();
+                hand.x=animalsInStage[0].x+20;
+                hand.y=animalsInStage[0].y+20;
 				dreamGroup.add(hand)
 				dragableUnicorn.input.draggable=false;
 				animationText=game.add.tween(uniText.scale).to({x:1.2,y:1.2},1000,Phaser.Easing.Linear.Out,true).yoyo(true).loop(true);

@@ -664,7 +664,7 @@ var elemental = function(){
                 game.time.events.add(600, witchAnim, this, "IDLE")
                if(goalMask==0)game.time.events.add(1000, initGame)
             }
-            else if(lives > 0){
+            else if(lives == 1){
                 gemsGroup.setAll("inputEnabled", false)
                 witchAnim('LOSE')
 				missPoint(witch)
@@ -719,7 +719,7 @@ var elemental = function(){
     
     function initTutorial(){
         
-        var pivotX = 0.4
+        var pivotX = 0.45
         var show
         
         for(var i = 0; i < 4; i++){
@@ -734,7 +734,7 @@ var elemental = function(){
                 mask.reset(game.world.centerX * pivotX, game.world.height + 150)
                 show = game.add.tween(mask).to({y: game.world.height - 250}, game.rnd.integerInRange(800, 1300), Phaser.Easing.linear, true)
                 
-                pivotX += 0.4
+                pivotX += 0.35
             }
         }
         
