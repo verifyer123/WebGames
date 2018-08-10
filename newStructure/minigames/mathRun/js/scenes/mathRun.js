@@ -1151,7 +1151,7 @@ var mathRun = function(){
 		create: function(event){
             
 			sceneGroup = game.add.group()
-			
+			game.input.mspointer.capture = false;
 			createBackground()
             
             game.physics.startSystem(Phaser.Physics.ARCADE)
