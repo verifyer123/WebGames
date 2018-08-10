@@ -180,6 +180,12 @@ var snoopyEnBuscaDelSabor = function(){
     var randomLevel
     var dirigible 
 
+
+    var inTutorial, lastTutorialObject, disableTouchByTutorial
+    var tutorialPanel1, tutorialPanel2, tutorialPanel3, tutorialPanel4, tutorialPanel5
+
+
+
     function loadSounds(){
         sound.decode(assets.sounds)
     }
@@ -201,6 +207,18 @@ var snoopyEnBuscaDelSabor = function(){
         stopByHouse = false
         lastFrameStopHouse = false
         randomLevel = 0
+        if(localStorage.getItem("tutorial")!=null){
+        	inTutorial = -1
+        	disableTouchByTutorial = false
+        }
+        else{
+        	//localStorage.removeItem("tutorial")
+        	inTutorial = 0
+        	disableTouchByTutorial = true
+        }
+        lastTutorialObject = []
+
+
      }
     
 
@@ -233,6 +251,9 @@ var snoopyEnBuscaDelSabor = function(){
 
         game.load.spine('snoopy','images/spine/snoopy/snoopy.json')
         game.load.spine('emilio','images/spine/emilio/emilio.json')
+
+        var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
+        var text = new Phaser.Text(game, -100, -100,"test", fontStyle)
 
     }
 
@@ -500,6 +521,64 @@ var snoopyEnBuscaDelSabor = function(){
                 }
             }
         }
+        if(lastTutorialObject[0]!=null){
+	        if(inTutorial!=-1){
+	        	if(inTutorial == 0 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel1.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 1 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel1.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 2 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel2.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 3 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel3.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 4 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel4.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 5 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel5.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        }
+	    }
 
         /*if(firstTouch){
 			
@@ -519,6 +598,12 @@ var snoopyEnBuscaDelSabor = function(){
 	
             updateInput()
         //}
+
+
+
+
+
+
 
         //console.log(player.body.gravity)
         //var collideFloor = false
@@ -669,8 +754,9 @@ var snoopyEnBuscaDelSabor = function(){
 
                             //sound.play("falling")
                         }
-
-                        object.dropObject.y = object.y + DELTA_BIRD_DROP
+                        
+                        	object.dropObject.y = object.y + DELTA_BIRD_DROP
+                        
 
                         if(object.x < X_DISSAPEAR && (object.dropObject.y>game.world.height +object.dropObject.height || !object.dropObject)){
                             object.visible = false
@@ -678,7 +764,14 @@ var snoopyEnBuscaDelSabor = function(){
 
                     }
                     else{
-                        object.dropObject.y+=FALLING_SPEED
+                    	if(inTutorial== 5 && tutorialPanel5.visible){
+
+                    	}
+                    	else{
+                        	object.dropObject.y+=FALLING_SPEED
+                        }
+                        
+
                         if(object.dropObject.visible){
                         	if(player.shield.visible){
                         		game.physics.arcade.overlap(player.shield,object.dropObject,hitEnemy);
@@ -1081,32 +1174,63 @@ var snoopyEnBuscaDelSabor = function(){
 
 
     function updateInput(){
-        
+        if(disableTouchByTutorial){
+        	return
+        }
 
         if(game.input.activePointer.isDown){
+        	//console.log("udsgasgkdjh")
             if(canTouch){
                 if(tapPosition==null){
                     tapPosition = {x:game.input.activePointer.x,y:game.input.activePointer.y}
                     startTapTime = game.time.now
+
+                    //if(!(inTutorial == 5 || inTutorial == 3 || inTutorial == 4)){
+                    	//tapPosition = null
+                    //}
+
                 }
                 else if(startTapTime + TIME_LONG_TAP < game.time.now){
                 	tapPosition = null
                 	canTouch = false
-                	shield()
+                	if(inTutorial!=-1){
+	                	if(!(inTutorial == 0 || inTutorial == 1 || inTutorial == 2 || inTutorial == 3 || inTutorial == 4)){
+	                		shield()
+	                	}
+	                }
+	                else{
+	                	shield()
+	                }
                 }
                 else{
-                    var deltaX = game.input.activePointer.x - tapPosition.x
 
+                    var deltaX = game.input.activePointer.x - tapPosition.x
+                    //console.log("dsakdtf ",deltaX)
                     if(deltaX > SWIPE_MAGNITUD){
                         //Barrer o girar
                         tapPosition = null
                         canTouch = false
-                        swipeRigth()
+                        if(inTutorial!=-1){
+	                        if(!(inTutorial == 0 || inTutorial == 1 || inTutorial == 2 || inTutorial == 5 || inTutorial == 3)){
+	                        	swipeRigth()
+                        	}
+                        }
+                        else{
+                        	swipeRigth()
+                        }
                     }
                     else if(deltaX < -SWIPE_MAGNITUD){
                     	tapPosition = null
                         canTouch = false
-                    	swipeLeft()
+                        console.log(inTutorial)
+                        if(inTutorial!=-1){
+	                        if(!(inTutorial == 0 || inTutorial == 1 || inTutorial == 5 || inTutorial == 2 || inTutorial == 4)){
+	                    		swipeLeft()
+	                    	}
+	                    }
+	                    else{
+	                    	swipeLeft()
+	                    }
                     }
                 }
             }
@@ -1114,7 +1238,14 @@ var snoopyEnBuscaDelSabor = function(){
         else{
             canTouch = true
             if(tapPosition != null){
-                jump()
+            	if(inTutorial!=-1){
+            		if(inTutorial == 0 || inTutorial == 1 || inTutorial==2){
+            			jump()
+            		}
+            	}
+            	else{
+               	 	jump()
+               	}
             }
             //console.log("disable shield")
             if(player.shield.visible){
@@ -1133,6 +1264,15 @@ var snoopyEnBuscaDelSabor = function(){
 
     function shield(){
     	//console.log("enable shield")
+    	if(inTutorial == 5){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = false
+	    	tutorialPanel5.visible = false
+	    	inTutorial = -1
+	    	game.physics.arcade.gravity.y = 800
+	    }
+
     	player.shield.visible = true
     	player.invensible = true
     	if(currentSpeed!=0){
@@ -1150,6 +1290,15 @@ var snoopyEnBuscaDelSabor = function(){
             return
         }
 	    
+	    if(inTutorial == 0 || inTutorial == 1 || inTutorial == 2){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = true
+	    	tutorialPanel1.visible = false
+	    	tutorialPanel2.visible = false
+	    	inTutorial ++
+	    	game.physics.arcade.gravity.y = 800
+	    }
 
         //if(player.)
 
@@ -1178,6 +1327,15 @@ var snoopyEnBuscaDelSabor = function(){
 
     function swipeRigth(){
         //console.log("swipe Right")
+        if(inTutorial == 4){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = true
+	    	tutorialPanel4.visible = false
+	    	inTutorial ++
+	    	game.physics.arcade.gravity.y = 800
+	    }
+
         moreVelocity = true
 
         if(currentSpeed <0){
@@ -1204,6 +1362,15 @@ var snoopyEnBuscaDelSabor = function(){
 
     function swipeLeft(){
         //console.log("swipe Left")
+        if(inTutorial == 3){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = true
+	    	tutorialPanel3.visible = false
+	    	inTutorial ++
+	    	game.physics.arcade.gravity.y = 800
+	    }
+
         jumpToOtherSide = true
     }
 
@@ -1930,10 +2097,21 @@ var snoopyEnBuscaDelSabor = function(){
         else{
         	randomLevel = temp
         }
+        console.log(inTutorial)
+        if(inTutorial!=-1){
+        	randomLevel = 0
+        }
+
 
         //randomLevel = 8
 
         switch(randomLevel){
+
+        	case 0:
+        	currentLevel = levelTutorial1
+        	console.log(currentLevel)
+        	break
+
         	case 1:
             currentLevel = level1
             break
@@ -1964,6 +2142,7 @@ var snoopyEnBuscaDelSabor = function(){
             case 10:
             currentLevel = level10
             break
+
             case 11:
             var r = game.rnd.integerInRange(1,10)
             if(r < 3){
@@ -2005,6 +2184,7 @@ var snoopyEnBuscaDelSabor = function(){
 		        }
             }
             break
+
         }
     }
 
@@ -2015,9 +2195,15 @@ var snoopyEnBuscaDelSabor = function(){
 
         //Se evaluan cada uno de los niveles
         //piso
-        if(currentLevel[7][levelIndex] == ''){
+        if(currentLevel[7][levelIndex] == 'tu'){
+            lastObject = getFloor(_x,0)
+            lastTutorialObject.push(lastObject)
+        }
+
+        else if(currentLevel[7][levelIndex] == ''){
             lastObject = getFloor(_x,0)
         }
+
         //water
         else if(currentLevel[7][levelIndex] == 'w'){
             lastObject = getWater(_x)
@@ -2261,7 +2447,6 @@ var snoopyEnBuscaDelSabor = function(){
         }
 
         //volando
-
         levelIndex++
         if(levelIndex >=  currentLevel[0].length){
         	levelIndex = 0
@@ -2354,7 +2539,7 @@ var snoopyEnBuscaDelSabor = function(){
         sceneGroup.add(woodGroup)
 
         lastObject = getFloor(-game.world.width,0)
-        while(lastObject.x <= game.world.width+200){
+        while(lastObject.x <= game.world.width){
         	lastObject = getFloor(lastObject.x + lastObject.width,0)
         }
 
@@ -2552,26 +2737,6 @@ var snoopyEnBuscaDelSabor = function(){
 
     }
 
-    /*function createControls(){
-    	var controlBack = game.add.tileSprite(0,game.world.height-256,game.world.width,256,"tablero")
-    	sceneGroup.add(controlBack)
-
-    	var control = sceneGroup.create(game.world.centerX,game.world.height,"atlas.game","tablero_botton")
-    	control.anchor.setTo(0.5,1)
-
-    	var button = sceneGroup.create(game.world.centerX,game.world.height - 100, "atlas.game","botton_off")
-    	button.anchor.setTo(0.5)
-    	button.inputEnabled = true
-
-    	button.events.onInputDown.add(function(target){
-    		target.loadTexture("atlas.game","botton_on")
-    		jump()
-    	},this)
-
-    	button.events.onInputUp.add(function(target){
-    		target.loadTexture("atlas.game","botton_off")
-    	},this)
-    }*/
     
     function create(){
     	
@@ -2627,6 +2792,162 @@ var snoopyEnBuscaDelSabor = function(){
         createHearts()
 
         //createControls()
+
+
+        tutorialPanel1 = game.add.group()
+        sceneGroup.add(tutorialPanel1)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel1.add(panel)
+
+        var fontStyle = {font: "26px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Da tap para saltar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel1.add(text)
+
+        var botonImage = tutorialPanel1.create(game.world.centerX,game.world.centerY-100,"atlas.game","boton")
+        botonImage.anchor.setTo(0.5)
+
+        var hand = tutorialPanel1.create(game.world.centerX+20,game.world.centerY-70,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+
+        var tap = tutorialPanel1.create(game.world.centerX+80,game.world.centerY-120,"atlas.game","tap_white")
+        tap.anchor.setTo(0.5)
+        tap.angle = 30
+
+        tutorialPanel1.visible = false
+
+
+
+
+        tutorialPanel2 = game.add.group()
+        sceneGroup.add(tutorialPanel2)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel2.add(panel)
+
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Da un segundo tap para volar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel2.add(text)
+
+        var botonImage = tutorialPanel2.create(game.world.centerX,game.world.centerY-100,"atlas.game","boton")
+        botonImage.anchor.setTo(0.5)
+
+        var hand = tutorialPanel2.create(game.world.centerX+20,game.world.centerY-70,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+
+        var tap = tutorialPanel2.create(game.world.centerX+80,game.world.centerY-120,"atlas.game","tap_white")
+        tap.anchor.setTo(0.5)
+        tap.angle = 30
+
+        tutorialPanel2.visible = false
+
+
+        tutorialPanel3 = game.add.group()
+        sceneGroup.add(tutorialPanel3)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel3.add(panel)
+
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Arrastra hacia la izquierda \npara regresar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel3.add(text)
+
+        var slider = tutorialPanel3.create(game.world.centerX,game.world.centerY-100,"atlas.game","slide")
+        slider.anchor.setTo(0.5)
+        slider.scale.setTo(-1,1)
+
+        hand = tutorialPanel3.create(game.world.centerX+100,game.world.centerY-80,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+        hand.tween = game.add.tween(hand).to({x:game.world.centerX-100},1000,Phaser.Easing.linear,true)
+        hand.tween.loop(true)
+        //hand.tween.yoyo(true)
+
+        tutorialPanel3.visible = false
+
+        tutorialPanel4 = game.add.group()
+        sceneGroup.add(tutorialPanel4)
+
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel4.add(panel)
+
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Arrastra hacia la derecha \npara acelerar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel4.add(text)
+
+        var slider = tutorialPanel4.create(game.world.centerX,game.world.centerY-100,"atlas.game","slide")
+        slider.anchor.setTo(0.5)
+
+        hand = tutorialPanel4.create(game.world.centerX-100,game.world.centerY-80,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+        hand.tween = game.add.tween(hand).to({x:game.world.centerX+100},1000,Phaser.Easing.linear,true)
+        hand.tween.loop(true)
+        //hand.tween.yoyo(true)
+
+        tutorialPanel4.visible = false
+
+
+        tutorialPanel5 = game.add.group()
+        sceneGroup.add(tutorialPanel5)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel5.add(panel)
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Manten presionado para protección \ny detenerte", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel5.add(text)
+
+        var botonImage = tutorialPanel1.create(game.world.centerX,game.world.centerY-100,"atlas.game","boton")
+        botonImage.anchor.setTo(0.5)
+
+        var hand = tutorialPanel1.create(game.world.centerX+20,game.world.centerY-70,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+
+        var tap = tutorialPanel1.create(game.world.centerX+80,game.world.centerY-120,"atlas.game","tap_white")
+        tap.anchor.setTo(0.5)
+        tap.angle = 30
+
+        tutorialPanel5.visible = false
+
+
 
         var backMark = game.add.graphics()
         backMark.x = 0
