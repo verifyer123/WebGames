@@ -424,6 +424,33 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">star_1.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,17,17</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,17,17</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">star_2.png</key>
+            <key type="filename">star_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">sun.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -490,6 +517,9 @@
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
             <filename>destino.png</filename>
+            <filename>star_1.png</filename>
+            <filename>star_2.png</filename>
+            <filename>star_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
