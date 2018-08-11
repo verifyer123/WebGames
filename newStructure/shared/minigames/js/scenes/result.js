@@ -576,7 +576,7 @@ var result = function(){
 		}else if(configuration=="nostars"){
 			
 			var numberAdd = 0
-			var delay = 0
+			var delay = 1000
 			playerTotalScoreContainer = game.add.group()
 			sceneGroup.add(playerTotalScoreContainer)
 			var valueChange = 40
@@ -594,7 +594,7 @@ var result = function(){
 			
 			var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
-			var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.15,5, '0' , fontStyle)
+			var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.15,5, '= 0' , fontStyle)
 			var totalScoreImage=game.add.sprite(game.world.centerX-170,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
 			var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.name , fontStyle)
 		
