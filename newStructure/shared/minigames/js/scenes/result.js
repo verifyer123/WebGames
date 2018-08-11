@@ -112,6 +112,9 @@ var result = function(){
 	function setScore(didWin,score,index,scale) {
 
 		gamesList = parent.gameData
+		
+		player.name="Heber";
+		player.totalScore=10;
 		configuration=gamesList.config.tutorial;
 		console.log(gamesList)
 		currentPlayer = null
@@ -298,26 +301,27 @@ var result = function(){
 					group.x = pivotX
 					group.y = pivotY
 					
-					var retryText = game.add.bitmapText(-25,-5, 'luckiest', localization.getString(localizationData,buttonNames[i]), 35);
-					retryText.anchor.setTo(0.5,0.5)
-					group.add(retryText)
+
 
 					
 					var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'Btn')
 					button1.anchor.setTo(0.5,0.5)
 					button1.scale.setTo(1.15,1.15)
+					var retryText = game.add.bitmapText(-25,-5, 'luckiest', localization.getString(localizationData,buttonNames[i]), 35);
+					retryText.anchor.setTo(0.5,0.5)
 					
 					buttonsGroup.add(group)
+					group.add(retryText)
 					group.tag = buttonNames[i]
-
-
-
+					
+					
+					
 					button1.inputEnabled = true
 					button1.events.onInputDown.add(inputButton)
 					button1.active = true
-
-
-
+					
+					
+					
 					if(textToUse.length > 8){
 						retryText.scale.setTo(0.65,0.7)
 						retryText.y+= 4
@@ -342,19 +346,21 @@ var result = function(){
 					var textToUse = localization.getString(localizationData,buttonNames[i])
 
 					var group = game.add.group()
+					var fontStyle = {font: "30px Aldrich-Regular",fontWeight: "bold", fill: "#ffffff", align: "center"}
 					group.alpha = 0
 					group.x = pivotX
 					group.y = pivotY-100
 					
-					var retryText = game.add.bitmapText(group.x-25,group.y+15, 'luckiest', localization.getString(localizationData,buttonNames[i]), 35);
-					retryText.anchor.setTo(0.5,0.5)
-					sceneGroup.add(retryText)
 					
 					var button1 = group.create(0,0,'atlas.resultScreenImagic',buttonNames[i] + 'Btn_Imagic')
 					button1.x-=27;
 					button1.y-=50;
 					button1.anchor.setTo(0.5,0.5)
 					button1.scale.setTo(0.8,0.8)
+					
+					var retryText = new Phaser.Text(sceneGroup.game,group.x-27,group.y+20, localization.getString(localizationData,buttonNames[i]).toUpperCase() , fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 4);
+					retryText.anchor.setTo(0.5,0.5)
+					sceneGroup.add(retryText)
 					
 					buttonsGroup.add(group)
 					group.tag = buttonNames[i]
@@ -508,7 +514,7 @@ var result = function(){
 			
 			
 		}else if(configuration=="nostars"){
-			yogotar.y=yogotar.y-50;
+			yogotar.y=yogotar.y-30;
 		}	
 			
 		//yogotar.setSkinByName('Eagle');
@@ -572,8 +578,9 @@ var result = function(){
 			var numberAdd = 0
 			var delay = 0
 			playerTotalScoreContainer = game.add.group()
+			sceneGroup.add(playerTotalScoreContainer)
 			var valueChange = 40
-			player.totalScore=10;
+			
 
 			coinsToStarsContainer = game.add.group()
 			coinsToStarsContainer.x = game.world.centerX
@@ -586,13 +593,17 @@ var result = function(){
 			imgCont.anchor.setTo(0.5,0.5)
 			
 			var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center"}
+			var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
 			var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.15,5, '0' , fontStyle)
-			var playerAllScoreText = new Phaser.Text(sceneGroup.game, game.world.centerX,coinsToStarsContainer.y+150, player.name , fontStyle)
-			var totalScoreImage=game.add.sprite(game.world.centerX,coinsToStarsContainer.y+50)
+			var totalScoreImage=game.add.sprite(game.world.centerX-170,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
+			var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.name , fontStyle)
+		
 			retryText.anchor.setTo(0,0.5)
+			totalScoreImage.anchor.setTo(0,0.5)
+			playerAllScoreText.anchor.setTo(0,0.5)
 			coinsToStarsContainer.add(retryText)
 			coinsToStarsContainer.text = retryText
+			playerTotalScoreContainer.add(totalScoreImage)
 			playerTotalScoreContainer.add(playerAllScoreText)
 			playerTotalScoreContainer.text = playerAllScoreText
 
@@ -601,29 +612,30 @@ var result = function(){
 
 			coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-30,0,'atlas.resultScreenImagic','coinImagic')
 			coinContainer_star.anchor.setTo(0.5,0.5)
-			coinContainer_star.scale.setTo(0.5,0.5)
+			coinContainer_star.scale.setTo(0.8,0.8)
 
 			coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4+10,0,'atlas.resultScreenImagic','coinImagic')
 			coinContainer_star.anchor.setTo(0.5,0.5)
-			coinContainer_star.scale.setTo(0.5,0.5)
+			coinContainer_star.scale.setTo(0.8,0.8)
 
 			var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.resultScreenImagic','coinImagic')
 			coinContainer_star.anchor.setTo(0.5,0.5)
-			coinContainer_star.scale.setTo(0.6,0.6)
+			coinContainer_star.scale.setTo(0.9,0.9)
 			
 			for(var i = 0; i < totalScore;i++){
 
 				game.time.events.add(delay,function(){
 
 					numberAdd++
-					coinsToStarsContainer.text.setText('= ' + numberAdd)
+					coinsToStarsContainer.text.setText(' = ' + numberAdd)
 					coinsToStarsContainer.scale.setTo(1,1)
 					
 					playerTotalScoreContainer.text.setText(numberAdd+player.totalScore);
 					playerTotalScoreContainer.scale.setTo(1,1)
 					var indexCheck = numberAdd - 1
 					if(indexCheck % 100 == 0){
-						coinContainer_coin.x+=10;
+						coinContainer_coin.x+=8;
+						playerTotalScoreContainer.text.x-=3;
 						sound.play("point")
 					}
 					if(indexCheck % 25 == 0){
@@ -692,12 +704,21 @@ var result = function(){
 
 			var line = infoGroup.create(game.world.centerX, game.world.centerY+240,'atlas.resultScreen','divider')
 			line.anchor.setTo(0.5,0.5)
+			
+			
+			
 		}else if(configuration=="nostars"){
-			player.name="ANGEL10";
-			var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 15);
+			
+
+			var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 20);
 			playerNameText.anchor.setTo(0.5, 0.5)
+			
 			playerNameText.x = background.centerX
 			playerNameText.y = background.y-background.height/2+70
+			if(player.name.length>10){
+				playerNameText.scale.setTo(0.6,0.6)
+				playerNameText.y = background.y-background.height/2+90
+			}
 			sceneGroup.add(playerNameText)
 			
 		}

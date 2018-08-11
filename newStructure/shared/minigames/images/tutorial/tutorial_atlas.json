@@ -2,16 +2,16 @@
 
 {
 	"filename": "background_tutorial_Imagic.png",
-	"frame": {"x":1,"y":1,"w":478,"h":782},
+	"frame": {"x":1,"y":1,"w":509,"h":823},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":478,"h":782},
-	"sourceSize": {"w":478,"h":782},
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":90,"w":509,"h":823},
+	"sourceSize": {"w":541,"h":961},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "background_tutorial_Web.png",
-	"frame": {"x":481,"y":1,"w":478,"h":782},
+	"frame": {"x":512,"y":1,"w":478,"h":782},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":478,"h":782},
@@ -19,8 +19,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "how_EN.png",
-	"frame": {"x":543,"y":785,"w":492,"h":127},
+	"filename": "how_EN_Imagic.png",
+	"frame": {"x":543,"y":859,"w":443,"h":60},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":49,"y":23,"w":443,"h":60},
+	"sourceSize": {"w":541,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "how_EN_Web.png",
+	"frame": {"x":1,"y":826,"w":492,"h":127},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":492,"h":127},
@@ -28,8 +37,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "how_ES.png",
-	"frame": {"x":1,"y":785,"w":540,"h":134},
+	"filename": "how_ES_Imagic.png",
+	"frame": {"x":512,"y":785,"w":474,"h":72},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":10,"w":474,"h":72},
+	"sourceSize": {"w":541,"h":106},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "how_ES_Web.png",
+	"frame": {"x":1,"y":955,"w":540,"h":134},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":540,"h":134},
@@ -38,7 +56,7 @@
 },
 {
 	"filename": "play_EN.png",
-	"frame": {"x":543,"y":914,"w":227,"h":72},
+	"frame": {"x":674,"y":921,"w":227,"h":72},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":227,"h":72},
@@ -47,11 +65,20 @@
 },
 {
 	"filename": "play_ES.png",
-	"frame": {"x":772,"y":914,"w":227,"h":72},
+	"frame": {"x":674,"y":995,"w":227,"h":72},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":227,"h":72},
 	"sourceSize": {"w":227,"h":72},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "play_Imagic.png",
+	"frame": {"x":543,"y":921,"w":129,"h":129},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":129},
+	"sourceSize": {"w":129,"h":129},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -59,8 +86,8 @@
 	"version": "1.0",
 	"image": "tutorial_atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1036,"h":987},
+	"size": {"w":991,"h":1090},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:6a019c846d9fd38a0c03407b2a643f36:fcf1ff818c07696e6a06a206de416273:e284a217f33a85738a090142df4e0f94$"
+	"smartupdate": "$TexturePacker:SmartUpdate:36e5af121692aae0aac4d78022ac5096:f548e65cc4bea24bef3b5523cbbd5e9d:e284a217f33a85738a090142df4e0f94$"
 }
 }

@@ -15,8 +15,10 @@ var tutorialHelper = function () {
 	var inTutorial
 
 	var noWebmTextType
-	var howkey = "how_to_play"
-	var playKey = "button_play"
+	var howkeyWeb = "how_to_play_Imagic"
+	var howkeyImagic = "how_to_play_Imagic"
+	var playKeyWeb = "button_play"
+	var playKeyImagic = "button_play"
 	var backKeyImagic = "background_tutorial_Imagic"
 	var backKeyWeb = "background_tutorial_Web"
 
@@ -42,22 +44,32 @@ var tutorialHelper = function () {
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyWeb)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)
+			var howTo = group.create(game.world.centerX,90, howkeyWeb)
+			howTo.anchor.setTo(0.5,0.5)
+			howTo.scale.setTo(0.8,0.8)
+			var button = group.create(game.world.centerX+120, game.world.centerY+330, playKeyWeb)//'atlas.tutorial','play_'+localization.getLanguage())
+			button.anchor.setTo(0.5,0.5)
+			button.scale.setTo(0.85)
+			var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
+			tuto.anchor.setTo(0.5,0.5)
         }else if(configuration=="nostars"){
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyImagic)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)
-        }
+			var howTo = group.create(game.world.centerX+10,90, howkeyImagic)
+			howTo.anchor.setTo(0.5,0.5)
+			howTo.scale.setTo(1,1)
+			var button = group.create(game.world.centerX+120, game.world.centerY+330, playKeyImagic)//'atlas.tutorial','play_'+localization.getLanguage())
+			button.anchor.setTo(0.5,0.5)
+			button.scale.setTo(0.85)
+			var tuto = group.create(game.world.centerX, game.world.centerY - 50,'tutorial_image')
+			tuto.anchor.setTo(0.5,0.5)
+		}
 
-		var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
-		tuto.anchor.setTo(0.5,0.5)
 
-		var howTo = group.create(game.world.centerX,90, howkey)
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
 
-		var button = group.create(game.world.centerX+120, game.world.centerY+330, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
-		button.anchor.setTo(0.5,0.5)
-		button.scale.setTo(0.85)
+
+
 
 		
 
@@ -102,13 +114,26 @@ var tutorialHelper = function () {
 		anim.onComplete = repeatSpine
 		group.add(spine)
         
-        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
-        typeText.stroke = '#000000';
-        typeText.strokeThickness = 6;
-        typeText.anchor.setTo(0.5)
-        group.add(typeText)
+		if(configuration=="withstars"){
+			var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
+			typeText.stroke = '#000000';
+			typeText.strokeThickness = 6;
+			typeText.anchor.setTo(0.5)
+			group.add(typeText)
+
+		}else if(configuration=="nostars"){
+			var fontStyle = {font: "25px Aldrich-Regular", fill: "#ffffff", align: "center"}
+			var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 5);
+			spine.x+=10;
+			spine.y-=30;
+			typeText.x+=15
+			typeText.y-=15
+			typeText.anchor.setTo(0.5)
+			group.add(typeText)
+		}
+		
+
 
 		// }
 
@@ -333,18 +358,27 @@ var tutorialHelper = function () {
 		
         if(configuration=="withstars"){
             currentLoader.image(backKeyWeb,sharePath+"images/tutorial/background_tutorial_Web.png")
+			if(language == "ES"){
+            currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Web.png')
+            currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_ES.png')
+			}
+			else{
+				currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Web.png')
+				currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_EN.png')
+			}
         }else if(configuration=="nostars"){
             currentLoader.image(backKeyImagic,sharePath+"images/tutorial/background_tutorial_Imagic.png");
+			if(language == "ES"){
+            currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Imagic.png')
+            currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_Imagic.png')
+			}
+			else{
+				currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Imagic.png')
+				currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
+			}
         }
 
-        if(language == "ES"){
-            currentLoader.image(howkey,sharePath+'images/tutorial/how_ES.png')
-            currentLoader.image(playKey,sharePath+'images/tutorial/play_ES.png')
-        }
-        else{
-            currentLoader.image(howkey,sharePath+'images/tutorial/how_EN.png')
-            currentLoader.image(playKey,sharePath+'images/tutorial/play_EN.png')
-        }
+
 	}
 	
 	return{
