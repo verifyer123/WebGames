@@ -372,7 +372,6 @@ var result = function(){
 					button1.active = true
 
 
-
 					if(textToUse.length > 8){
 						retryText.scale.setTo(0.65,0.7)
 						retryText.y+= 4
