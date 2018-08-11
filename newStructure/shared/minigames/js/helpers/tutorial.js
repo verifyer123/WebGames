@@ -21,6 +21,7 @@ var tutorialHelper = function () {
 	var playKeyImagic = "button_play"
 	var backKeyImagic = "background_tutorial_Imagic"
 	var backKeyWeb = "background_tutorial_Web"
+	var backKeyStars = "back_stars"
 
 	var spine
 	var spineTimeOut
@@ -33,14 +34,15 @@ var tutorialHelper = function () {
 	function createTutorialGif(group,onClickFunction){
 
 		inTutorial = true
-		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		group.add(rect)
+
 
         if(configuration=="withstars"){
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x0d0000)
+			rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+			rect.alpha = 0.7
+			rect.endFill()
+			group.add(rect)
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyWeb)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)
@@ -53,6 +55,17 @@ var tutorialHelper = function () {
 			var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
 			tuto.anchor.setTo(0.5,0.5)
         }else if(configuration=="nostars"){
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x0d1623)
+			rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+			rect.alpha = 1
+			rect.endFill()
+			group.add(rect)
+			for(var fillStars=0; fillStars<20; fillStars++){
+				var stars = group.create(game.rnd.integerInRange(0,50)*fillStars,50*fillStars,backKeyStars)
+				stars.scale.setTo(1.2,1.2)
+				stars.anchor.setTo(0.5,0.5)
+			}
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyImagic)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)
@@ -368,6 +381,7 @@ var tutorialHelper = function () {
 			}
         }else if(configuration=="nostars"){
             currentLoader.image(backKeyImagic,sharePath+"images/tutorial/background_tutorial_Imagic.png");
+			 currentLoader.image(backKeyStars,sharePath+"images/tutorial/back_stars.png");
 			if(language == "ES"){
             currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Imagic.png')
             currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_Imagic.png')
