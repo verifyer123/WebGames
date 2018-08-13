@@ -292,13 +292,14 @@ footer{
     }    
 
     #bannerGame{
-        top:0%;
+        top:12%;
         width: 100%;
-        background-size: 90%;
+        background-size: contain;
+        height: 25%
     }
 
     #bannerGame img{
-        width: 78%;
+        width: 61%;
         border-radius: 5vw;   
     }    
     
