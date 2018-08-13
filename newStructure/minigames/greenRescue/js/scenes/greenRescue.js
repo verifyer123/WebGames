@@ -580,15 +580,13 @@ var greenRescue = function(){
 			if(actualState=="broom"){
 				broom.x=game.input.activePointer.x;
 				broom.y=game.input.activePointer.y;
-			}else 
-				if(actualState=="sprinkler"){
-					sprinkler.x=game.input.activePointer.x;
-					sprinkler.y=game.input.activePointer.y;	 
-				}else
-					if(actualState=="sprout"){
-						sprout.x=game.input.activePointer.x;
-						sprout.y=game.input.activePointer.y;	 
-					}
+			}else if(actualState=="sprinkler"){
+				sprinkler.x=game.input.activePointer.x;
+				sprinkler.y=game.input.activePointer.y;	 
+			}else if(actualState=="sprout"){
+				sprout.x=game.input.activePointer.x;
+				sprout.y=game.input.activePointer.y;	 
+			}
 
 
 			//Trancision dia y noche
@@ -808,22 +806,26 @@ var greenRescue = function(){
 		});
 	}
 	function tutorialLevel(){
-		for(var platformsInGame=0; platformsInGame<platformsGroup.length; platformsInGame){
+		for(var platformsInGame=0; platformsInGame<3; platformsInGame++){
+			platformsGroup.children[platformsInGame].setSkinByName("normal");
 			platformsGroup.children[platformsInGame].setAnimationByName(0,"start_dirty",false);
+			platformsGroup.children[platformsInGame].y-=(-70)*platformsInGame+100
+			if(platformsInGame==1)platformsGroup.children[platformsInGame].scale.setTo(0.8,0.8)
+			platformsGroup.children[platformsInGame].x+=90*platformsInGame-50
 		}
-//		placeHolders[1].state="trash";
-//		placeHolders[4].state="tree";
-//		placeHolders[7].state="tree";
-//        
-//		placeHolders[1].inputEnabled=true;
-//		placeHolders[4].inputEnabled=false;
-//		placeHolders[7].inputEnabled=false;
-//
-//		hand.x=broomIco.x;
-//		hand.y=broomIco.y;
-//
-//		tutorialHand=game.add.tween(hand).to({x:placeHolders[1].x, y:placeHolders[1].y},500,Phaser.Easing.Cubic.Out).loop(true);
-//		tutorial=0;
+		placeHolders[1].state="trash";
+		placeHolders[4].state="tree";
+		placeHolders[7].state="tree";
+        
+		placeHolders[1].inputEnabled=true;
+		placeHolders[4].inputEnabled=false;
+		placeHolders[7].inputEnabled=false;
+
+		hand.x=broomIco.x;
+		hand.y=broomIco.y;
+
+		tutorialHand=game.add.tween(hand).to({x:placeHolders[1].x, y:placeHolders[1].y},500,Phaser.Easing.Cubic.Out).loop(true);
+		tutorial=0;
 	}
 	function createTextPart(text,obj){
 

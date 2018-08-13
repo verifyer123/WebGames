@@ -488,6 +488,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">dryLeaves.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>74,29,148,58</rect>
+                <key>scale9Paddings</key>
+                <rect>74,29,148,58</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">dryLeavesParticles.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,19,44,38</rect>
+                <key>scale9Paddings</key>
+                <rect>22,19,44,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">dryLeavesParticles2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,24,33,49</rect>
+                <key>scale9Paddings</key>
+                <rect>16,24,33,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">escudo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -818,6 +857,9 @@
             <filename>escudo.png</filename>
             <filename>tierra.png</filename>
             <filename>punchResort.png</filename>
+            <filename>dryLeaves.png</filename>
+            <filename>dryLeavesParticles.png</filename>
+            <filename>dryLeavesParticles2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
