@@ -754,7 +754,6 @@ var oona = function(){
                 onnaSong.loopFull(0.6);
             }, this);
 
-            sceneGroup.stage.backgroundColor = "#000000";
             createBackground(); 
 
             initialize();
