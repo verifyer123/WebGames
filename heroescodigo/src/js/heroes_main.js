@@ -62,6 +62,7 @@ for(var i = 0; i<= choiceGames.length-1;i++){
             //previewSong.src ="../songs/" + songs[optimized[place].song] + ".mp3";
             levelDifficulty(optimized[place].age);
             updateRadar(optimized[place].type, optimized[place].age);
+            window.myRadar.update();
             for(var i = 0; i<= choiceGames.length-1;i++){
                 $(".container-gameSelect").removeClass("game-active"); 
             }
@@ -79,7 +80,7 @@ for(var i = 0; i<= choiceGames.length-1;i++){
         gradientStroke.addColorStop(1, "rgba(244, 144, 128, 0.6)");
     
         var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);
-        gradientFill.addColorStop(0.3, "rgba(252, 238, 0.3)");
+        gradientFill.addColorStop(0, "rgba(252, 238, 0, 0.6)");
         gradientFill.addColorStop(1, "rgba(102, 198, 63,0.3)");
 
 		var color = Chart.helpers.color;
@@ -151,12 +152,6 @@ for(var i = 0; i<= choiceGames.length-1;i++){
 			}
 		};
 
-		window.onload = function() {
-			window.myRadar = new Chart(document.getElementById('canvas'), config);
-            window.myRadar.update();
-		};
-
-    
 
         function updateRadar(typeRadar,age){
             console.log("type: " + typeRadar)
@@ -211,7 +206,7 @@ for(var i = 0; i<= choiceGames.length-1;i++){
                             }
                         }
             });
-            window.myRadar.update();
+            
         }
        /*EASTER EGGS*/
     var codeCheats = 0;
@@ -269,6 +264,10 @@ for(var i = 0; i<= choiceGames.length-1;i++){
     });
 
     //INIT
+    window.onload = function() {
+			window.myRadar = new Chart(document.getElementById('canvas'), config);
+            window.myRadar.update();
+    };
     $("#playGameButton").click(function(){
          window.open(minigameHref,"_blank");
     });

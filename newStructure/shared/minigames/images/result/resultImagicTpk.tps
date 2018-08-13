@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/shared/minigames/images/tutorial/tutorialBase.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/shared/minigames/images/result/resultImagicTpk.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -150,7 +150,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>tutorial_atlas.json</filename>
+                <filename>atlasImagic.json</filename>
             </struct>
         </map>
         <key>multiPack</key>
@@ -167,9 +167,9 @@
             <string></string>
         </struct>
         <key>autoAliasEnabled</key>
-        <false/>
+        <true/>
         <key>trimSpriteNames</key>
-        <false/>
+        <true/>
         <key>prependSmartFolderName</key>
         <false/>
         <key>autodetectAnimations</key>
@@ -199,113 +199,97 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">background_tutorial_Imagic.png</key>
-            <key type="filename">background_tutorial_Web.png</key>
+            <key type="filename">back_Imagic.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>120,196,239,391</rect>
+                <rect>301,240,601,481</rect>
                 <key>scale9Paddings</key>
-                <rect>120,196,239,391</rect>
+                <rect>301,240,601,481</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">how_EN_Imagic.png</key>
-            <key type="filename">how_ES_Imagic.png</key>
+            <key type="filename">base_Imagic.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,27,271,53</rect>
+                <rect>135,240,271,481</rect>
                 <key>scale9Paddings</key>
-                <rect>135,27,271,53</rect>
+                <rect>135,240,271,481</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">how_EN_Web.png</key>
+            <key type="filename">coinImagic.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>123,32,246,64</rect>
+                <rect>15,15,30,30</rect>
                 <key>scale9Paddings</key>
-                <rect>123,32,246,64</rect>
+                <rect>15,15,30,30</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">how_ES_Web.png</key>
+            <key type="filename">coin_stock.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>135,34,270,67</rect>
+                <rect>84,28,168,56</rect>
                 <key>scale9Paddings</key>
-                <rect>135,34,270,67</rect>
+                <rect>84,28,168,56</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">play_EN.png</key>
-            <key type="filename">play_ES.png</key>
+            <key type="filename">homeBtn_Imagic.png</key>
+            <key type="filename">retryBtn_Imagic.png</key>
+            <key type="filename">shareBtn_Imagic.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>57,18,113,36</rect>
+                <rect>32,32,64,64</rect>
                 <key>scale9Paddings</key>
-                <rect>57,18,113,36</rect>
+                <rect>32,32,64,64</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">play_Imagic.png</key>
+            <key type="filename">total.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>32,32,65,65</rect>
+                <rect>87,15,174,30</rect>
                 <key>scale9Paddings</key>
-                <rect>32,32,65,65</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../../../../../../../Downloads/how_to_play/back_stars.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>64,64,128,128</rect>
-                <key>scale9Paddings</key>
-                <rect>64,64,128,128</rect>
+                <rect>87,15,174,30</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>play_EN.png</filename>
-            <filename>play_ES.png</filename>
-            <filename>background_tutorial_Web.png</filename>
-            <filename>background_tutorial_Imagic.png</filename>
-            <filename>how_ES_Imagic.png</filename>
-            <filename>how_EN_Imagic.png</filename>
-            <filename>how_EN_Web.png</filename>
-            <filename>how_ES_Web.png</filename>
-            <filename>play_Imagic.png</filename>
-            <filename>../../../../../../../../Downloads/how_to_play/back_stars.png</filename>
+            <filename>coin_stock.png</filename>
+            <filename>base_Imagic.png</filename>
+            <filename>back_Imagic.png</filename>
+            <filename>coinImagic.png</filename>
+            <filename>homeBtn_Imagic.png</filename>
+            <filename>retryBtn_Imagic.png</filename>
+            <filename>shareBtn_Imagic.png</filename>
+            <filename>total.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

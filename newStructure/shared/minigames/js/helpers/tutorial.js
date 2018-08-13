@@ -15,10 +15,13 @@ var tutorialHelper = function () {
 	var inTutorial
 
 	var noWebmTextType
-	var howkey = "how_to_play"
-	var playKey = "button_play"
+	var howkeyWeb = "how_to_play_Imagic"
+	var howkeyImagic = "how_to_play_Imagic"
+	var playKeyWeb = "button_play"
+	var playKeyImagic = "button_play"
 	var backKeyImagic = "background_tutorial_Imagic"
 	var backKeyWeb = "background_tutorial_Web"
+	var backKeyStars = "back_stars"
 
 	var spine
 	var spineTimeOut
@@ -31,33 +34,55 @@ var tutorialHelper = function () {
 	function createTutorialGif(group,onClickFunction){
 
 		inTutorial = true
-		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		group.add(rect)
+
 
         if(configuration=="withstars"){
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x0d0000)
+			rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+			rect.alpha = 0.7
+			rect.endFill()
+			group.add(rect)
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyWeb)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)
+			var howTo = group.create(game.world.centerX,90, howkeyWeb)
+			howTo.anchor.setTo(0.5,0.5)
+			howTo.scale.setTo(0.8,0.8)
+			var button = group.create(game.world.centerX+120, game.world.centerY+330, playKeyWeb)//'atlas.tutorial','play_'+localization.getLanguage())
+			button.anchor.setTo(0.5,0.5)
+			button.scale.setTo(0.85)
+			var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
+			tuto.anchor.setTo(0.5,0.5)
         }else if(configuration=="nostars"){
+			var rect = new Phaser.Graphics(game)
+			rect.beginFill(0x0d1623)
+			rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+			rect.alpha = 1
+			rect.endFill()
+			group.add(rect)
+			for(var fillStars=0; fillStars<20; fillStars++){
+				var stars = group.create(game.rnd.integerInRange(0,50)*fillStars,50*fillStars,backKeyStars)
+				stars.scale.setTo(1.2,1.2)
+				stars.anchor.setTo(0.5,0.5)
+			}
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyImagic)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)
-        }
+			var howTo = group.create(game.world.centerX+10,90, howkeyImagic)
+			howTo.anchor.setTo(0.5,0.5)
+			howTo.scale.setTo(1,1)
+			var button = group.create(game.world.centerX+120, game.world.centerY+330, playKeyImagic)//'atlas.tutorial','play_'+localization.getLanguage())
+			button.anchor.setTo(0.5,0.5)
+			button.scale.setTo(0.85)
+			var tuto = group.create(game.world.centerX, game.world.centerY - 50,'tutorial_image')
+			tuto.anchor.setTo(0.5,0.5)
+		}
 
-		var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
-		tuto.anchor.setTo(0.5,0.5)
 
-		var howTo = group.create(game.world.centerX,90, howkey)
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
 
-		var button = group.create(game.world.centerX+120, game.world.centerY+330, playKey)//'atlas.tutorial','play_'+localization.getLanguage())
-		button.anchor.setTo(0.5,0.5)
-		button.scale.setTo(0.85)
+
+
 
 		
 
@@ -102,13 +127,26 @@ var tutorialHelper = function () {
 		anim.onComplete = repeatSpine
 		group.add(spine)
         
-        var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        
-        var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
-        typeText.stroke = '#000000';
-        typeText.strokeThickness = 6;
-        typeText.anchor.setTo(0.5)
-        group.add(typeText)
+		if(configuration=="withstars"){
+			var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
+			typeText.stroke = '#000000';
+			typeText.strokeThickness = 6;
+			typeText.anchor.setTo(0.5)
+			group.add(typeText)
+
+		}else if(configuration=="nostars"){
+			var fontStyle = {font: "25px Aldrich-Regular", fill: "#ffffff", align: "center"}
+			var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 5);
+			spine.x+=10;
+			spine.y-=30;
+			typeText.x+=15
+			typeText.y-=15
+			typeText.anchor.setTo(0.5)
+			group.add(typeText)
+		}
+		
+
 
 		// }
 
@@ -239,6 +277,7 @@ var tutorialHelper = function () {
         document.addEventListener("contextmenu", function(e){
 			e.preventDefault();
 		}, false);
+		game.input.mspointer.capture = false;
         configuration=gameData.config.tutorial;
 		var path = sharePath+"tutorial_gifs/"
 		var videoName
@@ -333,18 +372,28 @@ var tutorialHelper = function () {
 		
         if(configuration=="withstars"){
             currentLoader.image(backKeyWeb,sharePath+"images/tutorial/background_tutorial_Web.png")
+			if(language == "ES"){
+            currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Web.png')
+            currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_ES.png')
+			}
+			else{
+				currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Web.png')
+				currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_EN.png')
+			}
         }else if(configuration=="nostars"){
             currentLoader.image(backKeyImagic,sharePath+"images/tutorial/background_tutorial_Imagic.png");
+			 currentLoader.image(backKeyStars,sharePath+"images/tutorial/back_stars.png");
+			if(language == "ES"){
+            currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Imagic.png')
+            currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_Imagic.png')
+			}
+			else{
+				currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Imagic.png')
+				currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
+			}
         }
 
-        if(language == "ES"){
-            currentLoader.image(howkey,sharePath+'images/tutorial/how_ES.png')
-            currentLoader.image(playKey,sharePath+'images/tutorial/play_ES.png')
-        }
-        else{
-            currentLoader.image(howkey,sharePath+'images/tutorial/how_EN.png')
-            currentLoader.image(playKey,sharePath+'images/tutorial/play_EN.png')
-        }
+
 	}
 	
 	return{
