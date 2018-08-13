@@ -72,7 +72,7 @@ var tutorialHelper = function () {
 			var howTo = group.create(game.world.centerX+10,90, howkeyImagic)
 			howTo.anchor.setTo(0.5,0.5)
 			howTo.scale.setTo(1,1)
-			var button = group.create(game.world.centerX+120, game.world.centerY+330, playKeyImagic)//'atlas.tutorial','play_'+localization.getLanguage())
+			var button = group.create(game.world.centerX+120, game.world.centerY+270, playKeyImagic)//'atlas.tutorial','play_'+localization.getLanguage())
 			button.anchor.setTo(0.5,0.5)
 			button.scale.setTo(0.85)
 			var tuto = group.create(game.world.centerX, game.world.centerY - 50,'tutorial_image')
@@ -381,13 +381,21 @@ var tutorialHelper = function () {
 				currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_EN.png')
 			}
         }else if(configuration=="nostars"){
+			var fontStyle = {font: "25px Aldrich-Regular", fill: "#ffffff", align: "center"}
+			var playText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, "Play", fontStyle)
+			playText.stroke = '#000000';
+			playText.strokeThickness = 6;
+			playText.anchor.setTo(0.5)
+			
             currentLoader.image(backKeyImagic,sharePath+"images/tutorial/background_tutorial_Imagic.png");
-			 currentLoader.image(backKeyStars,sharePath+"images/tutorial/back_stars.png");
+			currentLoader.image(backKeyStars,sharePath+"images/tutorial/back_stars.png");
 			if(language == "ES"){
             currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Imagic.png')
             currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_Imagic.png')
+			playText.setText("Jugar")
 			}
 			else{
+				playText.setText("Play")
 				currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Imagic.png')
 				currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
 			}

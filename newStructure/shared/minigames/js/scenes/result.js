@@ -650,7 +650,7 @@ var result = function(){
 				coinsToStarsContainer.text.scale.setTo(0.8,0.8)
 			}
 				
-			iconImage = sceneGroup.create(game.world.centerX + 110, game.world.centerY - 230,'gameIcon')
+			iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
 			iconImage.scale.setTo(0.7,0.7)
 			iconImage.anchor.setTo(0.5,0.5)
 		}

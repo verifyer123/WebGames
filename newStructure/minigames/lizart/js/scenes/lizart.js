@@ -7,9 +7,9 @@ var lizart = function(){
 	assets = {
 		atlases: [                
 			{
-				//name: "atlas.lizart",
-				//json: "images/lizart/atlas.json",
-				//image: "images/lizart/atlas.png",
+				name: "atlas.lizart",
+				json: "images/lizart/atlas.json",
+				image: "images/lizart/atlas.png",
 			},
 			{   
 				name: "atlas.tutorial",
@@ -35,8 +35,8 @@ var lizart = function(){
 				file:imagePath +"tree.png"
 			},
 			{
-				name:"piso",
-				file:imagePath +"piso.png"
+				name:"back",
+				file:imagePath +"back.png"
 			},
 			{
 				name:"globo",
@@ -102,14 +102,14 @@ var lizart = function(){
 		spritesheets: [
 			{
                 name:"hand",
-                file:"images/spine/hand/hand.png",
+                file:imagePath + "sheets/hand.png",
                 width:115,
                 height:111,
                 frames:5
             },
 			{
                 name:"coin",
-                file:"images/spine/coin/coin.png",
+                file:imagePath + "sheets/coin.png",
                 width:122,
                 height:123,
                 frames:12
@@ -167,7 +167,11 @@ var lizart = function(){
 	var speedGame = 5;
 	var tree;
 	var piso;
+	var wasCorrect;
+	var indexNumber = new Array;
 	var heartsIcon;
+	var pointsBar
+	var tutorial
 	var heartsText;	
 	var xpIcon;
 	var xpText;
@@ -212,13 +216,6 @@ var lizart = function(){
 			styleCards = {font: "11vh VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
 		}
 	}
-	function preload() {
-	
-
-
-		//loadType(gameIndex)
-
-	}
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -226,6 +223,8 @@ var lizart = function(){
 	function initialize(){
 		lives = INITIAL_LIVES;
 		coins = 0;
+		canTakeFruit = true
+		wasCorrect=false;
 		heartsText.setText("x " + lives);
 		xpText.setText(coins);
 		speedGame = 5;
@@ -253,19 +252,86 @@ var lizart = function(){
 	function createOverlay(){
 		lives = INITIAL_LIVES;
 		coins = 0;
-		heartsText.setText("x " + lives);
-		xpText.setText(coins);
 		speedGame = 5;
 		starGame = false;
 
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		overlayGroup = game.add.group()
 
+		createHearts();
+		createPointsBar();
+		
+		hand=game.add.sprite(0,0, "hand")
+        hand.anchor.setTo(0.5,0.5);
+        hand.scale.setTo(1,1);
+		hand.alpha=0;
+        hand.animations.add('hand');
+        hand.animations.play('hand', 5, true);
+		sceneGroup.add(hand)
+		
+        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
+        coins.anchor.setTo(0.5);
+        coins.scale.setTo(0.5);
+        coins.animations.add('coin');
+        coins.animations.play('coin', 24, true);
+        coins.alpha=0;
+		sceneGroup.add(coins)
+		
 		sceneGroup.add(overlayGroup)
 
 		tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 
-	}	
+	}
+	function createHearts(){
+
+			heartsGroup = game.add.group()
+			heartsGroup.y = 10
+			sceneGroup.add(heartsGroup)
+
+			var pivotX = 10
+			var group = game.add.group()
+			group.x = pivotX
+			heartsGroup.add(group)
+
+			var heartImg = group.create(0,0,'atlas.lizart','hearts')
+
+			pivotX+= heartImg.width * 0.45
+
+			var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+			pointsText.x = pivotX
+			pointsText.y = heartImg.height * 0.15
+			pointsText.setText('X ' + lives)
+			heartsGroup.add(pointsText)
+
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+			heartsGroup.text = pointsText
+
+		}
+			
+		function createPointsBar(){
+					
+			pointsBar = game.add.group()
+			pointsBar.x = game.world.width
+			pointsBar.y = 0
+			sceneGroup.add(pointsBar)
+
+			var pointsImg = pointsBar.create(-10,10,'atlas.lizart','xpcoins')
+			pointsImg.anchor.setTo(1,0)
+
+			var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+			pointsText.x = -pointsImg.width * 0.45
+			pointsText.y = pointsImg.height * 0.25
+			pointsBar.add(pointsText)
+
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+			pointsBar.text = pointsText
+			pointsBar.number = 0
+
+		}
 
 	function onClickPlay(){
 		overlayGroup.y = -game.world.height
@@ -279,32 +345,6 @@ var lizart = function(){
 		buttons.getButton(bgm,sceneGroup)
 	}
 
-	function createHearts(){
-		heartsGroup = game.add.group();
-		heartsIcon = heartsGroup.create(0,0,"heartsIcon");
-		heartsIcon.anchor.setTo(0, 0);	
-		heartsIcon.x = game.world.width - heartsIcon.width;
-		heartsIcon.y = 5;	
-		heartsText = game.add.text(50, 10, "x " + lives, style,heartsGroup);	
-		heartsText.anchor.setTo(0, 0);	
-		heartsText.x = game.world.width - 75;
-		heartsText.y = 5;
-		sceneGroup.add(heartsGroup);		
-	}
-
-	function createCoins(){
-		coinsGroup = game.add.group();
-		xpIcon = coinsGroup.create(0,0,"xpIcon");
-		xpIcon.anchor.setTo(0, 0);	
-		xpIcon.x = 0;
-		xpIcon.y = 5;	
-		xpText = game.add.text(50, 10, coins, style,coinsGroup);	
-		xpText.anchor.setTo(0, 0);	
-		xpText.x = 75;
-		xpText.y = 2;	
-		sceneGroup.add(coinsGroup);
-	}	
-
 	function createBallon(ColorSelect){
 
 		globo = sceneGroup.create(game.width-50,game.height-200,"globo");
@@ -315,12 +355,13 @@ var lizart = function(){
 		textGlobo.y = globo.y-globo.height/2;
 		textGlobo.anchor.setTo(0.5,0.8);
 		TweenMax.fromTo(globo.scale,0.5,{x:0,y:0},{x:1,y:1});
-		TweenMax.fromTo(textGlobo.scale,0.5,{x:0,y:0},{x:1,y:1,delay:1});
-
-	}
-
-	function tutorial(){
-
+		TweenMax.fromTo(textGlobo.scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
+		if(tutorial){
+			hand.alpha=1
+			fruits[indexNumber[good]].inputEnabled=true;
+			hand.x=fruits[indexNumber[good]].x+50;
+			hand.y=fruits[indexNumber[good]].y+150;
+		}
 	}
 
 	function keepBallon(){
@@ -328,9 +369,13 @@ var lizart = function(){
 	}	
 
 	/*CREATE SCENE*/
+	
+
 	function createScene(){
 
 		canTakeFruit = true
+		tutorial=true;
+		wasCorrect=true;
 
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		loadSounds();
@@ -344,23 +389,12 @@ var lizart = function(){
 		background.endFill()
 		sceneGroup.add(background);
 		
-		hand=game.add.sprite(0,0, "hand")
-        hand.anchor.setTo(0.5,0.5);
-        hand.scale.setTo(0.6,0.6);
-        hand.animations.add('hand');
-        hand.animations.play('hand', 5, false);
 		
-        coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
-        coins.anchor.setTo(0.5);
-        coins.scale.setTo(0.5);
-        coins.animations.add('coin');
-        coins.animations.play('coin', 24, true);
-        coins.alpha=0;
 
-		piso = game.add.tileSprite(0,game.height-150,game.width,150,"piso");
-		sceneGroup.add(piso);
-		tree = sceneGroup.create(game.world.centerX,0,"tree");
-		tree.anchor.setTo(0.5,0.2);
+		back = game.add.tileSprite(0,0,game.world.width,game.world.height,"back");
+		sceneGroup.add(back);
+//		tree = sceneGroup.create(game.world.centerX,0,"tree");
+//		tree.anchor.setTo(0.5,0.2);
 
 		var idleGroup = game.add.group();
 		idleBody = idleGroup.create(0, 0, 'idleBody');
@@ -402,8 +436,9 @@ var lizart = function(){
 		var wrongEyesAnimation = wrongEyes.animations.add('wrongEyesAnimation');
 		wrongGroup.alpha = 0;
 		wrongGroup.x = game.world.centerX/2;		
+		
 
-
+		
 		shadowLizar = sceneGroup.create(game.world.centerX/1.8,game.height-50,"shadowLizar");
 
 		var colors = [
@@ -424,7 +459,8 @@ var lizart = function(){
 			fruits[i].events.onInputDown.add(downFruit,this);
 		}
 
-		var indexNumber = new Array;
+
+		
 		var option1;
 		var option2;
 		var option3;
@@ -437,11 +473,12 @@ var lizart = function(){
 		function createFruits(){
 			for(var i = 0;i<=5;i++){
 				fruits[i].y = -500;
+				fruits[i].scale.setTo(1,1);
+				fruits[i].inputEnabled=true;
 			}
 
 			for(var e = 0;e<=2;e++){
 				indexNumber[e] = getRand();
-
 			}
 			fruits[indexNumber[0]].x = option1[0];
 			fruits[indexNumber[1]].x = option2[0];
@@ -452,55 +489,55 @@ var lizart = function(){
 			TweenMax.to(fruits[indexNumber[2]],1.4,{y:option3[1],ease:Bounce.easeOut,delay:1.4});
 
 			good = getRandomArbitrary(0,3);
-			if(tutorial){
-				hand.x=fruits[good].x;
-				hand.y=fruits[good].y;
-				for(var deactivate=0; deactivate<5; deactivate++){
-					if(deactivate!=good){
-						fruits[deactivate].inputEnabled=false;
-					}
-				}
-			}
 			colorSelect = colorsArray[fruits[indexNumber[good] ].id ];
-			//console.log(colorSelect);
-
 		}
 
-
-
+		
 		function downFruit(fruitItem){
-			if(!canTakeFruit){
-				return
-			}
-			canTakeFruit = false
-			if(indexNumber[good] == fruitItem.id){
+//			if(!canTakeFruit){
+//				return
+//			}
+			globo.destroy();
+			textGlobo.destroy();
+			
+			if(indexNumber[good] == fruitItem.id && canTakeFruit){
+				canTakeFruit = false
 				rightBody.tint=fruitItem.color;
+				hand.alpha=0;
+				for(var deactivate=0; deactivate<5; deactivate++){
+					fruits[deactivate].inputEnabled=false;
+				}
+				tutorial=false;
 				TweenMax.to(fruitItem,1,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
-				TweenMax.to(idleBody,0.5,{tint:fruitItem.color,onComplete:winLizar});	
-				sound.play("magic");
-			}else{
+				//
+				game.add.tween(fruitItem.scale).to({x:0,y:0},550,Phaser.Easing.Cubic.In,true)
+				
+				game.add.tween(fruitItem).to({x:idleGroup.x+200,y:idleEyes.y},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+					TweenMax.to(idleBody,0.5,{tint:fruitItem.color,onComplete:winLizar});	
+					sound.play("magic");
+				});
+				
+			}else if(indexNumber[good] != fruitItem.id && !tutorial && canTakeFruit){
 				//wrongBody.animations.play('wrongBodyAnimation', 24, false);
 
-
 				//idleGroup.alpha = 0;
-				lives--;
-				heartsText.setText("x " + lives);
+				for(var deactivate=0; deactivate<5; deactivate++){
+					fruits[deactivate].inputEnabled=false;
+				}
+				missPoint()
 
 				if(lives<=0){
 					idleGroup.alpha = 0;
 					wrongGroup.alpha = 1;
 					wrongEyes.animations.play('wrongEyesAnimation', 24, false);
 					wrongBody.animations.play('wrongBodyAnimation', 24, false);
-					TweenMax.to(wrongBody,1,{alpha:0,onComplete:gameOver});	
-					sound.play("gameLose");
+//					TweenMax.to(wrongBody,1,{alpha:0,onComplete:stopGame});	
 					bgm.stop();
 				}
 				else{
 					sound.play("wrong")
 					//idleEyes.alpha = 0;
 					//wrongIdleEyes.alpha = 1;
-					globo.destroy();
-					textGlobo.destroy();
 					idleGroup.alpha = 0;
 					wrongGroup.alpha = 1;
 					wrongEyes.animations.play('wrongEyesAnimation', 24, false);
@@ -508,38 +545,49 @@ var lizart = function(){
 					//wrongIdleEyes.animations.play('wrongEyesAnimation', 24, false);
 					TweenMax.to(wrongBody,1,{alpha:0,onComplete:endwrong});	
 				}	
+				canTakeFruit = false
 			}
+			
 		}
+		
 
 		function endwrong(){
-			//globo.destroy();
-			//textGlobo.destroy();
 			idleGroup.alpha = 0;
 			wrongGroup.alpha = 0;
-			//createFruits()
 			for(var i = 0;i<=5;i++){
 				fruits[i].y = -500;
 			}
 			TweenMax.to(idleGroup,1,{alpha:1,onComplete:newLizar,delay:0});
-			//newLizar()
 		}
 
 		function winLizar(){
+			Coin(rightGroup,pointsBar,50)
+			wasCorrect=true;
+			game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
+			game.add.tween(rightGroup).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
 			globo.destroy();
 			textGlobo.destroy();
 			rightGroup.alpha = 1;
 			idleGroup.alpha = 0;
-			coins++;
-			xpText.setText(coins)
 			sound.play("combo");
 			TweenMax.to(rightGroup,1,{alpha:1,onComplete:newLizar,delay:1});
 		}
 
 		function newLizar(){
 			canTakeFruit = true
-
-			rightGroup.alpha = 0;
-			idleGroup.alpha = 1;
+			
+			
+			globo.destroy();
+			if(wasCorrect){
+				shadowLizar.x=-200;
+				rightGroup.x=-200;
+				game.add.tween(shadowLizar).to({x:game.world.centerX/1.8, y:game.height-50},500,Phaser.Easing.linear,true);
+				game.add.tween(rightGroup).to({x: game.world.centerX/2},500,Phaser.Easing.linear,true).onComplete.add(function(){
+					idleGroup.alpha = 1;
+					rightGroup.alpha = 0;
+				});
+				wasCorrect=false;
+			}
 			createFruits();
 			createBallon(colorSelect);
 		}
@@ -549,36 +597,98 @@ var lizart = function(){
 
 
 		createFruits();	
-		createHearts();
-		createCoins();
 		createOverlay();
 	}
 
+	function addNumberPart(obj,number){
 
-	function gameOver(){
-		var resultScreen = sceneloader.getScene("result")
-		resultScreen.setScore(true, coins,gameIndex)
-		sceneloader.show("result");
+		var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, number, fontStyle)
+		pointsText.x = obj.world.x
+		pointsText.y = obj.world.y
+		pointsText.anchor.setTo(0.5,0.5)
+		sceneGroup.add(pointsText)
+
+		game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+		game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+
+		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
 	}
+	function missPoint(){
 
+		sound.play("wrong")
+		lives--;
+		heartsGroup.text.setText('X ' + lives)
+		
+		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+		scaleTween.onComplete.add(function(){
+			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+		})
 
-	function moveObject(object){
+		if(lives === 0){
+			stopGame(false)
+		}
 
+			addNumberPart(heartsGroup.text,'-1')
 	}	
+	
+	function stopGame(win){
 
-	function update() {
+		gameActive = false	
+		bgm.stop()
+		sound.play("gameLose")
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Sinusoidal.In, true, 1500)
+		tweenScene.onComplete.add(function(){
 
+			var resultScreen = sceneloader.getScene("result")
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
+
+			//amazing.saveScore(pointsBar.number)
+			sceneloader.show("result")
+			
+		})
 	}
+	
+	function addPoint(number){
+
+		sound.play("magic")
+		pointsBar.number+=number;
+		pointsBar.text.setText(pointsBar.number)
+
+		var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
+		scaleTween.onComplete.add(function(){
+			game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+		})
+		addNumberPart(pointsBar.text,'+' + number)
+	}
+	
+	function Coin(objectBorn,objectDestiny,time){
+		//objectBorn= Objeto de donde nacen
+		console.log("hola")
+		coins.x=objectBorn.centerX
+		coins.y=objectBorn.centerY
+		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+				coins.x=objectBorn.centerX
+				coins.y=objectBorn.centerY
+				addPoint(1)
+			})
+		})
+	}
+	
+
 
 	return {
 		assets: assets,
 		name: "lizart",
-		preload:preload,
 		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create:createScene,
-		update:update,
 		show: function(event){
-			initialize()
-		}		
+			initialize();
+		}			
 	}
 }()
