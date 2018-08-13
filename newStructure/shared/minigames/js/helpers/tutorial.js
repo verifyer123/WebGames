@@ -59,14 +59,14 @@ var tutorialHelper = function () {
 			var rect = new Phaser.Graphics(game)
 			rect.beginFill(0x0d1623)
 			rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-			rect.alpha = 1
+			rect.alpha = 0.7
 			rect.endFill()
 			group.add(rect)
-			for(var fillStars=0; fillStars<20; fillStars++){
-				var stars = group.create(game.rnd.integerInRange(0,50)*fillStars,50*fillStars,backKeyStars)
-				stars.scale.setTo(1.2,1.2)
-				stars.anchor.setTo(0.5,0.5)
-			}
+//			for(var fillStars=0; fillStars<20; fillStars++){
+//				var stars = group.create(game.rnd.integerInRange(0,50)*fillStars,50*fillStars,backKeyStars)
+//				stars.scale.setTo(1.2,1.2)
+//				stars.anchor.setTo(0.5,0.5)
+//			}
             var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyImagic)
             plane.scale.setTo(1,1)
             plane.anchor.setTo(0.5,0.5)

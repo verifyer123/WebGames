@@ -24,6 +24,8 @@ var yogomeGames = function () {
 		"aprendeGames",
         "michoMauGames"
 	]
+	
+
 
 	function getGames(pathTag){
 		var urlSet
@@ -296,7 +298,6 @@ var yogomeGames = function () {
 			game.id = gameId
 			object[gameId] = game
 		}
-
 		return object
 	}
 

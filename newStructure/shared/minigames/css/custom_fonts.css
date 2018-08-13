@@ -1,6 +1,8 @@
 @font-face{
 	font-family: 'VAGRounded';
 	src: url('../fonts/VAGRoundedStd-Bold.otf');
+}
+@font-face{
 	font-family: 'Monoton-Regular';
 	src: url('../fonts/Monoton-Regular.ttf');
 }

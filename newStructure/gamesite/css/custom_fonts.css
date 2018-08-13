@@ -2,10 +2,13 @@
 	font-family: 'VAGRounded';
 	src: url('../fonts/VAGRoundedStd-Bold.otf');
 }
-
 @font-face{
 	font-family: 'Bronic';
 	src: url('../fonts/bronic.ttf');
+}
+@font-face{
+	font-family: 'Monoton-Regular';
+	src: url('../fonts/Monoton-Regular.ttf');
 }
 
 .custom-font{
@@ -14,10 +17,14 @@
 	height: 0%;
 	width: 0%;
 }
-
-
 .bronic-font{
 	font-family: "Bronic";
+	opacity: 1;
+	height: 0%;
+	width: 0%;
+}
+.monoton-font{
+	font-family: "Monoton-Regular";
 	opacity: 1;
 	height: 0%;
 	width: 0%;
