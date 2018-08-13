@@ -792,10 +792,6 @@ var wildDentist = function(){
     }
     
    function onDragStart(sprite, pointer) {
-       //  console.log("sprite: " + sprite.id);
-       //  console.log("hit zone: " + hitZones[0].id);  
-       // console.log("hit zone: " + hitZones[1].id);  
-       // console.log("hit zone: " + hitZones[2].id);
        indexDrag = sceneGroup.getIndex(sprite);
        sceneGroup.bringToTop(sprite); 
     }
@@ -853,14 +849,10 @@ var wildDentist = function(){
         name: "wildDentist",
         preload:preload,
         update:update,
-        getGameData:function () {
-            var games = yogomeGames.getGames()
-            return games[gameIndex]
-        },
         create: function(event){
 
             sceneGroup = game.add.group();
-            yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+            //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
             game.onPause.add(function(){
                 game.sound.mute = true;

@@ -1226,11 +1226,7 @@ var uni = function(){
 			dreamGroup.add(nubesAparecer[index]);
 		}
 	}
-	
-	
 
-	
-	
 	function createBackground() {
 		var background = game.add.tileSprite(0,0,game.world.width, game.world.height, "atlas.uni", "room")
 		sceneGroup.add(background)
@@ -1256,8 +1252,6 @@ var uni = function(){
 
 			sceneGroup = game.add.group(); 
 			
-			//yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
-			
 			document.addEventListener("contextmenu", function(e){
                e.preventDefault();
 			}, false);
@@ -1279,8 +1273,6 @@ var uni = function(){
 			}, this);
 			game.stage.disableVisibilityChange = false;
 			initialize()
-
-			// createHearts()
 			createPointsBar()
             createHearts()
 			createGameObjects()

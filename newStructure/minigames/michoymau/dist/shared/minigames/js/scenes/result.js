@@ -109,8 +109,6 @@ var result = function(){
         trackerText.text = totalScore
 		return containerGroup
 	}
-
-
 	function shareEvent(){
         mixpanel.track(
             "pressFacebook",

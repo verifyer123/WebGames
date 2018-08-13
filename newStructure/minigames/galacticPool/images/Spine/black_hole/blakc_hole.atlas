@@ -1,0 +1,26 @@
+
+blakc_hole.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/hole_spiral
+  rotate: false
+  xy: 2, 2
+  size: 1616, 1621
+  orig: 1616, 1621
+  offset: 0, 0
+  index: -1
+
+blakc_hole2.png
+size: 1024,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/hole_center
+  rotate: false
+  xy: 2, 2
+  size: 562, 563
+  orig: 562, 563
+  offset: 0, 0
+  index: -1

@@ -62,13 +62,21 @@ var galacticPool = function(){
 				name:'tutorial_image',
 				file:"%lang",
 			},
+			{
+				name:'tile_back',
+				file:"images/galacticPool/tile_back.png"
+			},
 
 		],
 		spines: [
 			{
 				name:"planet",
 				file:"images/Spine/planetas/planets.json"
-			}
+			},
+			{
+				name:"blackHole",
+				file:"images/Spine/black_hole/blakc_hole.json"
+			},
 		],
 		spritesheets: [
 			{
@@ -84,6 +92,13 @@ var galacticPool = function(){
 				width: 115,
 				height: 111,
 				frames: 10
+			},
+			{  
+				name: "comet",
+				file: "images/Spine/comet.png",
+				width: 225,
+				height: 224,
+				frames: 24
 			}
 		],
 		sounds: [
@@ -104,7 +119,11 @@ var galacticPool = function(){
 			{	name: "ship",
 			 file: soundsPath + "robotBeep.mp3"},
 			{   name:"acornSong",
-			 file: soundsPath + 'songs/childrenbit.mp3'}
+			 file: soundsPath + 'songs/musicVideogame9.mp3'},
+			{   name:"swallow",
+			 file: soundsPath + 'swallow.mp3'},
+			{   name:"inflateballoon",
+			 file: soundsPath + 'inflateballoon.mp3'},
 
 		],
 		jsons: [
@@ -127,6 +146,7 @@ var galacticPool = function(){
 	var tutoGroup
 	var indexGame
 	var overlayGroup
+	var blackHole
 	var stick;
 	var planetsGroup;
 	var fontStyleWord
@@ -232,12 +252,9 @@ var galacticPool = function(){
 	}
 
 	function createTutorial(){
-
 		tutoGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-
 	}
 
 
@@ -265,6 +282,8 @@ var galacticPool = function(){
 
 			planets[8].body.x=game.world.centerX
 			planets[8].body.y=game.world.height-100
+			planets[8].text.x=positionX[8]+50;
+			planets[8].text.y=positionY[8]
 			for(var resetPlanets=0; resetPlanets<planets.length; resetPlanets++){
 				game.add.tween(planets[resetPlanets].spines).to({alpha:1},1000,Phaser.Easing.Cubic.In,true)
 			}
@@ -295,6 +314,7 @@ var galacticPool = function(){
 		});
 	}
 	function stopDragging(obj){
+		sound.play("released")
 		for(var overTargets=0; overTargets<planets.length; overTargets++){
 			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled){
 				checkIfCorrect(obj,targets[overTargets]);
@@ -366,17 +386,18 @@ var galacticPool = function(){
 		}
 	}
 	function stopTimer(){
-		tweenTiempo.stop()
-		tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, START_TIMING, Phaser.Easing.Linear.Out, true, delayDefault).onComplete.add(function(){
-			reset();
-			for(var dissapearNebuls=0;dissapearNebuls<nebulsInGame;dissapearNebuls++){
-				nebul[dissapearNebuls].alpha=0;
-			}
-		})
+		if(lives>0){
+			tweenTiempo.stop()
+			tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, START_TIMING, Phaser.Easing.Linear.Out, true, delayDefault).onComplete.add(function(){
+				if(lives>0)reset();
+				for(var dissapearNebuls=0;dissapearNebuls<nebulsInGame;dissapearNebuls++){
+					nebul[dissapearNebuls].alpha=0;
+				}
+			})
+		}
 	}
 	function checkIfCorrect(planet,target){
 		goal++;
-		console.log("paso")
 		if(planet.tag==target.tag){
 			getCoins(planet);
 			correctParticle.x = planet.centerX
@@ -386,6 +407,7 @@ var galacticPool = function(){
 			planet.body.y=target.y;
 			planet.text.alpha=1;
 			speedTimer-=200;
+			sound.play("pop")
 			planet.inputEnabled=false;
 			if(goal==TOTAL_PLANETS && !tutorial){
 				goal=0;
@@ -472,10 +494,29 @@ var galacticPool = function(){
 		UIGroup.add(timeBar);
 		UIGroup.alpha=0;
 	}
-	function biggerBlackHole(){
-		game.add.tween(hole.scale).to({x:hole.scale.x-1,y:hole.scale.y-1}, time, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
-			game.add.tween(hole.scale).to({x:hole.scale.x+4,y:hole.scale.y+4}, time, Phaser.Easing.Linear.Out, true)
-		});
+	function biggerBlackHole(lost){
+		if(!lost){
+			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+				sound.play("inflateballoon")
+				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+1.5,y:blackHole.scale.y+1.5}, 500, Phaser.Easing.Linear.Out, true)
+			});
+		}else{
+			stopTimer()
+			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+				for(var toHole=0; toHole<TOTAL_PLANETS; toHole++){
+					planets[toHole].text.alpha=0;
+					targets[toHole].alpha=0;
+					planets[toHole].body.data.shapes[0].sensor= false
+					game.add.tween(planets[toHole].body).to({x:blackHole.centerX,y:blackHole.centerY},300,Phaser.Easing.Linear.In,true);
+					game.add.tween(planets[toHole].spines.scale).to({x:0,y:0},300,Phaser.Easing.Linear.In,true);
+					game.add.tween(planets[toHole].spines).to({alpha:0},300,Phaser.Easing.Linear.In,true);
+				}
+				sound.play("swallow")
+				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+4,y:blackHole.scale.y+4}, 1000, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+					stopGame(false)
+				})
+			});
+		}
 	}
 	function startTimer(time){
 		var SWITCHING=false;
@@ -511,6 +552,7 @@ var galacticPool = function(){
 			game.add.tween(stick).to({y:stick.y+200},2000,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
 				game.add.tween(stick).to({y:stick.y-200},200,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					canCollide=true;
+					sound.play("shoot")
 					game.add.tween(stick).to({alpha: 0}, 1000, Phaser.Easing.Cubic.In, true)
 					planets[8].body.velocity.y = -2000;
 					stick.x=game.world.centerX-20;
@@ -520,7 +562,6 @@ var galacticPool = function(){
 			})
 		})
 	}
-
 	function initCoin(){
 		coin = game.add.sprite(0, 0, "coin")
 		coin.anchor.setTo(0.5)
@@ -535,9 +576,6 @@ var galacticPool = function(){
 		hand.animations.play('hand', 10, true)
 		hand.alpha=0
 	}
-
-
-
 	function popObject(obj,delay){
 
 		game.time.events.add(delay,function(){
@@ -611,10 +649,14 @@ var galacticPool = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-		//biggerBlackHole();
-		if(lives == 0){
-			stopGame(false)
+		if(lives==0){
+			biggerBlackHole(true);
+		}else{
+			biggerBlackHole(false);
 		}
+//		if(lives == 0){
+//			stopGame(false)
+//		}
 
 		addNumberPart(heartsGroup.text,'-1',true)
 
@@ -684,7 +726,6 @@ var galacticPool = function(){
 
 	function stopGame(win){
 
-		sound.play("wrong")
 		sound.play("gameLose")
 		gameActive = false
 		baseSong.stop()
@@ -717,7 +758,7 @@ var galacticPool = function(){
 		for(var planetsTargets=0; planetsTargets<TOTAL_PLANETS; planetsTargets++){
 			planets[planetsTargets].spines=game.add.spine(0, 0, PLANETS_SPINES);
 			planets[planetsTargets].spines.setSkinByName(planetsNames[planetsTargets].SKIN);
-			planets[planetsTargets].spines.setAnimationByName(0, "IDLE", true);
+			planets[planetsTargets].spines.setAnimationByName(0, "idle", true);
 			planets[planetsTargets].spines.alpha=1;
 			planets[planetsTargets].body.x=positionX[planetsTargets];
 			planets[planetsTargets].body.y=positionY[planetsTargets];
@@ -798,9 +839,9 @@ var galacticPool = function(){
 		physicPlanets.enableBody=true;
 		physicPlanets.physicsBodyType = Phaser.Physics.P2JS;
 		
-
-
-
+		var back=game.add.tileSprite(0,0,game.world.width,game.world.height,"tile_back");
+		backgroundGroup.add(back)
+		
 		controles=game.input.keyboard.createCursorKeys();
 
 		correctParticle = createPart("star")
@@ -810,6 +851,13 @@ var galacticPool = function(){
 		boomParticle = createPart("smoke")
 		sceneGroup.add(boomParticle)
 
+		
+		blackHole=game.add.spine(game.world.centerX, game.world.centerY, "blackHole");
+		blackHole.setSkinByName("normal");
+		blackHole.setAnimationByName(0, "black_hole", true);
+		blackHole.scale.setTo(0.2,0.2)
+		backgroundGroup.add(blackHole)
+		
 		planetsNames=[
 			{SKIN:"neptune",word:localization.getString(localizationData,"planet9")},
 			{SKIN:"uranus",word:localization.getString(localizationData,"planet8")},
@@ -831,9 +879,9 @@ var galacticPool = function(){
 		for(var placingPositions=0; placingPositions<PLANETS_TOTAL; placingPositions++){
 			planets[placingPositions]=physicPlanets.create(0,0,"atlas.galacticPool",planetsNames[placingPositions].SKIN);
 			planets[placingPositions].anchor.setTo(0.5,0.5);
-			planets[placingPositions].scale.setTo(0.7,0.7);
+			planets[placingPositions].scale.setTo(0.5,0.5);
 			planets[placingPositions].alpha=0;
-			planets[placingPositions].body.x=placingPositions*10
+			planets[placingPositions].body.x=placingPositions*10;
 			planets[placingPositions].body.setCircle(35);
 			planets[placingPositions].body.setZeroVelocity();
 			planets[placingPositions].body.setCollisionGroup(allPlanets);
@@ -932,7 +980,13 @@ var galacticPool = function(){
 					planets[followPlanetSpine].spines.y=planets[followPlanetSpine].y;
 				}
 			}
-			movingStars()
+			if(lives>0){
+				movingStars()
+			}else{
+				texture.clear();
+				texture2.clear();
+				texture3.clear();
+			}
 		}
 	}
 
