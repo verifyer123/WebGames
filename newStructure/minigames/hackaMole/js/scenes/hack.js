@@ -1,6 +1,5 @@
 
-var soundsPath = "../../../../shared/minigames/sounds/"
-var tutorialPath = "../../../../shared/minigames/"
+var soundsPath = "../../shared/minigames/sounds/"
 
 var hack = function(){
     
@@ -77,7 +76,7 @@ var hack = function(){
 		],
     }
 
-    var INITIAL_LIVES = 1
+    var INITIAL_LIVES = 3
     var lives = null
 	var sceneGroup = null
     var gameActive
@@ -492,7 +491,6 @@ var hack = function(){
 		tutorialHand.alpha = 0
 		tutorialHand.active = true
 	}
-	
 	
 	function addObject(tag){
 		
