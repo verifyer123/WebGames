@@ -765,7 +765,7 @@ var circulead = function(){
             }
             particleWrong.x = playerYogotar.x;
             particleWrong.y = playerYogotar.y;
-            particleWrong.start(true, 1000, null, 1);
+            particleWrong.start(true, 1000, null, 5);
             missPoint();
             nextMissPoint = game.time.now + 1500;
         }

@@ -60,12 +60,35 @@ var snoopyEnBuscaDelSabor = function(){
                 file: soundsPath + "gameLose.mp3"},
             {   name: "falling",
                 file: soundsPath + "falling.mp3"},  
+            {
+            	name:"coin",
+            	file: soundsPath + "coin.wav"
+            },
+            {
+            	name:"spring",
+            	file: soundsPath + "spring.wav"
+            },
+            {
+            	name:"projectile",
+            	file: soundsPath + "projectile.wav"
+            },
+            {
+            	name:"jump",
+            	file: soundsPath + "jump.wav"
+            },
+            {
+            	name:"water",
+            	file: soundsPath + "water.wav"
+            }
+
+
+
         ],
     }
     
     var INITIAL_LIVES = 3
     var INITIAL_SPEED = 3
-    var DELTA_SPEED = 0.03
+    var DELTA_SPEED = 0.1
     var SWIPE_MAGNITUD = 150
     var FALLING_SPEED = 2
 
@@ -84,8 +107,8 @@ var snoopyEnBuscaDelSabor = function(){
     var DELTA_BALLON_CHANGE = 200
     var DELTA_PUCH = 3
 
-    var BLINK_TIMES = 3
-    var TIME_BLINK = 400
+    var BLINK_TIMES = 5
+    var TIME_BLINK = 300
     var BIRD_SPEED = 2
 
     var DISTANCE_MIN_MOUNTAIN = 400
@@ -93,6 +116,9 @@ var snoopyEnBuscaDelSabor = function(){
 
     var DISTANCE_MIN_GRASS = 165
     var DISTANCE_MAX_GRASS = 500
+
+    var DISTANCE_MIN_LEAVES = 500
+    var DISTANCE_MAX_LEAVES = 800
 
     var DISTANCE_MIN_FENCE = 300
     var DISTANCE_MAX_FENCE = 500
@@ -111,7 +137,11 @@ var snoopyEnBuscaDelSabor = function(){
     	
     var X_DISSAPEAR
     var JUMP_VELOCITY = 450
-    var JUMP_TRAMPOLIN = 800
+    var JUMP_TRAMPOLIN = 900
+
+    var DELTA_MIN_TIME_DIRIGIBLE = 2500
+    var DELTA_MAX_TIME_DIRIGIBLE = 3500
+    var DIRIGIBLE_SPEED = -4
 
     var gameIndex = 31
     var gameId = 100012
@@ -136,7 +166,8 @@ var snoopyEnBuscaDelSabor = function(){
     var currentDistanceMountain, lastMountain
     var grassGroup, lastGrass
     var fenceGroup, lastFence
-    var cloudGroup
+    var dryLeaves, lastDryLeaves, dryEmitter1, dryEmitter2
+    var cloudGroup, cloudGroup2
     var lastSpeed
     var woodGroup 
     var nextPlatfromsWater
@@ -147,6 +178,14 @@ var snoopyEnBuscaDelSabor = function(){
     var moreVelocity
     var stopByHouse, lastFrameStopHouse
     var randomLevel
+    var dirigible 
+
+
+    var inTutorial, lastTutorialObject, disableTouchByTutorial
+    var tutorialPanel1, tutorialPanel2, tutorialPanel3, tutorialPanel4, tutorialPanel5
+
+
+
     function loadSounds(){
         sound.decode(assets.sounds)
     }
@@ -156,18 +195,30 @@ var snoopyEnBuscaDelSabor = function(){
         //gameIndex = amazing.getId(gameId)
         game.stage.backgroundColor = "#ffffff"
         lives = INITIAL_LIVES
-        currentSpeed = 0
+        currentSpeed = INITIAL_SPEED
         canTouch = true
         levelIndex = 0
         FLOOR_Y = game.world.height - 150
         inHit = false
         X_DISSAPEAR = -game.world.width * 2
         jumpToOtherSide = false
-        firstTouch = true
+        firstTouch = false
         moreVelocity = false
         stopByHouse = false
         lastFrameStopHouse = false
         randomLevel = 0
+        if(localStorage.getItem("tutorial")!=null){
+        	inTutorial = -1
+        	disableTouchByTutorial = false
+        }
+        else{
+        	//localStorage.removeItem("tutorial")
+        	inTutorial = 0
+        	disableTouchByTutorial = true
+        }
+        lastTutorialObject = []
+
+
      }
     
 
@@ -195,11 +246,14 @@ var snoopyEnBuscaDelSabor = function(){
         /*if(amazing.getMinigameId()){
             marioSong = sound.setSong(soundsPath + 'songs/timberman.mp3',0.3)
         }else{*/
-            game.load.audio('arcadeSong', soundsPath + 'songs/timberman.mp3');
+            game.load.audio('arcadeSong', soundsPath + 'costena_sound.mp3');
         //}
 
         game.load.spine('snoopy','images/spine/snoopy/snoopy.json')
         game.load.spine('emilio','images/spine/emilio/emilio.json')
+
+        var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
+        var text = new Phaser.Text(game, -100, -100,"test", fontStyle)
 
     }
 
@@ -211,6 +265,7 @@ var snoopyEnBuscaDelSabor = function(){
 
         //gameActive = false
         currentSpeed = 0
+
         
         /*if(amazing.getMinigameId() && marioSong!=null){
             marioSong.pause()
@@ -438,6 +493,7 @@ var snoopyEnBuscaDelSabor = function(){
     	}
 
     	var cs = currentSpeed
+    	//console.log(currentSpeed)
         if(moreVelocity){
         	cs = currentSpeed*2
         }
@@ -454,7 +510,77 @@ var snoopyEnBuscaDelSabor = function(){
             }
         }
 
-        if(firstTouch){
+        for(var i =0; i < cloudGroup2.length; i++){
+            if(cloudGroup2.children[i].visible){
+                var object = cloudGroup2.children[i]
+                //console.log(object.vel)
+                object.x -= (object.vel+cs)
+                if(object.x < X_DISSAPEAR){
+                    object.visible = false
+                    getCloud2(game.world.width*2,game.rnd.integerInRange(0,game.world.centerY-100))
+                }
+            }
+        }
+        if(lastTutorialObject[0]!=null){
+	        if(inTutorial!=-1){
+	        	if(inTutorial == 0 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel1.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 1 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel1.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 2 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel2.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 3 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel3.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 4 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel4.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        	else if(inTutorial == 5 ){
+	        		if(player.x > lastTutorialObject[0].x){
+	        			currentSpeed = 0
+	        			tutorialPanel5.visible = true
+	        			disableTouchByTutorial = false
+	        			game.physics.arcade.gravity.y = 0
+	        			player.body.velocity.y = 0
+	        		}
+	        	}
+	        }
+	    }
+
+        /*if(firstTouch){
 			
             if(game.input.activePointer.isDown){
                 currentSpeed = INITIAL_SPEED
@@ -468,17 +594,24 @@ var snoopyEnBuscaDelSabor = function(){
             
             //return
         }
-        else{
-
+        else{*/
+	
             updateInput()
-        }
+        //}
+
+
+
+
+
+
 
         //console.log(player.body.gravity)
         //var collideFloor = false
 
-        if(player.x > INITAL_X){
-            player.x-=DELTA_X
-            
+        if(player.x < INITAL_X){
+        	console.log("sgdasfdfas")
+            player.x+=(cs*3)
+           	cs = -(cs*2)
         }
 
 
@@ -487,9 +620,9 @@ var snoopyEnBuscaDelSabor = function(){
             if(mountainGroup.children[i].visible){
                 var object = mountainGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
                 if(object.x < X_DISSAPEAR){
                     object.visible = false
                 }
@@ -501,9 +634,9 @@ var snoopyEnBuscaDelSabor = function(){
             if(fenceGroup.children[i].visible){
                 var object = fenceGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
                 if(object.x < X_DISSAPEAR){
                     object.visible = false
                 }
@@ -514,12 +647,29 @@ var snoopyEnBuscaDelSabor = function(){
             if(grassGroup.children[i].visible){
                 var object = grassGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
                 if(object.x < X_DISSAPEAR){
                     object.visible = false
                 }
+            }
+        }
+
+        for(var i =0; i < dryLeaves.length; i++){
+            if(dryLeaves.children[i].visible){
+                var object = dryLeaves.children[i]
+                object.x -= cs
+                /*if(player.x > INITAL_X){
+                    object.x-=DELTA_X
+                }*/
+                if(object.x < X_DISSAPEAR){
+                    object.visible = false
+                }
+
+               	if(!object.hitted){
+               		game.physics.arcade.overlap(player,object,hitLeaves);
+               	}
             }
         }
         
@@ -534,18 +684,25 @@ var snoopyEnBuscaDelSabor = function(){
             lastGrass = getGrass(d)
         }
 
+        if(lastDryLeaves.x -(lastDryLeaves.width/2) < game.world.width+10){
+            var d  = game.rnd.integerInRange(DISTANCE_MIN_LEAVES,DISTANCE_MAX_LEAVES) + lastDryLeaves.x
+            lastDryLeaves = getDry(d)
+        }
+
         if(lastFence.x -(lastFence.width/2) < game.world.width+10){
             var d  = game.rnd.integerInRange(DISTANCE_MIN_FENCE,DISTANCE_MAX_FENCE) + lastFence.x
             lastFence = getFence(d)
         }
 
+        //console.log(cs)
+
         for(var i =0; i < backgroundGroup.length; i++){
             if(backgroundGroup.children[i].visible){
                 var object = backgroundGroup.children[i]
                 object.x -= cs
-                if(player.x > INITAL_X){
+                /*if(player.x > INITAL_X){
                     object.x-=DELTA_X
-                }
+                }*/
             
                 if(object.objectType == OBJECT_TYPE.PLATFORM){
 
@@ -594,9 +751,12 @@ var snoopyEnBuscaDelSabor = function(){
                     if(!object.haveDrop){
                         if(object.x <= object.dropX){
                             object.haveDrop = true
-                        }
 
-                        object.dropObject.y = object.y + DELTA_BIRD_DROP
+                            //sound.play("falling")
+                        }
+                        
+                        	object.dropObject.y = object.y + DELTA_BIRD_DROP
+                        
 
                         if(object.x < X_DISSAPEAR && (object.dropObject.y>game.world.height +object.dropObject.height || !object.dropObject)){
                             object.visible = false
@@ -604,9 +764,21 @@ var snoopyEnBuscaDelSabor = function(){
 
                     }
                     else{
-                        object.dropObject.y+=FALLING_SPEED
+                    	if(inTutorial== 5 && tutorialPanel5.visible){
+
+                    	}
+                    	else{
+                        	object.dropObject.y+=FALLING_SPEED
+                        }
+                        
+
                         if(object.dropObject.visible){
-                            game.physics.arcade.overlap(player,object.dropObject,hitEnemy);
+                        	if(player.shield.visible){
+                        		game.physics.arcade.overlap(player.shield,object.dropObject,hitEnemy);
+                        	}
+                        	else{
+                            	game.physics.arcade.overlap(player,object.dropObject,hitEnemy);
+                            }
                         }
 
                         if(object.x < X_DISSAPEAR && (object.dropObject.y>game.world.height +object.dropObject.height || !object.dropObject)){
@@ -618,11 +790,18 @@ var snoopyEnBuscaDelSabor = function(){
                     if(object.x < X_DISSAPEAR){
                         object.visible = false
                     }
-
-                    game.physics.arcade.overlap(player,object,hitEnemy);
+                    if(player.shield.visible){
+                    	game.physics.arcade.overlap(player.shield,object,hitSprite);
+                    }
+                    else{
+                    	game.physics.arcade.overlap(player,object,hitSprite);
+                    }
 
                     if(object.timeWait <= game.time.now){
-                        getBullet(object.x,object.y)
+                    	if(object.x >0){
+                    		sound.play("projectile")
+                    	}
+                        getBullet(object.x+10,object.y+85)
                         object.timeWait = game.time.now+DELTA_TIME_SHOOT
                     }
                 }
@@ -634,8 +813,12 @@ var snoopyEnBuscaDelSabor = function(){
                     object.x -= BULLET_SPEED
                     object.y += object.velocityY
                     object.velocityY += BULLET_ACELERATION_Y
-
-                    game.physics.arcade.overlap(player,object,hitEnemy);
+                    if(player.shield.visible){
+                    	game.physics.arcade.overlap(player.shield,object,hitEnemy);
+                    }
+                    else{
+                    	game.physics.arcade.overlap(player,object,hitEnemy);
+                    }
 
                 }
                 else if(object.objectType == OBJECT_TYPE.ENEMY_WATER_STATIC){
@@ -651,6 +834,9 @@ var snoopyEnBuscaDelSabor = function(){
                             object.water2.visible = !object.water2.visible
                             object.timeWait = game.time.now +100//+ DELTA_TIME_SHOOT
                             object.state = HYDRANT_STATE.FIRING
+                            if(object.x >0){
+                            	sound.play("water")
+                            }
                         }
                     }
                     else if(object.state == HYDRANT_STATE.FIRING){
@@ -710,9 +896,14 @@ var snoopyEnBuscaDelSabor = function(){
                             else if(object.water2[j].direction == -1 && object.water2[j].scale.y <=0.7){
                             	object.water2[j].direction = 1
                             }
-
-                            game.physics.arcade.overlap(player,object.water1[j],hitEnemy);
-                            game.physics.arcade.overlap(player,object.water2[j],hitEnemy);
+                            if(player.shield.visible){
+	                            game.physics.arcade.overlap(player.shield,object.water1[j],hitEnemy);
+	                            game.physics.arcade.overlap(player.shield,object.water2[j],hitEnemy);
+	                        }
+	                        else{
+	                        	game.physics.arcade.overlap(player,object.water1[j],hitEnemy);
+	                            game.physics.arcade.overlap(player,object.water2[j],hitEnemy);
+	                        }
                         }
                     }
 
@@ -727,11 +918,14 @@ var snoopyEnBuscaDelSabor = function(){
                     //console.log(object.timeWait,game.time.now)
                     if(object.timeWait <= game.time.now && !object.hitObject.visible){
                         object.hitObject.visible = !object.hitObject.visible
+
+                        if(object.hitObject.visible && object.x >0){
+                        	sound.play("spring")
+                        }
                         //object.timeWait += DELTA_TIME_SHOOT
                     }
 
                     if(object.hitObject.visible){
-
                         object.hitObject.x = object.x - object.hitObject.currentDelta
                         game.physics.arcade.overlap(player,object.hitObject,hitEnemy);
                         object.hitObject.currentDelta += DELTA_PUCH*object.hitObject.direction
@@ -739,10 +933,12 @@ var snoopyEnBuscaDelSabor = function(){
                         	if(object.hitObject.currentDelta > (object.hitObject.width/3)*2){
                         		object.timeWait = game.time.now + 800
                         		object.hitObject.direction = 0
+
                         	}
                         }
                         else if(object.hitObject.direction==0 && object.timeWait<=game.time.now){
                         	object.hitObject.direction = -1
+                        	
                         }
                         else if(object.hitObject.direction == -1){
                         	if(object.hitObject.currentDelta <=0){
@@ -761,8 +957,12 @@ var snoopyEnBuscaDelSabor = function(){
                 	if(object.x < X_DISSAPEAR){
                         object.visible = false
                     }
-
-                    game.physics.arcade.overlap(player,object,hitEnemy);
+                    if(player.shield.visible){
+                    	game.physics.arcade.overlap(player.shield,object,hitEnemy);
+                    }
+                    else{
+                    	game.physics.arcade.overlap(player,object,hitEnemy);
+                    }
 
                 }
                 else if(object.objectType == OBJECT_TYPE.TRAMPOLIN){
@@ -789,7 +989,7 @@ var snoopyEnBuscaDelSabor = function(){
                     object.tilePosition.x+=1
                     object.front.tilePosition.x-=1
 
-                    for(var j =0; j < object.wood.length; j++){
+                    /*for(var j =0; j < object.wood.length; j++){
                         var wood = object.wood[j]
                         wood.x = object.x - (wood.width/2) + (object.width/2)
                         //console.log(wood.x)
@@ -828,7 +1028,50 @@ var snoopyEnBuscaDelSabor = function(){
 
                         game.physics.arcade.overlap(player,wood,hitSprite); 
 
+                    }*/
+
+                    var wood = object.wood
+                    wood.x = object.x - (wood.width/2) + (object.width/2)
+                    //console.log(wood.x)
+                    if(wood.state == WOODS_STATE.INIT){
+                        wood.y += WOOD_VELOCITY_FALLING
+                        if(wood.y >= FLOOR_Y + 120){
+                            wood.y = FLOOR_Y + 120
+                            //wood.alpha = 0
+                            wood.state = WOODS_STATE.END
+                        }
+
                     }
+                    /*else if(wood.state == WOODS_STATE.FALLING){
+                        wood.y += WOOD_VELOCITY_FALLING
+                        if(wood.y >= FLOOR_Y + 120){
+                            wood.y = FLOOR_Y + 120
+                            wood.alpha = 0
+                            wood.state = WOODS_STATE.END
+                        }
+                    }*/
+                    else if(wood.state == WOODS_STATE.END){
+                        wood.y -= WOOD_VELOCITY_FALLING
+                        if(wood.y < FLOOR_Y+10){
+                            wood.y = FLOOR_Y+10
+                            //wood.alpha = 1
+                            wood.state = WOODS_STATE.INIT
+                        }
+                    }
+                    /*else if(wood.state == WOODS_STATE.ASCENDING){
+                        wood.y -= WOOD_VELOCITY_FALLING
+                        if(wood.y < FLOOR_Y+10){
+                            wood.y = FLOOR_Y+10
+                            wood.alpha = 1
+                            wood.state = WOODS_STATE.INIT
+                        }
+                    }*/
+
+
+                    game.physics.arcade.overlap(player,wood,hitSprite);
+
+
+
                 }
                 else if(object.objectType == OBJECT_TYPE.HOUSE){
                 	if(object.x < X_DISSAPEAR){
@@ -848,12 +1091,12 @@ var snoopyEnBuscaDelSabor = function(){
             	if(backgroundGroup.children[i].visible && backgroundGroup.children[i].objectType == OBJECT_TYPE.FLOOR){
             		var b = backgroundGroup.children[i]
             		//console.log(b.x,player.x)
-            		if(b.x < 690 && b.x>player.x){
+            		if(b.x > -500 && b.x<player.x-50){
             			if(nextP==null){
             				nextP = b
             			}
             			else{
-            				if(nextP.x > b.x){
+            				if(nextP.x < b.x){
             					nextP = b
             				}
             			}
@@ -881,6 +1124,12 @@ var snoopyEnBuscaDelSabor = function(){
 	        	currentSpeed = -currentSpeed
 	            player.scale.setTo(-player.scale.x,player.scale.y)
 	        }
+
+	        if(moreVelocity){
+	        	///currentSpeed = 
+	        	moreVelocity = false
+	        }
+
         }
 
         if(inHit && currentSpeed!=0){
@@ -911,36 +1160,77 @@ var snoopyEnBuscaDelSabor = function(){
                 //lastObject = null
             }
         }
+
+
+        if(dirigible.timeWait <= game.time.now){
+        	dirigible.x += DIRIGIBLE_SPEED
+        	if(dirigible.x <= -500){
+        		dirigible.x = game.world.width + 500
+        		dirigible.timeWait = game.time.now = game.rnd.integerInRange(DELTA_MIN_TIME_DIRIGIBLE, DELTA_MAX_TIME_DIRIGIBLE)
+        		//dirigible.y = game.rnd.integerInRange(200,game.world.centerY)
+        	}
+        }
     }
 
 
     function updateInput(){
-        
+        if(disableTouchByTutorial){
+        	return
+        }
 
         if(game.input.activePointer.isDown){
+        	//console.log("udsgasgkdjh")
             if(canTouch){
                 if(tapPosition==null){
                     tapPosition = {x:game.input.activePointer.x,y:game.input.activePointer.y}
                     startTapTime = game.time.now
+
+                    //if(!(inTutorial == 5 || inTutorial == 3 || inTutorial == 4)){
+                    	//tapPosition = null
+                    //}
+
                 }
                 else if(startTapTime + TIME_LONG_TAP < game.time.now){
                 	tapPosition = null
                 	canTouch = false
-                	shield()
+                	if(inTutorial!=-1){
+	                	if(!(inTutorial == 0 || inTutorial == 1 || inTutorial == 2 || inTutorial == 3 || inTutorial == 4)){
+	                		shield()
+	                	}
+	                }
+	                else{
+	                	shield()
+	                }
                 }
                 else{
-                    var deltaX = game.input.activePointer.x - tapPosition.x
 
+                    var deltaX = game.input.activePointer.x - tapPosition.x
+                    //console.log("dsakdtf ",deltaX)
                     if(deltaX > SWIPE_MAGNITUD){
                         //Barrer o girar
                         tapPosition = null
                         canTouch = false
-                        swipeRigth()
+                        if(inTutorial!=-1){
+	                        if(!(inTutorial == 0 || inTutorial == 1 || inTutorial == 2 || inTutorial == 5 || inTutorial == 3)){
+	                        	swipeRigth()
+                        	}
+                        }
+                        else{
+                        	swipeRigth()
+                        }
                     }
                     else if(deltaX < -SWIPE_MAGNITUD){
                     	tapPosition = null
                         canTouch = false
-                    	swipeLeft()
+                        console.log(inTutorial)
+                        if(inTutorial!=-1){
+	                        if(!(inTutorial == 0 || inTutorial == 1 || inTutorial == 5 || inTutorial == 2 || inTutorial == 4)){
+	                    		swipeLeft()
+	                    	}
+	                    }
+	                    else{
+	                    	swipeLeft()
+	                    }
                     }
                 }
             }
@@ -948,7 +1238,14 @@ var snoopyEnBuscaDelSabor = function(){
         else{
             canTouch = true
             if(tapPosition != null){
-                jump()
+            	if(inTutorial!=-1){
+            		if(inTutorial == 0 || inTutorial == 1 || inTutorial==2){
+            			jump()
+            		}
+            	}
+            	else{
+               	 	jump()
+               	}
             }
             //console.log("disable shield")
             if(player.shield.visible){
@@ -956,7 +1253,9 @@ var snoopyEnBuscaDelSabor = function(){
             	currentSpeed = lastSpeed
             	player.invensible = false
             	player.shield.visible = false
-            	player.spine.setAnimationByName(0,"run",true)
+            	if(lives>0){
+            		player.spine.setAnimationByName(0,"run",true)
+            	}
             }
 
             tapPosition = null
@@ -965,13 +1264,22 @@ var snoopyEnBuscaDelSabor = function(){
 
     function shield(){
     	//console.log("enable shield")
+    	if(inTutorial == 5){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = false
+	    	tutorialPanel5.visible = false
+	    	inTutorial = -1
+	    	game.physics.arcade.gravity.y = 800
+	    }
+
     	player.shield.visible = true
     	player.invensible = true
     	if(currentSpeed!=0){
     		lastSpeed = currentSpeed
     	}
     	currentSpeed = 0
-    	if(!inHit){
+    	if(!inHit && lives>0){
     		player.spine.setAnimationByName(0,"idle",true)
     	}
     }
@@ -982,19 +1290,32 @@ var snoopyEnBuscaDelSabor = function(){
             return
         }
 	    
+	    if(inTutorial == 0 || inTutorial == 1 || inTutorial == 2){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = true
+	    	tutorialPanel1.visible = false
+	    	tutorialPanel2.visible = false
+	    	inTutorial ++
+	    	game.physics.arcade.gravity.y = 800
+	    }
 
         //if(player.)
 
         if(player.numberjumps<2){
+
             //player.body.allowGravity = true
             player.numberjumps ++
             player.body.velocity.y =-JUMP_VELOCITY
-            if(player.numberjumps ==1){
-                player.spine.setAnimationByName(0,"jump",true)
-            }
-            else{
-                player.spine.setAnimationByName(0,"fly",true)
-            }
+            if(lives>0){
+            	//sound.play("jump")
+	            if(player.numberjumps ==1){
+	                player.spine.setAnimationByName(0,"jump",true)
+	            }
+	            else{
+	                player.spine.setAnimationByName(0,"fly",true)
+	            }
+	        }
             
         }
 
@@ -1006,6 +1327,15 @@ var snoopyEnBuscaDelSabor = function(){
 
     function swipeRigth(){
         //console.log("swipe Right")
+        if(inTutorial == 4){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = true
+	    	tutorialPanel4.visible = false
+	    	inTutorial ++
+	    	game.physics.arcade.gravity.y = 800
+	    }
+
         moreVelocity = true
 
         if(currentSpeed <0){
@@ -1014,14 +1344,16 @@ var snoopyEnBuscaDelSabor = function(){
         }
 
         if(!inHit){
-        	player.spine.setAnimationByName(0,"fly",true)
-        	player.body.allowGravity = true
+        	if(lives>0){
+	        	player.spine.setAnimationByName(0,"run",true)
+	        	player.body.allowGravity = true
+	        }
         }
         setTimeout(function(){
         	moreVelocity = false
         	//if()
         	player.body.allowGravity = true
-        	if(player.numberjumps == 0){
+        	if(player.numberjumps == 0 && lives>0){
         		player.spine.setAnimationByName(0,"run",true)
         	}
         },3000)
@@ -1030,7 +1362,26 @@ var snoopyEnBuscaDelSabor = function(){
 
     function swipeLeft(){
         //console.log("swipe Left")
+        if(inTutorial == 3){
+	    	lastTutorialObject.splice(0,1)
+	    	currentSpeed = INITIAL_SPEED
+	    	disableTouchByTutorial = true
+	    	tutorialPanel3.visible = false
+	    	inTutorial ++
+	    	game.physics.arcade.gravity.y = 800
+	    }
+
         jumpToOtherSide = true
+    }
+
+    function hitLeaves(sprite1,sprite2) {
+    	dryEmitter1.x = player.x
+    	dryEmitter1.y = player.y
+    	dryEmitter2.x = player.x
+    	dryEmitter2.y = player.y
+    	dryEmitter1.start(true,500,null,5)
+    	dryEmitter2.start(true,500,null,5)
+    	sprite2.hitted = true
     }
 
     function hitSprite (sprite1, sprite2) {
@@ -1060,38 +1411,48 @@ var snoopyEnBuscaDelSabor = function(){
 	            }
 
 	            if(player.numberjumps!=0 && !inHit && !player.shield.visible){
-	                if(currentSpeed==0){
-	                    player.spine.setAnimationByName(0,"idle",true)
-	                }
-	                else{
-	                    player.spine.setAnimationByName(0,"run",true)
-	                }
+	            	if(lives>0){
+		                if(currentSpeed==0){
+		                    player.spine.setAnimationByName(0,"idle",true)
+		                }
+		                else{
+		                    player.spine.setAnimationByName(0,"run",true)
+		                }
+		            }
 	            }
 	            player.numberjumps = 0
 	        }
 
         }
         
-        else if(sprite2.objectType == OBJECT_TYPE.HOUSE ){
+        else if(sprite2.objectType == OBJECT_TYPE.HOUSE  && currentSpeed >= 0){
 
-            stopByHouse = true
+            /*stopByHouse = true
             if(player.body.velocity.y >=0){
             	player.spine.setAnimationByName(0,"idle",true)
-            }
+            }*/
+            jumpToOtherSide = true
 
         }
         else if(sprite2.objectType == OBJECT_TYPE.PLATFORM_SPECIAL){
+        	//if(sprite2.canHitSpecial){
+        		//sprite2.timeWait = game.time.now + 500
+        		//sprite2.canHitSpecial = false
+        		jumpToOtherSide = true
+        	//}
 
-        	jumpToOtherSide = true
+        	
         }
 
     }
 
     function hitEnemy(sprite1, sprite2){
-    	if(!player.invensible){
+    	if(!player.invensible && lives>0){
+    		sound.play("pop")
 	        sprite2.visible = false
 	        sprite2.x = -1000
 	        player.invensible = true
+	        
             var anim = player.spine.setAnimationByName(0,"hit",false)
             inHit = true
             if(currentSpeed!=0){
@@ -1146,7 +1507,7 @@ var snoopyEnBuscaDelSabor = function(){
     }
 
     function hitCoin(sprite1, sprite2){
-
+    	sound.play("coin")
         sprite2.visible = false
         sprite2.x = -1000
         if(sprite2.objectType == OBJECT_TYPE.COIN){
@@ -1160,6 +1521,7 @@ var snoopyEnBuscaDelSabor = function(){
     function hitTrampolin(sprite1, sprite2){
     	player.numberjumps =1
     	player.body.velocity.y =-JUMP_TRAMPOLIN
+    	//sound.play("jump")
     }
 
 
@@ -1464,16 +1826,16 @@ var snoopyEnBuscaDelSabor = function(){
     }
 
     function getWater(_x){
-
+    	sound.play("water")
         //hay que evaluar si existe una cerca o un arbusto sobre el agua
         var found = false
         for(var i =0; i < grassGroup.length; i++){
             var grass = grassGroup.children[i]
             //console.log(grass.x,_x)
-            if(grass.x>=_x){
+            if(grass.x+grass.width/2>=_x){
                 grass.visible = false
                 if(!found){	
-	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS) + _x + 512
+	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS) + _x + 512+ grass.width
 	                lastGrass = getGrass(d)
 	            }
 	            found = true
@@ -1482,6 +1844,24 @@ var snoopyEnBuscaDelSabor = function(){
         if(!found){
         	var d  = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS) + _x + 512
 	        lastGrass = getGrass(d)
+        }
+
+        found = false
+        for(var i =0; i < dryLeaves.length; i++){
+            var leaves = dryLeaves.children[i]
+            //console.log(grass.x,_x)
+            if(leaves.x+leaves.width/2>=_x){
+                leaves.visible = false
+                if(!found){	
+	                var d  = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES) + _x + 512+ leaves.width
+	                lastDryLeaves = getDry(d)
+	            }
+	            found = true
+            }
+        }
+        if(!found){
+        	var d  = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES) + _x + 512
+	        lastDryLeaves = getDry(d)
         }
 
 
@@ -1520,8 +1900,16 @@ var snoopyEnBuscaDelSabor = function(){
         var waterFront = game.add.tileSprite(0,0,512,256,"atlas.game","agua_front")
         water.addChild(waterFront)
         water.front = waterFront
-        water.wood = []
-        for(var i =0; i < 2; i ++){
+
+        water.wood = woodGroup.create(_x,FLOOR_Y+10,"atlas.game","tronco")
+        water.wood.anchor.setTo(0)
+        water.wood.scale.setTo(1,1)
+        game.physics.arcade.enable(water.wood)
+        water.wood.objectType == OBJECT_TYPE.PLATFORM
+        water.wood.body.allowGravity = false
+        water.wood.state = WOODS_STATE.INIT
+        //water.wood = []
+        /*for(var i =0; i < 2; i ++){
             var wood = woodGroup.create(_x,FLOOR_Y+10,"atlas.game","tronco")
            
             wood.anchor.setTo(0)
@@ -1532,12 +1920,12 @@ var snoopyEnBuscaDelSabor = function(){
             wood.state = WOODS_STATE.INIT
             water.wood.push(wood)
             //wood.parentObject = water
-        }
+        }*/
 
-        water.wood[1].scale.setTo(1)
+        /*water.wood[1].scale.setTo(1)
         water.wood[1].alpha = 0
         water.wood[1].y =FLOOR_Y+120
-        water.wood[1].state = WOODS_STATE.END
+        water.wood[1].state = WOODS_STATE.END*/
 
         /*water.wood[2].scale.setTo(0)
         water.wood[2].alpha = 0
@@ -1649,6 +2037,8 @@ var snoopyEnBuscaDelSabor = function(){
         game.physics.arcade.enable(piso)
         piso.body.allowGravity = false
         piso.body.setSize(128,400,0,0)
+        piso.timeWait = 0
+        piso.canHitSpecial = true
 
         var tierra = game.add.tileSprite(0,128,128,300,"atlas.game","tierra")
         //var tierra = game.add.sprite(0,150,"atlas.game","tierra")
@@ -1707,10 +2097,21 @@ var snoopyEnBuscaDelSabor = function(){
         else{
         	randomLevel = temp
         }
+        console.log(inTutorial)
+        if(inTutorial!=-1){
+        	randomLevel = 0
+        }
 
-        //randomLevel = 5
+
+        //randomLevel = 8
 
         switch(randomLevel){
+
+        	case 0:
+        	currentLevel = levelTutorial1
+        	console.log(currentLevel)
+        	break
+
         	case 1:
             currentLevel = level1
             break
@@ -1741,6 +2142,7 @@ var snoopyEnBuscaDelSabor = function(){
             case 10:
             currentLevel = level10
             break
+
             case 11:
             var r = game.rnd.integerInRange(1,10)
             if(r < 3){
@@ -1782,6 +2184,7 @@ var snoopyEnBuscaDelSabor = function(){
 		        }
             }
             break
+
         }
     }
 
@@ -1792,9 +2195,15 @@ var snoopyEnBuscaDelSabor = function(){
 
         //Se evaluan cada uno de los niveles
         //piso
-        if(currentLevel[7][levelIndex] == ''){
+        if(currentLevel[7][levelIndex] == 'tu'){
+            lastObject = getFloor(_x,0)
+            lastTutorialObject.push(lastObject)
+        }
+
+        else if(currentLevel[7][levelIndex] == ''){
             lastObject = getFloor(_x,0)
         }
+
         //water
         else if(currentLevel[7][levelIndex] == 'w'){
             lastObject = getWater(_x)
@@ -2038,7 +2447,6 @@ var snoopyEnBuscaDelSabor = function(){
         }
 
         //volando
-
         levelIndex++
         if(levelIndex >=  currentLevel[0].length){
         	levelIndex = 0
@@ -2083,14 +2491,46 @@ var snoopyEnBuscaDelSabor = function(){
         distance = game.rnd.integerInRange(0,DISTANCE_MAX_GRASS)
         lastGrass = getGrass(distance)
 
+        dryLeaves = game.add.group()
+        sceneGroup.add(dryLeaves)
+
+        distance = game.rnd.integerInRange(0,DISTANCE_MAX_LEAVES)
+        lastDryLeaves = getDry()
+
+        dryEmitter1 = game.add.emitter(0, 0, 100);
+        dryEmitter1.makeParticles("atlas.game","dryLeavesParticles");
+        dryEmitter1.gravity = -1500;
+        dryEmitter1.maxParticles = 2
+
+        dryEmitter2 = game.add.emitter(0, 0, 100);
+        dryEmitter2.makeParticles("atlas.game","dryLeavesParticles2");
+        dryEmitter2.gravity = -1500;
+        dryEmitter2.maxParticles = 2
+
         cloudGroup = game.add.group()
         sceneGroup.add(cloudGroup)
 
-        for(var i =0; i < 10; i++){
-            var _x = game.rnd.integerInRange(0,game.world.width*2)
+        for(var i =0; i < 7; i++){
+            var _x = game.rnd.integerInRange(0,game.world.width*3)
             var _y = game.rnd.integerInRange(0,game.world.centerY-100)
             var cloud = getCloud(_x,_y)
         }
+
+        dirigible = sceneGroup.create(game.world.width+500,200,"atlas.game","dirigible")
+        dirigible.anchor.setTo(0.5)
+        dirigible.scale.setTo(0.8)
+        dirigible.timeWait = game.time.now + game.rnd.integerInRange(DELTA_MIN_TIME_DIRIGIBLE,DELTA_MAX_TIME_DIRIGIBLE)
+
+
+        cloudGroup2 = game.add.group()
+        sceneGroup.add(cloudGroup2)
+
+        for(var i =0; i < 7; i++){
+            var _x = game.rnd.integerInRange(0,game.world.width*3)
+            var _y = game.rnd.integerInRange(0,game.world.centerY-100)
+            var cloud = getCloud2(_x,_y)
+        }
+
 
         backgroundGroup = game.add.group()
         sceneGroup.add(backgroundGroup)
@@ -2099,7 +2539,7 @@ var snoopyEnBuscaDelSabor = function(){
         sceneGroup.add(woodGroup)
 
         lastObject = getFloor(-game.world.width,0)
-        while(lastObject.x <= game.world.width+200){
+        while(lastObject.x <= game.world.width){
         	lastObject = getFloor(lastObject.x + lastObject.width,0)
         }
 
@@ -2190,6 +2630,45 @@ var snoopyEnBuscaDelSabor = function(){
         return cloud
     }
 
+    function getCloud2(_x,_y){
+        for(var i = 0; i < cloudGroup2.length; i++){
+            if(!cloudGroup2.children[i].visible){
+                var cloud = cloudGroup2.children[i]
+                cloud.visible = true
+                cloud.x = _x
+                cloud.y + _y
+                cloud.loadTexture("atlas.game","cloud_"+game.rnd.integerInRange(1,7))
+                cloud.vel = game.rnd.frac()*VEL_MAX_CLOUD
+                return cloud
+            }
+        }
+
+        var cloud = cloudGroup2.create(_x,_y,"atlas.game","cloud_"+game.rnd.integerInRange(1,7))
+        cloud.anchor.setTo(0.5,1)
+        cloud.vel = game.rnd.frac()*VEL_MAX_CLOUD
+        return cloud
+    }
+
+    function getDry(_x){
+    	for(var i = 0; i < dryLeaves.length; i++){
+           if(!dryLeaves.children[i].visible){
+           	var dry = dryLeaves.children[i]
+           	dry.visible = true
+           	dry.hitted = false
+           	dry.x = _x
+           	return dry
+           }
+       }
+
+       var dry = dryLeaves.create(_x,FLOOR_Y+10,"atlas.game","dryLeaves")
+       dry.anchor.setTo(0.5,1)
+       game.physics.arcade.enable(dry)
+       dry.body.allowGravity = false
+       dry.hitted = false
+       dry.body.setSize(260,50,20,50)
+       return dry
+    }
+
 
     
 
@@ -2217,7 +2696,7 @@ var snoopyEnBuscaDelSabor = function(){
 
         var playerSpine = game.add.spine(0,50,"snoopy")
         playerSpine.setSkinByName("normal")
-        playerSpine.setAnimationByName(0,"idle",true)
+        playerSpine.setAnimationByName(0,"run",true)
         player.addChild(playerSpine)
         playerSpine.scale.setTo(0.5)
         player.spine = playerSpine
@@ -2228,6 +2707,9 @@ var snoopyEnBuscaDelSabor = function(){
         player.addChild(shield)
         player.shield = shield
         shield.visible = false
+        game.physics.arcade.enable(shield)
+        shield.body.allowGravity = false
+        shield.body.setCircle(65,30,30)
     }
 
 
@@ -2255,26 +2737,6 @@ var snoopyEnBuscaDelSabor = function(){
 
     }
 
-    /*function createControls(){
-    	var controlBack = game.add.tileSprite(0,game.world.height-256,game.world.width,256,"tablero")
-    	sceneGroup.add(controlBack)
-
-    	var control = sceneGroup.create(game.world.centerX,game.world.height,"atlas.game","tablero_botton")
-    	control.anchor.setTo(0.5,1)
-
-    	var button = sceneGroup.create(game.world.centerX,game.world.height - 100, "atlas.game","botton_off")
-    	button.anchor.setTo(0.5)
-    	button.inputEnabled = true
-
-    	button.events.onInputDown.add(function(target){
-    		target.loadTexture("atlas.game","botton_on")
-    		jump()
-    	},this)
-
-    	button.events.onInputUp.add(function(target){
-    		target.loadTexture("atlas.game","botton_off")
-    	},this)
-    }*/
     
     function create(){
     	
@@ -2282,14 +2744,14 @@ var snoopyEnBuscaDelSabor = function(){
 
         //game.camera.focusOnXY(game.world.centerX, game.world.centerY);
         game.physics.startSystem(Phaser.Physics.ARCADE);
-        game.physics.arcade.gravity.y = 650;
+        game.physics.arcade.gravity.y = 800;
 
         initialize()
 
         createBackground()
 
         //if(!amazing.getMinigameId()){
-			marioSong = game.add.audio('timberman')
+			marioSong = game.add.audio('arcadeSong')
 			game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.6)
 			}, this);	
@@ -2331,6 +2793,162 @@ var snoopyEnBuscaDelSabor = function(){
 
         //createControls()
 
+
+        tutorialPanel1 = game.add.group()
+        sceneGroup.add(tutorialPanel1)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel1.add(panel)
+
+        var fontStyle = {font: "26px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Da tap para saltar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel1.add(text)
+
+        var botonImage = tutorialPanel1.create(game.world.centerX,game.world.centerY-100,"atlas.game","boton")
+        botonImage.anchor.setTo(0.5)
+
+        var hand = tutorialPanel1.create(game.world.centerX+20,game.world.centerY-70,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+
+        var tap = tutorialPanel1.create(game.world.centerX+80,game.world.centerY-120,"atlas.game","tap_white")
+        tap.anchor.setTo(0.5)
+        tap.angle = 30
+
+        tutorialPanel1.visible = false
+
+
+
+
+        tutorialPanel2 = game.add.group()
+        sceneGroup.add(tutorialPanel2)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel2.add(panel)
+
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Da un segundo tap para volar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel2.add(text)
+
+        var botonImage = tutorialPanel2.create(game.world.centerX,game.world.centerY-100,"atlas.game","boton")
+        botonImage.anchor.setTo(0.5)
+
+        var hand = tutorialPanel2.create(game.world.centerX+20,game.world.centerY-70,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+
+        var tap = tutorialPanel2.create(game.world.centerX+80,game.world.centerY-120,"atlas.game","tap_white")
+        tap.anchor.setTo(0.5)
+        tap.angle = 30
+
+        tutorialPanel2.visible = false
+
+
+        tutorialPanel3 = game.add.group()
+        sceneGroup.add(tutorialPanel3)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel3.add(panel)
+
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Arrastra hacia la izquierda \npara regresar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel3.add(text)
+
+        var slider = tutorialPanel3.create(game.world.centerX,game.world.centerY-100,"atlas.game","slide")
+        slider.anchor.setTo(0.5)
+        slider.scale.setTo(-1,1)
+
+        hand = tutorialPanel3.create(game.world.centerX+100,game.world.centerY-80,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+        hand.tween = game.add.tween(hand).to({x:game.world.centerX-100},1000,Phaser.Easing.linear,true)
+        hand.tween.loop(true)
+        //hand.tween.yoyo(true)
+
+        tutorialPanel3.visible = false
+
+        tutorialPanel4 = game.add.group()
+        sceneGroup.add(tutorialPanel4)
+
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel4.add(panel)
+
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Arrastra hacia la derecha \npara acelerar", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel4.add(text)
+
+        var slider = tutorialPanel4.create(game.world.centerX,game.world.centerY-100,"atlas.game","slide")
+        slider.anchor.setTo(0.5)
+
+        hand = tutorialPanel4.create(game.world.centerX-100,game.world.centerY-80,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+        hand.tween = game.add.tween(hand).to({x:game.world.centerX+100},1000,Phaser.Easing.linear,true)
+        hand.tween.loop(true)
+        //hand.tween.yoyo(true)
+
+        tutorialPanel4.visible = false
+
+
+        tutorialPanel5 = game.add.group()
+        sceneGroup.add(tutorialPanel5)
+
+        var panel = game.add.graphics()
+        panel.x = game.world.centerX
+        panel.y = game.world.centerY - 150
+        panel.beginFill(0x000000)
+        panel.drawRoundedRect(-240,-150,480,300,20)
+        panel.endFill()
+        panel.alpha = 0.7
+        tutorialPanel5.add(panel)
+
+        var fontStyle = {font: "23px Gotham bold", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text =  new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY - 190, "Manten presionado para protección \ny detenerte", fontStyle)
+        text.anchor.setTo(0.5)
+        tutorialPanel5.add(text)
+
+        var botonImage = tutorialPanel1.create(game.world.centerX,game.world.centerY-100,"atlas.game","boton")
+        botonImage.anchor.setTo(0.5)
+
+        var hand = tutorialPanel1.create(game.world.centerX+20,game.world.centerY-70,"atlas.game","mano")
+        hand.anchor.setTo(0.5)
+
+        var tap = tutorialPanel1.create(game.world.centerX+80,game.world.centerY-120,"atlas.game","tap_white")
+        tap.anchor.setTo(0.5)
+        tap.angle = 30
+
+        tutorialPanel5.visible = false
+
+
+
         var backMark = game.add.graphics()
         backMark.x = 0
         backMark.y = game.world.height-30
@@ -2355,8 +2973,15 @@ var snoopyEnBuscaDelSabor = function(){
 
     function render(){
         game.debug.body(player)
+        if(player.shield.visible){
+        	game.debug.body(player.shield)
+        }
         for(var i=0; i < backgroundGroup.length; i++){
             game.debug.body(backgroundGroup.children[i])
+        }
+
+        for(var i=0; i < dryLeaves.length; i++){
+        	game.debug.body(dryLeaves.children[i])
         }
 
 
