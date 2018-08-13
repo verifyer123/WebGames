@@ -1,68 +1,68 @@
 
 trash.png
-size: 512,128
+size: 364,150
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Capa_17
-  rotate: false
-  xy: 2, 15
+  rotate: true
+  xy: 2, 28
   size: 120, 103
   orig: 120, 103
   offset: 0, 0
   index: -1
 bag
   rotate: false
-  xy: 124, 29
+  xy: 107, 59
   size: 84, 89
   orig: 84, 89
   offset: 0, 0
   index: -1
 bomb
   rotate: false
-  xy: 292, 45
+  xy: 272, 75
   size: 63, 73
   orig: 63, 73
   offset: 0, 0
   index: -1
 box
-  rotate: false
-  xy: 210, 41
+  rotate: true
+  xy: 193, 68
   size: 80, 77
   orig: 80, 77
   offset: 0, 0
   index: -1
 soda
-  rotate: true
-  xy: 357, 11
+  rotate: false
+  xy: 107, 4
   size: 42, 53
   orig: 42, 53
   offset: 0, 0
   index: -1
 trash1
-  rotate: false
-  xy: 124, 2
+  rotate: true
+  xy: 337, 75
   size: 73, 25
   orig: 73, 25
   offset: 0, 0
   index: -1
 trash2
   rotate: false
-  xy: 210, 9
+  xy: 151, 27
   size: 70, 30
   orig: 70, 30
   offset: 0, 0
   index: -1
 tv
-  rotate: false
-  xy: 423, 56
+  rotate: true
+  xy: 288, 10
   size: 63, 62
   orig: 63, 62
   offset: 0, 0
   index: -1
 weel
-  rotate: false
-  xy: 357, 55
+  rotate: true
+  xy: 223, 2
   size: 64, 63
   orig: 64, 63
   offset: 0, 0

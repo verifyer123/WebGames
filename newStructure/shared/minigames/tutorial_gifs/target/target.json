@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "+KgKKzFIWQbvC2tcjbKUYIlGgcM", "spine": "3.2.01", "width": 236, "height": 193, "images": "" },
+"skeleton": { "hash": "IZbAhoPE0rbYHRUss5XatZF2GBM", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "cog", "parent": "root", "y": 58.13 },
@@ -8,7 +8,6 @@
 	{ "name": "top_piece", "parent": "cog", "y": 60.76 }
 ],
 "slots": [
-	{ "name": "background", "bone": "root", "attachment": "background" },
 	{ "name": "low_piece", "bone": "low_piece", "attachment": "low_piece" },
 	{ "name": "top_piece", "bone": "top_piece", "attachment": "top_piece" },
 	{ "name": "ball", "bone": "ball", "attachment": "ball_1" },
@@ -17,9 +16,6 @@
 "skins": {
 	"default": {},
 	"normal": {
-		"background": {
-			"background": { "name": "normal5/background", "y": 128.73, "width": 236, "height": 193 }
-		},
 		"ball": {
 			"ball_1": { "name": "normal5/ball_1", "x": 0.53, "y": 0.19, "width": 17, "height": 17 },
 			"ball_2": { "name": "normal5/ball_2", "x": -12.01, "y": 0.19, "width": 41, "height": 17 }
@@ -38,18 +34,6 @@
 "animations": {
 	"idle": {
 		"slots": {
-			"background": {
-				"color": [
-					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 2.2333, "color": "ffffffff" }
-				],
-				"attachment": [
-					{ "time": 0, "name": "background" },
-					{ "time": 1.0666, "name": "background" },
-					{ "time": 2.1666, "name": "background" },
-					{ "time": 2.2333, "name": "background" }
-				]
-			},
 			"ball": {
 				"color": [
 					{ "time": 0, "color": "ffffffff" },

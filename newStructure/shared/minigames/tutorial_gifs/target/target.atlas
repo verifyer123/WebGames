@@ -1,47 +1,40 @@
 
 target.png
-size: 512,512
+size: 256,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal5/background
-  rotate: false
-  xy: 2, 158
-  size: 236, 193
-  orig: 236, 193
-  offset: 0, 0
-  index: -1
 normal5/ball_1
   rotate: false
-  xy: 240, 221
+  xy: 115, 209
   size: 17, 17
   orig: 17, 17
   offset: 0, 0
   index: -1
 normal5/ball_2
   rotate: false
-  xy: 115, 139
+  xy: 2, 2
   size: 41, 17
   orig: 41, 17
   offset: 0, 0
   index: -1
 normal5/extra_piece
   rotate: false
-  xy: 2, 26
+  xy: 115, 228
   size: 49, 17
   orig: 49, 17
   offset: 0, 0
   index: -1
 normal5/low_piece
   rotate: false
-  xy: 2, 45
+  xy: 2, 134
   size: 111, 111
   orig: 111, 111
   offset: 0, 0
   index: -1
 normal5/top_piece
   rotate: false
-  xy: 240, 240
+  xy: 2, 21
   size: 111, 111
   orig: 111, 111
   offset: 0, 0

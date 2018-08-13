@@ -267,6 +267,8 @@ var result = function(){
 				alphaTween.onComplete.add(function(){
 					window.open("../epicMap/", "_self")
 				})
+			}else if(parent.tag == 'home'){
+				game.destroy();
 			}
 		})
 
@@ -339,7 +341,7 @@ var result = function(){
 					var buttonsLength = buttonNames.length
 
 					var pivotX = game.world.centerX - 125
-					var pivotY = pivot+50
+					var pivotY = pivot
 				
 				for(var i = 0;i<buttonsLength;i++){
 
@@ -595,7 +597,7 @@ var result = function(){
 			var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
 			var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.15,5, '= 0' , fontStyle)
 			var totalScoreImage=game.add.sprite(game.world.centerX-170,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
-			var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.name , fontStyle)
+			var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.totalScore , fontStyle)
 		
 			retryText.anchor.setTo(0,0.5)
 			totalScoreImage.anchor.setTo(0,0.5)
@@ -620,6 +622,7 @@ var result = function(){
 			var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.resultScreenImagic','coinImagic')
 			coinContainer_star.anchor.setTo(0.5,0.5)
 			coinContainer_star.scale.setTo(0.9,0.9)
+			
 			
 			for(var i = 0; i < totalScore;i++){
 
@@ -647,7 +650,7 @@ var result = function(){
 				coinsToStarsContainer.text.scale.setTo(0.8,0.8)
 			}
 				
-			iconImage = sceneGroup.create(game.world.centerX + 110, game.world.centerY - 230,'gameIcon')
+			iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
 			iconImage.scale.setTo(0.7,0.7)
 			iconImage.anchor.setTo(0.5,0.5)
 		}
@@ -703,28 +706,7 @@ var result = function(){
 
 			var line = infoGroup.create(game.world.centerX, game.world.centerY+240,'atlas.resultScreen','divider')
 			line.anchor.setTo(0.5,0.5)
-			
-			
-			
-		}else if(configuration=="nostars"){
-			
-
-			var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 20);
-			playerNameText.anchor.setTo(0.5, 0.5)
-			
-			playerNameText.x = background.centerX
-			playerNameText.y = background.y-background.height/2+70
-			if(player.name.length>10){
-				playerNameText.scale.setTo(0.6,0.6)
-				playerNameText.y = background.y-background.height/2+90
-			}
-			sceneGroup.add(playerNameText)
-			
-		}
-
-
-
-		/*var glitter = starGroup.create(-200,60,'atlas.resultScreen','glitter')
+					/*var glitter = starGroup.create(-200,60,'atlas.resultScreen','glitter')
 		glitter.anchor.setTo(0.5,0.5)
 
 		glitter = starGroup.create(130,55,'atlas.resultScreen','glitter')
@@ -834,6 +816,27 @@ var result = function(){
 
 
 		}
+			
+			
+		}else if(configuration=="nostars"){
+			
+
+			var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 20);
+			playerNameText.anchor.setTo(0.5, 0.5)
+			
+			playerNameText.x = background.centerX
+			playerNameText.y = background.y-background.height/2+70
+			if(player.name.length>10){
+				playerNameText.scale.setTo(0.6,0.6)
+				playerNameText.y = background.y-background.height/2+90
+			}
+			sceneGroup.add(playerNameText)
+			
+		}
+
+
+
+
 
 		for(var i = 0; i < infoGroup.length;i++){
 
