@@ -227,7 +227,7 @@ var lizart = function(){
 	var rightBody;
 	var rightEyes;	
 	var wrongBody;
-	var eatingBody;
+	var eatingBodys;
     var tongue;
 	var wrongEyes;
 	var shadowLizar;
@@ -481,23 +481,23 @@ var lizart = function(){
 		wrongGroup.x = game.world.centerX/2;		
 		
 		var eatingGroup = game.add.group();
-		eatingBody = eatingGroup.create(0, 0, 'eatingBody');
-		eatingBody.y = game.height - eatingBody.height * 1.10;
-		eatingBody.x = eatingBody.x-20;
-		var idleBodyAnimation = eatingBody.animations.add('eatingBodyAnimation');
-		eatingBody.animations.play('eatingBodyAnimation', 24, true);
-		eatingBody.alpha = 0;
+		eatingBodys = eatingGroup.create(0, 0, 'eatingBody');
+		eatingBodys.y = game.height - eatingBodys.height * 1.10;
+		eatingBodys.x = eatingBodys.x-20;
+		var idleBodyAnimation = eatingBodys.animations.add('eatingBodyAnimation');
+		eatingBodys.animations.play('eatingBodyAnimation', 24, true);
+		eatingBodys.alpha = 0;
 
 		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
-		eatingEyes_1.y = eatingBody.y - 20;
-		eatingEyes_1.x = eatingBody.x + 170;
+		eatingEyes_1.y = eatingBodys.y - 20;
+		eatingEyes_1.x = eatingBodys.x + 170;
 		var eatingEyesAnimation1 = wrongEyes.animations.add('eatingEyesAnimation1');
 		eatingGroup.alpha = 0;
 		eatingGroup.x = game.world.centerX/2;	
 		
 		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
-		eatingEyes_1.y = eatingBody.y - 20;
-		eatingEyes_1.x = eatingBody.x + 170;
+		eatingEyes_1.y = eatingBodys.y - 20;
+		eatingEyes_1.x = eatingBodys.x + 170;
 		var eatingEyesAnimation1 = wrongEyes.animations.add('eatingEyesAnimation1');
 		eatingGroup.alpha = 0;
 		eatingGroup.x = game.world.centerX/2;	
