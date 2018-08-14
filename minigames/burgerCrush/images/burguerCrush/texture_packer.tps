@@ -462,6 +462,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">explosion3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>179,17,358,34</rect>
+                <key>scale9Paddings</key>
+                <rect>179,17,358,34</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">hamburguesa.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -662,6 +675,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">ticket.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,61,47,123</rect>
+                <key>scale9Paddings</key>
+                <rect>24,61,47,123</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">xpcoins.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -746,6 +772,8 @@
             <filename>puerta.png</filename>
             <filename>degradado.png</filename>
             <filename>piso_patron.png</filename>
+            <filename>explosion3.png</filename>
+            <filename>ticket.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
