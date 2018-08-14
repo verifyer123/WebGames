@@ -1,8 +1,8 @@
 window.amazing = {
 	config: {
-		name: "Burguer Crush",
+		name: "Burger Crush",
 		language: "en",
-		minigameUrl: "../../minigames/burguerCrush/index.html",
+		minigameUrl: "../../minigames/burgerCrush/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }

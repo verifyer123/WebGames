@@ -45,7 +45,7 @@ var burguerCrush = function(){
     var SLOT_SIZE = 76
     var COLORS = ["pan","carne","queso","lechuga","tomate","aros"]
     var TYPES = 6
-    var DELTA_SWIPE = 100
+    var DELTA_SWIPE = 50
     var TIME_MOVE_TWEEN = 100
     var VEL_Y = 5
     var BRILLO_TIME = 800
@@ -566,6 +566,7 @@ var burguerCrush = function(){
                     }
 
                     if(destroyObjects.length == 0){
+                    	inMove = false
                         selectedSlot = null
                         isFallingOjects = false
 
@@ -864,12 +865,20 @@ var burguerCrush = function(){
             }
         }
         else{
-        	if(selectedSlot==null){
-	        	inMove = false
-	            selectedSlot = null
-	            touch.x = -1
-	            touch.y = -1
-	        }
+        	if(!inMove){
+	        	if(selectedSlot==null){
+	        		//inMove = false
+			        touch.x = -1
+			        touch.y = -1
+		            selectedSlot = null
+		            
+		        }
+		        else{
+		        	selectedSlot = null
+		        }
+		         //console.log(selectedSlot)
+		    }
+		    //console.log(inMove)
         }
     }
 
@@ -989,6 +998,7 @@ var burguerCrush = function(){
                 gameArray[objectChange.indexY][objectChange.indexX].object = objectChange
                 gameArray[selectedSlot.indexY][selectedSlot.indexX].type = selectedSlot.type
                 gameArray[objectChange.indexY][objectChange.indexX].type = objectChange.type
+                inMove = false
                 selectedSlot = null
 
             },this)
@@ -1176,7 +1186,7 @@ var burguerCrush = function(){
     		pointsToGive = Math.floor(min/POINTS_CREATE_BURGUER)
     		for(var i =0; i < TYPES; i++){
     			typeCount[i]-=pointsToGive*POINTS_CREATE_BURGUER
-    			numberTexts[i].setText(typeCount[i])
+    			numberTexts[i].setText(typeCount[i]+"/"+((integertBurguer-1)*POINTS_CREATE_BURGUER))
     		}
     		if(pointsToGive<1){
     			pointsToGive = 1
@@ -1205,7 +1215,7 @@ var burguerCrush = function(){
 		    		}
 
 		    		integertBurguer--
-		    		textTickets.setText(integertBurguer+"/"+initialCurrentBurguer)
+		    		textTickets.setText((initialCurrentBurguer-integertBurguer)+"/"+initialCurrentBurguer)
 
 		    		if(integertBurguer==0){
 		    			setRound()
@@ -1226,8 +1236,10 @@ var burguerCrush = function(){
     	currentBurguer+=DELTA_BURGUER
     	integertBurguer = Math.floor(currentBurguer)
     	initialCurrentBurguer = integertBurguer
-    	textTickets.setText(integertBurguer+"/"+initialCurrentBurguer)
-
+    	textTickets.setText("0/"+initialCurrentBurguer)
+        for(var i =0; i < TYPES; i++){
+            numberTexts[i].setText(typeCount[i]+"/"+(integertBurguer*POINTS_CREATE_BURGUER))
+        }
     	if(currentTime>MIN_TIME){
     		currentTime-=DELTA_TIME
     		updateTimer()
@@ -1366,8 +1378,6 @@ var burguerCrush = function(){
         var planchaS = sceneGroup.create(game.world.centerX-270,game.world.height-122,"atlas.game","plancha")
         planchaS.anchor.setTo(0,1)
 
-
-
         var bar = game.add.tileSprite(0,planchaS.y-planchaS.height-10-64,game.world.width,64,"atlas.game","barra")
         sceneGroup.add(bar)
         barY = bar.y
@@ -1438,42 +1448,42 @@ var burguerCrush = function(){
         bread.anchor.setTo(0.5)
 
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0", fontStyle)
+        var text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
 
         bread = sceneGroup.create(foodTab.x - (SIZE_SLOT_TAB*1.5),foodTab.y-foodTab.height/2,"atlas.game","carne_tablero")
         bread.anchor.setTo(0.5)
-        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0", fontStyle)
+        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
 
         bread = sceneGroup.create(foodTab.x - (SIZE_SLOT_TAB*0.5),foodTab.y-foodTab.height/2,"atlas.game","queso_tablero")
         bread.anchor.setTo(0.5)
-        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0", fontStyle)
+        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
 
        	bread = sceneGroup.create(foodTab.x + (SIZE_SLOT_TAB*0.5),foodTab.y-foodTab.height/2,"atlas.game","lechuga_tablero")
         bread.anchor.setTo(0.5)
-        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0", fontStyle)
+        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
 
         bread = sceneGroup.create(foodTab.x + (SIZE_SLOT_TAB*1.5),foodTab.y-foodTab.height/2,"atlas.game","tomate_tablero")
         bread.anchor.setTo(0.5)
-        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0", fontStyle)
+        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
 
         bread = sceneGroup.create(foodTab.x + (SIZE_SLOT_TAB*2.5),foodTab.y-foodTab.height/2,"atlas.game","aros_tablero")
         bread.anchor.setTo(0.5)
-        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0", fontStyle)
+        text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
@@ -1492,11 +1502,24 @@ var burguerCrush = function(){
         moveFoodGroup = game.add.group()
         sceneGroup.add(moveFoodGroup)
 
-        ticketSprite = sceneGroup.create(game.world.centerX+225,game.world.centerY -100,"atlas.game","ticket")
-        ticketSprite.anchor.setTo(0.5)
+        var ticketback = sceneGroup.create(planchaS.x+planchaS.width+20,game.world.centerY -200,"atlas.game","ticket_contenedor")
+        ticketback.anchor.setTo(0,0.5)
+
+        var ticketShadow = sceneGroup.create(ticketback.x,game.world.centerY +100,"atlas.game","sombra")
+        ticketShadow.anchor.setTo(0,0.5)
+
+        var scale = game.world.width -ticketback.x
+        if(scale > ticketback.width){
+            scale = scale/ticketback.width
+            ticketback.scale.setTo(scale,1)
+            ticketShadow.scale.setTo(scale,1)
+        }
+
+        ticketSprite = sceneGroup.create(game.world.centerX+235,ticketback.y,"atlas.game","ticket")
+        ticketSprite.anchor.setTo(0.5,0)
 
         fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
-        textTickets = new Phaser.Text(sceneGroup.game, ticketSprite.x, ticketSprite.y-48, integertBurguer+"/"+initialCurrentBurguer, fontStyle)
+        textTickets = new Phaser.Text(sceneGroup.game, ticketSprite.x, ticketSprite.y+60, "0/"+initialCurrentBurguer, fontStyle)
         textTickets.anchor.setTo(0.5)
         sceneGroup.add(textTickets)
 
@@ -1504,9 +1527,9 @@ var burguerCrush = function(){
         levelDisplay = game.add.graphics()
         levelDisplay.x = -game.world.centerX
         levelDisplay.y = game.world.centerY
-        levelDisplay.beginFill(0x666666)
+        //levelDisplay.beginFill(0x666666)
         levelDisplay.drawRoundedRect(-200,-120,400,240,20)
-        levelDisplay.endFill()
+        //levelDisplay.endFill()
         sceneGroup.add(levelDisplay)
 
         fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -1585,7 +1608,7 @@ var burguerCrush = function(){
     	}
 
 
-    	var bandeja = bandejaGroup.create(473+46,game.world.height-132-64,"atlas.game","bandeja")
+    	var bandeja = bandejaGroup.create(game.world.centerX-270+433+46+10,game.world.height-132-64,"atlas.game","bandeja")
         bandeja.anchor.setTo(0.5)
         bandeja.scale.setTo(0)
 
@@ -1617,6 +1640,7 @@ var burguerCrush = function(){
     	var move = moveFoodGroup.create(x,y,"atlas.game",COLORS[type])
     	move.anchor.setTo(0.5)
     	move.type = type
+        typeCount[type]+=1
     	var tween = game.add.tween(move).to({x:tabInit.x + (type*SIZE_SLOT_TAB),y:tabInit.y},500,Phaser.Easing.linear,true)
     	tween.onComplete.add(finishTweenMove,this)
     	return
@@ -1624,8 +1648,8 @@ var burguerCrush = function(){
 
     function finishTweenMove(target){
     	target.visible = false
-    	
-    	numberTexts[target.type].setText(typeCount[target.type])
+    	//console.log(target.type)
+    	numberTexts[target.type].setText(typeCount[target.type]+"/"+(integertBurguer*POINTS_CREATE_BURGUER))
     	brilloArray[target.type].visible = true
 
     	brilloArray[target.type].timeWait = game.time.now + BRILLO_TIME
