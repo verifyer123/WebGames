@@ -4,9 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.5.0</string>
-        <key>fileName</key>
-        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/shared/minigames/images/result/resultImagicTpk.tps</string>
+        <string>4.8.3</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -129,22 +127,6 @@
                 <uint>1</uint>
             </struct>
         </struct>
-        <key>andEngine</key>
-        <struct type="AndEngine">
-            <key>minFilter</key>
-            <enum type="AndEngine::MinFilter">Linear</enum>
-            <key>packageName</key>
-            <string>Texture</string>
-            <key>wrap</key>
-            <struct type="AndEngineWrap">
-                <key>s</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-                <key>t</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-            </struct>
-            <key>magFilter</key>
-            <enum type="AndEngine::MagFilter">MagLinear</enum>
-        </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
             <key>data</key>
@@ -238,19 +220,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">coin_stock.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>84,28,168,56</rect>
-                <key>scale9Paddings</key>
-                <rect>84,28,168,56</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">homeBtn_Imagic.png</key>
             <key type="filename">retryBtn_Imagic.png</key>
             <key type="filename">shareBtn_Imagic.png</key>
@@ -282,7 +251,6 @@
         </map>
         <key>fileList</key>
         <array>
-            <filename>coin_stock.png</filename>
             <filename>base_Imagic.png</filename>
             <filename>back_Imagic.png</filename>
             <filename>coinImagic.png</filename>

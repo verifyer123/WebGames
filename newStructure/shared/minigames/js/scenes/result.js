@@ -47,8 +47,8 @@ var result = function(){
 			},
 			{
 				name: 'atlas.resultScreenImagic',
-				json: imagesPath + "result/atlasImagic.json",
-				image: imagesPath + "result/atlasImagic.png"
+				json: imagesPath + "result/result_IMagic/atlasImagic.json",
+				image: imagesPath + "result/result_IMagic/atlasImagic.png"
 			},
 		],
 		images: [
