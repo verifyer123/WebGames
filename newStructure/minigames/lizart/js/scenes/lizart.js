@@ -206,6 +206,8 @@ var lizart = function(){
 	var rightBody;
 	var rightEyes;	
 	var wrongBody;
+	var eatingBody;
+    var tongue;
 	var wrongEyes;
 	var shadowLizar;
 	var good;
@@ -405,7 +407,18 @@ var lizart = function(){
 //		tree = sceneGroup.create(game.world.centerX,0,"tree");
 //		tree.anchor.setTo(0.5,0.2);
 
+        
+        
 		var idleGroup = game.add.group();
+        
+        idleEyes_2 = idleGroup.create(0, 0, 'idleEyes_2');
+		idleEyes_2.y = idleBody.y - idleBody.height/10+50;
+		idleEyes_2.x = idleBody.x + idleBody.width/1.5;
+		var idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
+		idleEyes_2.animations.play('idleEyesAnimation2', 24, true);
+		idleEyes_2.alpha = 0;
+		idleGroup.x = game.world.centerX/2;
+        
 		idleBody = idleGroup.create(0, 0, 'idleBody');
 		idleBody.y = game.height - idleBody.height * 1.10;
 		idleBody.x = idleBody.x-20;
@@ -419,14 +432,6 @@ var lizart = function(){
 		var idleEyesAnimation1 = idleEyes_1.animations.add('idleEyesAnimation');
 		idleEyes_1.animations.play('idleEyesAnimation', 24, true);
 		idleEyes_1.alpha = 0;
-		
-		idleEyes_2 = idleGroup.create(0, 0, 'idleEyes_2');
-		idleEyes_2.y = idleBody.y - idleBody.height/10+50;
-		idleEyes_2.x = idleBody.x + idleBody.width/1.5;
-		var idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
-		idleEyes_2.animations.play('idleEyesAnimation2', 24, true);
-		idleEyes_2.alpha = 0;
-		idleGroup.x = game.world.centerX/2;
 
 		var rightGroup = game.add.group();
 		rightBody = rightGroup.create(0, 0, 'rightBody');
@@ -455,9 +460,12 @@ var lizart = function(){
 		wrongGroup.x = game.world.centerX/2;		
 		
 		var eatingGroup = game.add.group();
-		eatingGroup = eatingGroup.create(0, 0, 'eatingBody');
-		eatingGroup.y = game.height - eatingBody.height * 1.1;
-		var eatingBodyAnimation = eatingBody.animations.add('eatingBodyAnimation');
+		eatingBody = eatingGroup.create(0, 0, 'eatingBody');
+		eatingBody.y = game.height - eatingBody.height * 1.10;
+		eatingBody.x = eatingBody.x-20;
+		var idleBodyAnimation = eatingBody.animations.add('eatingBodyAnimation');
+		eatingBody.animations.play('eatingBodyAnimation', 24, true);
+		eatingBody.alpha = 0;
 
 		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
 		eatingEyes_1.y = eatingBody.y - 20;
