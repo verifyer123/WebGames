@@ -112,7 +112,7 @@ var result = function(){
 	function setScore(didWin,score,index,scale) {
 
 		gamesList = parent.gameData
-		
+
 		player.name="Heber";
 		player.totalScore=10;
 		configuration=gamesList.config.tutorial;
@@ -279,110 +279,110 @@ var result = function(){
 		buttonsGroup = game.add.group()
 		sceneGroup.add(buttonsGroup)
 
-	
 
 
 
-			if(configuration=="withstars"){
-				
-					var buttonNames = ['retry','share']
 
-					var buttonTexts = ['retry','share']
-					
-					var buttonsLength = buttonNames.length
+		if(configuration=="withstars"){
 
-					var pivotX = game.world.centerX - 125
-					var pivotY = pivot
-		
-				
-				for(var i = 0;i<buttonsLength;i++){
-					var textToUse = localization.getString(localizationData,buttonNames[i])
-					
-					var group = game.add.group()
-					group.alpha = 0
-					group.x = pivotX
-					group.y = pivotY
-					
+			var buttonNames = ['retry','share']
+
+			var buttonTexts = ['retry','share']
+
+			var buttonsLength = buttonNames.length
+
+			var pivotX = game.world.centerX - 125
+			var pivotY = pivot
 
 
-					
-					var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'Btn')
-					button1.anchor.setTo(0.5,0.5)
-					button1.scale.setTo(1.15,1.15)
-					var retryText = game.add.bitmapText(-25,-5, 'luckiest', localization.getString(localizationData,buttonNames[i]), 35);
-					retryText.anchor.setTo(0.5,0.5)
-					
-					buttonsGroup.add(group)
-					group.add(retryText)
-					group.tag = buttonNames[i]
-					
-					
-					
-					button1.inputEnabled = true
-					button1.events.onInputDown.add(inputButton)
-					button1.active = true
-					
-					
-					
-					if(textToUse.length > 8){
-						retryText.scale.setTo(0.65,0.7)
-						retryText.y+= 4
-					}
+			for(var i = 0;i<buttonsLength;i++){
+				var textToUse = localization.getString(localizationData,buttonNames[i])
 
-					pivotX += 250
+				var group = game.add.group()
+				group.alpha = 0
+				group.x = pivotX
+				group.y = pivotY
+
+
+
+
+				var button1 = group.create(0,0,'atlas.resultScreen',buttonNames[i] + 'Btn')
+				button1.anchor.setTo(0.5,0.5)
+				button1.scale.setTo(1.15,1.15)
+				var retryText = game.add.bitmapText(-25,-5, 'luckiest', localization.getString(localizationData,buttonNames[i]), 35);
+				retryText.anchor.setTo(0.5,0.5)
+
+				buttonsGroup.add(group)
+				group.add(retryText)
+				group.tag = buttonNames[i]
+
+
+
+				button1.inputEnabled = true
+				button1.events.onInputDown.add(inputButton)
+				button1.active = true
+
+
+
+				if(textToUse.length > 8){
+					retryText.scale.setTo(0.65,0.7)
+					retryText.y+= 4
 				}
 
-			}else if(configuration=="nostars"){
-				
-				var buttonNames = ['retry','home','share']
-
-					var buttonTexts = ['retry','home','share']
-					
-					var buttonsLength = buttonNames.length
-
-					var pivotX = game.world.centerX - 125
-					var pivotY = pivot
-				
-				for(var i = 0;i<buttonsLength;i++){
-
-					var textToUse = localization.getString(localizationData,buttonNames[i])
-
-					var group = game.add.group()
-					var fontStyle = {font: "30px Aldrich-Regular",fontWeight: "bold", fill: "#ffffff", align: "center"}
-					group.alpha = 0
-					group.x = pivotX
-					group.y = pivotY-100
-					
-					
-					var button1 = group.create(0,0,'atlas.resultScreenImagic',buttonNames[i] + 'Btn_Imagic')
-					button1.x-=27;
-					button1.y-=50;
-					button1.anchor.setTo(0.5,0.5)
-					button1.scale.setTo(0.8,0.8)
-					
-					var retryText = new Phaser.Text(sceneGroup.game,group.x-27,group.y+20, localization.getString(localizationData,buttonNames[i]).toUpperCase() , fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 4);
-					retryText.anchor.setTo(0.5,0.5)
-					sceneGroup.add(retryText)
-					
-					buttonsGroup.add(group)
-					group.tag = buttonNames[i]
-
-					
-
-					button1.inputEnabled = true
-					button1.events.onInputDown.add(inputButton)
-					button1.active = true
-
-
-					if(textToUse.length > 8){
-						retryText.scale.setTo(0.65,0.7)
-						retryText.y+= 4
-					}
-
-					pivotX +=150
-				}
+				pivotX += 250
 			}
-			
+
+		}else if(configuration=="nostars"){
+
+			var buttonNames = ['retry','home','share']
+
+			var buttonTexts = ['retry','home','share']
+
+			var buttonsLength = buttonNames.length
+
+			var pivotX = game.world.centerX - 125
+			var pivotY = pivot
+
+			for(var i = 0;i<buttonsLength;i++){
+
+				var textToUse = localization.getString(localizationData,buttonNames[i])
+
+				var group = game.add.group()
+				var fontStyle = {font: "30px Aldrich-Regular",fontWeight: "bold", fill: "#ffffff", align: "center"}
+				group.alpha = 0
+				group.x = pivotX
+				group.y = pivotY-100
+
+
+				var button1 = group.create(0,0,'atlas.resultScreenImagic',buttonNames[i] + 'Btn_Imagic')
+				button1.x-=27;
+				button1.y-=50;
+				button1.anchor.setTo(0.5,0.5)
+				button1.scale.setTo(0.8,0.8)
+
+				var retryText = new Phaser.Text(sceneGroup.game,group.x-27,group.y+20, localization.getString(localizationData,buttonNames[i]).toUpperCase() , fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 4);
+				retryText.anchor.setTo(0.5,0.5)
+				sceneGroup.add(retryText)
+
+				buttonsGroup.add(group)
+				group.tag = buttonNames[i]
+
+
+
+				button1.inputEnabled = true
+				button1.events.onInputDown.add(inputButton)
+				button1.active = true
+
+
+				if(textToUse.length > 8){
+					retryText.scale.setTo(0.65,0.7)
+					retryText.y+= 4
+				}
+
+				pivotX +=150
+			}
+		}
+
 
 		console.log(parent.env)
 		if(parent.env && parent.env.isMap){
@@ -445,9 +445,9 @@ var result = function(){
 			sceneGroup.add(background)
 		}
 
-	
 
-		
+
+
 	}
 
 	function createScene(){
@@ -458,7 +458,7 @@ var result = function(){
 			haveCoupon = false
 		}
 
-		
+
 		console.log("Create scene results")
 		loadSounds()
 
@@ -478,7 +478,7 @@ var result = function(){
 		var pivotButtons = game.world.centerY + 450
 
 		createBackground()
-		
+
 		if(configuration=="withstars"){
 			var background = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreen','base')
 			background.anchor.setTo(0.5,0.5)
@@ -499,25 +499,25 @@ var result = function(){
 			parent.epicModel.savePlayer(currentPlayer)
 		}
 
-			yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotaResults");
-			yogotar.scale.setTo(scaleSpine,scaleSpine)
-			yogotar.setAnimationByName(0, "idle", true);
-			if(currentPlayer && currentPlayer.yogotar){
-				var yogotarSkin = currentPlayer.yogotar;
-				yogotar.setSkinByName(yogotarSkin.toLowerCase());
-			}else{
-				yogotar.setSkinByName('eagle');
-			}
-		
+		yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotaResults");
+		yogotar.scale.setTo(scaleSpine,scaleSpine)
+		yogotar.setAnimationByName(0, "idle", true);
+		if(currentPlayer && currentPlayer.yogotar){
+			var yogotarSkin = currentPlayer.yogotar;
+			yogotar.setSkinByName(yogotarSkin.toLowerCase());
+		}else{
+			yogotar.setSkinByName('eagle');
+		}
+
 		if(configuration=="withstars"){
 			var yogoBack = sceneGroup.create(game.world.centerX - 100, game.world.centerY - 185,'atlas.resultScreen','yogoBg')
 			yogoBack.anchor.setTo(0.5,0.5)
-			
-			
+
+
 		}else if(configuration=="nostars"){
 			yogotar.y=yogotar.y-30;
 		}	
-			
+
 		//yogotar.setSkinByName('Eagle');
 		sceneGroup.add(yogotar)
 
@@ -555,33 +555,33 @@ var result = function(){
 			var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.resultScreen','star_on')
 			coinContainer_star.anchor.setTo(0.5,0.5)
 			coinContainer_star.scale.setTo(0.4,0.4)
-			
+
 			coinsContainer = game.add.group()
 			coinsContainer.x = game.world.centerX + 110
 			coinsContainer.y = game.world.centerY - 320
 			coinsContainer.scale.setTo(1,1)
 			sceneGroup.add(coinsContainer)
-	
+
 			var imgCont = coinsContainer.create(0,0,'atlas.resultScreen','coin_container')
 			imgCont.anchor.setTo(0.5,0.5)
-	
+
 			var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			var coinsText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.01,5, 'x '+0 , fontStyle)
 			coinsText.anchor.setTo(0,0.5)
 			coinsContainer.add(coinsText)
 			coinsContainer.text = coinsText
-			
+
 			iconImage = sceneGroup.create(game.world.centerX + 110, game.world.centerY - 170,'gameIcon')
 			iconImage.scale.setTo(0.7,0.7)
 			iconImage.anchor.setTo(0.5,0.5)
 		}else if(configuration=="nostars"){
-			
+
 			var numberAdd = 0
 			var delay = 1000
 			playerTotalScoreContainer = game.add.group()
 			sceneGroup.add(playerTotalScoreContainer)
 			var valueChange = 40
-			
+
 
 			coinsToStarsContainer = game.add.group()
 			coinsToStarsContainer.x = game.world.centerX
@@ -592,13 +592,13 @@ var result = function(){
 			var imgCont = coinsToStarsContainer.create(0,0,'atlas.resultScreen','coin_stock')
 			imgCont.alpha=0;
 			imgCont.anchor.setTo(0.5,0.5)
-			
+
 			var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 			var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
 			var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.15,5, '= 0' , fontStyle)
 			var totalScoreImage=game.add.sprite(game.world.centerX-170,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
 			var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.totalScore , fontStyle)
-		
+
 			retryText.anchor.setTo(0,0.5)
 			totalScoreImage.anchor.setTo(0,0.5)
 			playerAllScoreText.anchor.setTo(0,0.5)
@@ -622,8 +622,8 @@ var result = function(){
 			var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.resultScreenImagic','coinImagic')
 			coinContainer_star.anchor.setTo(0.5,0.5)
 			coinContainer_star.scale.setTo(0.9,0.9)
-			
-			
+
+
 			for(var i = 0; i < totalScore;i++){
 
 				game.time.events.add(delay,function(){
@@ -631,7 +631,7 @@ var result = function(){
 					numberAdd++
 					coinsToStarsContainer.text.setText(' = ' + numberAdd)
 					coinsToStarsContainer.scale.setTo(1,1)
-					
+
 					playerTotalScoreContainer.text.setText(numberAdd+player.totalScore);
 					playerTotalScoreContainer.scale.setTo(1,1)
 					var indexCheck = numberAdd - 1
@@ -649,7 +649,7 @@ var result = function(){
 			if(totalScore > 99){
 				coinsToStarsContainer.text.scale.setTo(0.8,0.8)
 			}
-				
+
 			iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
 			iconImage.scale.setTo(0.7,0.7)
 			iconImage.anchor.setTo(0.5,0.5)
@@ -706,7 +706,7 @@ var result = function(){
 
 			var line = infoGroup.create(game.world.centerX, game.world.centerY+240,'atlas.resultScreen','divider')
 			line.anchor.setTo(0.5,0.5)
-					/*var glitter = starGroup.create(-200,60,'atlas.resultScreen','glitter')
+			/*var glitter = starGroup.create(-200,60,'atlas.resultScreen','glitter')
 		glitter.anchor.setTo(0.5,0.5)
 
 		glitter = starGroup.create(130,55,'atlas.resultScreen','glitter')
@@ -720,72 +720,72 @@ var result = function(){
 
 
 
-		var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			var fontStyle = {font: "80px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
-		/*var line = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY + 110,'-------------', fontStyle)
+			/*var line = new Phaser.Text(sceneGroup.game, game.world.centerX, game.world.centerY + 110,'-------------', fontStyle)
 		line.anchor.setTo(0.5,0.5)
 		infoGroup.add(line)*/
 
 
-		var isNewRecord = true
+			var isNewRecord = true
 
-
-		if(currentPlayer){
-			lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
-			if(lastRecord >= totalScore){
-				isNewRecord = false
-			}
-		}
-
-		if(totalScore==0){
-			isNewRecord = false
-		}
-
-		if(isNewRecord){
-
-			newRecord = game.add.group()
-			newRecord.alpha = 1
-			newRecord.record = true
-			newRecord.x = game.world.centerX
-			newRecord.y = game.world.centerY + 300
-			infoGroup.add(newRecord)
-
-			var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-			var newRecordImage = newRecord.create(0 , 0,'atlas.resultScreen','new_record')
-			newRecordImage.anchor.setTo(0.5,0.5)
-
-			var newRecordText = new Phaser.Text(sceneGroup.game, 50 , newRecordImage.y,localization.getString(localizationData,'record'), fontStyle)
-			newRecordText.lineSpacing = -10
-
-			newRecordText.anchor.setTo(0.5,0.5)
-			newRecord.add(newRecordText)
-
-			pivotButtons = game.world.centerY + 400
-
-		}else{
-
-			var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-			var previousText = new Phaser.Text(sceneGroup.game, game.world.centerX - 85, game.world.centerY + 300,localization.getString(localizationData,'previous'), fontStyle)
-			previousText.lineSpacing = -10
-			previousText.anchor.setTo(0.5,0.5)
-			infoGroup.add(previousText)
-
-			var coin = infoGroup.create(game.world.centerX + 50,previousText.y,'atlas.resultScreen','coin')
-			coin.anchor.setTo(0.5,0.5)
-
-			lastRecord = 0
 
 			if(currentPlayer){
 				lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
+				if(lastRecord >= totalScore){
+					isNewRecord = false
+				}
 			}
 
-			var previousText = new Phaser.Text(sceneGroup.game, coin.x + 75,coin.y + 5,'x ' + lastRecord, fontStyle)
-			previousText.anchor.setTo(0.5,0.5)
-			infoGroup.add(previousText)
+			if(totalScore==0){
+				isNewRecord = false
+			}
 
-			/*newRecord = game.add.group()
+			if(isNewRecord){
+
+				newRecord = game.add.group()
+				newRecord.alpha = 1
+				newRecord.record = true
+				newRecord.x = game.world.centerX
+				newRecord.y = game.world.centerY + 300
+				infoGroup.add(newRecord)
+
+				var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+				var newRecordImage = newRecord.create(0 , 0,'atlas.resultScreen','new_record')
+				newRecordImage.anchor.setTo(0.5,0.5)
+
+				var newRecordText = new Phaser.Text(sceneGroup.game, 50 , newRecordImage.y,localization.getString(localizationData,'record'), fontStyle)
+				newRecordText.lineSpacing = -10
+
+				newRecordText.anchor.setTo(0.5,0.5)
+				newRecord.add(newRecordText)
+
+				pivotButtons = game.world.centerY + 400
+
+			}else{
+
+				var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+				var previousText = new Phaser.Text(sceneGroup.game, game.world.centerX - 85, game.world.centerY + 300,localization.getString(localizationData,'previous'), fontStyle)
+				previousText.lineSpacing = -10
+				previousText.anchor.setTo(0.5,0.5)
+				infoGroup.add(previousText)
+
+				var coin = infoGroup.create(game.world.centerX + 50,previousText.y,'atlas.resultScreen','coin')
+				coin.anchor.setTo(0.5,0.5)
+
+				lastRecord = 0
+
+				if(currentPlayer){
+					lastRecord = currentPlayer.minigames[currentPlayer.currentMinigame].record
+				}
+
+				var previousText = new Phaser.Text(sceneGroup.game, coin.x + 75,coin.y + 5,'x ' + lastRecord, fontStyle)
+				previousText.anchor.setTo(0.5,0.5)
+				infoGroup.add(previousText)
+
+				/*newRecord = game.add.group()
 			newRecord.alpha = 0
 			newRecord.record = false
 			newRecord.x = game.world.centerX
@@ -801,9 +801,9 @@ var result = function(){
             newRecord.add(retryText)*/
 
 
-			pivotButtons = game.world.centerY + 400
+				pivotButtons = game.world.centerY + 400
 
-			/*var greatGroup = game.add.group()
+				/*var greatGroup = game.add.group()
 			greatGroup.x = game.world.centerX
 			greatGroup.y = game.world.centerY + 270
 			greatGroup.scale.setTo(0.9,0.9)
@@ -815,15 +815,15 @@ var result = function(){
             greatGroup.add(greatText)*/
 
 
-		}
-			
-			
+			}
+
+
 		}else if(configuration=="nostars"){
-			
+
 
 			var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 20);
 			playerNameText.anchor.setTo(0.5, 0.5)
-			
+
 			playerNameText.x = background.centerX
 			playerNameText.y = background.y-background.height/2+70
 			if(player.name.length>10){
@@ -831,7 +831,7 @@ var result = function(){
 				playerNameText.y = background.y-background.height/2+90
 			}
 			sceneGroup.add(playerNameText)
-			
+
 		}
 
 
@@ -997,7 +997,7 @@ var result = function(){
 			game.time.events.add(500,function(){
 				var delay = 0
 				for(var i = 0; i < infoGroup.length;i++){
-					
+
 					var obj = infoGroup.children[i]
 					if(!obj.record){
 						appearObject(obj,delay)
@@ -1016,8 +1016,8 @@ var result = function(){
 				sound.play(soundName)
 			})
 		}
-		
-		
+
+
 		//if(parent.epicModel){
 		//	parent.epicModel.savePlayer(currentPlayer)
 		//}
@@ -1196,7 +1196,6 @@ var result = function(){
 
 			var particle
 			if(tag == 'text'){
-
 				var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
 				var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
@@ -1238,7 +1237,7 @@ var result = function(){
 
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
-		
+
 		createParticles('star',3)
 		createParticles('glitter',5)
 		if(configuration=="withstars"){
@@ -1259,19 +1258,34 @@ var result = function(){
 	}
 
 	function update(){
-		
+
 		if(configuration=="withstars"){
 			tile.tilePosition.x-= 2
 			tile.tilePosition.y-= 2
-		}else if(configuration=="nostars"){
-			
 		}
 	}
 
 	return {
 		assets: assets,
 		name: "result",
-		create: createScene,
+		create: function(){
+			
+			var wfconfig = {
+				active: function() {
+					console.log("font loaded");
+					createScene()
+				},
+				custom: {
+					families: [ "VAGRounded" ],
+					urls:["../../shared/minigames/css/custom_fonts.css"]
+				},
+			};
+			if(configuration=="nostars"){
+				WebFont.load(wfconfig);
+			}else if(configuration=="withstars"){
+				createScene();
+			}
+		},
 		preload: preload,
 		setScore: setScore,
 		init: initialize,
