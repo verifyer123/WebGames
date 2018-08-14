@@ -258,7 +258,7 @@ var burguerCrush = function(){
     
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.anchor.setTo(0.5)
+        pointsText.anchor.setTo(0,0)
         pointsText.x = pointsImg.x + pointsImg.width * 0.5
         pointsText.y = pointsImg.height * 0.3
         pointsBar.add(pointsText)
