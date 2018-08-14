@@ -1106,6 +1106,11 @@ var burguerCrush = function(){
             destroyObjects[i].drawRoundedRect(-SLOT_SIZE/2,-SLOT_SIZE/2,SLOT_SIZE,SLOT_SIZE,20)
             //destroyObjects[i].endFill()
             destroyObjects[i].image.loadTexture("atlas.game",COLORS[destroyObjects[i].type])
+
+            if(destroyObjects[i].special){
+            	destroyObjects[i].special = false
+            	destroyObjects[i].shine.visible = false
+            }
             //destroyObjects[i].y -= SLOT_SIZE*ARRAY_HEIGTH
             gameArray[destroyObjects[i].indexY][destroyObjects[i].indexX].type = -1
             gameArray[destroyObjects[i].indexY][destroyObjects[i].indexX].object = null
@@ -1173,6 +1178,9 @@ var burguerCrush = function(){
     			typeCount[i]-=pointsToGive*POINTS_CREATE_BURGUER
     			numberTexts[i].setText(typeCount[i])
     		}
+    		if(pointsToGive<1){
+    			pointsToGive = 1
+    		}
     		var bandeja = getBurguer()
     		bandeja.pointsToGive = pointsToGive
 	    	bandeja.tweenScale = game.add.tween(bandeja.scale).to({x:1,y:1},100,Phaser.Easing.linear,true)
@@ -1190,7 +1198,7 @@ var burguerCrush = function(){
 		    				}
 		    			}
 		    			else{
-			    			if(person.timeWait > peopleArray[i].timeWait){
+			    			if(person.timeWait > peopleArray[i].timeWait && peopleArray[i].isActive){
 			    				person = peopleArray[i]
 			    			}
 			    		}
@@ -1218,7 +1226,7 @@ var burguerCrush = function(){
     	currentBurguer+=DELTA_BURGUER
     	integertBurguer = Math.floor(currentBurguer)
     	initialCurrentBurguer = integertBurguer
-    	textTickets.setText(integertBurguer)
+    	textTickets.setText(integertBurguer+"/"+initialCurrentBurguer)
 
     	if(currentTime>MIN_TIME){
     		currentTime-=DELTA_TIME
@@ -1599,7 +1607,7 @@ var burguerCrush = function(){
     			move.y = y
     			move.loadTexture("atlas.game",COLORS[type])
     			move.type = type
-
+    			typeCount[type]+=1
     			var tween = game.add.tween(move).to({x:tabInit.x + (type*SIZE_SLOT_TAB),y:tabInit.y},500,Phaser.Easing.linear,true)
     			tween.onComplete.add(finishTweenMove,this)
     			return
@@ -1616,7 +1624,7 @@ var burguerCrush = function(){
 
     function finishTweenMove(target){
     	target.visible = false
-    	typeCount[target.type]+=1
+    	
     	numberTexts[target.type].setText(typeCount[target.type])
     	brilloArray[target.type].visible = true
 
