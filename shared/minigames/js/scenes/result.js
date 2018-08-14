@@ -99,12 +99,14 @@ var result = function(){
     var specialCupon
     var slideNumber
     var cuponSliderGroup
+    var sceneName
 
 	function setScore(didWin,score,index) {
 
         gameIndex = index
         getNumbers()
         gameName = icons[gameIndex].mixName
+        sceneName = icons[gameIndex].sceneName
 
 		totalScore = score
 		totalGoal = 1
@@ -233,7 +235,7 @@ var result = function(){
 
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
-                        sceneloader.show(gameName)
+                        sceneloader.show(sceneName)
                     })
             }
         })
@@ -1621,6 +1623,7 @@ var result = function(){
         game.load.bitmapFont('gothamMedium', imagesUrl + 'bitfont/gothamMedium.png', imagesUrl + 'bitfont/gothamMedium.fnt');
 
         //couponData = {scoreGoal:1}
+        console.log(couponData)
         specialCoupon = false
         if(couponData == null){
             haveCoupon = false
@@ -1668,8 +1671,9 @@ var result = function(){
         }
 
         webCoupon = amazing.haveWebCoupon()
+        console.log(webCoupon)
 
-        if(webCoupon!=""){
+        if(webCoupon!="" && webCoupon!=null){
             //var imageName = webCoupon.split('/')
             game.load.image('webCoupon',amazing.getServerUrl()+webCoupon)
         }

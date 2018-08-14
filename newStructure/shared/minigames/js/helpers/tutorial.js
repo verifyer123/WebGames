@@ -358,6 +358,15 @@ var tutorialHelper = function () {
 					tutorialTypeText = "TAP"
 				}
 				break
+            case gameTypeEnum.DRAG:
+				videoName = "drag and drop"
+				if(language=="ES"){
+					tutorialTypeText = "DRAG AND DROP"
+				}
+				else{
+					tutorialTypeText = "ARASTRAR"
+				}
+				break
 		}
 
 		var obj = {
