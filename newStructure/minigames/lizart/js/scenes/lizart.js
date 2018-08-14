@@ -162,6 +162,27 @@ var lizart = function(){
                 width:347,
                 height:222,
                 frames:11
+            },
+            {
+                name:"eatingBody",
+                file:imagePath + "sheets/eat.png",
+                width:366,
+                height:286,
+                frames:19
+            },
+			{
+                name:"eatingEyes1",
+                file:imagePath + "sheets/eat_ojos_1.png",
+                width:201,
+                height:156,
+                frames:19
+            },
+			{
+                name:"eatingEyes2",
+                file:imagePath + "sheets/eat_ojos_2.png",
+                width:216,
+                height:212,
+                frames:19
             }
 		]
 	}
@@ -543,7 +564,8 @@ var lizart = function(){
 //			}
 			globo.destroy();
 			textGlobo.destroy();
-			
+			idleGroup.alpha=0;
+            eatingGroup.alpha=1;
 			if(indexNumber[good] == fruitItem.id && canTakeFruit){
 				canTakeFruit = false
 				rightBody.tint=fruitItem.color;
