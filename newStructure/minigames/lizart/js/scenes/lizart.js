@@ -115,18 +115,25 @@ var lizart = function(){
                 frames:12
 			},
 			{
-                name:"idleEyes",
-                file:imagePath + "sheets/idle_ojos.png",
-                width:149,
-                height:187,
-                frames:24
+                name:"idleEyes_1",
+                file:imagePath + "sheets/idle_ojos_1.png",
+                width:142,
+                height:135,
+                frames:17
+            },
+			{
+                name:"idleEyes_2",
+                file:imagePath + "sheets/idle_ojos_2.png",
+                width:128,
+                height:150,
+                frames:17
             },
 			{
                 name:"idleBody",
                 file:imagePath + "sheets/idle.png",
-                width:350,
-                height:213,
-                frames:24
+                width:353,
+                height:287,
+                frames:17
             },
 			{
                 name:"rightEyes",
@@ -193,7 +200,8 @@ var lizart = function(){
 	var globo;
 	var textGlobo;
 	var idleBody;
-	var idleEyes;
+	var idleEyes_1;
+	var idleEyes_2;
 	var wrongIdleEyes	
 	var rightBody;
 	var rightEyes;	
@@ -335,7 +343,8 @@ var lizart = function(){
 
 	function onClickPlay(){
 		overlayGroup.y = -game.world.height
-		TweenMax.to(idleEyes,0.5,{alpha:1});
+		TweenMax.to(idleEyes_1,0.5,{alpha:1});
+		TweenMax.to(idleEyes_2,0.5,{alpha:1});
 		TweenMax.to(idleBody,1,{alpha:1,tint:0xb7b7b7,delay:1,onComplete:keepBallon});
 		bgm = game.add.audio('wormwood')
 		game.sound.setDecodedCallback(bgm, function(){
@@ -398,17 +407,25 @@ var lizart = function(){
 
 		var idleGroup = game.add.group();
 		idleBody = idleGroup.create(0, 0, 'idleBody');
-		idleBody.y = game.height - idleBody.height * 1.14;
+		idleBody.y = game.height - idleBody.height * 1.10;
+		idleBody.x = idleBody.x-20;
 		var idleBodyAnimation = idleBody.animations.add('idleBodyAnimation');
 		idleBody.animations.play('idleBodyAnimation', 24, true);
 		idleBody.alpha = 0;
 
-		idleEyes = idleGroup.create(0, 0, 'idleEyes');
-		idleEyes.y = idleBody.y - idleBody.height/10;
-		idleEyes.x = idleBody.x + idleBody.width/1.8;
-		var idleEyesAnimation = idleEyes.animations.add('idleEyesAnimation');
-		idleEyes.animations.play('idleEyesAnimation', 24, true);
-		idleEyes.alpha = 0;
+		idleEyes_1 = idleGroup.create(0, 0, 'idleEyes_1');
+		idleEyes_1.y = idleBody.y - idleBody.height/10+70;
+		idleEyes_1.x = idleBody.x + idleBody.width/2.1;
+		var idleEyesAnimation1 = idleEyes_1.animations.add('idleEyesAnimation');
+		idleEyes_1.animations.play('idleEyesAnimation', 24, true);
+		idleEyes_1.alpha = 0;
+		
+		idleEyes_2 = idleGroup.create(0, 0, 'idleEyes_2');
+		idleEyes_2.y = idleBody.y - idleBody.height/10+50;
+		idleEyes_2.x = idleBody.x + idleBody.width/1.5;
+		var idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
+		idleEyes_2.animations.play('idleEyesAnimation2', 24, true);
+		idleEyes_2.alpha = 0;
 		idleGroup.x = game.world.centerX/2;
 
 		var rightGroup = game.add.group();
@@ -436,6 +453,25 @@ var lizart = function(){
 		var wrongEyesAnimation = wrongEyes.animations.add('wrongEyesAnimation');
 		wrongGroup.alpha = 0;
 		wrongGroup.x = game.world.centerX/2;		
+		
+		var eatingGroup = game.add.group();
+		eatingGroup = eatingGroup.create(0, 0, 'eatingBody');
+		eatingGroup.y = game.height - eatingBody.height * 1.1;
+		var eatingBodyAnimation = eatingBody.animations.add('eatingBodyAnimation');
+
+		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
+		eatingEyes_1.y = eatingBody.y - 20;
+		eatingEyes_1.x = eatingBody.x + 170;
+		var eatingEyesAnimation1 = wrongEyes.animations.add('eatingEyesAnimation1');
+		eatingGroup.alpha = 0;
+		eatingGroup.x = game.world.centerX/2;	
+		
+		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
+		eatingEyes_1.y = eatingBody.y - 20;
+		eatingEyes_1.x = eatingBody.x + 170;
+		var eatingEyesAnimation1 = wrongEyes.animations.add('eatingEyesAnimation1');
+		eatingGroup.alpha = 0;
+		eatingGroup.x = game.world.centerX/2;	
 		
 
 		
@@ -512,7 +548,7 @@ var lizart = function(){
 				//
 				game.add.tween(fruitItem.scale).to({x:0,y:0},550,Phaser.Easing.Cubic.In,true)
 				
-				game.add.tween(fruitItem).to({x:idleGroup.x+200,y:idleEyes.y},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				game.add.tween(fruitItem).to({x:idleGroup.x+200,y:idleEyes_1.y},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					TweenMax.to(idleBody,0.5,{tint:fruitItem.color,onComplete:winLizar});	
 					sound.play("magic");
 				});
@@ -536,13 +572,10 @@ var lizart = function(){
 				}
 				else{
 					sound.play("wrong")
-					//idleEyes.alpha = 0;
-					//wrongIdleEyes.alpha = 1;
 					idleGroup.alpha = 0;
 					wrongGroup.alpha = 1;
 					wrongEyes.animations.play('wrongEyesAnimation', 24, false);
 					wrongBody.animations.play('wrongBodyAnimation', 24, false);
-					//wrongIdleEyes.animations.play('wrongEyesAnimation', 24, false);
 					TweenMax.to(wrongBody,1,{alpha:0,onComplete:endwrong});	
 				}	
 				canTakeFruit = false
