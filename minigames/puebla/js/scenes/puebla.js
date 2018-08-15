@@ -529,7 +529,7 @@ var puebla = function(){
         
         //ball.drawCircle(0,0,50)
         //ball.endFill()
-        game.physics.p2.enable(ball,true)
+        game.physics.p2.enable(ball,false)
         ball.body.clearShapes()
         ball.body.setCircle(25,0,0)
         ball.body.velocity.x = velX
