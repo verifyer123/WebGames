@@ -181,6 +181,19 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">back.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,240,64,480</rect>
+                <key>scale9Paddings</key>
+                <rect>32,240,64,480</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">bubblegum.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -273,6 +286,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">planet.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">smoke.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -296,6 +322,34 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">star0.png</key>
+            <key type="filename">star1.png</key>
+            <key type="filename">star2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">stars.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,129,129</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,129,129</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -326,6 +380,12 @@
             <filename>bubbles.png</filename>
             <filename>bubblesFront.png</filename>
             <filename>bubblegum.png</filename>
+            <filename>stars.png</filename>
+            <filename>back.png</filename>
+            <filename>star0.png</filename>
+            <filename>star1.png</filename>
+            <filename>star2.png</filename>
+            <filename>planet.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

@@ -1,8 +1,16 @@
 {"frames": [
 
 {
+	"filename": "back",
+	"frame": {"x":1,"y":1,"w":128,"h":960},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":960},
+	"sourceSize": {"w":128,"h":960}
+},
+{
 	"filename": "bubblegum",
-	"frame": {"x":543,"y":1,"w":255,"h":223},
+	"frame": {"x":389,"y":280,"w":255,"h":223},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":255,"h":223},
@@ -10,15 +18,15 @@
 },
 {
 	"filename": "bubbles",
-	"frame": {"x":1,"y":1,"w":540,"h":170},
+	"frame": {"x":131,"y":1,"w":540,"h":180},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":28,"w":540,"h":170},
-	"sourceSize": {"w":540,"h":200}
+	"spriteSourceSize": {"x":0,"y":28,"w":540,"h":180},
+	"sourceSize": {"w":540,"h":208}
 },
 {
 	"filename": "bubblesFront",
-	"frame": {"x":800,"y":1,"w":541,"h":95},
+	"frame": {"x":131,"y":183,"w":541,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":541,"h":95},
@@ -26,7 +34,7 @@
 },
 {
 	"filename": "card0",
-	"frame": {"x":800,"y":98,"w":269,"h":109},
+	"frame": {"x":389,"y":505,"w":269,"h":109},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":269,"h":109},
@@ -34,7 +42,7 @@
 },
 {
 	"filename": "card1",
-	"frame": {"x":1342,"y":146,"w":269,"h":108},
+	"frame": {"x":421,"y":727,"w":269,"h":108},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":269,"h":108},
@@ -42,7 +50,7 @@
 },
 {
 	"filename": "card2",
-	"frame": {"x":1071,"y":98,"w":269,"h":109},
+	"frame": {"x":369,"y":616,"w":269,"h":109},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":269,"h":109},
@@ -50,7 +58,7 @@
 },
 {
 	"filename": "display",
-	"frame": {"x":1343,"y":1,"w":288,"h":143},
+	"frame": {"x":131,"y":784,"w":288,"h":143},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":288,"h":143},
@@ -58,15 +66,23 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":1,"y":183,"w":140,"h":55},
+	"frame": {"x":421,"y":880,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
 	"sourceSize": {"w":140,"h":55}
 },
 {
+	"filename": "planet",
+	"frame": {"x":131,"y":280,"w":256,"h":256},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
+	"sourceSize": {"w":256,"h":256}
+},
+{
 	"filename": "smoke",
-	"frame": {"x":1613,"y":146,"w":100,"h":93},
+	"frame": {"x":588,"y":837,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -74,15 +90,47 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":310,"y":183,"w":64,"h":64},
+	"frame": {"x":640,"y":616,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
 	"sourceSize": {"w":64,"h":64}
 },
 {
+	"filename": "star0",
+	"frame": {"x":131,"y":929,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "star1",
+	"frame": {"x":673,"y":1,"w":25,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":5,"w":25,"h":24},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "star2",
+	"frame": {"x":165,"y":929,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32}
+},
+{
+	"filename": "stars",
+	"frame": {"x":131,"y":538,"w":236,"h":244},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":9,"w":236,"h":244},
+	"sourceSize": {"w":257,"h":257}
+},
+{
 	"filename": "xpcoins",
-	"frame": {"x":143,"y":183,"w":165,"h":41},
+	"frame": {"x":421,"y":837,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -93,8 +141,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1714,"h":255},
+	"size": {"w":705,"h":962},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:3a1920a92b6dd99b4080e73101be1d24:28ff5b897a31bcea5a430b6d22081ce3:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:280a5f60964343017c04db8a26a866c9:a21a09d4e784de00f6d515a618d010d2:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

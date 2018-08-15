@@ -104,12 +104,14 @@ var space = function(){
     var hand
     var boardGroup
     var capsulesGroup
+    var starsGroup
     var eagle
     var splashGroup
     var waves = []
     var timeAttack
     var gameTime
     var answer
+    var starsTile
     
     var WORDS = [
         ['Alberca',['Pool','Watermelon']],
@@ -306,11 +308,20 @@ var space = function(){
 
 	function createBackground(){
         
-        var background = sceneGroup.create(-2, -2, "back")
+        var background = sceneGroup.create(-2, -2, "atlas.space", "back")
         background.width = game.world.width + 2
         background.height = game.world.height + 2
         
-        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 250, "bubbles")
+        starsTile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.space", "stars")
+        sceneGroup.add(starsTile)
+        
+        createStarsGroup()
+        
+        var planet = sceneGroup.create(100, 100, "atlas.space", "planet")
+        planet.anchor.setTo(0.5)
+        planet.tint = 0xaaaaff
+        
+        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 240, "bubbles")
         pink.anchor.setTo(0, 1)
         pink.rise = 1.2
         sceneGroup.add(pink)
@@ -422,6 +433,25 @@ var space = function(){
                })
            })
         })
+    }
+    
+    function createStarsGroup(){
+        
+        starsGroup = game.add.group()
+        sceneGroup.add(starsGroup)
+        
+        for(var i = 0; i < 3; i++){
+            var particle = game.add.emitter(game.world.centerX, game.world.centerY, 20)
+            particle.makeParticles("atlas.space", "star" + i)
+            particle.gravity = 0
+            particle.setAlpha(0, 1, 1000, Phaser.Easing.Cubic.InOut)
+            particle.maxParticleSpeed.setTo(0, 0)
+            particle.minParticleSpeed.setTo(0, 0)
+            particle.width = game.world.width
+            particle.height = game.world.height
+            particle.start(false, 1200, 800, 0) 
+            starsGroup.add(particle)
+        }
     }
     
     function createQuestionBoard(){
@@ -580,7 +610,10 @@ var space = function(){
         
         if(lives > 0){
             game.add.tween(eagle).to({x: eagle.initX, y:eagle.initY}, 500, Phaser.Easing.Cubic.InOut, true)
-            game.time.events.add(1000, initGame)
+            game.add.tween(starsTile.tilePosition).to({x: starsTile.tilePosition.x - 100}, 1500, Phaser.Easing.Cubic.InOut, true).onComplete.add(initGame)
+            waves.forEach(function(obj){
+               game.add.tween(obj.tilePosition).to({x: obj.tilePosition.x - 400}, 1500, Phaser.Easing.Cubic.InOut, true)
+            })
         }
         capsulesGroup.forEach(function(cap){
             game.add.tween(cap).to({alpha: 0}, 800, Phaser.Easing.Cubic.InOut, true)
@@ -623,8 +656,6 @@ var space = function(){
             
             splashPink(splashGroup.children[i], 1000)
         }
-        
-        console.log(answer)
     }
     
     function selectText(){
