@@ -415,10 +415,22 @@ var puebla = function(){
         		lastLigth = ligthsGroup.children[i]
         	}
         }
+
+        if(playerSpine.y < game.world.height-300){
+        	playerSpine.y+=5
+        	if(playerSpine.y>=game.world.height-300){
+        		playerSpine.y=game.world.height-300
+        		playerSpine.setAnimationByName(0,"run",true)
+        	}
+        }
         
     }
 
     function kickBall(){
+    	if(lives<=0){
+    		return
+    	}
+
     	if(arrayCurrentBall.length==0){
     		playerSpine.setAnimationByName(0,"lose2",false)
             missPoint()
@@ -436,15 +448,21 @@ var puebla = function(){
         	sound.play("punch")
         	if( arrayCurrentBall[0].body.y > playerSpine.y - 200){
         		playerSpine.setAnimationByName(0,"kick",false)
+        		playerSpine.addAnimationByName(0,"run",true)
         	}
         	else{
         		playerSpine.setAnimationByName(0,"header",false)
-        		game.add.tween(playerSpine).to({y:playerSpine.y-150},200,Phaser.Easing.linear,true).onComplete.add(function(){
+        		var delta = playerSpine.y - arrayCurrentBall[0].body.y
+        		playerSpine.y=playerSpine.y -delta+150
+        		/*setTimeout(function () {
+        			playerSpine.y = game.world.height-300
+        		},200)*/
+        		/*game.add.tween(playerSpine).to({y:playerSpine.y-150},200,Phaser.Easing.linear,true).onComplete.add(function(){
         			game.add.tween(playerSpine).to({y:playerSpine.y+150},300,Phaser.Easing.linear,true)
-        		})
+        		})*/
         	}
 
-        	playerSpine.addAnimationByName(0,"run",true)
+        	
             var deltaX = Math.abs(arrayCurrentBall[0].body.x - player.x)
             arrayCurrentBall[0].body.velocity.x = -arrayCurrentBall[0].body.velocity.x*1.5
             arrayCurrentBall[0].hitted = true
