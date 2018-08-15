@@ -205,6 +205,7 @@ var lizart = function(){
 	var xpText;
 	var cursors;
 	var lives = 1;
+	var positionLizardX;
 	var coins = 0;
 	var bgm = null;
 	var colorSelect = null;
@@ -216,26 +217,17 @@ var lizart = function(){
 		"Purple",
 		"Red"
 	]
-	var hand
-	var coin
-	var globo;
-	var textGlobo;
-	var idleBody;
-	var idleEyes_1;
-	var idleEyes_2;
-	var wrongIdleEyes	
+	var hand, coin; 
+	var globo, textGlobo;
+	var idleBody, idleEyes_1, idleEyes_2;
+	var wrongIdleEyes, wrongEyes;	
 	var rightBody;
 	var rightEyes;	
 	var wrongBody;
-	var eatingBodys;
-	var eatingEyes_1;
-	var eatingEyes_2;
+	var eatingBodys, eatingEyes_1, eatingEyes_2;
     var tongue;
-	var wrongEyes;
 	var shadowLizar;
-	var good;
-	var wrong;
-	var stars;
+	var good, wrong, stars;
 	var fruits = new Array;
 	var canTakeFruit = true
 
@@ -560,40 +552,51 @@ var lizart = function(){
 			good = getRandomArbitrary(0,3);
 			colorSelect = colorsArray[fruits[indexNumber[good] ].id ];
 		}
-
 		
-		function downFruit(fruitItem){
-//			if(!canTakeFruit){
-//				return
-//			}
-		
+		function correctFruit(fruitItem){
 			
-			if(indexNumber[good] == fruitItem.id && canTakeFruit){
 				globo.destroy();
 				textGlobo.destroy();
-				idleGroup.alpha=0;
-            	eatingGroup.alpha=1;
+				if(idleGroup.x>fruitItem.x){
+					eatingGroup.scale.setTo(-1,1);
+					idleGroup.scale.setTo(-1,1);
+					rightGroupº.scale.setTo(-1,1);
+				}
 				canTakeFruit = false
-				rightBody.tint=fruitItem.color;
+				
 				hand.alpha=0;
 				for(var deactivate=0; deactivate<5; deactivate++){
 					fruits[deactivate].inputEnabled=false;
 				}
+				positionLizardX=idleGroup.x;
 				tutorial=false;
-				TweenMax.to(fruitItem,1,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
-				//
-				game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
-				eatingBodys.alpha=1;
-				eatingBodys.animations.play('eatingBodyAnimation', 24, false);
-				game.add.tween(fruitItem).to({x:eatingGroup.x+280,y:idleEyes_1.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
-					//TweenMax.to(eatingBodys,0.5,{tint:fruitItem.color,onComplete:winLizar});
-					winLizar();
-					eatingBodys.tint=fruitItem.color;
-					sound.play("magic");
-				});
-				
-			}else if(indexNumber[good] != fruitItem.id && !tutorial && canTakeFruit){
-				//wrongBody.animations.play('wrongBodyAnimation', 24, false);
+				eatingGroup.x=fruitItem.x-200;
+				idleGroup.alpha=0;
+				rightGroup.alpha=1;
+				game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.Cubic.In,true)
+				game.add.tween(rightGroup).to({x:fruitItem.x-200},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+					idleGroup.alpha=0;
+					rightGroup.alpha=0;
+					idleGroup.x=positionLizardX;
+            		eatingGroup.alpha=1;
+					rightBody.tint=fruitItem.color;
+					TweenMax.to(fruitItem,1,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
+					//
+					game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
+					eatingBodys.alpha=1;
+					//idleGroup.x=positionLizardX;
+					eatingBodys.animations.play('eatingBodyAnimation', 24, false);
+					game.add.tween(fruitItem).to({x:eatingGroup.x+280,y:idleEyes_1.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+						//TweenMax.to(eatingBodys,0.5,{tint:fruitItem.color,onComplete:winLizar});
+						winLizar();
+						eatingBodys.tint=fruitItem.color;
+						sound.play("magic");
+					});
+				})
+		}
+		
+		function wrongFruit(fruitItem){
+			//wrongBody.animations.play('wrongBodyAnimation', 24, false);
 				globo.destroy();
 				textGlobo.destroy();
 				//idleGroup.alpha = 0;
@@ -619,9 +622,20 @@ var lizart = function(){
 					TweenMax.to(wrongBody,1,{alpha:0,onComplete:endwrong});	
 				}	
 				canTakeFruit = false
+		}
+		
+		function downFruit(fruitItem){
+			
+			if(indexNumber[good] == fruitItem.id && canTakeFruit){
+				correctFruit(fruitItem);
+				
+			}else if(indexNumber[good] != fruitItem.id && !tutorial && canTakeFruit){
+				wrongFruit(fruitItem);
 			}
 			
 		}
+		
+		
 		
 
 		function endwrong(){
