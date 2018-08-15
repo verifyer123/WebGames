@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Applications/MAMP/htdocs/WebGames/minigames/burgerCrush/images/burguerCrush/texture_packer.tps</string>
+        <string>/Applications/MAMP/htdocs/WebGames/minigames/puebla/images/puebla/texture_packer.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -199,228 +199,43 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">aros.png</key>
-            <key type="filename">aros_especial.png</key>
-            <key type="filename">carne.png</key>
-            <key type="filename">carne_especial.png</key>
-            <key type="filename">lechuga.png</key>
-            <key type="filename">lechuga_especial.png</key>
-            <key type="filename">palomita.png</key>
-            <key type="filename">pan.png</key>
-            <key type="filename">pan_especial.png</key>
-            <key type="filename">queso.png</key>
-            <key type="filename">queso_especial.png</key>
-            <key type="filename">tomate.png</key>
-            <key type="filename">tomate_especial.png</key>
+            <key type="filename">balon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>18,18,37,37</rect>
+                <rect>11,11,21,21</rect>
                 <key>scale9Paddings</key>
-                <rect>18,18,37,37</rect>
+                <rect>11,11,21,21</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">aros_tablero.png</key>
-            <key type="filename">carne_tablero.png</key>
-            <key type="filename">queso_tablero.png</key>
-            <key type="filename">tomate_tablero.png</key>
+            <key type="filename">boton_off.png</key>
+            <key type="filename">boton_on.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>17,17,35,35</rect>
+                <rect>31,31,63,63</rect>
                 <key>scale9Paddings</key>
-                <rect>17,17,35,35</rect>
+                <rect>31,31,63,63</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">bandeja.png</key>
+            <key type="filename">cancha.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>23,32,47,65</rect>
+                <rect>128,64,257,129</rect>
                 <key>scale9Paddings</key>
-                <rect>23,32,47,65</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">barra.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,33,33</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,33,33</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">brillo1.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>26,26,53,51</rect>
-                <key>scale9Paddings</key>
-                <rect>26,26,53,51</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">brillo2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>47,46,93,91</rect>
-                <key>scale9Paddings</key>
-                <rect>47,46,93,91</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">burbuja.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>25,25,49,49</rect>
-                <key>scale9Paddings</key>
-                <rect>25,25,49,49</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente1_enojado.png</key>
-            <key type="filename">cliente1_feliz.png</key>
-            <key type="filename">cliente1_normal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>28,41,56,81</rect>
-                <key>scale9Paddings</key>
-                <rect>28,41,56,81</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente1_triste.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>28,41,57,81</rect>
-                <key>scale9Paddings</key>
-                <rect>28,41,57,81</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente2_enojado.png</key>
-            <key type="filename">cliente2_normal.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>28,39,57,79</rect>
-                <key>scale9Paddings</key>
-                <rect>28,39,57,79</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente2_feliz.png</key>
-            <key type="filename">cliente2_triste.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>28,39,56,79</rect>
-                <key>scale9Paddings</key>
-                <rect>28,39,56,79</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente3_enojado.png</key>
-            <key type="filename">cliente3_feliz.png</key>
-            <key type="filename">cliente3_normal.png</key>
-            <key type="filename">cliente3_triste.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,27,47,54</rect>
-                <key>scale9Paddings</key>
-                <rect>24,27,47,54</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente4_enojado.png</key>
-            <key type="filename">cliente4_feliz.png</key>
-            <key type="filename">cliente4_normal.png</key>
-            <key type="filename">cliente4_triste.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>33,25,65,51</rect>
-                <key>scale9Paddings</key>
-                <rect>33,25,65,51</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente5_feliz.png</key>
-            <key type="filename">cliente5_normal.png</key>
-            <key type="filename">cliente5_triste.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>36,36,71,72</rect>
-                <key>scale9Paddings</key>
-                <rect>36,36,71,72</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">cliente6_enojado.png</key>
-            <key type="filename">cliente6_feliz.png</key>
-            <key type="filename">cliente6_normal.png</key>
-            <key type="filename">cliente6_triste.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,35,63,71</rect>
-                <key>scale9Paddings</key>
-                <rect>32,35,63,71</rect>
+                <rect>128,64,257,129</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -437,69 +252,107 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">degradado.png</key>
+            <key type="filename">confetti1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>140,47,281,93</rect>
+                <rect>27,26,53,52</rect>
                 <key>scale9Paddings</key>
-                <rect>140,47,281,93</rect>
+                <rect>27,26,53,52</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">estrellas.png</key>
+            <key type="filename">confetti2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>31,30,62,61</rect>
+                <rect>26,30,52,59</rect>
                 <key>scale9Paddings</key>
-                <rect>31,30,62,61</rect>
+                <rect>26,30,52,59</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">explosion3.png</key>
+            <key type="filename">confetti3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>179,17,358,34</rect>
+                <rect>30,27,59,54</rect>
                 <key>scale9Paddings</key>
-                <rect>179,17,358,34</rect>
+                <rect>30,27,59,54</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">hamburguesa.png</key>
+            <key type="filename">confetti4.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>19,20,37,39</rect>
+                <rect>39,38,78,75</rect>
                 <key>scale9Paddings</key>
-                <rect>19,20,37,39</rect>
+                <rect>39,38,78,75</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">lechuga_tablero.png</key>
-            <key type="filename">pan_tablero.png</key>
+            <key type="filename">enfoque.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>18,17,35,35</rect>
+                <rect>21,21,41,41</rect>
                 <key>scale9Paddings</key>
-                <rect>18,17,35,35</rect>
+                <rect>21,21,41,41</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">enfoque_circulo.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>14,14,29,29</rect>
+                <key>scale9Paddings</key>
+                <rect>14,14,29,29</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">estadio.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>128,128,257,257</rect>
+                <key>scale9Paddings</key>
+                <rect>128,128,257,257</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">gool.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>110,24,219,47</rect>
+                <key>scale9Paddings</key>
+                <rect>110,24,219,47</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -516,88 +369,110 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">manos_cliente_1.png</key>
-            <key type="filename">manos_cliente_2.png</key>
+            <key type="filename">lineas_balon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>40,4,80,7</rect>
+                <rect>15,12,29,23</rect>
                 <key>scale9Paddings</key>
-                <rect>40,4,80,7</rect>
+                <rect>15,12,29,23</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">manos_cliente_3.png</key>
+            <key type="filename">logo_puebla.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>27,4,54,9</rect>
+                <rect>32,34,63,68</rect>
                 <key>scale9Paddings</key>
-                <rect>27,4,54,9</rect>
+                <rect>32,34,63,68</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">manos_cliente_4.png</key>
+            <key type="filename">luz1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>27,5,55,9</rect>
+                <rect>56,32,111,64</rect>
                 <key>scale9Paddings</key>
-                <rect>27,5,55,9</rect>
+                <rect>56,32,111,64</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">manos_cliente_5.png</key>
-            <key type="filename">manos_cliente_6.png</key>
+            <key type="filename">luz2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>25,3,49,7</rect>
+                <rect>56,35,111,69</rect>
                 <key>scale9Paddings</key>
-                <rect>25,3,49,7</rect>
+                <rect>56,35,111,69</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">mesas.png</key>
+            <key type="filename">particulas_balon.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>108,21,215,42</rect>
+                <rect>16,11,32,23</rect>
                 <key>scale9Paddings</key>
-                <rect>108,21,215,42</rect>
+                <rect>16,11,32,23</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">pared.png</key>
+            <key type="filename">perfect.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>21,42,41,84</rect>
+                <rect>48,8,97,17</rect>
                 <key>scale9Paddings</key>
-                <rect>21,42,41,84</rect>
+                <rect>48,8,97,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">pared_patron.png</key>
-            <key type="filename">selector_cambio.png</key>
+            <key type="filename">sombra_balon.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,2,22,4</rect>
+                <key>scale9Paddings</key>
+                <rect>11,2,22,4</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">sombra_jugador.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>27,2,53,5</rect>
+                <key>scale9Paddings</key>
+                <rect>27,2,53,5</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -608,58 +483,6 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">piso_patron.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>64,16,128,32</rect>
-                <key>scale9Paddings</key>
-                <rect>64,16,128,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">plancha.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>108,150,217,299</rect>
-                <key>scale9Paddings</key>
-                <rect>108,150,217,299</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">puerta.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>33,38,65,75</rect>
-                <key>scale9Paddings</key>
-                <rect>33,38,65,75</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">sombra.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>41,1,83,3</rect>
-                <key>scale9Paddings</key>
-                <rect>41,1,83,3</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -676,42 +499,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">tablero_hamburguesa.png</key>
+            <key type="filename">tablero_textura.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>130,23,259,46</rect>
+                <rect>256,64,513,129</rect>
                 <key>scale9Paddings</key>
-                <rect>130,23,259,46</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ticket.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>24,61,47,123</rect>
-                <key>scale9Paddings</key>
-                <rect>24,61,47,123</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">ticket_contenedor.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>43,8,87,15</rect>
-                <key>scale9Paddings</key>
-                <rect>43,8,87,15</rect>
+                <rect>256,64,513,129</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -735,75 +532,28 @@
             <filename>life_box.png</filename>
             <filename>star.png</filename>
             <filename>starPart.png</filename>
-            <filename>aros_especial.png</filename>
-            <filename>aros_tablero.png</filename>
-            <filename>aros.png</filename>
-            <filename>bandeja.png</filename>
-            <filename>barra.png</filename>
-            <filename>brillo1.png</filename>
-            <filename>brillo2.png</filename>
-            <filename>burbuja.png</filename>
-            <filename>carne_especial.png</filename>
-            <filename>carne_tablero.png</filename>
-            <filename>carne.png</filename>
-            <filename>estrellas.png</filename>
-            <filename>hamburguesa.png</filename>
-            <filename>lechuga_especial.png</filename>
-            <filename>lechuga_tablero.png</filename>
-            <filename>lechuga.png</filename>
-            <filename>pan_especial.png</filename>
-            <filename>pan_tablero.png</filename>
-            <filename>pan.png</filename>
-            <filename>plancha.png</filename>
-            <filename>queso_especial.png</filename>
-            <filename>queso_tablero.png</filename>
-            <filename>queso.png</filename>
-            <filename>selector_cambio.png</filename>
-            <filename>tablero_hamburguesa.png</filename>
-            <filename>tomate_especial.png</filename>
-            <filename>tomate_tablero.png</filename>
-            <filename>tomate.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>cliente1_enojado.png</filename>
-            <filename>cliente1_feliz.png</filename>
-            <filename>cliente1_normal.png</filename>
-            <filename>cliente1_triste.png</filename>
-            <filename>cliente2_enojado.png</filename>
-            <filename>cliente2_feliz.png</filename>
-            <filename>cliente2_normal.png</filename>
-            <filename>cliente2_triste.png</filename>
-            <filename>cliente3_enojado.png</filename>
-            <filename>cliente3_feliz.png</filename>
-            <filename>cliente3_normal.png</filename>
-            <filename>cliente3_triste.png</filename>
-            <filename>cliente4_enojado.png</filename>
-            <filename>cliente4_feliz.png</filename>
-            <filename>cliente4_normal.png</filename>
-            <filename>cliente4_triste.png</filename>
-            <filename>cliente5_feliz.png</filename>
-            <filename>cliente5_normal.png</filename>
-            <filename>cliente5_triste.png</filename>
-            <filename>cliente6_enojado.png</filename>
-            <filename>cliente6_feliz.png</filename>
-            <filename>cliente6_normal.png</filename>
-            <filename>cliente6_triste.png</filename>
-            <filename>manos_cliente_1.png</filename>
-            <filename>manos_cliente_2.png</filename>
-            <filename>manos_cliente_3.png</filename>
-            <filename>manos_cliente_4.png</filename>
-            <filename>manos_cliente_5.png</filename>
-            <filename>manos_cliente_6.png</filename>
-            <filename>mesas.png</filename>
-            <filename>pared_patron.png</filename>
-            <filename>pared.png</filename>
-            <filename>puerta.png</filename>
-            <filename>degradado.png</filename>
-            <filename>piso_patron.png</filename>
-            <filename>explosion3.png</filename>
-            <filename>ticket.png</filename>
-            <filename>sombra.png</filename>
-            <filename>ticket_contenedor.png</filename>
-            <filename>palomita.png</filename>
+            <filename>balon.png</filename>
+            <filename>boton_off.png</filename>
+            <filename>boton_on.png</filename>
+            <filename>cancha.png</filename>
+            <filename>confetti1.png</filename>
+            <filename>confetti2.png</filename>
+            <filename>confetti3.png</filename>
+            <filename>confetti4.png</filename>
+            <filename>enfoque_circulo.png</filename>
+            <filename>enfoque.png</filename>
+            <filename>estadio.png</filename>
+            <filename>gool.png</filename>
+            <filename>lineas_balon.png</filename>
+            <filename>logo_puebla.png</filename>
+            <filename>luz1.png</filename>
+            <filename>luz2.png</filename>
+            <filename>particulas_balon.png</filename>
+            <filename>perfect.png</filename>
+            <filename>sombra_balon.png</filename>
+            <filename>sombra_jugador.png</filename>
+            <filename>tablero_textura.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

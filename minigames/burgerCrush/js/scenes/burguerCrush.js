@@ -61,16 +61,16 @@ var burguerCrush = function(){
     var NUM_BURGUERS = 3
     var DELTA_BURGUER = 1.5
 
-    var INITIAL_TIME = 240
-    var DELTA_TIME = 20
-    var MIN_TIME = 60
+    var INITIAL_TIME = 210
+    var DELTA_TIME = 30
+    var MIN_TIME = 45
 
 
     var skinTable
 
     
     var gameIndex = 29
-    var gameId = 100015
+    var gameId = 71
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -90,7 +90,7 @@ var burguerCrush = function(){
     var inMove 
     var isFallingOjects
     var canMove
-    var typeCount
+    var typeCount, extraCount
 
     var tabInit, numberTexts
     var moveFoodGroup
@@ -115,10 +115,13 @@ var burguerCrush = function(){
     var timeText
     var stopTimer
 
-    var currentTime
+    var currentTime, initialTime
     var currentLevel
     var levelDisplay, levelText
     var peopleCurrentIndex
+    var peopleSad 
+    var palomitasArray
+
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -145,6 +148,7 @@ var burguerCrush = function(){
         isFallingOjects = false
         canMove = true
         typeCount = []
+        extraCount = []
 
         tabInit = {x:game.world.centerX - (2.5*SIZE_SLOT_TAB),y:game.world.height - 56}
         numberTexts = []
@@ -158,6 +162,7 @@ var burguerCrush = function(){
 
         for(var i=0 ; i < TYPES; i++){
         	typeCount.push(0)
+            extraCount.push(0)
         }
 
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
@@ -165,12 +170,15 @@ var burguerCrush = function(){
 
         currentBurguer = NUM_BURGUERS
         currentTime = INITIAL_TIME
+        initialTime = INITIAL_TIME
         integertBurguer = currentBurguer
         initialCurrentBurguer = integertBurguer
 
         stopTimer = false
         currentLevel = 1
         peopleCurrentIndex = 0
+        peopleSad = false
+        palomitasArray = []
     }
     
 
@@ -1054,11 +1062,11 @@ var burguerCrush = function(){
     					//console.log("d.length ",d.length)
     				}
     				var scale = 1
-    				console.log(totalScale)
+    				//console.log(totalScale)
     				if(totalScale > (716)/2){
     					scale = totalScale/(716/2)
     				}
-    				console.log(scale)
+    				//console.log(scale)
     				game.add.tween(exp.scale).to({x:scale,y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
     					game.add.tween(target).to({x:0,y:0},300,Phaser.Easing.linear,true)
     				})
@@ -1069,11 +1077,11 @@ var burguerCrush = function(){
 
         if(makeDestroyEffect){
         	isFallingOjects = false
-        	console.log("Do destroy delay")
+        	//console.log("Do destroy delay")
         	setTimeout(function() {doDestroy(destroyObjects)},600)
         }
         else{
-        	console.log("Do destroy _normal")
+        	//console.log("Do destroy _normal")
         	doDestroy(destroyObjects)
         }
 
@@ -1108,7 +1116,9 @@ var burguerCrush = function(){
     	addPoint(destroyObjects.length,{x:game.world.width-80,y:80})
 
     	for(var i =0; i < destroyObjects.length; i++){
-        	getMoveFood(destroyObjects[i].x,destroyObjects[i].y,destroyObjects[i].type)
+            if(!palomitasArray[destroyObjects[i].type].visible){
+        	   getMoveFood(destroyObjects[i].x,destroyObjects[i].y,destroyObjects[i].type)
+            }
             //destroyObjects[i].clear()
             destroyObjects[i].type = game.rnd.integerInRange(0,TYPES-1)
             //console.log(destroyObjects[i].type)
@@ -1184,9 +1194,10 @@ var burguerCrush = function(){
 
     	if(min !=0){
     		pointsToGive = Math.floor(min/POINTS_CREATE_BURGUER)
+            console.log(pointsToGive)
     		for(var i =0; i < TYPES; i++){
     			typeCount[i]-=pointsToGive*POINTS_CREATE_BURGUER
-    			numberTexts[i].setText(typeCount[i]+"/"+((integertBurguer-1)*POINTS_CREATE_BURGUER))
+    			//numberTexts[i].setText(typeCount[i]+"/"+((integertBurguer-1)*POINTS_CREATE_BURGUER))
     		}
     		if(pointsToGive<1){
     			pointsToGive = 1
@@ -1199,7 +1210,9 @@ var burguerCrush = function(){
 	    		target.tweenScale = game.add.tween(target.scale).to({x:0,y:0},100,Phaser.Easing.linear,true)
 	    		//addPoint(target.pointsToGive,{x:game.world.width-80,y:80})
 	    		sound.play("cashRegister")
-	    		for(var j = 0; j < pointsToGive; j++){
+                console.log("endmove burguer")
+	    		for(var j = 0; j < target.pointsToGive; j++){
+
 		    		var person
 		    		for(var i =0; i < peopleArray.length; i++){
 		    			if(person==null){
@@ -1213,8 +1226,12 @@ var burguerCrush = function(){
 			    			}
 			    		}
 		    		}
+                    console.log("getPerson")
 
 		    		integertBurguer--
+                    for(var i =0; i < TYPES; i++){
+                        numberTexts[i].setText(typeCount[i]+"/"+((integertBurguer)*POINTS_CREATE_BURGUER))
+                    }
 		    		textTickets.setText((initialCurrentBurguer-integertBurguer)+"/"+initialCurrentBurguer)
 
 		    		if(integertBurguer==0){
@@ -1228,6 +1245,8 @@ var burguerCrush = function(){
 	    			target.visible = false
 	    		})
 	    	})
+            
+
     	}
 
     }
@@ -1237,13 +1256,25 @@ var burguerCrush = function(){
     	integertBurguer = Math.floor(currentBurguer)
     	initialCurrentBurguer = integertBurguer
     	textTickets.setText("0/"+initialCurrentBurguer)
+
+
+
         for(var i =0; i < TYPES; i++){
+            extraCount[i] = 0
+            typeCount[i] = 0
             numberTexts[i].setText(typeCount[i]+"/"+(integertBurguer*POINTS_CREATE_BURGUER))
+            palomitasArray[i].visible = false
         }
-    	if(currentTime>MIN_TIME){
-    		currentTime-=DELTA_TIME
-    		updateTimer()
+
+    	if(initialTime>MIN_TIME){
+    		initialTime-=DELTA_TIME
     	}
+        else{
+            initialTime = MIN_TIME
+        }
+
+        currentTime = initialTime
+        updateTimer()
 
 
     	currentLevel++
@@ -1447,6 +1478,11 @@ var burguerCrush = function(){
         var bread = sceneGroup.create(foodTab.x - (SIZE_SLOT_TAB*2.5),foodTab.y-foodTab.height/2,"atlas.game","pan_tablero")
         bread.anchor.setTo(0.5)
 
+        var palomita = sceneGroup.create(bread.x,bread.y,"atlas.game","palomita")
+        palomita.anchor.setTo(0.5)
+        palomita.visible = false
+        palomitasArray.push(palomita)
+
         var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
@@ -1460,12 +1496,22 @@ var burguerCrush = function(){
         sceneGroup.add(text)
         numberTexts.push(text)
 
+        palomita = sceneGroup.create(bread.x,bread.y,"atlas.game","palomita")
+        palomita.anchor.setTo(0.5)
+        palomita.visible = false
+        palomitasArray.push(palomita)
+
         bread = sceneGroup.create(foodTab.x - (SIZE_SLOT_TAB*0.5),foodTab.y-foodTab.height/2,"atlas.game","queso_tablero")
         bread.anchor.setTo(0.5)
         text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
+
+        palomita = sceneGroup.create(bread.x,bread.y,"atlas.game","palomita")
+        palomita.anchor.setTo(0.5)
+        palomita.visible = false
+        palomitasArray.push(palomita)
 
        	bread = sceneGroup.create(foodTab.x + (SIZE_SLOT_TAB*0.5),foodTab.y-foodTab.height/2,"atlas.game","lechuga_tablero")
         bread.anchor.setTo(0.5)
@@ -1474,6 +1520,11 @@ var burguerCrush = function(){
         sceneGroup.add(text)
         numberTexts.push(text)
 
+        palomita = sceneGroup.create(bread.x,bread.y,"atlas.game","palomita")
+        palomita.anchor.setTo(0.5)
+        palomita.visible = false
+        palomitasArray.push(palomita)
+
         bread = sceneGroup.create(foodTab.x + (SIZE_SLOT_TAB*1.5),foodTab.y-foodTab.height/2,"atlas.game","tomate_tablero")
         bread.anchor.setTo(0.5)
         text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
@@ -1481,12 +1532,22 @@ var burguerCrush = function(){
         sceneGroup.add(text)
         numberTexts.push(text)
 
+        palomita = sceneGroup.create(bread.x,bread.y,"atlas.game","palomita")
+        palomita.anchor.setTo(0.5)
+        palomita.visible = false
+        palomitasArray.push(palomita)
+
         bread = sceneGroup.create(foodTab.x + (SIZE_SLOT_TAB*2.5),foodTab.y-foodTab.height/2,"atlas.game","aros_tablero")
         bread.anchor.setTo(0.5)
         text = new Phaser.Text(sceneGroup.game, bread.x+30, bread.y+30, "0/"+(integertBurguer*POINTS_CREATE_BURGUER), fontStyle)
         text.anchor.setTo(0.5)
         sceneGroup.add(text)
         numberTexts.push(text)
+
+        palomita = sceneGroup.create(bread.x,bread.y,"atlas.game","palomita")
+        palomita.anchor.setTo(0.5)
+        palomita.visible = false
+        palomitasArray.push(palomita)
 
         buble1 = sceneGroup.create(0,0,"atlas.game","selector_cambio")
         buble1.anchor.setTo(0.5)
@@ -1544,7 +1605,7 @@ var burguerCrush = function(){
         	})
         })
 
-
+        peopleSad = false
 
     }
 
@@ -1592,6 +1653,7 @@ var burguerCrush = function(){
     		target.timeWait = peopleCurrentIndex
     		target.timeSad = game.time.now + (currentTimeAngry/2)
     		target.emotion = 0
+            target.loadTexture("atlas.game","cliente"+target.keyNumber+"_normal")
     	})
 
     }
@@ -1630,7 +1692,13 @@ var burguerCrush = function(){
     			move.y = y
     			move.loadTexture("atlas.game",COLORS[type])
     			move.type = type
-    			typeCount[type]+=1
+                //evalTop(type)
+                if(!palomitasArray[type].visible){
+    			     typeCount[type]+=1
+                     extraCount[type]+=1
+                }
+                evalTop(type)
+
     			var tween = game.add.tween(move).to({x:tabInit.x + (type*SIZE_SLOT_TAB),y:tabInit.y},500,Phaser.Easing.linear,true)
     			tween.onComplete.add(finishTweenMove,this)
     			return
@@ -1640,15 +1708,33 @@ var burguerCrush = function(){
     	var move = moveFoodGroup.create(x,y,"atlas.game",COLORS[type])
     	move.anchor.setTo(0.5)
     	move.type = type
-        typeCount[type]+=1
+        //evalTop(type)
+        if(!palomitasArray[type].visible){
+            typeCount[type]+=1
+            extraCount[type]+=1
+        }
+        evalTop(type)
     	var tween = game.add.tween(move).to({x:tabInit.x + (type*SIZE_SLOT_TAB),y:tabInit.y},500,Phaser.Easing.linear,true)
     	tween.onComplete.add(finishTweenMove,this)
     	return
     }
 
+    function evalTop(type){
+        if(extraCount[type] == (initialCurrentBurguer*POINTS_CREATE_BURGUER)){
+            palomitasArray[type].visible = true
+
+        }
+        else if(extraCount[type]>(initialCurrentBurguer*POINTS_CREATE_BURGUER)){
+            extraCount[type] = (initialCurrentBurguer*POINTS_CREATE_BURGUER)
+            palomitasArray[type].visible = true
+        }
+
+        //console.log(COLORS[type],extraCount[type],typeCount[type],initialCurrentBurguer)
+    }
+
     function finishTweenMove(target){
     	target.visible = false
-    	//console.log(target.type)
+    	//console.log(target.type,typeCount[target.type])
     	numberTexts[target.type].setText(typeCount[target.type]+"/"+(integertBurguer*POINTS_CREATE_BURGUER))
     	brilloArray[target.type].visible = true
 
@@ -1852,6 +1938,14 @@ var burguerCrush = function(){
 
     function updateTimer(){
     	currentTime -= game.time.elapsed/1000
+
+        if(currentTime < initialTime/2 && !peopleSad){
+            peopleSad = true
+            for(var i =0; i < peopleArray.length; i++){
+                peopleArray[i].loadTexture("atlas.game","cliente"+peopleArray[i].keyNumber+"_triste")
+            }
+        }
+
     	//console.log(currentTime)
     	var timer = Math.round(currentTime)
     	var minutes = Math.floor(timer/60)
