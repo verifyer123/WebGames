@@ -228,6 +228,8 @@ var lizart = function(){
 	var rightEyes;	
 	var wrongBody;
 	var eatingBodys;
+	var eatingEyes_1;
+	var eatingEyes_2;
     var tongue;
 	var wrongEyes;
 	var shadowLizar;
@@ -432,13 +434,7 @@ var lizart = function(){
         
 		var idleGroup = game.add.group();
         
-        idleEyes_2 = idleGroup.create(0, 0, 'idleEyes_2');
-		idleEyes_2.y = idleBody.y - idleBody.height/10+50;
-		idleEyes_2.x = idleBody.x + idleBody.width/1.5;
-		var idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
-		idleEyes_2.animations.play('idleEyesAnimation2', 24, true);
-		idleEyes_2.alpha = 0;
-		idleGroup.x = game.world.centerX/2;
+
         
 		idleBody = idleGroup.create(0, 0, 'idleBody');
 		idleBody.y = game.height - idleBody.height * 1.10;
@@ -446,6 +442,15 @@ var lizart = function(){
 		var idleBodyAnimation = idleBody.animations.add('idleBodyAnimation');
 		idleBody.animations.play('idleBodyAnimation', 24, true);
 		idleBody.alpha = 0;
+		
+		idleEyes_2 = idleGroup.create(0, 0, 'idleEyes_2');
+		idleEyes_2.y = idleBody.y - idleBody.height/10+50;
+		idleEyes_2.x = idleBody.x + idleBody.width/1.5;
+		var idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
+		idleEyes_2.animations.play('idleEyesAnimation2', 24, true);
+		idleEyes_2.alpha = 0;
+		idleGroup.x = game.world.centerX/2;
+		idleBody.bringToTop();
 
 		idleEyes_1 = idleGroup.create(0, 0, 'idleEyes_1');
 		idleEyes_1.y = idleBody.y - idleBody.height/10+70;
@@ -482,27 +487,26 @@ var lizart = function(){
 		
 		var eatingGroup = game.add.group();
 		eatingBodys = eatingGroup.create(0, 0, 'eatingBody');
-		eatingBodys.y = game.height - eatingBodys.height * 1.10;
+		eatingBodys.y =game.height - wrongBody.height * 1.4;
 		eatingBodys.x = eatingBodys.x-20;
-		var idleBodyAnimation = eatingBodys.animations.add('eatingBodyAnimation');
-		eatingBodys.animations.play('eatingBodyAnimation', 24, true);
+		var eatingBodyAnimation = eatingBodys.animations.add('eatingBodyAnimation');
 		eatingBodys.alpha = 0;
+		eatingBodys.tint=0xb7b7b7;
 
-		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
+		eatingEyes_1 = eatingGroup.create(0, 0, 'eatingEyes1');
 		eatingEyes_1.y = eatingBodys.y - 20;
 		eatingEyes_1.x = eatingBodys.x + 170;
-		var eatingEyesAnimation1 = wrongEyes.animations.add('eatingEyesAnimation1');
-		eatingGroup.alpha = 0;
+		var eatingEyesAnimation1 = eatingEyes_1.animations.add('eatingEyesAnimation1');
+		eatingEyes_1.alpha = 0;
 		eatingGroup.x = game.world.centerX/2;	
 		
-		eatingEyes_1 = eatingGroup.create(0, 0, 'wrongEyes');
-		eatingEyes_1.y = eatingBodys.y - 20;
-		eatingEyes_1.x = eatingBodys.x + 170;
-		var eatingEyesAnimation1 = wrongEyes.animations.add('eatingEyesAnimation1');
-		eatingGroup.alpha = 0;
+		eatingEyes_2 = eatingGroup.create(0, 0, 'eatingEyes2');
+		eatingEyes_2.y = eatingBodys.y - 90;
+		eatingEyes_2.x = eatingBodys.x + 170;
+		eatingEyes_2.alpha=0
+		var eatingEyesAnimation2 = eatingEyes_2.animations.add('eatingEyesAnimation2');
 		eatingGroup.x = game.world.centerX/2;	
 		
-
 		
 		shadowLizar = sceneGroup.create(game.world.centerX/1.8,game.height-50,"shadowLizar");
 
@@ -562,11 +566,13 @@ var lizart = function(){
 //			if(!canTakeFruit){
 //				return
 //			}
-			globo.destroy();
-			textGlobo.destroy();
-			idleGroup.alpha=0;
-            eatingGroup.alpha=1;
+		
+			
 			if(indexNumber[good] == fruitItem.id && canTakeFruit){
+				globo.destroy();
+				textGlobo.destroy();
+				idleGroup.alpha=0;
+            	eatingGroup.alpha=1;
 				canTakeFruit = false
 				rightBody.tint=fruitItem.color;
 				hand.alpha=0;
@@ -576,16 +582,20 @@ var lizart = function(){
 				tutorial=false;
 				TweenMax.to(fruitItem,1,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
 				//
-				game.add.tween(fruitItem.scale).to({x:0,y:0},550,Phaser.Easing.Cubic.In,true)
-				
-				game.add.tween(fruitItem).to({x:idleGroup.x+200,y:idleEyes_1.y},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
-					TweenMax.to(idleBody,0.5,{tint:fruitItem.color,onComplete:winLizar});	
+				game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
+				eatingBodys.alpha=1;
+				eatingBodys.animations.play('eatingBodyAnimation', 24, false);
+				game.add.tween(fruitItem).to({x:eatingGroup.x+280,y:idleEyes_1.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+					//TweenMax.to(eatingBodys,0.5,{tint:fruitItem.color,onComplete:winLizar});
+					winLizar();
+					eatingBodys.tint=fruitItem.color;
 					sound.play("magic");
 				});
 				
 			}else if(indexNumber[good] != fruitItem.id && !tutorial && canTakeFruit){
 				//wrongBody.animations.play('wrongBodyAnimation', 24, false);
-
+				globo.destroy();
+				textGlobo.destroy();
 				//idleGroup.alpha = 0;
 				for(var deactivate=0; deactivate<5; deactivate++){
 					fruits[deactivate].inputEnabled=false;
@@ -625,6 +635,7 @@ var lizart = function(){
 
 		function winLizar(){
 			Coin(rightGroup,pointsBar,50)
+			eatingGroup.alpha=0;
 			wasCorrect=true;
 			game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
 			game.add.tween(rightGroup).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
@@ -639,7 +650,8 @@ var lizart = function(){
 		function newLizar(){
 			canTakeFruit = true
 			
-			
+			rightBody.tint=0xb7b7b7;
+			eatingBodys.tint=0xb7b7b7;
 			globo.destroy();
 			if(wasCorrect){
 				shadowLizar.x=-200;
