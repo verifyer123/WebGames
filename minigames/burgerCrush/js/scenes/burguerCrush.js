@@ -121,7 +121,8 @@ var burguerCrush = function(){
     var peopleCurrentIndex
     var peopleSad 
     var palomitasArray
-
+    var destroyAll
+    var ultimateEffect
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -165,8 +166,8 @@ var burguerCrush = function(){
             extraCount.push(0)
         }
 
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        var text = new Phaser.Text(game, -100,-100, "0", fontStyle)
+        /*var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text = new Phaser.Text(game, -100,-100, "0", fontStyle)*/
 
         currentBurguer = NUM_BURGUERS
         currentTime = INITIAL_TIME
@@ -179,6 +180,7 @@ var burguerCrush = function(){
         peopleCurrentIndex = 0
         peopleSad = false
         palomitasArray = []
+        destroyAll = false
     }
     
 
@@ -520,60 +522,79 @@ var burguerCrush = function(){
 
                 if(isFallingOjects){
                 	var destroyObjects = []
-
+                    destroyAll = false
                     for(var j=0; j < ARRAY_HEIGTH; j++){
                         for(var i =0; i< ARRAY_WIDTH; i++){
                         	if(destroyObjects.indexOf(gameArray[j][i]) !=-1){
                         		continue
                         	}
                             var eval = evaluateObject(i,j)
-                            if(eval.horizontal.length >=3){
+                            if(eval.horizontal.length>=5 || eval.vertical.length>=5){
+                                destroyAll = true
+                                break
+                            }
+                            else if(eval.horizontal.length>=3 && eval.vertical.length>=3){
                                 for(var i = 0; i < eval.horizontal.length; i++){
-                                	if(eval.horizontal.length>=4){
-					            		if(eval.horizontal[i].indexY == j && eval.horizontal[i].indexX ==i){
-					            			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
-					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
-					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
-					            		}
-					            		else{
-					            			destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-					            		}
-					            	}
-					            	else{
-                                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-                                    }
+                                    gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+                                    gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+                                    destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                                }
+
+                                for(var i = 0; i < eval.vertical.length; i++){
+                                    gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+                                    gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+                                    destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
                                 }
                             }
-                            if(eval.vertical.length >=3){
-                                for(var i = 0; i < eval.vertical.length; i++){
-                                	if(eval.horizontal.length>=4){
-					            		if(eval.vertical[i].indexY == j && eval.vertical[i].indexX ==i){
-					            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
-					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = true
-					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
-					            		}
-					            		else{
-					            			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-					            		}
-					            	}
-					            	else{
-                                    	destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                            else{
+                                if(eval.horizontal.length >=3){
+                                    for(var i = 0; i < eval.horizontal.length; i++){
+                                    	if(eval.horizontal.length>=4){
+    					            		if(eval.horizontal[i].indexY == j && eval.horizontal[i].indexX ==i){
+    					            			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+    					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+    					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+    					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
+    					            		}
+    					            		else{
+    					            			destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+    					            		}
+    					            	}
+    					            	else{
+                                        	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                                        }
+                                    }
+                                }
+                                if(eval.vertical.length >=3){
+                                    for(var i = 0; i < eval.vertical.length; i++){
+                                    	if(eval.horizontal.length>=4){
+    					            		if(eval.vertical[i].indexY == j && eval.vertical[i].indexX ==i){
+    					            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = true
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
+    					            		}
+    					            		else{
+    					            			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+    					            		}
+    					            	}
+    					            	else{
+                                        	destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                                        }
                                     }
                                 }
                             }
 
-                            if(destroyObjects.length != 0){
+                            if(destroyObjects.length != 0 || destroyAll){
                             	break
                             }
                         }
-                        if(destroyObjects.length != 0){
+                        if(destroyObjects.length != 0 || destroyAll){
                         	break
                         }
                     }
 
-                    if(destroyObjects.length == 0){
+                    if(destroyObjects.length == 0 && !destroyAll){
                     	inMove = false
                         selectedSlot = null
                         isFallingOjects = false
@@ -581,58 +602,81 @@ var burguerCrush = function(){
                         deployBurguer()
                         evalMoves()
                     }
+                    else if(destroyAll){
+                        makeDestroy(destroyObjects)
+                    }
                     else{
-
+                        
                     	for(var k =0; k < destroyObjects.length; k++){
                     		var eval = evaluateObject(destroyObjects[k].indexX,destroyObjects[k].indexY)
-                            if(eval.horizontal.length >=3){
+                            if(eval.horizontal.length>=5 || eval.vertical.length>=5){
+                                destroyAll = true
+                                break
+                            }
+                            else if(eval.horizontal.length>=3 && eval.vertical.length>=3){
                                 for(var i = 0; i < eval.horizontal.length; i++){
-                                	if(eval.horizontal.length>=4){
-					            		if(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object == destroyObjects[k]){
-					            			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
-					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
-					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
-					            		}
-					            		else{
-					            			if(destroyObjects.indexOf(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)==-1){
-		                                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-		                                    }
-					            		}
-					            	}
-					            	else{
-	                                	if(destroyObjects.indexOf(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)==-1){
-	                                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-	                                    }
-	                                }
+                                    gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+                                    gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+                                    destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                                }
+
+                                for(var i = 0; i < eval.vertical.length; i++){
+                                    gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+                                    gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+                                    destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
                                 }
                             }
+                            else{
+                                if(eval.horizontal.length >=3){
+                                    for(var i = 0; i < eval.horizontal.length; i++){
+                                    	if(eval.horizontal.length==4){
 
-                            if(eval.vertical.length >=3){
-                                for(var i = 0; i < eval.vertical.length; i++){
-                                	if(eval.horizontal.length>=4){
-					            		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == destroyObjects[k]){
-					            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
-					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
-					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
-					            		}
-					            		else{
-					            			if(destroyObjects.indexOf(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)==-1){
-		                                	    destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-		                                	}
-					            		}
-					            	}
-					            	else{
-	                                	if(destroyObjects.indexOf(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)==-1){
-	                                	    destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-	                                	}
-	                                }
+    					            		if(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object == destroyObjects[k] && !destroyObjects[k].special){
+    					            			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+    					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+    					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+    					            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
+    					            		}
+    					            		else{
+    					            			if(destroyObjects.indexOf(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)==-1){
+    		                                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+    		                                    }
+    					            		}
+    					            	}
+    					            	else{
+    	                                	if(destroyObjects.indexOf(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)==-1){
+    	                                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+    	                                    }
+    	                                }
+                                    }
+                                }
+
+                                if(eval.vertical.length >=3){
+                                    for(var i = 0; i < eval.vertical.length; i++){
+                                    	if(eval.horizontal.length==4){
+    					            		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == destroyObjects[k] && !destroyObjects[k].special){
+    					            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
+    					            		}
+    					            		else{
+    					            			if(destroyObjects.indexOf(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)==-1){
+    		                                	    destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+    		                                	}
+    					            		}
+    					            	}
+    					            	else{
+    	                                	if(destroyObjects.indexOf(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)==-1){
+    	                                	    destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+    	                                	}
+    	                                }
+                                    }
                                 }
                             }
                     	}
 
-                    	
+                    	//console.log("dsagdaj")
                         makeDestroy(destroyObjects)
                     }
                 }
@@ -907,87 +951,124 @@ var burguerCrush = function(){
         gameArray[objectChange.indexY][objectChange.indexX].type = objectChange.type
         //inMove = false
         var destroyObjects = []
-
+        destroyAll = false
         var eval = evaluateObject(selectedSlot.indexX,selectedSlot.indexY)
-        if(eval.horizontal.length >=3){
+        if(eval.horizontal.length>=5 || eval.vertical.length>=5){
+            destroyAll = true
+        }
+        else if(eval.horizontal.length>=3 && eval.vertical.length>=3){
             for(var i = 0; i < eval.horizontal.length; i++){
-            	if(eval.horizontal.length>=4){
-            		if(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object == selectedSlot){
-            			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
-            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
-            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
-            		}
-            		else{
-            			destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-            		}
-            	}
-            	else{
-                	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-                }
+                gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+                gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+                destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+            }
+
+            for(var i = 0; i < eval.vertical.length; i++){
+                gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+                gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+                destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
             }
         }
+        else{
+            if(eval.horizontal.length >=3){
+                for(var i = 0; i < eval.horizontal.length; i++){
+                	if(eval.horizontal.length==4){
+                		if(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object == selectedSlot && !selectedSlot.special){
+                			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+                			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+                			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
+                		}
+                		else{
+                			destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                		}
+                	}
+                   
+                	else{
+                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                    }
+                }
+            }
 
-        if(eval.vertical.length >=3){
-            for(var i = 0; i < eval.vertical.length; i++){
-            	if(eval.vertical.length>=4){
-            		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == selectedSlot){
-            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
-            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
-            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
-            		}
-            		else{
-            			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-            		}
-            	}
-            	else{
-                	destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+            if(eval.vertical.length >=3){
+                for(var i = 0; i < eval.vertical.length; i++){
+                	if(eval.vertical.length==4){
+                		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == selectedSlot && !selectedSlot.special){
+                			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+                			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+                			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
+                		}
+                		else{
+                			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                		}
+                	}
+                	else{
+                    	destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                    }
                 }
             }
         }
 
         eval = evaluateObject(objectChange.indexX,objectChange.indexY)
-        if(eval.horizontal.length >=3){
+        if(eval.horizontal.length>=5 || eval.vertical.length>=5){
+            destroyAll = true
+        }
+        else if(eval.horizontal.length>=3 && eval.vertical.length>=3){
             for(var i = 0; i < eval.horizontal.length; i++){
-            	if(eval.horizontal.length>=4){
-            		if(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object == objectChange){
-            			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
-            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
-            			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
-            		}
-            		else{
-            			destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-            		}
-            	}
-            	else{
-                	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
-                }
+                gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+                gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+                destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
             }
-        }
-        if(eval.vertical.length >=3){
+
             for(var i = 0; i < eval.vertical.length; i++){
-            	if(eval.vertical.length>=4){
-            		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == objectChange){
-            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
-            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
-            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
-            		}
-            		else{
-            			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
-            		}
-            	}
-            	else{
-                	destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+                gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+                destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+            }
+        }
+        else{
+            if(eval.horizontal.length >=3){
+                for(var i = 0; i < eval.horizontal.length; i++){
+                	if(eval.horizontal.length>=4){
+                		if(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object == objectChange &&  !objectChange.special){
+                			specialArray.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
+                			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
+                			gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
+                		}
+                		else{
+                			destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                		}
+                	}
+                	else{
+                    	destroyObjects.push(gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object)
+                    }
+                }
+            }
+            if(eval.vertical.length >=3){
+                for(var i = 0; i < eval.vertical.length; i++){
+                	if(eval.vertical.length>=4){
+                		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == objectChange && !objectChange.special){
+                			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
+                			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
+                			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
+                		}
+                		else{
+                			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                		}
+                	}
+                	else{
+                    	destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
+                    }
                 }
             }
         }
 
 
 
-        if(destroyObjects.length == 0){
+        if(destroyObjects.length == 0 && !destroyAll){
             
             game.add.tween(selectedSlot).to({x:objectChange.x,y:objectChange.y},TIME_MOVE_TWEEN,Phaser.Easing.linear,true)
             var tween = game.add.tween(objectChange).to({x:selectedSlot.x,y:selectedSlot.y},TIME_MOVE_TWEEN,Phaser.Easing.linear,true)
@@ -1023,56 +1104,95 @@ var burguerCrush = function(){
 
     	var destroyObjects = []
     	var makeDestroyEffect = false
-    	for(var k =0; k < d.length; k++){
-    		if(destroyObjects.indexOf(d[k])==-1 && d[k]!=null){
-    			destroyObjects.push(d[k])
-    			
-    			if(d[k].special){
-    				//console.log(d[k])
-    				makeDestroyEffect = true
-    				d[k].shine.visible = false
-    				d[k].special = false
-    				var index = specialArray.indexOf(d[k])
-    				specialArray.splice(index,1)
-    				var exp = getExplosion()
-    				exp.x = d[k].x
-    				exp.y = d[k].y
-    				var totalScale
-    				if(d[k].specialFromHorizontal){
-    					exp.angle = 0
-    					totalScale = Math.abs(d[k].x-game.world.centerX-54) + game.world.centerX-54
-    					//console.log("destroy line vertical ",d[k].indexY)
-    					var j = d[k].indexY
-    					//console.log("d.length ",d.length)
-    					for(var i=0; i < ARRAY_WIDTH; i++){
-    						d.push(gameArray[j][i].object)
-    					}
-    					//console.log("d.length ",d.length)
+        if(!destroyAll){
+        	for(var k =0; k < d.length; k++){
+        		if(destroyObjects.indexOf(d[k])==-1 && d[k]!=null){
+        			destroyObjects.push(d[k])
+        			
+        			if(d[k].special){
+        				//console.log(d[k])
+        				makeDestroyEffect = true
+        				d[k].shine.visible = false
+        				d[k].special = false
+        				var index = specialArray.indexOf(d[k])
+        				specialArray.splice(index,1)
+        				var exp = getExplosion()
+        				exp.x = d[k].x
+        				exp.y = d[k].y
+        				var totalScale
+        				if(d[k].specialFromHorizontal){
+        					exp.angle = 0
+        					totalScale = Math.abs(d[k].x-game.world.centerX-54) + game.world.centerX-54
+        					//console.log("destroy line vertical ",d[k].indexY)
+        					var j = d[k].indexY
+        					//console.log("d.length ",d.length)
+        					for(var i=0; i < ARRAY_WIDTH; i++){
+        						d.push(gameArray[j][i].object)
+        					}
+        					//console.log("d.length ",d.length)
 
-    				}
-    				else{
-    					exp.angle = 90
-    					totalScale = Math.abs(d[k].y-game.world.height-422) + game.world.height-422
-    					//console.log("destroy line vertical ",d[k].indexX)
-    					var i = d[k].indexX
-    					//console.log("d.length ",d.length)
-    					for(var j=0; j < ARRAY_HEIGTH; j++){
-    						d.push(gameArray[j][i].object)
-    					}
-    					//console.log("d.length ",d.length)
-    				}
-    				var scale = 1
-    				//console.log(totalScale)
-    				if(totalScale > (716)/2){
-    					scale = totalScale/(716/2)
-    				}
-    				//console.log(scale)
-    				game.add.tween(exp.scale).to({x:scale,y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
-    					game.add.tween(target).to({x:0,y:0},300,Phaser.Easing.linear,true)
-    				})
-    			}
-    		}
-    	}
+        				}
+        				else{
+        					exp.angle = 90
+        					totalScale = Math.abs(d[k].y-game.world.height-422) + game.world.height-422
+        					//console.log("destroy line vertical ",d[k].indexX)
+        					var i = d[k].indexX
+        					//console.log("d.length ",d.length)
+        					for(var j=0; j < ARRAY_HEIGTH; j++){
+        						d.push(gameArray[j][i].object)
+        					}
+        					//console.log("d.length ",d.length)
+        				}
+        				var scale = 1
+        				//console.log(totalScale)
+        				if(totalScale > (716)/2){
+        					scale = totalScale/(716/2)
+        				}
+        				//console.log(scale)
+        				game.add.tween(exp.scale).to({x:scale,y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
+        					game.add.tween(target).to({x:0,y:0},300,Phaser.Easing.linear,true)
+        				})
+        			}
+        		}
+        	}
+        }
+        else{
+
+
+            makeDestroyEffect = true
+
+
+            /*var exp = getExplosion()
+            exp.x = game.world.centerX-270+217
+            exp.y = game.world.height-122-300
+            exp.angle = 0
+            game.add.tween(exp.scale).to({x:1,y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
+                game.add.tween(target).to({x:0,y:0},300,Phaser.Easing.linear,true)
+            })
+            exp = getExplosion()
+            exp.x = game.world.centerX-270+217
+            exp.y = game.world.height-122-300
+            exp.angle = 90
+            game.add.tween(exp.scale).to({x:1,y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
+                game.add.tween(target).to({x:0,y:0},300,Phaser.Easing.linear,true)
+            })*/
+
+            ultimateEffect.scale.setTo(1,0)
+            game.add.tween(ultimateEffect.scale).to({y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
+                game.add.tween(target).to({y:0},300,Phaser.Easing.linear,true).onComplete.add(function(){
+                    ultimateEffect.scale.setTo(1,0)
+                    ultimateEffect.visible = false
+                })
+            })
+
+            
+
+            for(var j=0; j < ARRAY_HEIGTH; j++){
+                for(var i=0; i < ARRAY_WIDTH; i++){
+                    destroyObjects.push(gameArray[j][i].object)
+                }
+            }
+        }
         
 
         if(makeDestroyEffect){
@@ -1106,7 +1226,7 @@ var burguerCrush = function(){
     }
 
     function doDestroy(destroyObjects){
-
+        console.log("sadg")
     	for(var i =0; i< explosionGroup.length; i++){
     		if(explosionGroup.children[i].visible){
     			explosionGroup.children[i].visible = false
@@ -1130,6 +1250,10 @@ var burguerCrush = function(){
             if(destroyObjects[i].special){
             	destroyObjects[i].special = false
             	destroyObjects[i].shine.visible = false
+                var ind = specialArray.indexOf(destroyObjects[i])
+                if(ind !=-1){
+                    specialArray.splice(ind,1)
+                }
             }
             //destroyObjects[i].y -= SLOT_SIZE*ARRAY_HEIGTH
             gameArray[destroyObjects[i].indexY][destroyObjects[i].indexX].type = -1
@@ -1210,7 +1334,7 @@ var burguerCrush = function(){
 	    		target.tweenScale = game.add.tween(target.scale).to({x:0,y:0},100,Phaser.Easing.linear,true)
 	    		//addPoint(target.pointsToGive,{x:game.world.width-80,y:80})
 	    		sound.play("cashRegister")
-                console.log("endmove burguer")
+                
 	    		for(var j = 0; j < target.pointsToGive; j++){
 
 		    		var person
@@ -1226,7 +1350,7 @@ var burguerCrush = function(){
 			    			}
 			    		}
 		    		}
-                    console.log("getPerson")
+                    
 
 		    		integertBurguer--
                     for(var i =0; i < TYPES; i++){
@@ -1274,6 +1398,7 @@ var burguerCrush = function(){
         }
 
         currentTime = initialTime
+
         updateTimer()
 
 
@@ -1456,6 +1581,11 @@ var burguerCrush = function(){
         explosionGroup = game.add.group()
         sceneGroup.add(explosionGroup)
         explosionGroup.mask = slotMask
+
+        ultimateEffect = sceneGroup.create(planchaS.x + planchaS.width/2, planchaS.y - planchaS.height/2, "atlas.game","rayo3")
+        ultimateEffect.anchor.setTo(0.5)
+        ultimateEffect.scale.setTo(0)
+        ultimateEffect.visible = false
 
         slotsGroup = game.add.group()
         sceneGroup.add(slotsGroup)
@@ -1651,9 +1781,14 @@ var burguerCrush = function(){
     		target.isActive = true
     		currentTimeAngry-=DELTA_ANGRY
     		target.timeWait = peopleCurrentIndex
-    		target.timeSad = game.time.now + (currentTimeAngry/2)
+    		//target.timeSad = game.time.now + (currentTimeAngry/2)
     		target.emotion = 0
-            target.loadTexture("atlas.game","cliente"+target.keyNumber+"_normal")
+            if(!peopleSad){
+                target.loadTexture("atlas.game","cliente"+target.keyNumber+"_normal")
+            }
+            else{
+                target.loadTexture("atlas.game","cliente"+target.keyNumber+"_triste")
+            }
     	})
 
     }
@@ -1736,13 +1871,14 @@ var burguerCrush = function(){
     	target.visible = false
     	//console.log(target.type,typeCount[target.type])
     	numberTexts[target.type].setText(typeCount[target.type]+"/"+(integertBurguer*POINTS_CREATE_BURGUER))
-    	brilloArray[target.type].visible = true
+        if(!brilloArray[target.type].visible){
+        	brilloArray[target.type].visible = true
 
-    	brilloArray[target.type].timeWait = game.time.now + BRILLO_TIME
-    	//if(brilloArray[target.type].tween==null){
-    		brilloArray[target.type].tween = game.add.tween(brilloArray[target.type].scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+        	brilloArray[target.type].timeWait = game.time.now + BRILLO_TIME
+        	//if(brilloArray[target.type].tween==null){
+        	brilloArray[target.type].tween = game.add.tween(brilloArray[target.type].scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
     		//brilloArray[target.type].tween.onComplete.add()
-    	//}
+    	}
     }
 
 
@@ -1957,6 +2093,9 @@ var burguerCrush = function(){
     	
 
     	if(minutes <=-1){
+            for(var i =0; i < peopleArray.length; i++){
+                peopleArray[i].loadTexture("atlas.game","cliente"+peopleArray[i].keyNumber+"_enojado")
+            }
     		stopGame()
     	}
     	else{
