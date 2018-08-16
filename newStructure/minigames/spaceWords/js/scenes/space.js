@@ -321,12 +321,24 @@ var space = function(){
         planet.anchor.setTo(0.5)
         planet.tint = 0xaaaaff
         
-        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 240, "bubbles")
-        pink.anchor.setTo(0, 1)
-        pink.rise = 1.2
-        sceneGroup.add(pink)
-        pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
-        waves.push(pink)
+//        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 240, "bubbles")
+//        pink.anchor.setTo(0, 1)
+//        pink.rise = 1.2
+//        sceneGroup.add(pink)
+//        pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+//        waves.push(pink)
+        
+        var pivotX = 0
+        
+        while(pivotX < game.world.width){
+            
+            var pink = sceneGroup.create(pivotX, game.world.height, "atlas.space", 'bubbles')
+            pink.anchor.setTo(0, 1)
+            pivotX += pink.width
+            pink.rise = 1.2
+            pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+            waves.push(pink)
+        }
     }
 
 	function update(){
@@ -516,13 +528,17 @@ var space = function(){
             pivot += 0.8
         }
         
-        var pinkFront = game.add.tileSprite(0, game.world.height, game.world.width, 100, "atlas.space", "bubblesFront")
-        pinkFront.anchor.setTo(0, 1)
-        pinkFront.rise = 0.8
-        sceneGroup.add(pinkFront)
+        var pivotX = 0
         
-        pinkFront.wave = game.add.tween(pinkFront.scale).to( {y:0.8}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
-        waves.push(pinkFront)
+        while(pivotX < game.world.width){
+            
+            var pink = sceneGroup.create(pivotX, game.world.height + 10, "atlas.space", 'bubblesFront')
+            pink.anchor.setTo(0, 1)
+            pivotX += pink.width
+            pink.rise = 0.8
+            pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+            waves.push(pink)
+        }
     }
     
     function changeImage(index,group){
@@ -610,10 +626,7 @@ var space = function(){
         
         if(lives > 0){
             game.add.tween(eagle).to({x: eagle.initX, y:eagle.initY}, 500, Phaser.Easing.Cubic.InOut, true)
-            game.add.tween(starsTile.tilePosition).to({x: starsTile.tilePosition.x - 100}, 1500, Phaser.Easing.Cubic.InOut, true).onComplete.add(initGame)
-            waves.forEach(function(obj){
-               game.add.tween(obj.tilePosition).to({x: obj.tilePosition.x - 400}, 1500, Phaser.Easing.Cubic.InOut, true)
-            })
+            game.time.events.add(1500, initGame)
         }
         capsulesGroup.forEach(function(cap){
             game.add.tween(cap).to({alpha: 0}, 800, Phaser.Easing.Cubic.InOut, true)
