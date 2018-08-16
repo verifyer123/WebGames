@@ -523,6 +523,7 @@ var burguerCrush = function(){
                 if(isFallingOjects){
                 	var destroyObjects = []
                     destroyAll = false
+                    var destroyCombo = false
                     for(var j=0; j < ARRAY_HEIGTH; j++){
                         for(var i =0; i< ARRAY_WIDTH; i++){
                         	if(destroyObjects.indexOf(gameArray[j][i]) !=-1){
@@ -534,6 +535,7 @@ var burguerCrush = function(){
                                 break
                             }
                             else if(eval.horizontal.length>=3 && eval.vertical.length>=3){
+                                destroyCombo = true
                                 for(var i = 0; i < eval.horizontal.length; i++){
                                     gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.special = true
                                     gameArray[eval.horizontal[i].y][eval.horizontal[i].x].object.specialFromHorizontal = true
@@ -545,6 +547,8 @@ var burguerCrush = function(){
                                     gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
                                     destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
                                 }
+                                console.log("Destroy combo",eval)
+
                             }
                             else{
                                 if(eval.horizontal.length >=3){
@@ -567,12 +571,12 @@ var burguerCrush = function(){
                                 }
                                 if(eval.vertical.length >=3){
                                     for(var i = 0; i < eval.vertical.length; i++){
-                                    	if(eval.horizontal.length>=4){
+                                    	if(eval.vertical.length>=4){
     					            		if(eval.vertical[i].indexY == j && eval.vertical[i].indexX ==i){
     					            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
     					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
     					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = true
-    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.horizontal[i].y][eval.horizontal[i].x].type]+"_especial")
+    					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.image.loadTexture("atlas.game",COLORS[gameArray[eval.vertical[i].y][eval.vertical[i].x].type]+"_especial")
     					            		}
     					            		else{
     					            			destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
@@ -585,16 +589,16 @@ var burguerCrush = function(){
                                 }
                             }
 
-                            if(destroyObjects.length != 0 || destroyAll){
+                            if(destroyObjects.length != 0 || destroyAll || destroyCombo){
                             	break
                             }
                         }
-                        if(destroyObjects.length != 0 || destroyAll){
+                        if(destroyObjects.length != 0 || destroyAll || destroyCombo){
                         	break
                         }
                     }
 
-                    if(destroyObjects.length == 0 && !destroyAll){
+                    if(destroyObjects.length == 0 && !destroyAll && !destroyCombo){
                     	inMove = false
                         selectedSlot = null
                         isFallingOjects = false
@@ -605,9 +609,13 @@ var burguerCrush = function(){
                     else if(destroyAll){
                         makeDestroy(destroyObjects)
                     }
+                    else if(destroyCombo){
+                        makeDestroy(destroyObjects)
+                    }
                     else{
-                        
+                        destroyCombo = false
                     	for(var k =0; k < destroyObjects.length; k++){
+
                     		var eval = evaluateObject(destroyObjects[k].indexX,destroyObjects[k].indexY)
                             if(eval.horizontal.length>=5 || eval.vertical.length>=5){
                                 destroyAll = true
@@ -625,6 +633,8 @@ var burguerCrush = function(){
                                     gameArray[eval.vertical[i].y][eval.vertical[i].x].object.specialFromHorizontal = false
                                     destroyObjects.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
                                 }
+                                destroyCombo = true
+                                break
                             }
                             else{
                                 if(eval.horizontal.length >=3){
@@ -653,7 +663,7 @@ var burguerCrush = function(){
 
                                 if(eval.vertical.length >=3){
                                     for(var i = 0; i < eval.vertical.length; i++){
-                                    	if(eval.horizontal.length==4){
+                                    	if(eval.vertical.length==4){
     					            		if(gameArray[eval.vertical[i].y][eval.vertical[i].x].object == destroyObjects[k] && !destroyObjects[k].special){
     					            			specialArray.push(gameArray[eval.vertical[i].y][eval.vertical[i].x].object)
     					            			gameArray[eval.vertical[i].y][eval.vertical[i].x].object.special = true
@@ -673,6 +683,9 @@ var burguerCrush = function(){
     	                                }
                                     }
                                 }
+                            }
+                            if(destroyCombo || destroyAll){
+                                break
                             }
                     	}
 
@@ -1178,6 +1191,7 @@ var burguerCrush = function(){
             })*/
 
             ultimateEffect.scale.setTo(1,0)
+            ultimateEffect.visible = true
             game.add.tween(ultimateEffect.scale).to({y:1},300,Phaser.Easing.linear,true).onComplete.add(function(target){
                 game.add.tween(target).to({y:0},300,Phaser.Easing.linear,true).onComplete.add(function(){
                     ultimateEffect.scale.setTo(1,0)
@@ -1226,7 +1240,7 @@ var burguerCrush = function(){
     }
 
     function doDestroy(destroyObjects){
-        console.log("sadg")
+        
     	for(var i =0; i< explosionGroup.length; i++){
     		if(explosionGroup.children[i].visible){
     			explosionGroup.children[i].visible = false
@@ -1361,8 +1375,9 @@ var burguerCrush = function(){
 		    		if(integertBurguer==0){
 		    			setRound()
 		    		}
-
-		    		dissapearPerson(person,true)
+                    if(person!=null){
+		    		    dissapearPerson(person,true)
+                    }
 		    	}
 
 	    		target.tweenScale.onComplete.add(function(target){
@@ -1380,7 +1395,7 @@ var burguerCrush = function(){
     	integertBurguer = Math.floor(currentBurguer)
     	initialCurrentBurguer = integertBurguer
     	textTickets.setText("0/"+initialCurrentBurguer)
-
+        peopleSad = false
 
 
         for(var i =0; i < TYPES; i++){
@@ -1747,7 +1762,7 @@ var burguerCrush = function(){
     		person.loadTexture("atlas.game","cliente"+person.keyNumber+"_feliz")
     	}
     	else{
-    		person.loadTexture("atlas.game","cliente"+person.keyNumber+"_enojado")
+    		person.loadTexture("atlas.game","cliente"+person.keyNumber+"enojado")
     		missPoint()
     	}
 

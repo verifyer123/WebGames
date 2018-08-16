@@ -650,6 +650,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">rayo3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>103,199,207,398</rect>
+                <key>scale9Paddings</key>
+                <rect>103,199,207,398</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">sombra.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -804,6 +817,7 @@
             <filename>sombra.png</filename>
             <filename>ticket_contenedor.png</filename>
             <filename>palomita.png</filename>
+            <filename>rayo3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
