@@ -582,7 +582,7 @@ var drzombie = function(){
 	}
 
 	function bringToTopTrash(obj){
-		game.world.bringToTop(obj);  
+		sceneGroup.bringToTop(obj);  
 	}
 
 	function deleteTrash(obj){           
