@@ -36,8 +36,8 @@ var hack = function(){
 
         ],
         images: [
-        	/*{   name:"dragobject",
-				file: "images/hack/dragobject.png"}*/
+        	{   name:"tutorial_image",
+				file: "images/hack/tutorial_image.png"}
 		],
 		sounds: [
             {	name: "magic",
@@ -65,28 +65,47 @@ var hack = function(){
 			{	name: "flesh",
 				file: soundsPath + "flesh.mp3"},
 			{	name: "combo",
-				file: soundsPath + "combo.mp3"},
+				file: soundsPath + "rightChoice.mp3"},
 			{	name: "flipCard",
 				file: soundsPath + "flipCard.mp3"},
 			{	name: "explode",
 				file: soundsPath + "explode.mp3"},
 			{	name: "punch",
 				file: soundsPath + "punch3.mp3"},
-			
+            {	name: "medievalSong",
+				file: soundsPath + "songs/upbeat_casual_8.mp3"},
 		],
+        spines:[
+			{
+				name:"topo",
+				file:"images/spines/front.json"
+			},
+            {
+				name:"topo_side",
+				file:"images/spines/side.json"
+			}
+		],
+        spritesheets: [
+            {   name: "coin",
+                file: "images/spines/coin.png",
+                width: 122,
+                height: 123,
+                frames: 12
+            }
+        ],
     }
-
+       
     var INITIAL_LIVES = 3
     var lives = null
 	var sceneGroup = null
     var gameActive
 	var buttonsGroup,usedButtons
+    var particleCorrect, particleWrong
 	var pivotDrag
 	var pivotButtons
 	var directionList, arrowsList
 	var buttonCont
 	var lastButton
-	var particlesGroup, particlesUsed
 	var lastTile, lastNumber
 	var piecesGroup
     var gameIndex = 27
@@ -102,6 +121,7 @@ var hack = function(){
 	var machineGroup
 	var background
 	var badTopo
+    var coin
 	
 
 	function loadSounds(){
@@ -163,56 +183,30 @@ var hack = function(){
         }
     } 
     
-    function addNumberPart(obj,number,isScore){
-        
-        var pointsText = lookParticle('textPart')
-		var pos = -100
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y
-            pointsText.anchor.setTo(0.5,0.5)
-            pointsText.setText(number)
-            pointsText.scale.setTo(1,1)
-
-            var offsetY = -100
-
-            pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-            
-            deactivateParticle(pointsText,800)
-            if(isScore){
-                
-                pointsText.scale.setTo(0.7,0.7)
-                var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
-                tweenScale.onComplete.add(function(){
-                    game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
-                })
-
-                offsetY = 100
-				pos = 100
-            }
-            
-            game.add.tween(pointsText).to({y:pointsText.y + pos},800,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
-        }
-        
-    }
-    
     function missPoint(){
         
 		if(!gameActive){
 			return
 		}
+        
+        particleWrong.x = yogotarGroup.centerX 
+        particleWrong.y = yogotarGroup.centerY
+        particleWrong.start(true, 1200, null, 10)
 
-		yogotarGroup.anim.setAnimationByName(0,"HIT",true)
-		//yogotarGroup.anim.addAnimationByName(0,"IDLE",true)
-		badTopo.anim.setAnimationByName(0,"HIT",true)
-		//badTopo.anim.addAnimationByName(0,"IDLE",true)
+		yogotarGroup.anim.setAnimationByName(0,"hit",true)
+		yogotarGroup.side.setAnimationByName(0,"hit",true)
+		
+		badTopo.anim.setAnimationByName(0,"hit",true)
+		badTopo.side.setAnimationByName(0,"hit",true)
+		//badTopo.side.setAnimationByName(0,"hit",true)
+		
 		gameActive = false
 		setTimeout(function(){
 			gameActive = true
-			yogotarGroup.anim.setAnimationByName(0,"IDLE",true)
-			badTopo.anim.setAnimationByName(0,"IDLE",true)
+			yogotarGroup.anim.setAnimationByName(0,"idle",true)
+			yogotarGroup.side.setAnimationByName(0,"idle",true)
+			badTopo.anim.setAnimationByName(0,"idle",true)
+			badTopo.side.setAnimationByName(0,"idle",true)
 			if(badTopo.ready){
 				addBadTopo()
 			}
@@ -220,8 +214,6 @@ var hack = function(){
 		},500)
 		
         sound.play("wrong")
-		
-		createPart('wrong',yogotarGroup.yogoPos)
 		        
         lives--;
         heartsGroup.text.setText('X ' + lives)
@@ -232,11 +224,8 @@ var hack = function(){
         })
         
         if(lives == 0){
-            stopGame(false)
+            stopGame()
         }
-        
-        addNumberPart(heartsGroup.text,'-1',true)
-        
     }
     
     function addPoint(number){
@@ -244,16 +233,11 @@ var hack = function(){
         sound.play("magic")
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number)
-		
-		createPart('star',yogotarGroup.yogoPos)
         
         var scaleTween = game.add.tween(pointsBar.scale).to({x: 1.05,y:1.05}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
-        
-        addNumberPart(pointsBar.text,'+' + number,true)		
-		addNumberPart(yogotarGroup.yogoPos,'+' + number)
 		
 		if(pointsBar.number % 2 == 0){
 			addObject('hit')
@@ -262,7 +246,6 @@ var hack = function(){
 		if(pointsBar.number == 10){
 			addBadTopo()
 		}
-        
     }
 	
 	function addBadTopo(){
@@ -302,7 +285,6 @@ var hack = function(){
         
         pointsBar.text = pointsText
         pointsBar.number = 0
-        
     }
     
     function createHearts(){
@@ -331,7 +313,6 @@ var hack = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         heartsGroup.text = pointsText
-                
     }
     
     function stopGame(){
@@ -356,23 +337,9 @@ var hack = function(){
 		})
     }
     
-    
     function preload(){
         
         game.stage.disableVisibilityChange = false;  
-
-        
-        game.load.spine('topo', "images/spines/front.json")  
-        game.load.audio('medievalSong', soundsPath + 'songs/upbeat_casual_8.mp3');
-        
-		/*game.load.image('howTo',"images/hack/how" + localization.getLanguage() + ".png")
-		game.load.image('buttonText',"images/hack/play" + localization.getLanguage() + ".png")
-		game.load.image('introscreen',"images/hack/introscreen.png")*/
-
-		game.load.image('tutorial_image',"images/hack/tutorial_image.png")
-		//loadType(gameIndex)
-
-		        
     }
 	
 	function getButton(){
@@ -637,15 +604,12 @@ var hack = function(){
 		backContainer.anchor.setTo(0.5,1)
 		sceneGroup.cont = backContainer
 		
-		var gameName = sceneGroup.create(backContainer.x, game.world.height - 150,'atlas.hack','gameName')
+		var gameName = sceneGroup.create(backContainer.x, game.world.height - 140,'atlas.hack','gameName')
 		gameName.anchor.setTo(0.5,0.5)
 		
 		buttonCont = sceneGroup.create(containerBar.x + containerBar.width * 0.5, game.world.height - 60,'atlas.hack','buttoncont')
 		buttonCont.anchor.setTo(0.5,0.5)
 		buttonCont.scale.setTo(0.8,0.8)
-
-		
-
 	}
 	
 	function update(){
@@ -674,153 +638,6 @@ var hack = function(){
 			
 		}
 	}
-	
-	function createTextPart(text,obj){
-        
-        var pointsText = lookParticle('textPart')
-        
-        if(pointsText){
-            
-            pointsText.x = obj.world.x
-            pointsText.y = obj.world.y - 60
-            pointsText.setText(text)
-            pointsText.scale.setTo(1,1)
-
-            game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
-            game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
-
-            deactivateParticle(pointsText,750)
-        }
-        
-    }
-    
-    function lookParticle(key){
-        
-        for(var i = 0;i<particlesGroup.length;i++){
-            
-            var particle = particlesGroup.children[i]
-            if(!particle.used && particle.tag == key){
-                
-                particle.used = true
-                particle.alpha = 1
-                
-                particlesGroup.remove(particle)
-                particlesUsed.add(particle)
-                
-                return particle
-                break
-            }
-        }
-        
-    }
-    
-    function deactivateParticle(obj,delay){
-        
-        game.time.events.add(delay,function(){
-            
-            obj.used = false
-            
-            particlesUsed.remove(obj)
-            particlesGroup.add(obj)
-            
-        },this)
-    }
-    
-    function createPart(key,obj,offsetX){
-        
-        var offX = offsetX || 0
-        key+='Part'
-        var particle = lookParticle(key)
-        if(particle){
-            
-            particle.x = obj.world.x + offX
-            particle.y = obj.world.y
-            particle.scale.setTo(1,1)
-            game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-            game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
-            deactivateParticle(particle,300)
-        }
-        
-        
-    }
-    
-    function createParticles(tag,number){
-        
-        tag+='Part'
-        
-        for(var i = 0; i < number;i++){
-            
-            var particle
-            if(tag == 'textPart'){
-                
-                var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-                
-                var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
-                particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
-                particlesGroup.add(particle)
-                
-            }else{
-                particle = particlesGroup.create(-200,0,'atlas.hack',tag)
-            }
-            
-            particle.alpha = 0
-            particle.tag = tag
-            particle.used = false
-            particle.anchor.setTo(0.5,0.5)
-            particle.scale.setTo(1,1)
-        }
-        
-        
-    }
-
-	function setExplosion(obj){
-        
-        var posX = obj.x
-        var posY = obj.y
-        
-        if(obj.world){
-            posX = obj.world.x
-            posY = obj.world.y
-        }
-        
-		var rect = new Phaser.Graphics(game)
-        rect.beginFill(0xffffff)
-        rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-        rect.alpha = 0
-        rect.endFill()
-		sceneGroup.add(rect)
-		
-		game.add.tween(rect).from({alpha:1},500,"Linear",true)
-		
-        var exp = sceneGroup.create(0,0,'atlas.hack','cakeSplat')
-        exp.x = posX
-        exp.y = posY
-        exp.anchor.setTo(0.5,0.5)
-
-        exp.scale.setTo(6,6)
-        game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
-        var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
-        
-        particlesNumber = 8
-            
-        var particlesGood = game.add.emitter(0, 0, 100);
-
-        particlesGood.makeParticles('atlas.hack','smoke');
-        particlesGood.minParticleSpeed.setTo(-200, -50);
-        particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.6;
-        particlesGood.maxParticleScale = 1.5;
-        particlesGood.gravity = 150;
-        particlesGood.angularDrag = 30;
-
-        particlesGood.x = posX;
-        particlesGood.y = posY;
-        particlesGood.start(true, 1000, null, particlesNumber);
-
-        game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
-        sceneGroup.add(particlesGood)
-        
-    }
 	
 	function inputButton(obj){
 		
@@ -946,7 +763,7 @@ var hack = function(){
 		
 		var moveX = 0
 		var moveY = 0
-		var animationName = 'OUT&IN'
+		var animationName = 'out&in'
 		
 		switch(direction){
 			case 'up':
@@ -954,30 +771,61 @@ var hack = function(){
 				if(yogotarGroup.y < game.world.centerY - 250){
 					moveY = 0
 				}
+                yogotarGroup.anim.alpha = 1
+                yogotarGroup.side.alpha = 0
 			break;
 			case 'down':
 				moveY = moveSpace
 				if(yogotarGroup.y > game.world.centerY - 100){
 					moveY = 0
 				}
+                yogotarGroup.anim.alpha = 1
+                yogotarGroup.side.alpha = 0
 			break;
 			case 'right':
 				moveX = moveSpace * 1.33
 				if(yogotarGroup.x > game.world.centerX + 100){
 					moveX = 0
 				}
+                yogotarGroup.anim.alpha = 0
+                yogotarGroup.side.alpha = 1
+                yogotarGroup.side.scale.setTo(-0.8, 0.8)
 			break;
 			case 'left':
 				moveX = -moveSpace * 1.33
 				if(yogotarGroup.x < game.world.centerX - 100){
 					moveX = 0
 				}
+                yogotarGroup.anim.alpha = 0
+                yogotarGroup.side.alpha = 1
+                yogotarGroup.side.scale.setTo(0.8)
 			break;
 		}
 		
 		minusNumber()
 		
 		if(badTopo.ready){
+            
+            switch(direction){
+                case 'up':
+                    badTopo.anim.alpha = 1
+                    badTopo.side.alpha = 0
+                break;
+                case 'down':
+                    badTopo.anim.alpha = 1
+                    badTopo.side.alpha = 0
+                break;
+                case 'right':
+                    badTopo.anim.alpha = 0
+                    badTopo.side.alpha = 1
+                    badTopo.side.scale.setTo(0.8)
+                break;
+                case 'left':
+                    badTopo.anim.alpha = 0
+                    badTopo.side.alpha = 1
+                    badTopo.side.scale.setTo(-0.8, 0.8)
+                break;
+            }
 			
 			var moveTopoX = -moveX
 			var moveTopoY = -moveY
@@ -994,13 +842,16 @@ var hack = function(){
 				moveTopoY = 0
 			}
 						
-			game.add.tween(badTopo).to({x:badTopo.x + moveTopoX,y:badTopo.y + moveTopoY},200,"Linear",true)
+			game.add.tween(badTopo.scale).to({x:0,y:0},50,"Linear",true)
+			game.add.tween(badTopo).to({x:badTopo.x + moveTopoX,y:badTopo.y + moveTopoY},200,"Linear",true).chain(game.add.tween(badTopo.scale).to({x:1,y:1},50,"Linear",true))
 			badTopo.anim.setAnimationByName(0,animationName,true)
+			badTopo.side.setAnimationByName(0,animationName,true)
 		}
 		
 		game.add.tween(yogotarGroup.scale).to({x:0.01,y:0.01},50,"Linear",true)
 		
 		yogotarGroup.anim.setAnimationByName(0,animationName,false)
+		yogotarGroup.side.setAnimationByName(0,animationName,false)
 		sound.play("whoosh")
 		game.add.tween(yogotarGroup).to({x:yogotarGroup.x + moveX, y: yogotarGroup.y + moveY},200,"Linear",true).onComplete.add(function(){
 			
@@ -1008,11 +859,12 @@ var hack = function(){
 			
 			if(gameActive){
 				
-				yogotarGroup.anim.setAnimationByName(0,'IDLE',true)
-				yogotarGroup.anim.scale.x = Math.abs(yogotarGroup.anim.scale.x)
+				yogotarGroup.anim.setAnimationByName(0,'idle',true)
+				yogotarGroup.side.setAnimationByName(0,'idle',true)
 				
 				if(badTopo.ready){
-					badTopo.anim.setAnimationByName(0,"IDLE",true)
+					badTopo.anim.setAnimationByName(0,"idle",true)
+					badTopo.side.setAnimationByName(0,"idle",true)
 				}
 
 				
@@ -1028,8 +880,6 @@ var hack = function(){
 		game.add.tween(hammer).from({angle:-45},200,"Linear",true).onComplete.add(function(){
 
 			if(checkOverlap(yogotarGroup.yogoPos,hammer) && Math.abs(yogotarGroup.y - hammer.world.y) < 50){
-
-				createPart('wrong',yogotarGroup.yogoPos)
 				missPoint()
 			}
 
@@ -1040,7 +890,6 @@ var hack = function(){
 		})
 
 		sound.play("cut")
-		
 	}
 	
 	function minusNumber(){
@@ -1072,8 +921,11 @@ var hack = function(){
 			var hole = holesGroup.children[i]
 			
 			if(checkOverlap(yogotarGroup.yogoPos,hole.carrot) && hole.carrot.active){
-				
-				addPoint(1)
+				yogotarGroup.anim.setAnimationByName(0,"eat_front",true)
+                yogotarGroup.anim.addAnimationByName(0,"idle",true)
+                yogotarGroup.side.setAnimationByName(0,"eat",true)
+                yogotarGroup.side.addAnimationByName(0,"idle",true)
+				addCoin(yogotarGroup)
 				
 				addObject('carrot')
 				
@@ -1111,6 +963,10 @@ var hack = function(){
 	
 	function onDragStop(obj){
 		
+        if(!gameActive){
+			return
+		}
+        
 		obj.inputEnabled = false
 		
 		if(checkOverlap(obj,sceneGroup.cont)){
@@ -1170,20 +1026,6 @@ var hack = function(){
         }    
     }
 	
-	function addParticles(){
-		
-		particlesGroup = game.add.group()
-		sceneGroup.add(particlesGroup)
-		
-		particlesUsed = game.add.group()
-		sceneGroup.add(particlesUsed)
-		
-		createParticles('star',5)
-		createParticles('wrong',5)
-		createParticles('text',6)
-		createParticles('rock',5)
-	}
-	
 	function createObjects(){
 		
 		yogotarGroup = game.add.group()
@@ -1195,11 +1037,19 @@ var hack = function(){
 		
 		var yogotar = game.add.spine(0,40, "topo");
 		yogotar.scale.setTo(0.8,0.8)
-		yogotar.setSkinByName("normal")
-		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotar.setSkinByName("normal1")
+		yogotar.setAnimationByName(0,"idle",true)
 		yogotarGroup.add(yogotar)
+        
+        var side = game.add.spine(0,40, "topo_side");
+		side.scale.setTo(0.8,0.8)
+		side.setSkinByName("normal1")
+		side.setAnimationByName(0,"idle",true)
+        side.alpha = 0
+		yogotarGroup.add(side)
 		
 		yogotarGroup.anim = yogotar
+        yogotarGroup.side = side
 		
 		var yogoPos = yogotarGroup.create(33,-5,'atlas.hack','yogotar')
 		yogoPos.alpha = 0
@@ -1216,10 +1066,18 @@ var hack = function(){
 		var yogotar = game.add.spine(0,40, "topo");
 		yogotar.scale.setTo(0.8,0.8)
 		yogotar.setSkinByName("normal2")
-		yogotar.setAnimationByName(0,"IDLE",true)
+		yogotar.setAnimationByName(0,"idle",true)
 		badTopo.add(yogotar)
+        
+        var side = game.add.spine(0,40, "topo_side");
+		side.scale.setTo(0.8,0.8)
+		side.setSkinByName("normal2")
+		side.setAnimationByName(0,"idle",true)
+        side.alpha = 0
+		badTopo.add(side)
 		
 		badTopo.anim = yogotar
+		badTopo.side = side
 		
 		var yogoPos = badTopo.create(33,-5,'atlas.hack','yogotar')
 		yogoPos.alpha = 0
@@ -1285,6 +1143,59 @@ var hack = function(){
 		}
 		
 	}
+    
+    function createParticles(){
+        particleCorrect = createPart('star')
+        sceneGroup.add(particleCorrect)
+        
+        particleWrong = createPart('smoke')
+        sceneGroup.add(particleWrong)
+    }
+    
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
+        particle.makeParticles('atlas.hack',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.3;
+        particle.maxParticleScale = .8;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+        return particle
+    }
+    
+    function createCoin(){
+        
+       coin = game.add.sprite(0, 0, "coin")
+       coin.anchor.setTo(0.5)
+       coin.scale.setTo(0.8)
+       coin.animations.add('coin');
+       coin.animations.play('coin', 24, true);
+       coin.alpha = 0
+    }
+    
+    function addCoin(obj){
+        
+        coin.x = obj.centerX
+        coin.y = obj.centerY
+        var time = 300
+        
+        particleCorrect.x = obj.centerX 
+        particleCorrect.y = obj.centerY
+        particleCorrect.start(true, 1200, null, 10)
+        sound.play("combo")
+
+        game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
+        
+        game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+           game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+               game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                   addPoint(1)
+               })
+           })
+        })
+    }
 	
 	return {
 		
@@ -1309,8 +1220,8 @@ var hack = function(){
 			            
 			createPointsBar()
 			createHearts()
-			
-			addParticles()
+            createCoin()
+            createParticles()
 			
 			buttons.getButton(medievalSong,sceneGroup)
 			

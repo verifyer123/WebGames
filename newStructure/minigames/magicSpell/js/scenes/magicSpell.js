@@ -1,6 +1,5 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-var tutorialPath = "../../shared/minigames/"
 var magicSpell = function(){
     
     var localizationData = {
@@ -29,11 +28,6 @@ var magicSpell = function(){
                 name: "atlas.time",
                 json: "images/magicSpell/timeAtlas.json",
                 image: "images/magicSpell/timeAtlas.png",
-            },
-            {   
-                name: "atlas.tutorial",
-                json: tutorialPath+"images/tutorial/tutorial_atlas.json",
-                image: tutorialPath+"images/tutorial/tutorial_atlas.png"
             }
         ],
         images: [
@@ -98,7 +92,6 @@ var magicSpell = function(){
 		]
     }
     
-        
     var lives = null
 	var sceneGroup = null
     var gameActive
@@ -109,7 +102,7 @@ var magicSpell = function(){
     var coin
     var hand
     var timerGroup
-    var tiles = []
+    var tiles
     var spellWords
     var runesGroup
     var slotsGroup
@@ -135,6 +128,7 @@ var magicSpell = function(){
         canClick = false
         timeAttack = false
         gameTime = 10000
+        tiles = []
         
         if(localization.getLanguage() === 'ES'){
             spellWords = ["SPRING", "SUMMER", "AUTUMN", "WINTER"]
@@ -339,11 +333,6 @@ var magicSpell = function(){
         game.add.tween(dinamita).to({x:200}, 1500, Phaser.Easing.linear,true).onComplete.add(function(){
             walkForward()
         })
-    }
-    
-    function releaseButton(obj){
-        
-        obj.parent.children[1].alpha = 1
     }
 
 	function createBackground(){
