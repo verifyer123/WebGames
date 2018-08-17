@@ -298,22 +298,10 @@ var yogomeGames = function () {
 			game.id = gameId
 			object[gameId] = game
 		}
-		var wfconfig = {
-
-			active: function() {
-				console.log("font loaded");
-			},
-		   custom: {
-			   families: [ "Monoton_Regular" ],
-			   urls:["../../shared/minigames/css/custom_fonts.css"]
-		   },
-		};
-		WebFont.load(wfconfig);
 		return object
 	}
 
 	function addTime(){
-
 		timeCount++
 		if(addingTime){
 			setTimeout(addTime,1000)
