@@ -3,7 +3,7 @@ var soundsPath = "../../shared/minigames/sounds/"
 var tutorialPath = "../../shared/minigames/"
 
 
-var magicGate = function(){
+var mathgicGate = function(){
 
 	var localizationData = {
 		"EN":{
@@ -1121,7 +1121,7 @@ var magicGate = function(){
 	return {
 
 		assets: assets,
-		name: "magicGate",
+		name: "mathgicGate",
 		update: update,
 		preload:preload,
 		create: function(event){

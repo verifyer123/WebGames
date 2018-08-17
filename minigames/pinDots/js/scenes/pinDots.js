@@ -124,11 +124,11 @@ var pinDots = function(){
         game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
                 
-        /*if(amazing.getMinigameId()){
-            marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
+        if(amazing.getMinigameId()){
+            marioSong = sound.setSong(soundsPath + 'songs/space_music.mp3',0.3)
         }else{
-            game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
-        }*/
+            game.load.audio('arcadeSong', soundsPath + 'songs/space_music.mp3');
+        }
 
 
     }
@@ -142,11 +142,11 @@ var pinDots = function(){
         gameActive = false
 
         
-        /*if(amazing.getMinigameId() && marioSong!=null){
+        if(amazing.getMinigameId() && marioSong!=null){
             marioSong.pause()
         }else{
             marioSong.stop()
-        }*/
+        }
                 
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
         tweenScene.onComplete.add(function(){
@@ -816,29 +816,29 @@ var pinDots = function(){
         createBackground()
 
         //console.log(amazing.getMinigameId())
-        /*if(amazing.getMinigameId()){
+        if(!amazing.getMinigameId()){
 			marioSong = game.add.audio('arcadeSong')
 			game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.6)
 			}, this);	
-		}*/
+		}
 
         game.onPause.add(function(){
 			
-			/*if(amazing.getMinigameId()){
+			if(amazing.getMinigameId()){
 				marioSong.pause()
-			}*/
+			}
 			
 	        game.sound.mute = true
 	    } , this);
 
 	    game.onResume.add(function(){
 			
-			/*if(amazing.getMinigameId()){
+			if(amazing.getMinigameId()){
 				if(lives > 0){
 					marioSong.play()
 				}
-			}*/
+			}
 			
 	        game.sound.mute = false
 	    }, this);

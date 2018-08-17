@@ -102,7 +102,7 @@ var drzombie = function(){
    
     var lives = null;
 	var sceneGroup = null;
-	var gameActive = true;
+	var gameActive = false;
 	var gameIndex = 94;
 	var particleCorrect;      
     var particleWrong;
@@ -198,7 +198,7 @@ var drzombie = function(){
 
     function onClickPlay(){
     	tutoGroup.y = -game.world.height;
-		gameActive = true;
+		//gameActive = true;
 		
 		setOrgans();
     }
@@ -367,7 +367,7 @@ var drzombie = function(){
             sound.play("cut");
             obj.alpha = alpha;
             game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true);
-        },this)
+        },this);
     }
     
 	function zombieLose(){
@@ -405,8 +405,9 @@ var drzombie = function(){
 			game.add.tween(organ2).to({alpha:0},500,"Linear",true); //Desaparece los slots de organos
 			organ.x = -100;
 			organ.y = -200;
-
 		}
+		gameActive = false;
+		activateOrgans(false);
 	}
 
 	function setOrgans(){
@@ -522,7 +523,12 @@ var drzombie = function(){
 		if(!levelZero){
 			game.time.events.add(delay,function(){
 				gameActive = true;
+
 				popObject(clock,0);
+				game.time.events.add(250,function(){
+					activateInputTrash();
+					activateOrgans(true);
+				},this);
 				
 				var bar = clock.bar;
 				bar.scale.x = bar.origScale;
@@ -549,7 +555,16 @@ var drzombie = function(){
 			});
 			game.time.events.add(delay,function(){
 				gameActive = true;
-			});
+				activateInputTrash();
+				activateOrgans(true);
+			},this);
+		}
+	}
+
+	function activateInputTrash(){
+		for(t= 0; t<arrayTrash.length; t++){
+			arrayTrash[t].inputEnabled = true;
+			arrayTrash[t].input.enableDrag(true);
 		}
 	}
 
@@ -558,20 +573,19 @@ var drzombie = function(){
 		var trashPrefab = game.add.sprite(organ.x, organ.y, 'atlas.zombie', 'toy_0'+indexTrash);
 		trashPrefab.anchor.setTo(0.5,0.5);
 		trashPrefab.scale.setTo(0.6,0.6);
-		trashPrefab.inputEnabled = true;
-		trashPrefab.input.enableDrag(true);
 		trashPrefab.events.onDragStart.add(bringToTopTrash, this);
 		trashPrefab.events.onDragStop.add(deleteTrash, this);
 		trashPrefab.release = organ;
+		sceneGroup.add(trashPrefab);
 		organ.active = false;
 		arrayTrash.push(trashPrefab);
 	}
 
 	function bringToTopTrash(obj){
-		game.world.bringToTop(obj);  
+		sceneGroup.bringToTop(obj);  
 	}
 
-	function deleteTrash(obj){            
+	function deleteTrash(obj){           
 		game.add.tween(obj).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
 			obj.release.active = true;
 			obj.destroy();
@@ -601,13 +615,19 @@ var drzombie = function(){
 		
 		background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.zombie','pared');
 		sceneGroup.add(background);
-		
+
+		addGradient(game.world.width, 660, 0,0,0,660, "#c68b97", "#000000", 0, 0, 0.5, 0,0);
+
 		floor = game.add.tileSprite(0,game.world.height,game.world.width, 300,'atlas.zombie','piso');
 		floor.anchor.setTo(0,1);
 		sceneGroup.add(floor);
+
+		addGradient(game.world.width, 300, 0,100,0,0, "#6dd1c2", "#000000", 0, 660, 0.5, 0,0);
 		
 		var eyesSign = sceneGroup.create(game.world.centerX + 200,game.world.centerY - 150,'atlas.zombie','ojos');
 		eyesSign.anchor.setTo(0.5,0.5);
+
+		addGradient(eyesSign.width, eyesSign.height, 0,0,0,400, "#FFFFFF", "#000000", eyesSign.x, eyesSign.y, 0.6, 0.5,0.5);
 
 		var yogoSign = sceneGroup.create(game.world.centerX - 100,game.world.centerY - 320,'atlas.zombie','poster_theff');
 		yogoSign.anchor.setTo(0.5,0.5);
@@ -623,6 +643,19 @@ var drzombie = function(){
 			game.add.tween(ligth2).to( { alpha: 0}, 500, Phaser.Easing.Bounce.InOut, true, 0, -1, 500, true);
 		});
 		
+	}
+
+	function addGradient(width, height, linea,lineb,linec,lined, colorA, colorB, x, y, alpha, anchorx, anchory){
+		var myBmp = game.add.bitmapData(width, height);
+	    var myGrd = myBmp.context.createLinearGradient(linea, lineb, linec, lined);
+	    myGrd.addColorStop(0, colorA);
+	    myGrd.addColorStop(1, colorB);
+	    myBmp.context.fillStyle = myGrd;
+	    myBmp.context.fillRect(0, 0, width, height);
+	    var grandientSpr = game.add.sprite(x, y, myBmp);
+	    grandientSpr.anchor.setTo(anchorx, anchory)
+	    grandientSpr.alpha = alpha;
+	    sceneGroup.add(grandientSpr);
 	}
 	
 	function inputButton(obj){
@@ -710,8 +743,8 @@ var drzombie = function(){
 			
 			var organ = organsGroup.create(-200,-100,'atlas.zombie',organsPosition[i].name);
 			organ.inputEnabled = true;
-			organ.tag = organsPosition[i].name;
 			organ.input.enableDrag(true);
+			organ.tag = organsPosition[i].name;
 			organ.anchor.setTo(0.5,0.5);
 			organ.events.onDragStart.add(onDragStart, this);
 			organ.events.onDragStop.add(onDragStop, this);
@@ -719,12 +752,14 @@ var drzombie = function(){
 		}
 		
 	}
+
+	function activateOrgans(value){
+		for(var i = 0; i < organsGroup.length;i++){
+		 	organsGroup.children[i].input.draggable = value;
+		}
+	}
 	
 	function onDragStart(obj){
-        
-        if(!gameActive){
-            return;
-        }
 		
 		objToUse = obj;
 		
@@ -746,6 +781,7 @@ var drzombie = function(){
 
         obj.bringToTop();
         sceneGroup.bringToTop(organsGroup);
+        sceneGroup.bringToTop(nameOrgan);
         sceneGroup.bringToTop(particleCorrect);
     }
 	
@@ -806,8 +842,8 @@ var drzombie = function(){
 								zombieSpine.x = game.world.centerX;
 								zombieSpine.alpha = 0;
 								
-								if(timeToUse > 3000){
-									timeToUse-= 750;
+								if(timeToUse > 2000){ //3000
+									timeToUse-= 900//750;
 								}
 								
 								if(numberOrgans < organsPosition.length){//7){

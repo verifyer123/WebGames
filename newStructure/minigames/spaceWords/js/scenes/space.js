@@ -104,12 +104,14 @@ var space = function(){
     var hand
     var boardGroup
     var capsulesGroup
+    var starsGroup
     var eagle
     var splashGroup
     var waves = []
     var timeAttack
     var gameTime
     var answer
+    var starsTile
     
     var WORDS = [
         ['Alberca',['Pool','Watermelon']],
@@ -306,16 +308,37 @@ var space = function(){
 
 	function createBackground(){
         
-        var background = sceneGroup.create(-2, -2, "back")
+        var background = sceneGroup.create(-2, -2, "atlas.space", "back")
         background.width = game.world.width + 2
         background.height = game.world.height + 2
         
-        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 250, "bubbles")
-        pink.anchor.setTo(0, 1)
-        pink.rise = 1.2
-        sceneGroup.add(pink)
-        pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
-        waves.push(pink)
+        starsTile = game.add.tileSprite(0, 0, game.world.width, game.world.height, "atlas.space", "stars")
+        sceneGroup.add(starsTile)
+        
+        createStarsGroup()
+        
+        var planet = sceneGroup.create(100, 100, "atlas.space", "planet")
+        planet.anchor.setTo(0.5)
+        planet.tint = 0xaaaaff
+        
+//        var pink = game.add.tileSprite(0, game.world.height, game.world.width, 240, "bubbles")
+//        pink.anchor.setTo(0, 1)
+//        pink.rise = 1.2
+//        sceneGroup.add(pink)
+//        pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+//        waves.push(pink)
+        
+        var pivotX = 0
+        
+        while(pivotX < game.world.width){
+            
+            var pink = sceneGroup.create(pivotX, game.world.height, "atlas.space", 'bubbles')
+            pink.anchor.setTo(0, 1)
+            pivotX += pink.width
+            pink.rise = 1.2
+            pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 5000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+            waves.push(pink)
+        }
     }
 
 	function update(){
@@ -424,6 +447,25 @@ var space = function(){
         })
     }
     
+    function createStarsGroup(){
+        
+        starsGroup = game.add.group()
+        sceneGroup.add(starsGroup)
+        
+        for(var i = 0; i < 3; i++){
+            var particle = game.add.emitter(game.world.centerX, game.world.centerY, 20)
+            particle.makeParticles("atlas.space", "star" + i)
+            particle.gravity = 0
+            particle.setAlpha(0, 1, 1000, Phaser.Easing.Cubic.InOut)
+            particle.maxParticleSpeed.setTo(0, 0)
+            particle.minParticleSpeed.setTo(0, 0)
+            particle.width = game.world.width
+            particle.height = game.world.height
+            particle.start(false, 1200, 800, 0) 
+            starsGroup.add(particle)
+        }
+    }
+    
     function createQuestionBoard(){
         
         boardGroup = game.add.group()
@@ -486,13 +528,17 @@ var space = function(){
             pivot += 0.8
         }
         
-        var pinkFront = game.add.tileSprite(0, game.world.height, game.world.width, 100, "atlas.space", "bubblesFront")
-        pinkFront.anchor.setTo(0, 1)
-        pinkFront.rise = 0.8
-        sceneGroup.add(pinkFront)
+        var pivotX = 0
         
-        pinkFront.wave = game.add.tween(pinkFront.scale).to( {y:0.8}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
-        waves.push(pinkFront)
+        while(pivotX < game.world.width){
+            
+            var pink = sceneGroup.create(pivotX, game.world.height + 10, "atlas.space", 'bubblesFront')
+            pink.anchor.setTo(0, 1)
+            pivotX += pink.width
+            pink.rise = 0.8
+            pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
+            waves.push(pink)
+        }
     }
     
     function changeImage(index,group){
@@ -580,7 +626,7 @@ var space = function(){
         
         if(lives > 0){
             game.add.tween(eagle).to({x: eagle.initX, y:eagle.initY}, 500, Phaser.Easing.Cubic.InOut, true)
-            game.time.events.add(1000, initGame)
+            game.time.events.add(1500, initGame)
         }
         capsulesGroup.forEach(function(cap){
             game.add.tween(cap).to({alpha: 0}, 800, Phaser.Easing.Cubic.InOut, true)
@@ -623,8 +669,6 @@ var space = function(){
             
             splashPink(splashGroup.children[i], 1000)
         }
-        
-        console.log(answer)
     }
     
     function selectText(){

@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Applications/MAMP/htdocs/WebGames/minigames/burguerCrush/images/burguerCrush/texture_packer.tps</string>
+        <string>/Applications/MAMP/htdocs/WebGames/minigames/burgerCrush/images/burguerCrush/texture_packer.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -205,6 +205,7 @@
             <key type="filename">carne_especial.png</key>
             <key type="filename">lechuga.png</key>
             <key type="filename">lechuga_especial.png</key>
+            <key type="filename">palomita.png</key>
             <key type="filename">pan.png</key>
             <key type="filename">pan_especial.png</key>
             <key type="filename">queso.png</key>
@@ -649,6 +650,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">rayo3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>103,199,207,398</rect>
+                <key>scale9Paddings</key>
+                <rect>103,199,207,398</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">sombra.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>41,1,83,3</rect>
+                <key>scale9Paddings</key>
+                <rect>41,1,83,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">starPart.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -685,6 +712,19 @@
                 <rect>24,61,47,123</rect>
                 <key>scale9Paddings</key>
                 <rect>24,61,47,123</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ticket_contenedor.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>43,8,87,15</rect>
+                <key>scale9Paddings</key>
+                <rect>43,8,87,15</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -774,6 +814,10 @@
             <filename>piso_patron.png</filename>
             <filename>explosion3.png</filename>
             <filename>ticket.png</filename>
+            <filename>sombra.png</filename>
+            <filename>ticket_contenedor.png</filename>
+            <filename>palomita.png</filename>
+            <filename>rayo3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

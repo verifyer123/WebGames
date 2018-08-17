@@ -141,8 +141,8 @@ amazing.getGames = function(){
         {name:'Megablocks',iconName:'megablockTower',url:'http://amazingapp.mx/juegos/megablockTower/',coupon : false,mixName:'megablockTower',sceneName:'megablockTower',demo:true,id:100012},//35
         {name:'Snake vs Block',iconName:'snakeVsBlock',url:'http://amazingapp.mx/juegos/snakeVsBlock/',coupon : false,mixName:'snakeVsBlock',sceneName:'snakeVsBlock',demo:false,id:61},//36
         {name:'Snoopy En Busca Del Sabor',iconName:'snoopyEnBuscaDelSabor',url:'http://amazingapp.mx/juegos/snoopyEnBuscaDelSabor/',coupon : false,mixName:'snoopyEnBuscaDelSabor',sceneName:'snoopyEnBuscaDelSabor',demo:true,id:100014},//37
-        {name:'Burger Crush',iconName:'burguerCrush',url:'http://amazingapp.mx/juegos/burgerCrush/',coupon : false,mixName:'burgercrush',sceneName:'burguerCrush',demo:true,id:100015},//38
-        {name:'Puebla',iconName:'puebla',url:'http://amazingapp.mx/juegos/puebla/',coupon : false,mixName:'puebla',sceneName:'puebla',demo:true,id:100016},//38
+        {name:'Burger Crush',iconName:'burguerCrush',url:'http://amazingapp.mx/juegos/burgerCrush/',coupon : false,mixName:'burgercrush',sceneName:'burguerCrush',demo:true,id:71},//38
+        {name:'Puebla',iconName:'puebla',url:'http://amazingapp.mx/juegos/puebla/',coupon : false,mixName:'puebla',sceneName:'puebla',demo:true,id:100016},//39
         //
     ]
 

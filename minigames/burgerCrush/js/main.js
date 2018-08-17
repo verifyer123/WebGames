@@ -44,6 +44,8 @@ function startGame(){
         
         game.plugins.add(Fabrique.Plugins.Spine);
         //game.add.plugin(PhaserSpine.SpinePlugin);
+        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text = new Phaser.Text(game, -100,-100, "0", fontStyle)
 
         
         amazing.getInfo()
