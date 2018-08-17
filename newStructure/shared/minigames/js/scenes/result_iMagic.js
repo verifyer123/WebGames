@@ -577,7 +577,7 @@ var result_iMagic = function(){
 					createScene()
 				},
 				custom: {
-					families: [ "VAGRounded" ],
+					families: [ "Monoton-Regular" ],
 					urls:["../../shared/minigames/css/custom_fonts.css"]
 				},
 			}

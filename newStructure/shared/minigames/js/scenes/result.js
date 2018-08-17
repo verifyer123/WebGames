@@ -608,7 +608,7 @@ var result = function(){
 			playerTotalScoreContainer.add(playerAllScoreText)
 			playerTotalScoreContainer.text = playerAllScoreText
 
-			var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/5.8,0,'atlas.resultScreenImagic','coinImagic')
+			var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/4,0,'atlas.resultScreenImagic','coinImagic')
 			coinContainer_coin.anchor.setTo(0.5,0.5)
 
 			coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-30,0,'atlas.resultScreenImagic','coinImagic')
@@ -833,13 +833,7 @@ var result = function(){
 			sceneGroup.add(playerNameText)
 
 		}
-
-
-
-
-
 		for(var i = 0; i < infoGroup.length;i++){
-
 			var obj = infoGroup.children[i]
 			obj.alpha = 0
 		}
@@ -992,12 +986,10 @@ var result = function(){
 		}else if(configuration=="nostars"){
 			var soundName = 'cheers'
 			var animName = "win"
-
 			yogotar.setAnimationByName(0,animName,true)
 			game.time.events.add(500,function(){
 				var delay = 0
 				for(var i = 0; i < infoGroup.length;i++){
-
 					var obj = infoGroup.children[i]
 					if(!obj.record){
 						appearObject(obj,delay)
@@ -1269,14 +1261,14 @@ var result = function(){
 		assets: assets,
 		name: "result",
 		create: function(){
-			
+
 			var wfconfig = {
 				active: function() {
 					console.log("font loaded");
 					createScene()
 				},
 				custom: {
-					families: [ "VAGRounded" ],
+					families: [ "Monoton-Regular" ],
 					urls:["../../shared/minigames/css/custom_fonts.css"]
 				},
 			};

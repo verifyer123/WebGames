@@ -899,9 +899,7 @@ var sushi = function(){
 
 				if (sushi.y < sushi.toY) {
 					sushi.y += speed
-				}
-				
-				else {
+				}else {
 					if (sushiIndex > 0 && prevSushi)
 						sushi.toY = prevSushi.y - prevSushi.height + 15
 					else

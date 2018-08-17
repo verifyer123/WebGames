@@ -452,6 +452,7 @@ var uni = function(){
 			}
 		})
 	}
+	
 
 	function missPoint(){
 
@@ -840,7 +841,7 @@ var uni = function(){
 			animalsInStage[fill].container.index=fill;
 			animalsInStage[fill].container.inputEnabled=false;
 			animalsInStage[fill].setAnimation(["jump"]);
-			
+			animalsCreated++;
 			sound.play("horse_gallop")
 			game.add.tween(animalsInStage[fill]).to({x:positionX[fill],y:positionY[fill]}, 1500, Phaser.Easing.Cubic.InOut, true)
 			game.add.tween(animalsInStage[fill].container).to({x:positionX[fill]-50,y:positionY[fill]-100}, 1500, Phaser.Easing.Cubic.InOut, true)
