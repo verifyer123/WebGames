@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.WEBGL, null, {init: init, create: create }, false, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -34,11 +34,11 @@ function startGame(){
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
 
-        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
 
         game.stage.backgroundColor = "#ffffff"
-//        game.time.advancedTiming = true
+        game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(PhaserSpine.SpinePlugin);
