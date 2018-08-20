@@ -458,7 +458,7 @@ var clash = function(){
             buttonEffect.onComplete.add(function () {
                 game.add.tween(option.scale).to({x: 1, y: 1}, 150, Phaser.Easing.Cubic.In, true)
             })
-            tweenTint(circle, 0xffffff, 0x9B9B9B, 300)
+            tintBtns(circle)
 
             var indicatorEffect = game.add.tween(indicator.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Cubic.Out, true)
             indicatorEffect.onComplete.add(function () {
@@ -504,6 +504,15 @@ var clash = function(){
                 particleWrong.start(true, 3000, null, 6)
                 game.time.events.add(500, monsterAttack)
             }
+        }
+    }
+    
+    function tintBtns(circle){
+        var group = circle.parent
+        for(var i = 0; i < clashGroup.options.length; i++){
+            var cir = clashGroup.options[i].circle
+            if(cir != circle)
+                tweenTint(cir, 0xffffff, 0x9B9B9B, 300)
         }
     }
     
@@ -716,8 +725,11 @@ var clash = function(){
         game.add.tween(clashGroup.number2).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
     
-    function enableCircle(option) {
-        option.circle.inputEnabled = true
+    function enableCircles() {
+        
+        clashGroup.options.forEach(function(option){
+            option.circle.inputEnabled = true
+        })
     }
 
     function startIndicator(delay) {
@@ -789,13 +801,13 @@ var clash = function(){
             optionTween.onStart.add(function () {
                 sound.play("pop")
             })
-            optionTween.onComplete.add(enableCircle)
         }
+        
+        optionTween.onComplete.add(enableCircles)
 
         startIndicator(initialDelay + delayBetween * (NUM_OPTIONS + 1))
 
         inputsEnabled = true
-        game.time.events.add(initialDelay + delayBetween * (NUM_OPTIONS + 1), iceStatus)
     }
     
     function createClashUI() {
@@ -1023,27 +1035,6 @@ var clash = function(){
             }
             obj.circle.inputEnabled = true
         })
-    }
-    
-    function iceStatus(){
-    
-        /*for(var i = 0; i < clashGroup.options.length; i++){
-            
-            var pic = clashGroup.options[i]
-            var pos = i + 1 >= clashGroup.options.length ? 0 : i + 1
-            var next = clashGroup.options[pos]
-               
-            game.add.tween(pic).to({x: next.x}, 1000, Phaser.Easing.Cubic.Out, true)
-        }*/
-        
-        for(var i = 0; i < clashGroup.options.length; i++){
-            
-            var pic = clashGroup.options[i]
-            if (pic.number !== clashGroup.answer) {
-                pic.number--
-                pic.text.setText(pic.number)
-            }        
-        }
     }
 
     return {
