@@ -243,7 +243,7 @@ var hack = function(){
 			addObject('hit')
 		}
 		
-		if(pointsBar.number == 10){
+		if(pointsBar.number > 10 && pointsBar.number % 5 == 0 && !badTopo.ready){
 			addBadTopo()
 		}
     }
@@ -426,8 +426,11 @@ var hack = function(){
 		
 		button.drag.tween = game.add.tween(button.drag).to({x:pivotButtons,y:pivotDrag},300,"Linear",true)		
 		pivotButtons+= button.width * 1.1
-		
-		//game.time.events.add(timeToAdd,addButton)
+        
+        if(tutorialHand.active){
+            button.drag.inputEnabled = false
+            tutorialHand.btns.push(button)
+        }
 	}
 	
 	function startTutorial(){
@@ -435,19 +438,40 @@ var hack = function(){
 		if(!tutorialHand.active){
 			return
 		}
+        
+        tutorialHand.btns = []
+        
+        var delay = 100
+		for(var i = 0; i < 4; i++){
+			game.time.events.add(delay,addButton)
+			delay+=100	
+		}	
 		
 		tutorialHand.alpha = 1
 		tutorialHand.x = game.world.centerX - 200
 		tutorialHand.y = game.world.height - 150
 		
-		game.add.tween(tutorialHand).to({x:buttonCont.x + 50,y:buttonCont.y + 25},1000,"Linear",true).onComplete.add(function(){
-			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,250).onComplete.add(startTutorial)
+		var handTween = game.add.tween(tutorialHand).to({x:buttonCont.x + 50,y:buttonCont.y + 25},1000,"Linear",true, delay)
+        handTween.onComplete.add(function(){
+            tutorialHand.btns[0].drag.inputEnabled = true
+			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,250).onComplete.add(function(){
+                if(tutorialHand.active){
+                    tutorialHand.alpha = 1
+                    tutorialHand.x = game.world.centerX - 200
+                    tutorialHand.y = game.world.height - 150
+                    handTween.start()
+                }
+            })
 		})
 	}
 	
 	function stopTutorial(){
 		
 		tutorialHand.active = false
+        tutorialHand.btns.forEach(function(btn){
+            btn.drag.inputEnabled = true
+        })
+        tutorialHand.destroy()
 	}
 	
 	function createTutorial(){
@@ -506,13 +530,7 @@ var hack = function(){
 		gameActive = true
 		
 		game.time.events.add(1000,startTutorial)
-		
-		var delay = 100
-		for(var i = 0; i < 4; i++){
-			game.time.events.add(delay,addButton)
-			delay+=100	
-		}	
-		
+        
 		addObject('carrot')
     }
 	
@@ -631,11 +649,6 @@ var hack = function(){
 			
 			button.x = drag.x
 			button.y = drag.y
-		}
-		
-		for(var i = 0; i < holesGroup.length;i++){
-			
-			
 		}
 	}
 	
@@ -882,6 +895,13 @@ var hack = function(){
 			if(checkOverlap(yogotarGroup.yogoPos,hammer) && Math.abs(yogotarGroup.y - hammer.world.y) < 50){
 				missPoint()
 			}
+            if(checkOverlap(badTopo.yogoPos,hammer)){
+				
+                game.time.events.add(250, function(){
+                    badTopo.x = -200
+                    badTopo.ready = false
+                })
+			}
 
 			sound.play("punch")
 			game.add.tween(hammer).to({angle:0,alpha:0},500,"Linear",true)
@@ -1083,6 +1103,7 @@ var hack = function(){
 		yogoPos.alpha = 0
 		yogoPos.scale.setTo(0.7,0.7)
 		yogoPos.anchor.setTo(0.5,0.5)
+        badTopo.yogoPos = yogoPos
 	}
 	
 	function createHoles(){
@@ -1213,10 +1234,10 @@ var hack = function(){
 			
             initialize()
 			
-			createInterface()
-			createButtons()
 			createHoles()
 			createObjects()
+            createInterface()
+			createButtons()
 			            
 			createPointsBar()
 			createHearts()
