@@ -681,7 +681,7 @@ var astrono = function(){
 		correctParticle.y = signGroup.y
 		sceneGroup.add(correctParticle)
 
-		wrongParticle = createPart("wrong")
+		wrongParticle = createPart("smoke")
 		wrongParticle.x = signGroup.x
 		wrongParticle.y = signGroup.y
 		sceneGroup.add(wrongParticle)
@@ -755,11 +755,20 @@ var astrono = function(){
 		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
 		game.time.events.add(1600, startRound)
 	}
+	
+	function showFigure(){
+
+	
+	
+	
+		game.time.events();
+	}
     
     function incorrectReaction(){
         
         var localizedName = localizationData[localization.getLanguage()][currentFigure.figureData.name]
 		var toScale = {}
+		isActive = false;
 		if(currentFigure.figureData.name === "triangle"){
 			toScale.x = 0.8
 			toScale.y = 0.8
@@ -771,9 +780,9 @@ var astrono = function(){
 		}
 
 		nameGroup.name.text = localizedName
-		game.add.tween(nameGroup).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
-		game.add.tween(nameGroup.scale).to({x:toScale.x, y:toScale.y}, 500, Phaser.Easing.Back.Out, true)
-
+		//game.add.tween(nameGroup).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
+		//game.add.tween(nameGroup.scale).to({x:toScale.x, y:toScale.y}, 500, Phaser.Easing.Back.Out, true)
+		
 		missPoint()
 		// correctParticle.start(true, 1000, null, 5)
 		game.add.tween(currentFigure.sprite.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
