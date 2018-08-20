@@ -53,8 +53,6 @@ var mathRun = function(){
 				file: soundsPath + "pop.mp3"},
             {	name: "whoosh",
 				file: soundsPath + "whoosh.mp3"},
-            {	name: "splash",
-				file: soundsPath + "splash.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'gameSong',
@@ -278,6 +276,11 @@ var mathRun = function(){
         player.body.collideWorldBounds = false
         tileGroup.castles.setAll("body.velocity.x", 0)
         landGroup.setAll("body.velocity.x", 0)
+        landGroup.forEach(function(obj){
+            obj.body.velocity.x = 0
+            if(obj.x > game.world.width - 10)
+                deactivateObj(obj)
+        })
         coinsGroup.setAll("body.velocity.x", 0)
         arthurius.setAnimationByName(0, "lose", true)
         gameSong.stop()
@@ -391,7 +394,7 @@ var mathRun = function(){
     }
 
 	function update(){
-        
+            
         if(gameActive){
             
             tileGroup.mountains.tilePosition.x -= 0.1
@@ -414,7 +417,7 @@ var mathRun = function(){
                 }
             }
 
-            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10){
+            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10 && gameActive){
                 
                 newPath()
                 coinCounter++
@@ -609,6 +612,8 @@ var mathRun = function(){
         
         text.anchor.setTo(0.5)
         text.alpha = 0
+        text.stroke = "#00aa55"
+        text.strokeThickness = 20
         hand.addChild(text)
         hand.text = text
     }
@@ -693,7 +698,7 @@ var mathRun = function(){
         boardGroup.setAll("alpha", 0)
         //bar.scale.setTo(1,0)
         
-        COIN_LIMIT = boardGroup.bar.centerY + 160
+        COIN_LIMIT = boardGroup.bar.centerY + 180
     }
     
     function createLand(){
@@ -843,7 +848,7 @@ var mathRun = function(){
             
             setCoinNumber(obj)
             if(platform.tag == "floor"){
-                obj.reset(game.world.width, platform.y - platform.height - (100 * game.rnd.integerInRange(1, 2)))
+                obj.reset(game.world.width, platform.y - platform.height - (110 * game.rnd.integerInRange(1, 2)))
             }
             else{
                 var coinHeight = platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(2, 6))
@@ -906,7 +911,6 @@ var mathRun = function(){
                     doJump(1400)
                     addCoin(enemy)
                     deactivateObj(enemy)
-                    sound.play("splash")
                 }
                 else{
                     player.touched = true
