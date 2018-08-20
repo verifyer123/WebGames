@@ -1093,7 +1093,7 @@ var magnet = function(){
 
 		var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+		rect.drawRect(0,60,game.world.width * 2, game.world.height * 2)
 		rect.alpha = 0
 		rect.endFill()
 		rect.inputEnabled = true
