@@ -262,7 +262,7 @@ var lizart = function(){
 		{x:450,y:450},
 		{x:350,y:250},
 		{x:270,y:390},
-		{x:500,y:180}
+		{x:500,y:220}
 	];
 	var POSITION_LIST_2=[
 		{x:490,y:210},
@@ -287,6 +287,8 @@ var lizart = function(){
 	var wrongIdleEyes, wrongEyes;	
 	var rightBody, rightEyes_1, rightEyes_2;
 	var wrongBody;
+	var notCorrect;
+	var fruitsBeforeCorrect;
 	var eatingBodys, eatingEyes_1, eatingEyes_2;
 	var tongue;
 	var shadowLizar;
@@ -314,6 +316,8 @@ var lizart = function(){
 		coins = 0;
 		canTakeFruit = true;
 		passingLevel=true;
+		notCorrect=false;
+		fruitsBeforeCorrect=0;
 		wasCorrect=false;
 		heartsText.setText("x " + lives);;
 		xpText.setText(coins);
@@ -457,10 +461,11 @@ var lizart = function(){
 		wasCorrect=true;
 		fruitsDificulty=3;
 		dificultyTimer=30000;
+		
 
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		loadSounds();
-
+		
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 
@@ -481,19 +486,13 @@ var lizart = function(){
 			0x9733e0,
 			0xf21414
 		]
+		
 		tongue=game.add.spine(0,0,"tongue");
 		tongue.setSkinByName("normal");
 		tongue.alpha=0;
 		sceneGroup.add(tongue)
-
-		for(var i = 0;i<=ALL_FRUITS;i++){
-			fruits[i] = sceneGroup.create(-500,0,"fruit" + i);
-			fruits[i].id = i;
-			fruits[i].anchor.setTo(0.5,0.5);
-			fruits[i].color = colors[i];
-			fruits[i].inputEnabled = true
-			fruits[i].events.onInputDown.add(chooseFruit,this);
-		}
+		
+		
 		idleGroup = game.add.group();
 		idleBody = idleGroup.create(0, 0, 'idleBody');
 		idleBody.y = game.height -170;
@@ -574,6 +573,8 @@ var lizart = function(){
 		tongue.y=eatingBodys.y-80;
 		tongue.alpha=1;
 		eatingGroup.add(tongue)
+		
+
 
 		eatingEyes_2 = eatingGroup.create(0, 0, 'eatingEyes2');
 		eatingEyes_2.y = eatingBodys.y - 10;
@@ -598,9 +599,21 @@ var lizart = function(){
 		//eatingGroup.alpha=1;
 		UIGroup= game.add.group();
 		sceneGroup.add(UIGroup)
+		
+		fruitsGroup= game.add.group();
+				
+		for(var i = 0;i<=ALL_FRUITS;i++){
+			fruits[i] = fruitsGroup.create(-500,0,"fruit" + i);
+			fruits[i].id = i;
+			fruits[i].anchor.setTo(0.5,0.5);
+			fruits[i].color = colors[i];
+			fruits[i].inputEnabled = true
+			fruits[i].events.onInputDown.add(chooseFruit,this);
+		}
+	
 		positionTimer()
 
-		shadowLizar = sceneGroup.create(game.world.centerX/1.8,game.height-50,"shadowLizar");
+		shadowLizar = sceneGroup.create(game.world.centerX/1.4,game.height-50,"shadowLizar");
 
 		var options=[];
 
@@ -648,12 +661,23 @@ var lizart = function(){
 		while(fruits[INDEX_NUMBER[fruitToAppear]].y>0 && pasing[fruitToAppear].x!=0){
 			fruitToAppear=game.rnd.integerInRange(0,ALL_FRUITS);
 		}
+		if(notCorrect && fruitsBeforeCorrect==4){
+			fruitToAppear=good;
+			notCorrect=false;
+			fruitsBeforeCorrect=0;
+		}else if(fruitToAppear==good){
+			notCorrect=false;
+			fruitsBeforeCorrect=0;
+		}else if(notCorrect && fruitsBeforeCorrect<4){
+			fruitsBeforeCorrect++;
+		}
+
 		fruits[INDEX_NUMBER[fruitToAppear]].inputEnabled=true
 		fruits[INDEX_NUMBER[fruitToAppear]].x=options[fruitToAppear].x;
 		fruits[INDEX_NUMBER[fruitToAppear]].alpha=1;
 		TweenMax.to(fruits[INDEX_NUMBER[fruitToAppear]],1,{y:options[fruitToAppear].y,ease:Bounce.easeOut,delay:0});
 
-		game.time.events.add(1000,function(){
+		game.time.events.add(1500,function(){
 			pasing[fruitToAppear].x=options[fruitToAppear].x;
 			pasing[fruitToAppear].y=options[fruitToAppear].y;
 			dificultyDisappearingAndApearing(options)
@@ -675,6 +699,9 @@ var lizart = function(){
 		var fruitToDissapear=game.rnd.integerInRange(0,ALL_FRUITS);
 		while(fruits[INDEX_NUMBER[fruitToDissapear]].y<0){
 			fruitToDissapear=game.rnd.integerInRange(0,ALL_FRUITS);
+		}
+		if(fruitToDissapear==good){
+			notCorrect=true;
 		}
 		fruits[INDEX_NUMBER[fruitToDissapear]].inputEnabled=false
 		game.add.tween(fruits[INDEX_NUMBER[fruitToDissapear]]).to({alpha:0},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
@@ -706,6 +733,7 @@ var lizart = function(){
 		passingLevel=false;
 		if(score>=POINT_TO_CHANGE_DIFICULTY-2){
 			UIGroup.alpha=1;
+			startTimer(dificultyTimer);
 		}
 		if(score>=POINT_TO_CHANGE_DIFICULTY){
 			dificultyDisappearingAndApearing(options);
@@ -715,8 +743,7 @@ var lizart = function(){
 		if(pointsBar.number%POINT_TO_CHANGE_DIFICULTY==0 && pointsBar.number!=0 && pointsBar.number!=1){
 			if(fruitsDificulty<5)fruitsDificulty++;
 		}
-		console.log(dificultyTimer)
-		startTimer(dificultyTimer);
+		
 	}
 	function correctFruit(fruitItem){
 		passing=true;
@@ -724,7 +751,6 @@ var lizart = function(){
 		textGlobo.destroy();
 		if(dificultyTimer>5000)dificultyTimer=dificultyTimer-1000;
 		if(idleGroup.x>fruitItem.x){
-
 			eatingGroup.scale.setTo(1,1);
 			rightGroup.scale.setTo(1,1);
 		}
@@ -736,11 +762,11 @@ var lizart = function(){
 		}
 		positionLizardX=idleGroup.x;
 		tutorial=false;
-		eatingGroup.x=fruitItem.x-200;
+		eatingGroup.x=fruitItem.x-280;
 		idleGroup.alpha=0;
 		rightGroup.alpha=1;
-		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.Cubic.In,true)
-		game.add.tween(rightGroup).to({x:fruitItem.x-200},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
+		game.add.tween(rightGroup).to({x:fruitItem.x-280},500,Phaser.Easing.linear,true).onComplete.add(function(){
 
 			idleGroup.alpha=0;
 			rightGroup.alpha=0;
@@ -753,7 +779,9 @@ var lizart = function(){
 			eatingEyes_1.animations.play('eatingEyesAnimation1', 24, false);
 			eatingEyes_2.animations.play('eatingEyesAnimation2', 24, false);
 			tongue.alpha=1;
-			tongue.setAnimationByName(0,"lengua",false)
+			tongue.setAnimationByName(0,"lengua",false).onComplete=function(){
+				tongue.alpha=0;
+			}
 
 			game.time.events.add(150,function(){
 				TweenMax.to(fruitItem,0.8,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
@@ -822,7 +850,7 @@ var lizart = function(){
 		Coin(rightGroup,pointsBar,50)
 		eatingGroup.alpha=0;
 		wasCorrect=true;
-		game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
+		game.add.tween(shadowLizar).to({x:game.world.width+140},1200,Phaser.Easing.linear,true);
 		game.add.tween(rightGroup).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
 		globo.destroy();
 		textGlobo.destroy();
@@ -841,7 +869,7 @@ var lizart = function(){
 		if(wasCorrect){
 			shadowLizar.x=-200;
 			rightGroup.x=-200;
-			game.add.tween(shadowLizar).to({x:game.world.centerX/1.6, y:game.height-50},500,Phaser.Easing.linear,true);
+			game.add.tween(shadowLizar).to({x:game.world.centerX/1.4, y:game.height-50},500,Phaser.Easing.linear,true);
 			game.add.tween(rightGroup).to({x: game.world.centerX/2},500,Phaser.Easing.linear,true).onComplete.add(function(){
 				idleGroup.alpha = 1;
 				rightGroup.alpha = 0;
