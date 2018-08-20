@@ -228,25 +228,25 @@ var uni = function(){
 		}
 		
 		positionX[0]=game.world.centerX;
-		positionX[1]=game.world.centerX-80;
-		positionX[2]=game.world.centerX+80;
-		positionX[3]=game.world.centerX-180;
-		positionX[4]=game.world.centerX+180;
+		positionX[1]=game.world.centerX-90;
+		positionX[2]=game.world.centerX+90;
+		positionX[3]=game.world.centerX-190;
+		positionX[4]=game.world.centerX+190;
 		positionX[5]=game.world.centerX;
-		positionX[6]=game.world.centerX-80;
-		positionX[7]=game.world.centerX+80;
-		positionX[8]=game.world.centerX-180;
-		positionX[9]=game.world.centerX+180;
+		positionX[6]=game.world.centerX-90;
+		positionX[7]=game.world.centerX+90;
+		positionX[8]=game.world.centerX-190;
+		positionX[9]=game.world.centerX+190;
 		positionX[10]=game.world.centerX;
 		positionX[11]=game.world.centerX-90;
 		positionX[12]=game.world.centerX+90;
-		positionX[13]=game.world.centerX-180;
-		positionX[14]=game.world.centerX+180;
+		positionX[13]=game.world.centerX-190;
+		positionX[14]=game.world.centerX+190;
 		positionX[15]=game.world.centerX;
-		positionX[16]=game.world.centerX-80;
-		positionX[17]=game.world.centerX+80;
-		positionX[18]=game.world.centerX-180;
-		positionX[19]=game.world.centerX+180;
+		positionX[16]=game.world.centerX-90;
+		positionX[17]=game.world.centerX+90;
+		positionX[18]=game.world.centerX-190;
+		positionX[19]=game.world.centerX+190;
 		positionX[20]=game.world.centerX;
 		
 		
@@ -437,7 +437,7 @@ var uni = function(){
 					nubesAparecer[tutoFirst].scale.setTo(0,0);
 					nubesAparecer[tutoFirst].anchor.setTo(0.5,0.8);
 					game.add.tween(nubesAparecer[tutoFirst].scale).to({x: 1,y:1}, 10, Phaser.Easing.Cubic.InOut, true)
-					game.add.tween(nubesAparecer[tutoFirst]).to({alpha:0}, 600, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
+					game.add.tween(nubesAparecer[tutoFirst]).to({alpha:0}, 1200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
 						nubesAparecer[tutoFirst].destroy();
 					});
 					animalsInStage[tutoFirst].x=positionX[tutoFirst];
@@ -536,6 +536,7 @@ var uni = function(){
 			sound.play("brightTransition")
 			game.add.tween(dreamGroup.bright).to({alpha: 1},500,Phaser.Easing.Cubic.Out,true).yoyo(true)
 			var bgAppear = game.add.tween(dreamGroup.bg).to({alpha:1}, 500, Phaser.Easing.Cubic.In, true)
+			game.add.tween(buttonImg).to({alpha:1}, 1200, Phaser.Easing.Cubic.InOut, true)
             bgAppear.onComplete.add(function(){
                 dreamGroup.add(buttonImg)
             })
@@ -1012,12 +1013,14 @@ var uni = function(){
 		buttonImg.inputEnabled=false;
 		buttonImg.events.onInputDown.add(checkGoal)
 		buttonImg.anchor.setTo(0.5, 0.5)
-		buttonImg.alpha = 1	
+		buttonImg.alpha = 0
 		buttonImg.scale.setTo(0.4, 0.4)
 		clockCounter.add(buttonImg)
 		buttonImg.x = clockCounter.x
 		buttonImg.y = clockCounter.y+5
 		clockCounter.bringToTop(buttonImg)
+		
+		
 		
 		
 		game.add.tween(buttonImg.scale).to({x:0.45, y:0.35}, 300, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
@@ -1131,10 +1134,20 @@ var uni = function(){
 	}
 	
 	function discardAnimal(obj){
-		animalsInStage[obj.index].destroy();
-		animalsInStage[obj.index]=null
-		obj.destroy();
-		animalsCreated--;
+		obj.inputEnabled=false;
+		for(var deactivateInputs=0; deactivateInputs<animalsInStage.length; deactivateInputs++){
+			if(animalsInStage[deactivateInputs]!=null)animalsInStage[deactivateInputs].inputEnabled=false;
+		}
+		game.add.tween(animalsInStage[obj.index]).to({alpha:0}, 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
+
+			animalsInStage[obj.index].destroy();
+			animalsInStage[obj.index]=null
+			for(var activateInputs=0; activateInputs<animalsInStage.length-1; activateInputs++){
+				if(animalsInStage[activateInputs]!=null)animalsInStage[activateInputs].inputEnabled=true;
+			}
+			obj.destroy();
+			animalsCreated--;
+		})
 		sound.play("discard")
 		buttonImg.inputEnabled=false;
 		game.time.events.add(600, function () {
@@ -1188,7 +1201,7 @@ var uni = function(){
 			nubesAparecer[index].scale.setTo(0,0);
 			nubesAparecer[index].anchor.setTo(0.5,0.8);
 			game.add.tween(nubesAparecer[index].scale).to({x: 1,y:1}, 10, Phaser.Easing.Cubic.InOut, true)
-			game.add.tween(nubesAparecer[index]).to({alpha:0}, 600, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
+			game.add.tween(nubesAparecer[index]).to({alpha:0}, 1200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
 				nubesAparecer[index].destroy();
 			});
 			if(animalsInStage.length==goalUni && tutorial){

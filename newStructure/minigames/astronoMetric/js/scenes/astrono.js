@@ -757,11 +757,11 @@ var astrono = function(){
 	}
 	
 	function showFigure(){
-
-	
-	
-	
-		game.time.events();
+//		var graphics=
+//	
+//	
+//	
+//		game.time.events();
 	}
     
     function incorrectReaction(){
