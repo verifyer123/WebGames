@@ -27,6 +27,8 @@ var optimizedGames={
 		{name:'Optimized Oona Says Cook',url:'oonaSaysCook/',mapUrl:'oonaSaysCook', sceneName:'oona',subject:'coding', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
 		{name:'Optimized Magnet Ride',url:'magnetRide/',mapUrl:'magnetRide', sceneName:'magnet',subject:'science',review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
 		{name:'Optimized River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability', review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},
+		{name:'Optimized Color Invaders',url:'colorInvaders/',mapUrl:'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},
+		{name:'Optimized Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		]
 	
 	}

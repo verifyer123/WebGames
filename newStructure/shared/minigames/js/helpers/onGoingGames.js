@@ -65,7 +65,6 @@ var onGoingGames={
 			{name:'Minmax Duel',url:'minmaxduel/',mapUrl:'minmaxduel', sceneName:'minmaxduel',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//46
 			{name:'Math Invader',url:'mathInvader/',mapUrl:'mathInvader', sceneName:'invader',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//47
 			{name:'Locksmath',url:'locksmath/',mapUrl:'locksmath', sceneName:'lock',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.MATCH},//48
-			{name:'Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//49
 			{name:'Lucky Numbers',url:'luckynumber/',mapUrl:'luckynumber', sceneName:'luckynumber',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.MATCH},//50
 			{name:'Robovet',url:'robovet/',mapUrl:'robovet', sceneName:'robo',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//51
 			{name:'Math Bomb',url:'mathBomb/',mapUrl:'mathBomb', sceneName:'bomb',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},//52
@@ -186,7 +185,6 @@ var onGoingGames={
 		   {name:'Hygiene Plus',url:'hygienePlus/',mapUrl:'hygienePlus', sceneName:'hygienePlus',subject:'language', review:false,objective:15,demo:false, type:gameTypeEnum.CHOOSE},//174
 		   {name:'Wild Feed',url:'wildFeed/',mapUrl:'wildFeed', sceneName:'wildFeed',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//175
 		   {name:'Cubetinent',url:'cubetinent/',mapUrl:'cubetinent', sceneName:'cubetinent',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//176
-		   {name:'Color Invaders',url:'colorInvaders/',mapUrl:'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//177
 		   {name:'Clean Crossing',url:'cleanCrossing/',mapUrl:'cleanCrossing', sceneName:'cleanCrossing',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//178
 		   {name:'Climb O Weight',url:'climbOWeight/',mapUrl:'climbOWeight', sceneName:'climbOWeight',subject:'sciencie', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//179
 		   {name:'Water Gunner',url:'waterGunner/',mapUrl:'waterGunner', sceneName:'waterGunner',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//180
