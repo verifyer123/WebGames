@@ -142,12 +142,12 @@ var galacticPool = function(){
 	var shoot
 	var particlesGroup, particlesUsed
 	var physicPlanets
-	var gameIndex = 1
 	var tutoGroup
 	var indexGame
 	var overlayGroup
 	var blackHole
 	var stick;
+	var gameIndex;
 	var planetsGroup;
 	var fontStyleWord
 	var targetsGroup;
@@ -170,7 +170,7 @@ var galacticPool = function(){
 	var texture2;
 	var texture3;
 	var distance = 950;
-	var max = 1000;
+	var max = 500;
 	var xx = [];
 	var yy = [];
 	var zz = [];
@@ -227,7 +227,7 @@ var galacticPool = function(){
 
 	function initialize(){
 
-		game.stage.backgroundColor = "#000000"
+		//game.stage.backgroundColor = "#000000"
 		lives = 3
 		emitter=""
 		START_TIMING=300;
@@ -313,7 +313,7 @@ var galacticPool = function(){
 		});
 	}
 	function stopDragging(obj){
-		sound.play("released")
+		sound.play("pop")
 		for(var overTargets=0; overTargets<planets.length; overTargets++){
 			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled){
 				checkIfCorrect(obj,targets[overTargets]);
@@ -399,8 +399,8 @@ var galacticPool = function(){
 		goal++;
 		if(planet.tag==target.tag){
 			getCoins(planet);
-			correctParticle.x = planet.centerX
-			correctParticle.y = planet.centerY
+			correctParticle.x = planet.centerX;
+			correctParticle.y = planet.centerY;
 			correctParticle.start(true, 1200, null, 10)
 			planet.body.x=target.x;
 			planet.body.y=target.y;
@@ -410,7 +410,7 @@ var galacticPool = function(){
 			planet.inputEnabled=false;
 			if(goal==TOTAL_PLANETS && !tutorial){
 				goal=0;
-				stopTimer();	
+				stopTimer();
 			}
 			if(tutorial){
 				tutoPlanet++;
@@ -732,7 +732,7 @@ var galacticPool = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
+			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
 			//amazing.saveScore(pointsBar.number) 			
 			sceneloader.show("result")
@@ -741,7 +741,7 @@ var galacticPool = function(){
 
 
 	function preload(){		
-		game.stage.disableVisibilityChange = false;
+		//game.stage.disableVisibilityChange = false;
 		epicparticles.loadEmitter(game.load, "pickedEnergy") 
 	}
 
@@ -1220,14 +1220,11 @@ var galacticPool = function(){
 		localizationData:localizationData,
 		preload:preload,
 		update:update,
-		getGameData:function () {
-			var games = yogomeGames.getGames()
-			return games[gameIndex]
-		},
 		create: function(event){
 
 
 			sceneGroup = game.add.group()
+			sceneGroup.alpha=1;
 			createBackground()
 			addParticles()
 			baseSong = sound.play("acornSong", {loop:true, volume:0.6})

@@ -124,7 +124,7 @@ var colorInvaders = function(){
 	var texture;
 	var texture2;
 	var texture3;
-	var max = 1000;
+	var max = 500;
 	var xx = [];
 	var yy = [];
 	var zz = [];
@@ -771,6 +771,7 @@ var colorInvaders = function(){
 		coin.x = obj.centerX
 		coin.y = obj.centerY
 		var time = 300
+		if(timer>4000)timer-=2000;
 
 		game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
 

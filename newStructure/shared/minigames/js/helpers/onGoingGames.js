@@ -109,7 +109,7 @@ var onGoingGames={
 			{name:'FrutiLluvia',url:'frutiLluvia/',mapUrl:'frutiLluvia', sceneName:'fruti',subject:'math', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//93
 			{name:'Dr Zombie',url:'drZombie/',mapUrl:'drZombie', sceneName:'drzombie',subject:'health', review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},//94
 			{name:'Cog Count',url:'cogCount/',mapUrl:'cogCount', sceneName:'cog',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.COUNT},//96
-			{name:'Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galactic',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//97
+			{name:'Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galacticPool',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//97
 			{name:'River Rescue',url:'riverRescue/',mapUrl:'riverRescue', sceneName:'riverRescue',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//99
 			{name:'Garbage Diving',url:'garbageDiving/',mapUrl:'garbageDiving', sceneName:'garbageDiving',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//101
 			{name:'Space Vaccum',url:'spaceVaccum/',mapUrl:'spaceVaccum', sceneName:'spaceVaccum',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//102
@@ -132,7 +132,7 @@ var onGoingGames={
 		   {name:'Noisy Monsters',url:'noisyMonsters/',mapUrl:'noisyMonsters', sceneName:'noisyMonsters',subject:'sustainability', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//121
 		   {name:'Balance Science',url:'balanceScience/',mapUrl:'balanceScience', sceneName:'balanceScience',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//122
 		   {name:'Liquidungeon',url:'liquidungeon/',mapUrl:'liquidungeon', sceneName:'liquidungeon',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//123
-		   {name:'Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//124
+		   {name:'Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.TAP},//124
 		   {name:'Lake Strike',url:'lakeStrike/',mapUrl:'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.TARGET},//125
 		   {name:'Noisy Streets',url:'noisyStreets/',mapUrl:'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//126
 		   {name:'Continental Puzzle',url:'continentalPuzzle/',mapUrl:'continentalPuzzle',sceneName:'continentalPuzzle',subject:'geography',review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//127

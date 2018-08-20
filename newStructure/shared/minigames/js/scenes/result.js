@@ -86,7 +86,7 @@ var result = function(){
 	var buttonsActive
 	var currentPlayer
 	var haveCoupon
-	var gamesList
+	var gameData
 	var goalScore = 50
 	var gameNumbers = null
 	var scaleToUse
@@ -111,16 +111,16 @@ var result = function(){
 
 	function setScore(didWin,score,index,scale) {
 
-		gamesList = parent.gameData
+		gameData = parent.gameData
 
 		player.name="Heber";
 		player.totalScore=10;
-		configuration=gamesList.config.tutorial;
-		console.log(gamesList)
+		configuration=gameData.config.tutorial;
+		console.log(gameData)
 		currentPlayer = null
 		gameIndex = index
 		totalScore = score
-		goalScore = gamesList.objective
+		goalScore = gameData.objective
 		win = totalScore >= goalScore
 		console.log(win)
 		//console.log(parent.epicModel)
@@ -213,8 +213,8 @@ var result = function(){
 
 		mixpanel.track(
 			callName,
-			{"minigame": gamesList.name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
-			 "answerTime":playerData.timeReady,"subject":gamesList.subject,"isMap":playerData.hasMap,"app":"epicWeb"}
+			{"minigame": gameData.name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
+			 "answerTime":playerData.timeReady,"subject":gameData.subject,"isMap":playerData.hasMap,"app":"epicWeb"}
 		);
 	}
 
@@ -224,7 +224,7 @@ var result = function(){
 
 		FB.ui({
 			method: 'share',
-			href: gamesList.url,
+			href: gameData.url,
 			mobile_iframe: true,
 			title: localization.getString(localizationData,"myScore") + totalScore
 		}, function(response){
@@ -257,9 +257,11 @@ var result = function(){
 				shareEvent()
 			}else if(parent.tag == 'retry'){
 				setMixpanel("onRetry")
+				console.log(gameData)
 				var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
 				alphaTween.onComplete.add(function(){
-					sceneloader.show(gamesList.sceneName)
+					sceneloader.show(gameData.sceneName)
+					
 				})
 			}else if(parent.tag == 'map'){
 				setMixpanel("onMap")
@@ -494,7 +496,7 @@ var result = function(){
 			currentPlayer.powerCoins += totalScore
 
 			if(env.isMap && win){
-				currentPlayer.minigames[gamesList.id].completed = true
+				currentPlayer.minigames[gameData.id].completed = true
 			}
 			parent.epicModel.savePlayer(currentPlayer)
 		}
@@ -1094,11 +1096,11 @@ var result = function(){
 
 		game.load.spine('yogotaResults', imagesPath + "spines/yogotar.json?v2");
 
-		//		if(!gamesList){
-		//			gamesList = yogomeGames.getGames()
+		//		if(!gameData){
+		//			gameData = yogomeGames.getGames()
 		//		}
 
-		var iconName = gamesList.sceneName
+		var iconName = gameData.sceneName
 		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")
 		//console.log('End preload')
 	}

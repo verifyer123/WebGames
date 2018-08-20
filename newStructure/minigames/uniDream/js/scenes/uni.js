@@ -726,6 +726,10 @@ var uni = function(){
 		var countDonk=0;
 		animalsCreated=0;
 		var exitSpeed=3000;
+		buttonImg.loadTexture("atlas.uni","ok_02");
+		game.time.events.add(200,function(){
+			buttonImg.loadTexture("atlas.uni","rdyButton");
+		})
 		if(clock.tween){
 			clock.tween.stop();
 			game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},800,Phaser.Easing.linear,true)
