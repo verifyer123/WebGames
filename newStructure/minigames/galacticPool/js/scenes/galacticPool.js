@@ -245,7 +245,6 @@ var galacticPool = function(){
 
 	function onClickPlay(rect) {
 		tutoGroup.y = -game.world.height
-
 		game.time.events.add(900,function(){
 			stickAnimation()
 		});

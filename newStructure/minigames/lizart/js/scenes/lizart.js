@@ -15,7 +15,12 @@ var lizart = function(){
 				name: "atlas.tutorial",
 				json: tutorialPath+"images/tutorial/tutorial_atlas.json",
 				image: tutorialPath+"images/tutorial/tutorial_atlas.png"
-			}
+			},
+            {
+                name: "atlas.time",
+                json: "images/lizart/timeAtlas.json",
+                image: "images/lizart/timeAtlas.png",
+            },
 		],
 		images: [
 			{
@@ -143,11 +148,11 @@ var lizart = function(){
 				frames:16
 			},
 			{
-				name:"rightBody",
-				file:imagePath + "sheets/rigth.png",
-				width:355,
-				height:309,
-				frames:16
+				name:"runBody",
+				file:imagePath + "sheets/right.png",
+				width:334,
+				height:284,
+				frames:22
 			},
 			{
 				name:"wrongEyes",
@@ -173,7 +178,7 @@ var lizart = function(){
 			{
 				name:"eatingEyes1",
 				file:imagePath + "sheets/eat_ojos_1.png",
-				width:201,
+				width:207,
 				height:156,
 				frames:19
 			},
@@ -183,6 +188,21 @@ var lizart = function(){
 				width:216,
 				height:212,
 				frames:19
+				
+			},
+			{
+				name:"runEyes_2",
+				file:imagePath + "sheets/run_ojos_1.png",
+				width:106,
+				height:92,
+				frames:22
+			},
+			{
+				name:"runEyes_1",
+				file:imagePath + "sheets/run_ojos_2.png",
+				width:122,
+				height:118,
+				frames:22
 			}
 		],
 		spines: [
@@ -198,15 +218,18 @@ var lizart = function(){
 	var background;
 	var sceneGroup = null;
 	var heartsGroup = null;
+	var UIGroup=null;
 	var speedGame = 5;
 	var tree;
 	var piso;
-	var POINT_TO_CHANGE_DIFICULTY=1
+	var POINT_TO_CHANGE_DIFICULTY=5
 	var ALL_FRUITS=5;
 	var wasCorrect;
 	var heartsIcon;
+	var dificultyTimer
 	var score;
 	var pointsBar
+	var START_TIMING=300;
 	var tutorial;
 	var heartsText;	
 	var GAP_BETWEEN_FRUITS=150;
@@ -231,16 +254,43 @@ var lizart = function(){
 		"Purple",
 		"Red"
 	]
-	var hand, coin; 
+	var positionStates=[]
+	var allPositions;
+	var POSITION_LIST_1=[
+		{x:130,y:350},
+		{x:200,y:200},
+		{x:450,y:450},
+		{x:350,y:250},
+		{x:270,y:390},
+		{x:500,y:180}
+	];
+	var POSITION_LIST_2=[
+		{x:490,y:210},
+		{x:240,y:350},
+		{x:400,y:400},
+		{x:100,y:390},
+		{x:350,y:220},
+		{x:150,y:220}
+	];
+	var POSITION_LIST_3=[
+		{x:300,y:430},
+		{x:340,y:270},
+		{x:440,y:420},
+		{x:490,y:250},
+		{x:150,y:230},
+		{x:130,y:400}
+	];
+	var pasing=[];
+	var hand, coin, timeBar, clock; 
 	var globo, textGlobo;
 	var idleBody, idleEyes_1, idleEyes_2;
 	var wrongIdleEyes, wrongEyes;	
-	var rightBody;
-	var rightEyes;	
+	var rightBody, rightEyes_1, rightEyes_2;
 	var wrongBody;
 	var eatingBodys, eatingEyes_1, eatingEyes_2;
 	var tongue;
 	var shadowLizar;
+	var tweenTiempo;
 	var good, wrong, stars;
 	var fruits = new Array;
 	var canTakeFruit = true
@@ -262,14 +312,14 @@ var lizart = function(){
 	function initialize(){
 		lives = INITIAL_LIVES;
 		coins = 0;
-		canTakeFruit = true
+		canTakeFruit = true;
 		passingLevel=true;
 		wasCorrect=false;
-		heartsText.setText("x " + lives);
+		dificultyTimer=5000;
+		heartsText.setText("x " + lives);;
 		xpText.setText(coins);
 		speedGame = 5;
 		starGame = false;
-
 	}	
 
 	function getRandomArbitrary(min, max) {
@@ -281,8 +331,9 @@ var lizart = function(){
 		coins = 0;
 		speedGame = 5;
 		starGame = false;
-
-		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
+		pasing=[null]
+		sceneGroup = game.add.group(); 
+		yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		overlayGroup = game.add.group()
 
 		createHearts();
@@ -443,107 +494,141 @@ var lizart = function(){
 			fruits[i].inputEnabled = true
 			fruits[i].events.onInputDown.add(chooseFruit,this);
 		}
-		var idleGroup = game.add.group();
+		idleGroup = game.add.group();
 		idleBody = idleGroup.create(0, 0, 'idleBody');
-		idleBody.y = game.height - idleBody.height * 1.10;
-		idleBody.x = idleBody.x-20;
-		var idleBodyAnimation = idleBody.animations.add('idleBodyAnimation');
+		idleBody.y = game.height -170;
+		idleBody.x = game.world.centerX-140;
+		idleBodyAnimation = idleBody.animations.add('idleBodyAnimation');
 		idleBody.animations.play('idleBodyAnimation', 24, true);
 		idleBody.alpha = 0;
+		idleBody.anchor.setTo(0.5,0.5);
 
 		idleEyes_2 = idleGroup.create(0, 0, 'idleEyes_2');
-		idleEyes_2.y = idleBody.y - idleBody.height/10+50;
-		idleEyes_2.x = idleBody.x + idleBody.width/1.5;
-		var idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
+		idleEyes_2.y = idleBody.y-40;
+		idleEyes_2.x = idleBody.x + 130;
+		idleEyesAnimation2 = idleEyes_2.animations.add('idleEyesAnimation2');
 		idleEyes_2.animations.play('idleEyesAnimation2', 24, true);
 		idleEyes_2.alpha = 0;
+		idleEyes_2.anchor.setTo(0.5,0.5);
 		idleGroup.x = game.world.centerX/2;
 		idleBody.bringToTop();
 
 		idleEyes_1 = idleGroup.create(0, 0, 'idleEyes_1');
-		idleEyes_1.y = idleBody.y - idleBody.height/10+70;
-		idleEyes_1.x = idleBody.x + idleBody.width/2.1;
-		var idleEyesAnimation1 = idleEyes_1.animations.add('idleEyesAnimation');
+		idleEyes_1.y = idleBody.y -20;
+		idleEyes_1.x = idleBody.x +70;
+		idleEyes_1.anchor.setTo(0.5,0.5);
+		idleEyesAnimation1 = idleEyes_1.animations.add('idleEyesAnimation');
 		idleEyes_1.animations.play('idleEyesAnimation', 24, true);
 		idleEyes_1.alpha = 0;
 
-		var rightGroup = game.add.group();
-		rightBody = rightGroup.create(0, 0, 'rightBody');
-		rightBody.y = game.height - rightBody.height * 1.1;
-		var rightBodyAnimation = rightBody.animations.add('rightBodyAnimation');
+		rightGroup = game.add.group();
+		rightBody = rightGroup.create(0, 0, 'runBody');
+		rightBody.y = game.height -170;
+		rightBody.x = game.world.centerX-140;
+		rightBodyAnimation = rightBody.animations.add('rightBodyAnimation');
 		rightBody.animations.play('rightBodyAnimation', 24, true);
+		rightBody.anchor.setTo(0.5,0.5);
 		rightBody.tint=0xb7b7b7;
-
-		rightEyes = rightGroup.create(0, 0, 'rightEyes');
-		rightEyes.y = rightBody.y - 10;
-		rightEyes.x = rightBody.x + 30;
-		var rightEyesAnimation = rightEyes.animations.add('rightEyesAnimation');
-		rightEyes.animations.play('rightEyesAnimation', 24, true);
+		
+		rightEyes_2 = rightGroup.create(0, 0, 'runEyes_2');
+		rightEyes_2.y = rightBody.y - 80;
+		rightEyes_2.x = rightBody.x + 100;
+		rightEyes_2.anchor.setTo(0.5,0.5);
+		rightEyesAnimation_2 = rightEyes_2.animations.add('rightEyesAnimation_2');
+		rightEyes_2.animations.play('rightEyesAnimation_2', 24, true);
 		rightGroup.alpha = 0;
 		rightGroup.x = game.world.centerX/2;
+		rightBody.bringToTop();
 
-		var wrongGroup = game.add.group();
+		rightEyes_1 = rightGroup.create(0, 0, 'runEyes_1');
+		rightEyes_1.y = rightBody.y - 40;
+		rightEyes_1.x = rightBody.x + 50;
+		rightEyes_1.anchor.setTo(0.5,0.5);
+		rightEyesAnimation_1 = rightEyes_1.animations.add('rightEyesAnimation_1');
+		rightEyes_1.animations.play('rightEyesAnimation_1', 24, true);
+		rightGroup.x = game.world.centerX/2;
+		
+		wrongGroup = game.add.group();
 		wrongBody = wrongGroup.create(0, 0, 'wrongBody');
 		wrongBody.y = game.height - wrongBody.height * 1.1;
-		var wrongBodyAnimation = wrongBody.animations.add('wrongBodyAnimation');
+		wrongBodyAnimation = wrongBody.animations.add('wrongBodyAnimation');
 
 		wrongEyes = wrongGroup.create(0, 0, 'wrongEyes');
 		wrongEyes.y = wrongBody.y - 20;
 		wrongEyes.x = wrongBody.x + 170;
-		var wrongEyesAnimation = wrongEyes.animations.add('wrongEyesAnimation');
+		wrongEyesAnimation = wrongEyes.animations.add('wrongEyesAnimation');
 		wrongGroup.alpha = 0;
 		wrongGroup.x = game.world.centerX/2;		
 
-		var eatingGroup = game.add.group();
-
+		eatingGroup = game.add.group();
 
 		eatingBodys = eatingGroup.create(0, 0, 'eatingBody');
-		eatingBodys.y =game.height - wrongBody.height * 1.4;
-		eatingBodys.x = eatingBodys.x-20;
-		var eatingBodyAnimation = eatingBodys.animations.add('eatingBodyAnimation');
-		eatingBodys.alpha = 0;
+		eatingBodys.y =game.height -170;
+		eatingBodys.x = game.world.centerX-140;
+		eatingBodyAnimation = eatingBodys.animations.add('eatingBodyAnimation');
+		eatingBodys.alpha = 1;
+		eatingBodys.anchor.setTo(0.5,0.5)
 		eatingBodys.tint=0xb7b7b7;
-
-		tongue.x=eatingBodys.x+230;
-		tongue.y=eatingBodys.y+100;
+		
+		tongue.x=eatingBodys.x+50;
+		tongue.y=eatingBodys.y-80;
+		tongue.alpha=1;
+		eatingGroup.add(tongue)
+		
+		eatingEyes_2 = eatingGroup.create(0, 0, 'eatingEyes2');
+		eatingEyes_2.y = eatingBodys.y - 10;
+		eatingEyes_2.x = eatingBodys.x + 90;
+		eatingEyes_2.alpha=1
+		eatingEyes_2.anchor.setTo(0.5,0.5)
+		eatingEyesAnimation2 = eatingEyes_2.animations.add('eatingEyesAnimation2');
+		
+		eatingGroup.x = game.world.centerX/2;	
+		eatingGroup.alpha=0
+		
+		eatingBodys.bringToTop();
 
 		eatingEyes_1 = eatingGroup.create(0, 0, 'eatingEyes1');
 		eatingEyes_1.y = eatingBodys.y - 20;
-		eatingEyes_1.x = eatingBodys.x + 170;
-		var eatingEyesAnimation1 = eatingEyes_1.animations.add('eatingEyesAnimation1');
+		eatingEyes_1.x = eatingBodys.x;
+		eatingEyesAnimation1 = eatingEyes_1.animations.add('eatingEyesAnimation1');
 		eatingEyes_1.alpha = 1;
+		eatingEyes_1.anchor.setTo(0.5,0.5)
 		eatingGroup.x = game.world.centerX/2;	
 
-		eatingEyes_2 = eatingGroup.create(0, 0, 'eatingEyes2');
-		eatingEyes_2.y = eatingBodys.y - 90;
-		eatingEyes_2.x = eatingBodys.x + 170;
-		eatingEyes_2.alpha=1
-		var eatingEyesAnimation2 = eatingEyes_2.animations.add('eatingEyesAnimation2');
-		eatingGroup.x = game.world.centerX/2;	
+		//eatingGroup.alpha=1;
+		UIGroup= game.add.group();
+		sceneGroup.add(UIGroup)
+		positionTimer()
 
-
-		shadowLizar = sceneGroup.create(game.world.centerX/1.8,game.height-50,"shadowLizar");
+		shadowLizar = sceneGroup.create(game.world.centerX/1.3,game.height-50,"shadowLizar");
+		
 		var options=[];
-		function checkCorrectGapBeforeLevel(options){
-			var back=false;
-			for(var checkCollitionsFruit1=0; checkCollitionsFruit1<fruitsDificulty; checkCollitionsFruit1++){
-				for(var checkCollitionsFruit2=0; checkCollitionsFruit2<fruitsDificulty; checkCollitionsFruit2++){
-					if(Math.abs(options[checkCollitionsFruit1][0]-options[checkCollitionsFruit2][0])<GAP_BETWEEN_FRUITS && Math.abs(options[checkCollitionsFruit1][1]-options[checkCollitionsFruit2][1])<GAP_BETWEEN_FRUITS && checkCollitionsFruit1!=checkCollitionsFruit2){
-						back=true;
-					}
-				}
-			}
-			if(back){
-				createFruits();
-			}else{
-				displayFruits(options)
-			}
+
+		cursors = game.input.keyboard.createCursorKeys();
+		createFruits();	
+		createOverlay();
+	}
+	
+			function checkPositionList(options){
+			displayFruits(options)
 		}
 		function createFruits(){
-			for(var randomPositions=0; randomPositions<fruitsDificulty; randomPositions++){
-				options[randomPositions] = [game.rnd.integerInRange(100,game.world.width-100) ,game.rnd.integerInRange(200,400)];
+			
+			var options;
+			var selectList=game.rnd.integerInRange(1,3);
+			if(selectList==1){
+				options=POSITION_LIST_1;
+			}else if(selectList==2){
+				options=POSITION_LIST_2;
+			}else if(selectList==3){
+				options=POSITION_LIST_3;
 			}
+			
+			pasing=[];
+
+			Phaser.ArrayUtils.shuffle(options)
 			for(var i = 0;i<=ALL_FRUITS;i++){
+				pasing[i]={x:0,y:0};
 				fruits[i].y = -500;
 				fruits[i].scale.setTo(0.7,0.7);
 				fruits[i].anchor.setTo(0.5,0.5);
@@ -551,84 +636,84 @@ var lizart = function(){
 			}
 			Phaser.ArrayUtils.shuffle(INDEX_NUMBER)
 			for(var e = 0;e<fruitsDificulty;e++){
-				fruits[INDEX_NUMBER[e]].x = options[e][0];
+				fruits[INDEX_NUMBER[e]].x = options[e].x;
 			}
 			good = getRandomArbitrary(0,fruitsDificulty);
 			colorSelect = colorsArray[fruits[INDEX_NUMBER[good] ].id ];
-			checkCorrectGapBeforeLevel(options)
+			checkPositionList(options)
 		}
-		function checkCorrectGapInLevel(options,option,nextFruit,removedFruit,functionTween){
-			var back=false;
-			option[0]=game.rnd.integerInRange(100,game.world.width-100);
-			option[1]=game.rnd.integerInRange(200,400);
-			var optionToRemove=checkOptionToRemove(options,removedFruit);
-			console.log(optionToRemove)
-			for(var checkCollitionsFruit1=0; checkCollitionsFruit1<fruitsDificulty; checkCollitionsFruit1++){
-				if(Math.abs(options[checkCollitionsFruit1][0]-option[0])<GAP_BETWEEN_FRUITS && Math.abs(options[checkCollitionsFruit1][1]-option[1])<GAP_BETWEEN_FRUITS && checkCollitionsFruit1!=removedFruit){
-					back=true;
-				}
+		function nextDificultyApearFruit(options){
+			var fruitToAppear=game.rnd.integerInRange(0,ALL_FRUITS);
+			var position=game.rnd.integerInRange(0,options.length-1);
+			while(fruits[INDEX_NUMBER[fruitToAppear]].y>0 && pasing[fruitToAppear].x!=0){
+				fruitToAppear=game.rnd.integerInRange(0,ALL_FRUITS);
 			}
-			if(back){
-				checkCorrectGapInLevel(options,option,nextFruit,removedFruit,functionTween);
-			}else{
-				options[optionToRemove][0]=option[0];
-				options[optionToRemove][1]=option[1];
-				fruits[INDEX_NUMBER[removedFruit]].y=-500;
-				appearFruit(option,nextFruit,functionTween);
-			}
+			fruits[INDEX_NUMBER[fruitToAppear]].inputEnabled=true
+			fruits[INDEX_NUMBER[fruitToAppear]].x=options[fruitToAppear].x;
+			fruits[INDEX_NUMBER[fruitToAppear]].alpha=1;
+			TweenMax.to(fruits[INDEX_NUMBER[fruitToAppear]],1,{y:options[fruitToAppear].y,ease:Bounce.easeOut,delay:0});
+			
+			game.time.events.add(1000,function(){
+				pasing[fruitToAppear].x=options[fruitToAppear].x;
+				pasing[fruitToAppear].y=options[fruitToAppear].y;
+				dificultyDisappearingAndApearing(options)
+			})
 		}
-		function nextDificultyDissaperFruit(){
-			var colliding=false;
-			var option=[];
-			var removedFruit;
-			var nextFruit=0;
-			removedFruit=game.rnd.integerInRange(0,ALL_FRUITS);
-			while(fruits[INDEX_NUMBER[removedFruit]].y<0){
-				removedFruit=game.rnd.integerInRange(0,ALL_FRUITS);
+		function positionTimer(){
+
+			clock=game.add.image(game.world.centerX-150,70,"atlas.time","clock")
+			clock.scale.setTo(.7)
+			timeBar=game.add.image(clock.position.x+40,clock.position.y+40,"atlas.time","bar")
+			timeBar.scale.setTo(8,.45)
+			timeBar.alpha=1;
+			clock.alpha=1;
+			UIGroup.add(clock);
+			UIGroup.add(timeBar);
+			UIGroup.alpha=0;
+		}
+	 	function nextDificultyDissaperFruit(options){
+			var fruitToDissapear=game.rnd.integerInRange(0,ALL_FRUITS);
+			while(fruits[INDEX_NUMBER[fruitToDissapear]].y<0){
+				fruitToDissapear=game.rnd.integerInRange(0,ALL_FRUITS);
 			}
-			option[0]=game.rnd.integerInRange(100,game.world.width-100);
-			option[1]=game.rnd.integerInRange(200,400);
-			functionTween=game.add.tween(fruits[INDEX_NUMBER[removedFruit]]).to({alpha:0},300,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
-				nextFruit=game.rnd.integerInRange(0,ALL_FRUITS);
-				while(fruits[INDEX_NUMBER[nextFruit]].y>0){
-					nextFruit=game.rnd.integerInRange(0,ALL_FRUITS);
-				}
-				checkCorrectGapInLevel(options,option,nextFruit,removedFruit,functionTween);																															
+			fruits[INDEX_NUMBER[fruitToDissapear]].inputEnabled=false
+			game.add.tween(fruits[INDEX_NUMBER[fruitToDissapear]]).to({alpha:0},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				fruits[INDEX_NUMBER[fruitToDissapear]].y=-500;
+				nextDificultyApearFruit(options);
+			})
+		}
+		function dificultyDisappearingAndApearing(options){
+			functionTime=game.time.events.add(1000,function(){
+				if(!passingLevel)nextDificultyDissaperFruit(options);
 			});
 		}
-		function checkOptionToRemove(options, removedFruit){
-			var optionToRemove=0;
-			for(var check=0; check<fruitsDificulty; check++){
-				if(options[check][0]==fruits[INDEX_NUMBER[removedFruit]].x && options[check][1]==fruits[INDEX_NUMBER[removedFruit]].y){
-					optionToRemove=check;
-				}
-			}
-			return optionToRemove;
-		}
-		function appearFruit(option,optionId,functionTween){
+		function appearFruit(options,optionToPlace,optionId,functionTween){
 			functionTween=game.add.tween(fruits[INDEX_NUMBER[optionId]]).to({alpha:1},300,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
-				fruits[INDEX_NUMBER[optionId]].x=option[0];
-				fruits[INDEX_NUMBER[optionId]].y=option[1];
-				recursive();
-			});
-		}
-		function recursive(){
-			functionTime=game.time.events.add(2000,function(){
-				if(!passingLevel)nextDificultyDissaperFruit();
-				console.log(passingLevel)
+				fruits[INDEX_NUMBER[optionId]].x=options[optionToPlace].x;
+				fruits[INDEX_NUMBER[optionId]].y=options[optionToPlace].y;
+				pasing[optionToPlace].x=options[optionToPlace].x;
+				pasing[optionToPlace].y=options[optionToPlace].y;
+				dificultyDisappearingAndApearing(options);
 			});
 		}
 		function displayFruits(options){
 			for(var tweenFruits=0; tweenFruits<fruitsDificulty; tweenFruits++){
 				fruits[INDEX_NUMBER[tweenFruits]].alpha=1;
-				TweenMax.to(fruits[INDEX_NUMBER[tweenFruits]],tweenFruits*0.5+1,{y:options[tweenFruits][1],ease:Bounce.easeOut,delay:0});
+				pasing[tweenFruits]=options[tweenFruits];
+				TweenMax.to(fruits[INDEX_NUMBER[tweenFruits]],tweenFruits*0.5+1,{y:options[tweenFruits].y,ease:Bounce.easeOut,delay:0});
 			}
 			
 			passingLevel=false;
+			if(score>=POINT_TO_CHANGE_DIFICULTY-2){
+				UIGroup.alpha=1;
+			}
 			if(score>=POINT_TO_CHANGE_DIFICULTY){
-				recursive();
+				dificultyDisappearingAndApearing(options);
 			}else{
 				return
+			}
+			if(pointsBar.number%POINT_TO_CHANGE_DIFICULTY==0 && pointsBar.number!=0 && pointsBar.number!=1){
+				if(fruitsDificulty<5)fruitsDificulty++;
 			}
 		}
 		function correctFruit(fruitItem){
@@ -636,9 +721,9 @@ var lizart = function(){
 			globo.destroy();
 			textGlobo.destroy();
 			if(idleGroup.x>fruitItem.x){
-				eatingGroup.scale.setTo(-1,1);
-				idleGroup.scale.setTo(-1,1);
-				rightGroup.scale.setTo(-1,1);
+				
+				eatingGroup.scale.setTo(1,1);
+				rightGroup.scale.setTo(1,1);
 			}
 			canTakeFruit = false
 
@@ -651,10 +736,9 @@ var lizart = function(){
 			eatingGroup.x=fruitItem.x-200;
 			idleGroup.alpha=0;
 			rightGroup.alpha=1;
-			game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.Cubic.In,true)
+			game.add.tween(shadowLizar).to({x:fruitItem.x-250},500,Phaser.Easing.Cubic.In,true)
 			game.add.tween(rightGroup).to({x:fruitItem.x-200},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
-				tongue.x=eatingGroup.x+230;
-				tongue.y=eatingBodys.y+90;
+
 				idleGroup.alpha=0;
 				rightGroup.alpha=0;
 				idleGroup.x=positionLizardX;
@@ -663,14 +747,18 @@ var lizart = function(){
 
 				eatingBodys.alpha=1;
 				eatingBodys.animations.play('eatingBodyAnimation', 24, false)
+				eatingEyes_1.animations.play('eatingEyesAnimation1', 24, false);
+				eatingEyes_2.animations.play('eatingEyesAnimation2', 24, false);
 				tongue.alpha=1;
 				tongue.setAnimationByName(0,"lengua",false)
 
 				game.time.events.add(150,function(){
 					TweenMax.to(fruitItem,0.8,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
-					tongue.y+=20
 					game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
-					game.add.tween(fruitItem).to({x:eatingGroup.x+280,y:idleEyes_1.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+					game.add.tween(fruitItem).to({x:eatingGroup.x+300,y:idleEyes_1.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+						eatingGroup.scale.setTo(1,1);
+						idleGroup.scale.setTo(1,1);
+						rightGroup.scale.setTo(1,1);
 						tongue.alpha=0;
 						winLizar();
 						eatingBodys.tint=fruitItem.color;
@@ -710,6 +798,7 @@ var lizart = function(){
 		}
 		function chooseFruit(fruitItem){
 			passingLevel=true;
+			if(tweenTiempo)stopTimer();
 			if(functionTime)functionTime.clearEvents=true;
 			if(INDEX_NUMBER[good] == fruitItem.id && canTakeFruit){
 				correctFruit(fruitItem);
@@ -730,7 +819,7 @@ var lizart = function(){
 			Coin(rightGroup,pointsBar,50)
 			eatingGroup.alpha=0;
 			wasCorrect=true;
-			game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
+			game.add.tween(shadowLizar).to({x:game.world.width+100},1100,Phaser.Easing.linear,true);
 			game.add.tween(rightGroup).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
 			globo.destroy();
 			textGlobo.destroy();
@@ -749,9 +838,10 @@ var lizart = function(){
 			if(wasCorrect){
 				shadowLizar.x=-200;
 				rightGroup.x=-200;
-				game.add.tween(shadowLizar).to({x:game.world.centerX/1.8, y:game.height-50},500,Phaser.Easing.linear,true);
+				game.add.tween(shadowLizar).to({x:game.world.centerX/1.3, y:game.height-50},500,Phaser.Easing.linear,true);
 				game.add.tween(rightGroup).to({x: game.world.centerX/2},500,Phaser.Easing.linear,true).onComplete.add(function(){
 					idleGroup.alpha = 1;
+					startTimer(dificultyTimer);
 					rightGroup.alpha = 0;
 				});
 				wasCorrect=false;
@@ -759,10 +849,6 @@ var lizart = function(){
 			createFruits();
 			createBallon(colorSelect);
 		}
-		cursors = game.input.keyboard.createCursorKeys();
-		createFruits();	
-		createOverlay();
-	}
 
 	function addNumberPart(obj,number){
 
@@ -843,8 +929,20 @@ var lizart = function(){
 			})
 		})
 	}
-
-
+	
+	function stopTimer(){
+		if(lives>0){
+			tweenTiempo.stop()
+			tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, START_TIMING, Phaser.Easing.Linear.Out, true)
+		}
+	}
+	function startTimer(time){
+		tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true)
+		tweenTiempo.onComplete.add(function(){
+			wrongFruit();
+			stopTimer();
+		})
+	}
 
 	return {
 		assets: assets,
