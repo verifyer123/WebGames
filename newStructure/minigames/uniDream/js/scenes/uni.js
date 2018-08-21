@@ -913,7 +913,7 @@ var uni = function(){
 		dreamGroup.add(nubes)
 		game.add.tween(nubes.scale).to({x:1.02, y:0.97}, 800, Phaser.Easing.Sinusoidal.Out, true).yoyo(true).loop(true)
 		
-		nubesTop = game.add.tileSprite(0,0,game.world.width*1.2, 217, "nubes_top")
+		nubesTop = game.add.tileSprite(0,0,game.world.width*2, 216, "nubes_top")
 		nubesTop.x = game.world.centerX
 		nubesTop.y = 190
 		nubesTop.tilePosition.y -= 3
