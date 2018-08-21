@@ -449,7 +449,7 @@ var clash = function(){
 
         if(inputsEnabled){
             circle.inputEnabled = false
-            inputsEnabled = false
+            enableCircles(false)
             indicator.timer.stop()
             if(hand)
                 hand.destroy()
@@ -458,7 +458,6 @@ var clash = function(){
             buttonEffect.onComplete.add(function () {
                 game.add.tween(option.scale).to({x: 1, y: 1}, 150, Phaser.Easing.Cubic.In, true)
             })
-            tintBtns(circle)
 
             var indicatorEffect = game.add.tween(indicator.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Cubic.Out, true)
             indicatorEffect.onComplete.add(function () {
@@ -466,6 +465,7 @@ var clash = function(){
             })
 
             if (option.number === clashGroup.answer) {
+                tintBtns(circle)
                 var particleCorrect = clashGroup.correctParticle
                 particleCorrect.x = option.x
                 particleCorrect.y = option.y
@@ -725,11 +725,12 @@ var clash = function(){
         game.add.tween(clashGroup.number2).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
     
-    function enableCircles() {
+    function enableCircles(state) {
         
         clashGroup.options.forEach(function(option){
-            option.circle.inputEnabled = true
+            option.circle.inputEnabled = state
         })
+        inputsEnabled = state
     }
 
     function startIndicator(delay) {
@@ -803,11 +804,11 @@ var clash = function(){
             })
         }
         
-        optionTween.onComplete.add(enableCircles)
+        optionTween.onComplete.add(function(){
+            enableCircles(true)
+        })
 
         startIndicator(initialDelay + delayBetween * (NUM_OPTIONS + 1))
-
-        inputsEnabled = true
     }
     
     function createClashUI() {
