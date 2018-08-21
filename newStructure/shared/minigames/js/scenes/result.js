@@ -321,6 +321,7 @@ var result = function(){
 
 
 				button1.inputEnabled = true
+				button1.hitArea=new Phaser.Circle(0,0,button1.width*2)
 				button1.events.onInputDown.add(inputButton)
 				button1.active = true
 

@@ -82,22 +82,20 @@ var tutorialHelper = function () {
 
 
 
-
-
-
-		
-
-		rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(button.x-120,button.y-80,240, 160)
-		rect.alpha = 0
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			rect.inputEnabled = false
-			clickPlay(group,onClickFunction)
-		})
-		group.add(rect)
+		if(configuration=="withstars"){
+			button.inputEnabled=true;
+			button.events.onInputDown.add(function(){
+				button.inputEnabled = false
+				clickPlay(group,onClickFunction)
+			});
+		}else if(configuration=="nostars"){
+			button.inputEnabled=true;
+			button.hitArea=new Phaser.Circle(0,0,button.width);
+			button.events.onInputDown.add(function(){
+				button.inputEnabled = false
+				clickPlay(group,onClickFunction)
+			})	
+		}
 
 
 		game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
