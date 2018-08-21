@@ -158,7 +158,7 @@ var drzombie = function(){
 		objToUse = null;
 		levelZero = true;
 		OFFSETPIVOTX = game.world.centerX - 200;
-		OFFSETPIVOTY = game.world.height - 165;
+		OFFSETPIVOTY = game.world.height - 175;
         
         loadSounds();
         
