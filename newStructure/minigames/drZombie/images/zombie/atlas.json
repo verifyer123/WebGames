@@ -2,7 +2,7 @@
 
 {
 	"filename": "bar",
-	"frame": {"x":467,"y":1244,"w":30,"h":34},
+	"frame": {"x":306,"y":1562,"w":30,"h":34},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":34},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "cerebro",
-	"frame": {"x":1,"y":1828,"w":118,"h":93},
+	"frame": {"x":340,"y":837,"w":118,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":93},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "contenedor_nombres",
-	"frame": {"x":204,"y":1698,"w":177,"h":142},
+	"frame": {"x":259,"y":1128,"w":177,"h":142},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":177,"h":142},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "corazon",
-	"frame": {"x":409,"y":1401,"w":41,"h":76},
+	"frame": {"x":417,"y":932,"w":41,"h":76},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":41,"h":76},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "estomago",
-	"frame": {"x":259,"y":1255,"w":83,"h":112},
+	"frame": {"x":264,"y":1828,"w":83,"h":112},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":112},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "higado",
-	"frame": {"x":306,"y":1508,"w":85,"h":64},
+	"frame": {"x":306,"y":1496,"w":85,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":64},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "intestino_del",
-	"frame": {"x":366,"y":1350,"w":61,"h":49},
+	"frame": {"x":401,"y":1315,"w":61,"h":49},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":49},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "intestino_grueso",
-	"frame": {"x":393,"y":1508,"w":82,"h":65},
+	"frame": {"x":349,"y":1896,"w":82,"h":65},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":65},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":350,"y":1187,"w":140,"h":55},
+	"frame": {"x":259,"y":1315,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "ojos",
-	"frame": {"x":340,"y":597,"w":121,"h":256},
+	"frame": {"x":1,"y":1698,"w":121,"h":256},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":121,"h":256},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "piso",
-	"frame": {"x":1,"y":1698,"w":201,"h":128},
+	"frame": {"x":124,"y":1698,"w":201,"h":128},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":201,"h":128},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "pulmon",
-	"frame": {"x":350,"y":1244,"w":115,"h":104},
+	"frame": {"x":340,"y":731,"w":115,"h":104},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":115,"h":104},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "rinones",
-	"frame": {"x":259,"y":1369,"w":105,"h":35},
+	"frame": {"x":259,"y":1372,"w":105,"h":35},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":35},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":383,"y":1829,"w":100,"h":93},
+	"frame": {"x":349,"y":1801,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":121,"y":1828,"w":64,"h":64},
+	"frame": {"x":393,"y":1496,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -191,61 +191,61 @@
 },
 {
 	"filename": "toy_01",
-	"frame": {"x":340,"y":978,"w":130,"h":110},
+	"frame": {"x":340,"y":1058,"w":119,"h":66},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":130,"h":110},
-	"sourceSize": {"w":130,"h":110},
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":66},
+	"sourceSize": {"w":119,"h":66},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "toy_02",
-	"frame": {"x":340,"y":855,"w":132,"h":121},
+	"frame": {"x":124,"y":1828,"w":138,"h":114},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":132,"h":121},
-	"sourceSize": {"w":132,"h":121},
+	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":114},
+	"sourceSize": {"w":138,"h":114},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "toy_03",
-	"frame": {"x":350,"y":1090,"w":147,"h":95},
+	"frame": {"x":340,"y":932,"w":75,"h":124},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":147,"h":95},
-	"sourceSize": {"w":147,"h":95},
+	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":124},
+	"sourceSize": {"w":75,"h":124},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "toy_04",
-	"frame": {"x":259,"y":1128,"w":89,"h":125},
+	"frame": {"x":327,"y":1698,"w":126,"h":101},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":89,"h":125},
-	"sourceSize": {"w":89,"h":125},
+	"spriteSourceSize": {"x":0,"y":0,"w":126,"h":101},
+	"sourceSize": {"w":126,"h":101},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "toy_05",
-	"frame": {"x":383,"y":1698,"w":114,"h":129},
+	"frame": {"x":306,"y":1409,"w":95,"h":85},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":114,"h":129},
-	"sourceSize": {"w":114,"h":129},
+	"spriteSourceSize": {"x":0,"y":0,"w":95,"h":85},
+	"sourceSize": {"w":95,"h":85},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "toy_06",
-	"frame": {"x":306,"y":1406,"w":101,"h":100},
+	"frame": {"x":340,"y":597,"w":106,"h":132},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":100},
-	"sourceSize": {"w":101,"h":100},
+	"spriteSourceSize": {"x":0,"y":0,"w":106,"h":132},
+	"sourceSize": {"w":106,"h":132},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":187,"y":1842,"w":165,"h":41},
+	"frame": {"x":259,"y":1272,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -257,8 +257,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":498,"h":1923},
+	"size": {"w":463,"h":1962},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a02a2468c7168f2f69adf6eb1ab5b5e5:5fde8f6cc30ea9c71e2eb623e5304021:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:fd45455eab35d9053cef8720754ccb16:774139007db42063ebd2f2425e10747d:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
