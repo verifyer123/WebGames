@@ -146,7 +146,7 @@ var magnet = function(){
 	var blueBar
 	var magnetSong
 	var isNoun
-	var coinS, coinS2
+	var coinS
 	var hand
 
 

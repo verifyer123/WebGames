@@ -67,6 +67,8 @@ var greenRescue = function(){
 			 file: soundsPath + "owl.mp3"},
 			{	name: "danced",
 			 file: soundsPath + "songs/jungle_fun.mp3"},
+			{	name: "hole",
+			 file: soundsPath + "flesh.mp3"},
 
 		],
 		jsons: [
@@ -131,6 +133,7 @@ var greenRescue = function(){
 	var gameIndex = 124
 	var indexGame
 	var overlayGroup
+	var coinsGroup=null
 	var morning,night, danced
 	var velocidadNubes=4
 	var backgroundGroup=null
@@ -164,6 +167,8 @@ var greenRescue = function(){
 	var sumX,sumY
 	var sunAct,moonAct;
 	var emitter
+	var index
+	var coinS
 
 
 	function loadSounds(){
@@ -179,7 +184,7 @@ var greenRescue = function(){
 			readyToWater[falseStates]=false;
 		}
 		passingLevel=false;
-
+		index=0;
 		animations[0]="BAG";
 		animations[1]="BOMB";
 		animations[2]="BOX";
@@ -392,8 +397,10 @@ var greenRescue = function(){
 
 	function onClickPlay(){
 		sunAct=true
-		//Aqui va la primera funciòn que realizara el juego
 		startGame=true
+		coinsGroup= new Phaser.Group(game)
+		sceneGroup.add(coinsGroup)
+		coinsGroup.add(coinS)
 		game.time.events.add(1250, function(){
 			putTrash();
 		});
@@ -448,13 +455,13 @@ var greenRescue = function(){
 		sceneGroup.add(boomParticle);
 
 
-		//Coins
-		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
-		coins.anchor.setTo(0.5)
-		coins.scale.setTo(0.5)
-		coins.animations.add('coin');
-		coins.animations.play('coin', 24, true);
-		coins.alpha=0
+//		//Coins
+//		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
+//		coins.anchor.setTo(0.5)
+//		coins.scale.setTo(0.5)
+//		coins.animations.add('coin');
+//		coins.animations.play('coin', 24, true);
+//		coins.alpha=0
 
 		//Colocamos el escenario
 
@@ -595,21 +602,6 @@ var greenRescue = function(){
 		shovel.tag="sho";
 		sprinkler.tag="sprin";
 		sprout.tag="sprout";
-
-//		broom.input.enableDrag(true);
-//		shovel.input.enableDrag(true);
-//		sprinkler.input.enableDrag(true);
-//		sprout.input.enableDrag(true);
-
-//		broom.events.onDragStop.add(onDragStop, this);
-//		shovel.events.onDragStop.add(onDragStop, this);
-//		sprinkler.events.onDragStop.add(onDragStop, this);
-//		sprout.events.onDragStop.add(onDragStop, this);
-//
-//		broom.events.onDragStart.add(onDragStart, this);
-//		shovel.events.onDragStart.add(onDragStart, this);
-//		sprinkler.events.onDragStart.add(onDragStart, this);
-//		sprout.events.onDragStart.add(onDragStart, this);
 
 
 		UIGroup.add(trashIcon)
@@ -1119,8 +1111,8 @@ var greenRescue = function(){
 		trashIcon.animations.play('can', 24,false);
 		sound.play("swipe")
 
-		game.add.tween(trashIcon).to({y:trashIcon.y-100},300,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
-			game.add.tween(trashIcon).to({x:trashIcon.x,y:trashIcon.y+100},200,Phaser.Easing.Cubic.Out,true,100);
+		game.add.tween(trashIcon).to({y:board.y-200},300,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
+			game.add.tween(trashIcon).to({x:trashIcon.x,y:board.y},200,Phaser.Easing.Cubic.Out,true,100);
 		})
 		game.add.tween(trash[obj.tag]).to({x:trashIcon.x,y:trashIcon.y},300,Phaser.Easing.Cubic.In,true);
 		game.add.tween(trash[obj.tag]).to({alpha:0},300,Phaser.Easing.Cubic.Out,true,300);
@@ -1145,8 +1137,8 @@ var greenRescue = function(){
 			platform2.alpha=1;
 			emitter = epicparticles.newEmitter("pickedEnergy")
 			emitter.duration=0.2;
-			emitter.x = coins.x
-			emitter.y = coins.y
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			platformGroup.add(emitter)
 
 		}
@@ -1156,6 +1148,7 @@ var greenRescue = function(){
 		var counterToPlant=0;
 		hand.alpha=0;
 		if(estados[obj.tag]==3){
+			sound.play("hole");
 			estados[obj.tag]=4;
 			hole[obj.tag].alpha=1;
 			readyToPlant[obj.tag]=true;
@@ -1224,7 +1217,11 @@ var greenRescue = function(){
 			}
 			animatedSprinklers[objHere].y-=100
 			tweenIcon[obj.tag].stop()
-			Coin(platform1,pointsBar,200)
+			getCoins(platform1)
+			emitter = epicparticles.newEmitter("pickedEnergy")
+			emitter.duration=0.2;
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			game.add.tween(iconic[obj.tag]).to({alpha:0}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
 				iconic[obj.tag].y+=170
 				game.time.events.add(390,function(){
@@ -1276,25 +1273,78 @@ var greenRescue = function(){
 		}
 	}
 
-	function Coin(objectBorn,objectDestiny,time){
+//	function Coin(objectBorn,objectDestiny,time){
+//
+//
+//		//objectBorn= Objeto de donde nacen
+//		coins.x=objectBorn.centerX
+//		coins.y=objectBorn.centerY
+//
+//		emitter = epicparticles.newEmitter("pickedEnergy")
+//		emitter.duration=0.2;
+//		emitter.x = coins.x
+//		emitter.y = coins.y
+//		platformGroup.add(emitter)
+//		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+//		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+//			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+//			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+//				coins.x=objectBorn.centerX
+//				coins.y=objectBorn.centerY
+//				addPoint(1)
+//			})
+//		})
+//	}
+		
+	function getCoins(player){
+		var coin=coinsGroup.getFirstDead();
 
+		if(coin==undefined){
+			game["coinS"+index] = game.add.sprite(0, 0, "coin")
+			game["coinS"+index].anchor.setTo(0.5)
+			game["coinS"+index].scale.setTo(0.8)
+			game["coinS"+index].animations.add('coin')
+			game["coinS"+index].animations.play('coin', 24, true)
+			game["coinS"+index].alpha = 0
+			coinsGroup.add(game["coinS"+index])
+			coin=game["coinS"+index];
+			index++;
+			addCoin(coin,player)
+		}else{
+			addCoin(coin,player)
+		}
+	}
+	function createCoin(){
 
-		//objectBorn= Objeto de donde nacen
-		coins.x=objectBorn.centerX
-		coins.y=objectBorn.centerY
+		coinS = game.add.sprite(0, 0, "coin")
+		coinS.anchor.setTo(0.5)
+		coinS.scale.setTo(0.8)
+		coinS.animations.add('coin')
+		coinS.animations.play('coin', 24, true)
+		coinS.alpha = 0
+		coinS.kill()
 
-		emitter = epicparticles.newEmitter("pickedEnergy")
-		emitter.duration=0.2;
-		emitter.x = coins.x
-		emitter.y = coins.y
-		platformGroup.add(emitter)
-		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
-			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
-				coins.x=objectBorn.centerX
-				coins.y=objectBorn.centerY
-				addPoint(1)
+	}
+
+	function addCoin(coin,obj){
+
+		if(coin.motion)
+			coin.motion.stop()
+
+		coin.reset(obj.centerX,obj.centerY);
+
+		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
+
+		coin.motion = game.add.tween(coin).to({y:coin.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
+		coin.motion.onComplete.add(function(){
+			coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+			coin.motion.onComplete.add(function(){
+				coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+				coin.motion.onComplete.add(function(){
+					addPoint(1);
+					coin.kill();
+					createTextPart('+1',pointsBar.text)
+				})
 			})
 		})
 	}
@@ -1569,10 +1619,11 @@ var greenRescue = function(){
 				game.sound.mute = false
 			}, this);
 
-			initialize()
+			initialize();
 
-			createPointsBar()
-			createHearts()
+			createPointsBar();
+			createHearts();
+			createCoin();
 
 			buttons.getButton(morning,sceneGroup)
 			createOverlay()

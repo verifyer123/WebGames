@@ -258,19 +258,19 @@ var lizart = function(){
 	var allPositions;
 	var POSITION_LIST_1=[
 		{x:130,y:350},
-		{x:200,y:200},
+		{x:200,y:230},
 		{x:450,y:450},
 		{x:350,y:250},
 		{x:270,y:390},
-		{x:500,y:220}
+		{x:500,y:230}
 	];
 	var POSITION_LIST_2=[
-		{x:490,y:210},
+		{x:490,y:230},
 		{x:240,y:350},
 		{x:400,y:400},
 		{x:100,y:390},
-		{x:350,y:220},
-		{x:150,y:220}
+		{x:350,y:230},
+		{x:150,y:230}
 	];
 	var POSITION_LIST_3=[
 		{x:300,y:430},
@@ -762,7 +762,7 @@ var lizart = function(){
 		}
 		positionLizardX=idleGroup.x;
 		tutorial=false;
-		eatingGroup.x=fruitItem.x-280;
+		eatingGroup.x=fruitItem.x-250;
 		idleGroup.alpha=0;
 		rightGroup.alpha=1;
 		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
@@ -968,10 +968,10 @@ var lizart = function(){
 	function startTimer(time){
 		tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true)
 		tweenTiempo.onComplete.add(function(){
+			stopTimer();
 			passingLevel=true;
 			if(functionTime)functionTime.clearEvents=true;
 			wrongFruit();
-			stopTimer();
 		})
 	}
 
