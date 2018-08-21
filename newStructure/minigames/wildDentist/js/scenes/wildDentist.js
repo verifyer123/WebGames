@@ -479,7 +479,7 @@ var wildDentist = function(){
 
     function moveTrunk(trunk,speed,target, index){
             if(!target.biteBeaver){
-                if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.5)){
+                if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.3)){
                         trunk.tronco1.x -= speed;
                         trunk.tronco2.x = trunk.tronco1.x;
                         trunk.tronco3.x = trunk.tronco1.x
@@ -520,6 +520,13 @@ var wildDentist = function(){
                missPoint();
             }else{
                 starGame = false;
+            }
+            if(lives == 0){
+                for(var i = 0; i<3; i++){
+                    buttonsOptions[i].input.enabled = false;
+                    buttonsOptions[i].events.onDragStart.removeAll();
+                    buttonsOptions[i].events.onDragStop.removeAll();
+                }
             }
         });
     }
@@ -606,14 +613,14 @@ var wildDentist = function(){
     function createScene(){
         background = game.add.tileSprite(0,0,game.world.width, 216,"atlas.game", "tile_sky");
         sceneGroup.add(background);
-        var groupTrunks = game.add.group();   
+        var groupTrunks = game.add.group();
         
         var seaBg = new Phaser.Graphics(game);
         seaBg.beginFill(0x45B4AF);
         seaBg.drawRect(0,160,game.world.width, game.world.height);
         seaBg.endFill();
         sceneGroup.add(seaBg);
-        //sceneGroup.add(groupTrunks);
+        sceneGroup.add(groupTrunks);
         shuffle(trunkPosition);
         for(var i=0;i<=2;i++){
                 
@@ -681,7 +688,7 @@ var wildDentist = function(){
             TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
             arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
             arrayTrunks[i].tronco1.scale.setTo(0.7,0.7);
-            arrayTrunks[i].tronco1.x = game.width - (trunkPosition[i] * 50);
+            arrayTrunks[i].tronco1.x = game.width + (trunkPosition[i] * 50);
             arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 30;        
             arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
             arrayTrunks[i].tronco2.scale.setTo(0.7,0.7);
@@ -690,7 +697,7 @@ var wildDentist = function(){
             arrayTrunks[i].tronco2.alpha = 0;
             arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
             arrayTrunks[i].tronco3.scale.setTo(0.7,0.7); 
-            arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
+            arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x + 20;
             arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 30;
             arrayTrunks[i].tronco3.alpha = 0;
 
@@ -713,8 +720,6 @@ var wildDentist = function(){
             }
             castores[i].clean = false;
         }
-
-        sceneGroup.add(groupTrunks);
         
         var container = sceneGroup.create(0,0,"atlas.game","contenedor");
         container.y = game.height - container.height + 10;
@@ -836,6 +841,13 @@ var wildDentist = function(){
                     }
                     if(starGame){
                         missPoint();
+                    }
+                    if(lives == 0){
+                        for(var i = 0; i<3; i++){
+                            buttonsOptions[i].input.enabled = false;
+                            buttonsOptions[i].events.onDragStart.removeAll();
+                            buttonsOptions[i].events.onDragStop.removeAll();
+                        }
                     }
                 }
             }
