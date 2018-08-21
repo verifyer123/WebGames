@@ -101,6 +101,10 @@ var lizart = function(){
 			 file: soundsPath + "shootBall.mp3"},
 			{	name: "combo",
 			 file: soundsPath + "combo.mp3"},
+			{	name: "swallow",
+			 file: soundsPath + "swallow.mp3"},
+			{	name: "tongue",
+			 file: soundsPath + "swipe.mp3"},
 			{	name: "wormwood",
 			 file: soundsPath + "songs/wormwood.mp3"},
 		],
@@ -748,6 +752,7 @@ var lizart = function(){
 	function correctFruit(fruitItem){
 		passing=true;
 		globo.destroy();
+		
 		textGlobo.destroy();
 		if(dificultyTimer>5000)dificultyTimer=dificultyTimer-1000;
 		if(idleGroup.x>fruitItem.x){
@@ -765,9 +770,10 @@ var lizart = function(){
 		eatingGroup.x=fruitItem.x-250;
 		idleGroup.alpha=0;
 		rightGroup.alpha=1;
+		sound.play("tongue")
 		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
 		game.add.tween(rightGroup).to({x:fruitItem.x-280},500,Phaser.Easing.linear,true).onComplete.add(function(){
-
+			sound.play("swallow");
 			idleGroup.alpha=0;
 			rightGroup.alpha=0;
 			idleGroup.x=positionLizardX;

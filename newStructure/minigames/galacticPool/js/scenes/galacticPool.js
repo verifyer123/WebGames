@@ -512,6 +512,7 @@ var galacticPool = function(){
 				}
 				sound.play("swallow")
 				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+4,y:blackHole.scale.y+4}, 1000, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+					baseSong.stop()
 					stopGame(false)
 				})
 			});
@@ -724,11 +725,11 @@ var galacticPool = function(){
 	}
 
 	function stopGame(win){
-
+		
+		
 		sound.play("gameLose")
 		gameActive = false
-		baseSong.stop()
-
+		
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
@@ -902,7 +903,7 @@ var galacticPool = function(){
 				pivotYPool=pivotYPool+80;
 			}
 		}
-		planets[PLANETS_TOTAL-1].scale.setTo(0.5,0.5);
+		planets[PLANETS_TOTAL-1].scale.setTo(0.4,0.4);
 
 		
 		for(var positionNebuls=0;positionNebuls<TOTAL_PLANETS;positionNebuls++){
@@ -1227,7 +1228,7 @@ var galacticPool = function(){
 			sceneGroup.alpha=1;
 			createBackground()
 			addParticles()
-			baseSong = sound.play("acornSong", {loop:true, volume:0.6})
+//			baseSong = sound.play("acornSong", {loop:true, volume:0.6})
 
 			baseSong = game.add.audio('acornSong')
 			game.sound.setDecodedCallback(baseSong, function(){
