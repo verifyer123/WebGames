@@ -170,7 +170,7 @@ var colorInvaders = function(){
 		timeAttack = false
 		timer = 50000
 
-		if(localization.getLanguage() === 'EN'){
+		if(localization.getLanguage() === 'ES'){
 			colorsText = ['Blue', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Yellow']
 		}
 		else{
