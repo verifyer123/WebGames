@@ -262,6 +262,7 @@ var mathRun = function(){
         })
         
         if(lives == 0){
+            gameActive = false
             stopGame()
         }
     }
@@ -271,14 +272,13 @@ var mathRun = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-        gameActive = false
         player.touched = true
         player.body.collideWorldBounds = false
         tileGroup.castles.setAll("body.velocity.x", 0)
         landGroup.setAll("body.velocity.x", 0)
         landGroup.forEach(function(obj){
             obj.body.velocity.x = 0
-            if(obj.x > game.world.width - 10)
+            if(obj.x > game.world.width - 20)
                 deactivateObj(obj)
         })
         coinsGroup.setAll("body.velocity.x", 0)
@@ -899,6 +899,9 @@ var mathRun = function(){
                 game.time.events.add(500, setQuestion)
             })
         }
+        else{
+            gameActive = false
+        }
         
     }
     
@@ -935,6 +938,9 @@ var mathRun = function(){
                     }
                 })
             }
+
+            if(lives == 0)
+                gameActive = false
         }
     }
     
@@ -965,6 +971,11 @@ var mathRun = function(){
                     player.body.collideWorldBounds = false
                     tileGroup.castles.setAll("body.velocity.x", 0)
                     landGroup.setAll("body.velocity.x", 0)
+                    landGroup.forEach(function(obj){
+                        obj.body.velocity.x = 0
+                        if(obj.x > game.world.width - 15)
+                            deactivateObj(obj)
+                    })
                     coinsGroup.setAll("body.velocity.x", 0)
                     doJump(800)
                     arthurius.setAnimationByName(0, "lose", true)
