@@ -497,10 +497,12 @@ var galacticPool = function(){
 		if(!lost){
 			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
 				sound.play("inflateballoon")
+				blackHole.alpha+=0.2;
 				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+1.5,y:blackHole.scale.y+1.5}, 500, Phaser.Easing.Linear.Out, true)
 			});
 		}else{
 			stopTimer()
+			blackHole.alpha=1;
 			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
 				for(var toHole=0; toHole<TOTAL_PLANETS; toHole++){
 					planets[toHole].text.alpha=0;
@@ -854,6 +856,7 @@ var galacticPool = function(){
 		
 		blackHole=game.add.spine(game.world.centerX, game.world.centerY, "blackHole");
 		blackHole.setSkinByName("normal");
+		blackHole.alpha=0.3;
 		blackHole.setAnimationByName(0, "black_hole", true);
 		blackHole.scale.setTo(0.2,0.2)
 		backgroundGroup.add(blackHole)

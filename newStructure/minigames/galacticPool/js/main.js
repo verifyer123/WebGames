@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 
 function startGame(){
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.canvas, null, {init: init, create: create }, true, true);
     document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
@@ -14,7 +14,7 @@ function startGame(){
 	    	}
 
 	    	function onCompleteSceneLoading(){
-				sceneloader.show("galacticPool")
+				sceneloader.show("galactic")
 	    	}
 
 	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
@@ -35,13 +35,13 @@ function startGame(){
         var gameWidth = Math.round(fullHeight * ratio)
 
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight)
+        game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
-        game.plugins.add(PhaserSpine.SpinePlugin);
+        game.plugins.add(Fabrique.Plugins.Spine);
         
         var language = "EN"
         if(window.location.search){
@@ -61,13 +61,12 @@ function startGame(){
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
-        epicparticles.init(game)
     }
 
     function create(){
 
     	preloadScenes([
-            galacticPool,
+            galactic,
             result,
     	])
     }

@@ -10,15 +10,6 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "button",
-	"frame": {"x":1036,"y":342,"w":129,"h":114},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
-	"sourceSize": {"w":129,"h":114},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "clock",
 	"frame": {"x":812,"y":1,"w":456,"h":98},
 	"rotated": false,
@@ -47,7 +38,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":1077,"y":242,"w":134,"h":98},
+	"frame": {"x":1054,"y":375,"w":134,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":98},
@@ -74,7 +65,7 @@
 },
 {
 	"filename": "hexagon",
-	"frame": {"x":897,"y":322,"w":137,"h":157},
+	"frame": {"x":1270,"y":1,"w":137,"h":157},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":137,"h":157},
@@ -83,7 +74,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":1292,"y":426,"w":140,"h":55},
+	"frame": {"x":1190,"y":427,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -92,7 +83,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":1167,"y":342,"w":123,"h":114},
+	"frame": {"x":1054,"y":259,"w":123,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":123,"h":114},
@@ -101,7 +92,7 @@
 },
 {
 	"filename": "pentagon",
-	"frame": {"x":1270,"y":1,"w":164,"h":156},
+	"frame": {"x":1092,"y":101,"w":164,"h":156},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":164,"h":156},
@@ -119,7 +110,7 @@
 },
 {
 	"filename": "rhomboid",
-	"frame": {"x":1249,"y":159,"w":153,"h":163},
+	"frame": {"x":1258,"y":160,"w":153,"h":163},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":153,"h":163},
@@ -137,7 +128,7 @@
 },
 {
 	"filename": "skypattern",
-	"frame": {"x":1292,"y":324,"w":118,"h":100},
+	"frame": {"x":1190,"y":325,"w":118,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":100},
@@ -145,8 +136,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "smoke",
+	"frame": {"x":1310,"y":325,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "square",
-	"frame": {"x":751,"y":322,"w":144,"h":145},
+	"frame": {"x":908,"y":322,"w":144,"h":145},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":144,"h":145},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "triangle",
-	"frame": {"x":1092,"y":101,"w":155,"h":139},
+	"frame": {"x":751,"y":322,"w":155,"h":139},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":155,"h":139},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":1011,"y":241,"w":64,"h":64},
+	"frame": {"x":1179,"y":259,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -203,8 +203,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1435,"h":495},
+	"size": {"w":1412,"h":495},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:8200e322b99dacec36a96dd0ca304c51:cd0892c7044165c000bdd889a956775d:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:3a5f3367279afd864130432cbd68ad64:8403efad49f0d5604c76bb055d4bf0b8:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
