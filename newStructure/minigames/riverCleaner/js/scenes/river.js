@@ -294,7 +294,7 @@ var river = function(){
             if(lastObj && lastObj.x <= game.world.width - 310)
                 throwObstacle()
             
-            game.physics.arcade.overlap(nao.box, fishGroup, hitFish, null, this)
+            game.physics.arcade.overlap(nao.box2, fishGroup, hitFish, null, this)
             game.physics.arcade.overlap(nao.box, trashGroup, hitTrash, null, this)
         }
     }
@@ -385,13 +385,22 @@ var river = function(){
         sceneGroup.add(nao)
         
         var box = game.add.graphics(300, -200)
-        box.beginFill(0x0000ff, 0)
+        box.beginFill(0x0000ff,0)
         box.drawRect(0, 0, 100, 200)
         box.endFill()
         game.physics.arcade.enable(box)
         box.body.syncBounds = true
         nao.addChild(box) 
         nao.box = box
+
+        var box2 = game.add.graphics(100, -200)
+        box2.beginFill(0x0000ff)
+        box2.drawRect(0, 0, 300, 200)
+        box2.endFill()
+        game.physics.arcade.enable(box2)
+        box2.body.syncBounds = true
+        nao.addChild(box2) 
+        nao.box2 = box2
     }
     
     function createTrash(){
@@ -448,7 +457,7 @@ var river = function(){
         
         for(var i = 5; i < fishGroup.length; i++){
             var obj = fishGroup.children[i]
-            obj.body.setSize(obj.width * 0.5, obj.height * 0.5, 60, 20)
+            obj.body.setSize(obj.width * 0.5, obj.height * 0.5, 60, 50)
         }
     }
     
@@ -521,11 +530,11 @@ var river = function(){
             nao.setAnimationByName(0, "attack", false)
             nao.addAnimationByName(0, "run", true)
             
-            //game.time.events.add(200,function(){
+            game.time.events.add(200,function(){
                 addCoin(trash)
                 killObj(trash)
                 growUpBarMeter()
-            //})
+            })
         }
     }
     
@@ -763,12 +772,12 @@ var river = function(){
             rowsGroup.forEach(function(line){
                 game.add.tween(line.tilePosition).to({x: line.tilePosition.x - 500}, 2500, Phaser.Easing.linear, true)
             }, this)
-            game.add.tween(hand.rocko).to({x: -200}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(hand.rocko).to({x: -250}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
                 hand.rocko.kill()
                 hand.rocko = null
             })
             nao.setAnimationByName(0, "run", true)
-            game.add.tween(obj).to({x: nao.box.x}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(obj).to({x: nao.box.x}, 1900, Phaser.Easing.linear, true, 600).onComplete.add(function(){
                 posHand(obj, 2)
                 nao.setAnimationByName(0, "idle", true)
                 rowsGroup.tag = 2
@@ -824,10 +833,10 @@ var river = function(){
             game.time.events.add(2500, initGame)
         }
     }
-	
+
 	return {
 		
-		assets: assets,
+        assets: assets,
 		name: "river",
 		update: update,
         preload:preload,
