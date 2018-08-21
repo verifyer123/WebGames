@@ -496,8 +496,8 @@ var astrono = function(){
 		tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
-
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+
 	}
 
 	function createClock(){
@@ -714,7 +714,7 @@ var astrono = function(){
 			currentLine.lineTo(pointerGame.x,pointerGame.y)
 		}
 	}
-
+	
 	function correctReaction() {
 
 		var localizedName = localizationData[localization.getLanguage()][currentFigure.figureData.name]
@@ -728,12 +728,13 @@ var astrono = function(){
 			toScale.y = 0.9
 			nameGroup.y = game.world.centerY - 80
 		}
-
+		
 		nameGroup.name.text = localizedName
 		game.add.tween(nameGroup).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(nameGroup.scale).to({x:toScale.x, y:toScale.y}, 500, Phaser.Easing.Back.Out, true)
 
 		addPoint(1)
+		showFigure(FIGURES[0].coordinates)
 		// correctParticle.start(true, 1000, null, 5)
 		game.add.tween(currentFigure.sprite.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
 
@@ -756,12 +757,14 @@ var astrono = function(){
 		game.time.events.add(1600, startRound)
 	}
 	
-	function showFigure(){
-//		var graphics=
-//	
-//	
-//	
-//		game.time.events();
+	function showFigure(figures){
+		var figure = game.add.graphics();
+		figure.beginFill(0xffffff,0.5);
+		figure.moveTo(game.world.width/2,0);
+		for(var size=0; size<figures.length-1; size++){
+			 figure.lineTo(figures[size].x, figures[size].y);
+		}
+		figure.endFill();
 	}
     
     function incorrectReaction(){
