@@ -144,11 +144,11 @@ var oona = function(){
     function stopGame(win){
         
         gameActive = false;
-        onnaSong.stop()
-
+        
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
         tweenScene.onComplete.add(function(){
 
+            onnaSong.stop();
             var resultScreen = sceneloader.getScene("result");
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
