@@ -227,7 +227,7 @@ var uni = function(){
 			if(placeHorses<5){
 				positionY[placeHorses]=game.world.centerY-70;
 			}else if(placeHorses<10){
-				positionY[placeHorses]=game.world.centerY-140;
+				positionY[placeHorses]=game.world.centerY-148;
 			}else if(placeHorses<15){
 				positionY[placeHorses]=game.world.centerY;
 			}else if(placeHorses<20){
