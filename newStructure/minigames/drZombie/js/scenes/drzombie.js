@@ -173,13 +173,12 @@ var drzombie = function(){
     function stopGame(win){
         
 		sound.play("wrong");
-		
         gameActive = false;
-        spaceSong.stop();
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3500);
 		tweenScene.onComplete.add(function(){
             
+            spaceSong.stop();
 			var resultScreen = sceneloader.getScene("result");
 			resultScreen.setScore(true, pointsBar.number,gameIndex);	
             sceneloader.show("result");

@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "O73IZ2ToC96bT8GXwghEa3Z2ZDI", "spine": "3.2.01", "width": 255.88, "height": 382.96, "images": "" },
+"skeleton": { "hash": "BRyTJk8/gEGae7WFD/m0qGkBj3c", "spine": "3.2.01", "width": 255.45, "height": 382.73, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso2", "parent": "root", "length": 97.72, "rotation": 90, "x": 3.5, "y": 63.1 },
@@ -89,7 +89,7 @@
 			"hand2f": { "name": "normal/hand2_f", "x": 12.42, "y": 6.8, "rotation": 61.41, "width": 48, "height": 33 }
 		},
 		"head": {
-			"head": { "name": "normal/head", "x": 109.9, "y": -5.9, "rotation": -90.45, "width": 253, "height": 238 }
+			"head": { "name": "normal/head_a", "x": 109.9, "y": -5.9, "rotation": -90.34, "width": 253, "height": 238 }
 		},
 		"leg1": {
 			"leg1": { "name": "normal/leg1", "x": 20.23, "y": -3.32, "rotation": 83.05, "width": 63, "height": 73 }

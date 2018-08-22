@@ -132,7 +132,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>../../../../../../../Users/dafne/Downloads/atlas.json</filename>
+                <filename>atlas.json</filename>
             </struct>
         </map>
         <key>multiPack</key>

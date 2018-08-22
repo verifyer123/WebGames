@@ -221,7 +221,7 @@ normal/hand2_f
   orig: 48, 33
   offset: 0, 0
   index: -1
-normal/head
+normal/head_a
   rotate: false
   xy: 2, 16
   size: 253, 238

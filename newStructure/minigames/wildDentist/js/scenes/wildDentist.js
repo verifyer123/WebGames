@@ -219,11 +219,10 @@ var wildDentist = function(){
 
     function stopGame(win){
 
-        sound.stop("wormwood");
-
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
         tweenScene.onComplete.add(function(){
 
+            sound.stop("wormwood");
             var resultScreen = sceneloader.getScene("result");
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
@@ -770,7 +769,7 @@ var wildDentist = function(){
         buttonsSquare[indexInverse].tint = 0xffffff;
         buttonsOptions[indexInverse].tint = 0xffffff;
         buttonsOptions[indexInverse].input.enabled = true;
-        buttonsOptions[indexInverse].input.enableDrag();
+        buttonsOptions[indexInverse].input.enableDrag(true);
         buttonsOptions[indexInverse].events.onDragStart.add(onDragStart, this);
         buttonsOptions[indexInverse].events.onDragStop.add(onDragStop, this);
         hand.x = buttonsOptions[indexInverse].x;
@@ -853,10 +852,11 @@ var wildDentist = function(){
             }
         
         }
-        sprite.scale.setTo(0);
-        sprite.x = sprite.posx;
-        sprite.y = sprite.posy;
-        game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
+        //sprite.scale.setTo(0);
+        //sprite.x = sprite.posx;
+        //sprite.y = sprite.posy;
+        game.add.tween(sprite).to({x:sprite.posx,y:sprite.posy},300,Phaser.Easing.linear,true);
+        //game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
         sceneGroup.setChildIndex(sprite, indexDrag);
     }
 
