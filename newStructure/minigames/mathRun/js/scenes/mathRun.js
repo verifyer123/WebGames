@@ -283,13 +283,13 @@ var mathRun = function(){
         })
         coinsGroup.setAll("body.velocity.x", 0)
         arthurius.setAnimationByName(0, "lose", true)
-        gameSong.stop()
+        
         		
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
+            gameSong.stop()
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
