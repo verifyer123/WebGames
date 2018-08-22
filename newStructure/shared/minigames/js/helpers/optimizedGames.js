@@ -29,7 +29,9 @@ var optimizedGames={
 		{name:'Optimized River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability', review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},
 		{name:'Optimized Color Invaders',url:'colorInvaders/',mapUrl:'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},
 		{name:'Optimized Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
-		{name:'Optimized Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galacticPool',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//97
-		]
+		{name:'Optimized Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galacticPool',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},
+		{name:'Optimized Dr Zombie',url:'drZombie/',mapUrl:'drZombie', sceneName:'drzombie',subject:'health', review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},
+		{name:'Optimized Clash Critters',url:'clashCritters/',mapUrl:'clashCritters', sceneName:'clash',subject:'math',review:true,objective:50,demo:false,type:gameTypeEnum.CHOOSE},
+	]
 	
-	}
+}
