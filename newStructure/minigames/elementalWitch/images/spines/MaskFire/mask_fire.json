@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "hv/IV6EK3Lx/htV6fqU7NKV3Ajw", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"skeleton": { "hash": "5U4SRaC85MqBVix3S1bzwtOt/yc", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "mask", "parent": "root", "length": 140.74, "rotation": 89.76, "x": -0.37, "y": 41.74, "color": "9b000280" },
@@ -212,15 +212,18 @@
 			},
 			"mask_fire": {
 				"color": [
-					{ "time": 0, "color": "ffffffff" },
-					{ "time": 0.5, "color": "ff0300ff", "curve": "stepped" },
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
 					{
-						"time": 0.8333,
-						"color": "ff0300ff",
-						"curve": [ 0.246, 0.39, 0.442, 0.88 ]
+						"time": 0.8666,
+						"color": "ffffffff",
+						"curve": [ 0.25, 0, 0.75, 1 ]
 					},
-					{ "time": 1.3333, "color": "ff030000", "curve": "stepped" },
-					{ "time": 1.6666, "color": "ff030000" }
+					{
+						"time": 1.3333,
+						"color": "ffffff0b",
+						"curve": [ 0.25, 0, 0.75, 1 ]
+					},
+					{ "time": 1.6666, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "time": 0, "name": "mask_fire_b" },

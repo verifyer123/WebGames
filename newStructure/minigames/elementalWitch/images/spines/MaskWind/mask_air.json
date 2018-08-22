@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "hgAVAv2rCdSDAs+ZPV06+oOR5vI", "spine": "3.2.01", "width": 189.69, "height": 294.7, "images": "" },
+"skeleton": { "hash": "H8Yd9L8YRiqM5oY9Sh8cvIK5ZOM", "spine": "3.2.01", "width": 189.69, "height": 294.7, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "length": 91.08, "rotation": 90, "y": 76.32 },
@@ -371,10 +371,10 @@
 		"slots": {
 			"mask_water": {
 				"color": [
-					{ "time": 0, "color": "ffffffff" },
-					{ "time": 0.5, "color": "ff3f2eff", "curve": "stepped" },
-					{ "time": 1.1666, "color": "ff3f2eff" },
-					{ "time": 1.6666, "color": "ff3f2e00" }
+					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
+					{ "time": 0.8666, "color": "ffffffff" },
+					{ "time": 1.4666, "color": "ffffff00", "curve": "stepped" },
+					{ "time": 1.6666, "color": "ffffff00" }
 				],
 				"attachment": [
 					{ "time": 0, "name": "mask_wind_b" },
