@@ -597,8 +597,9 @@ var oona = function(){
         okBtnImg.inputEnabled = false;
         var result = false;
        
+       console.log("totalRecipeElements:" + totalRecipeElements + "answerGroup:" + answerGroup.length);
         for (var i = 0; i < totalRecipeElements; i++){
-            if(answerGroup.length>0 && answerGroup.length<=totalRecipeElements && answerGroup.children[i].number == correctAnswer[i]){
+            if(answerGroup.length>0 && answerGroup.length==totalRecipeElements && answerGroup.children[i].number == correctAnswer[i]){
                 animateOona(animations[correctAnswer[i]], timer);
                 colorTools(timer, i, 0x00ff00);
                 timer += 1000;
@@ -616,6 +617,14 @@ var oona = function(){
                     }
                     for(var t=totalRecipeElements; t<answerGroup.length; t++){
                         colorTools(timer, t, 0xF63A3A);
+                    }
+                }else if(answerGroup.length<=totalRecipeElements){
+                    for (var it = 0; it < answerGroup.length; it++){
+                        if(answerGroup.children[it].number != correctAnswer[it]){
+                            colorTools(timer, it, 0xF63A3A);
+                        }else if(answerGroup.children[it].number == correctAnswer[it]){
+                            colorTools(timer, it, 0x00ff00);
+                        }
                     }
                 }else{
                     colorTools(timer, i, 0xF63A3A);
