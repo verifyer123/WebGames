@@ -667,12 +667,10 @@ var sushi = function(){
 			
 		var option = obj.parent
 		
-		obj.x = 0
-		obj.y = obj.originalY
-		/*for(var containerIndex = 0; containerIndex < option.sushiList.length; containerIndex++){
-			var container = option.sushiList[containerIndex]
-			//container.inputEnabled = false
-		}*/
+//		obj.x = 0
+//		obj.y = obj.originalY
+		
+		
 		game.add.tween(option.scale).to({x: 1, y: 1}, 100, Phaser.Easing.Cubic.Out, true)
 
 		var lineToCollide = option.lane
@@ -713,7 +711,10 @@ var sushi = function(){
 			toY = option.y
 		}
 			
-			option.tween = game.add.tween(option).to({x: toX, y: toY}, speed, Phaser.Easing.Cubic.Out, true)
+			//game.add.tween(option).to({x:toX,y:option.y},300,Phaser.Easing.Cubic.In,true);
+			
+			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed*30, Phaser.Easing.Cubic.In, true)
+			
 			option.tween.onComplete.add(function (thisOption) {
 
                 for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
@@ -721,9 +722,6 @@ var sushi = function(){
                     container.inputEnabled = true
                 }
                 for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
-//                    if(checkOverlap(option.container,sushisInGame[lineToCollide][checkPositions])){
-//                        option.y-=sushisInGame[lineToCollide][checkPositions].height;
-//                    }
                     if(option.y<sushisInGame[lineToCollide][checkPositions].y){
                         cont++;
                     }else{
@@ -732,14 +730,11 @@ var sushi = function(){
                     prevSushi = sushisInGame[lineToCollide][checkPositions]
                     prevSushi.index = cont
                 }
-                //if(prevSushi)
-                    //option.container = prevSushi
 			
                 thisOption.lane = lineToCollide
                 thisOption.tween = null
                 thisOption.index = cont
                 sushisInGame[lineToCollide].splice(cont,0,option);
-                //sushisInGame[lineToCollide].push(thisOption)
                 sushisInGame[lineToCollide].delaySushi = 100
                 if(tutorial){
                     sushisInGame[lineToCollide].y=maxHeight

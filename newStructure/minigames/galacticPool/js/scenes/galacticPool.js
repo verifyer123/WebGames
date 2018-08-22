@@ -267,8 +267,8 @@ var galacticPool = function(){
 		}
 		game.time.events.add(3000, function(){
 			for(var resetGame=0; resetGame<planets.length; resetGame++){
-				planets[resetGame].body.x=positionPoolX[resetGame];
-				planets[resetGame].body.y=positionPoolY[resetGame];
+				planets[resetGame].body.x=positionX[resetGame];
+				planets[resetGame].body.y=positionY[resetGame];
 				planets[resetGame].spines.x=positionX[resetGame];
 				planets[resetGame].spines.y=positionY[resetGame];
 				planets[resetGame].text.x=positionX[resetGame]+50;
@@ -402,8 +402,9 @@ var galacticPool = function(){
 			correctParticle.x = planet.centerX;
 			correctParticle.y = planet.centerY;
 			correctParticle.start(true, 1200, null, 10)
-			planet.body.x=target.x;
-			planet.body.y=target.y;
+//			planet.body.x=target.x;
+//			planet.body.y=target.y;
+			game.add.tween(planet.body).to({x:target.x,y:target.y},100,Phaser.Easing.Cubic.In,true);
 			planet.text.alpha=1;
 			speedTimer-=200;
 			sound.play("pop")
@@ -428,8 +429,9 @@ var galacticPool = function(){
 			missPoint();
 			for(var checkRightPlace=0; checkRightPlace<planets.length; checkRightPlace++){
 				if(planet.tag==targets[checkRightPlace].tag){
-					planet.body.x=positionX[checkRightPlace];
-					planet.body.y=positionY[checkRightPlace];
+//					planet.body.x=positionX[checkRightPlace];
+//					planet.body.y=positionY[checkRightPlace];
+					game.add.tween(planet.body).to({x:positionX[checkRightPlace],y:positionY[checkRightPlace]},100,Phaser.Easing.Cubic.In,true);
 					planet.text.alpha=1;
 					planet.inputEnabled=false;
 				}
@@ -514,7 +516,6 @@ var galacticPool = function(){
 				}
 				sound.play("swallow")
 				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+4,y:blackHole.scale.y+4}, 1000, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
-					baseSong.stop()
 					stopGame(false)
 				})
 			});
@@ -656,9 +657,6 @@ var galacticPool = function(){
 		}else{
 			biggerBlackHole(false);
 		}
-//		if(lives == 0){
-//			stopGame(false)
-//		}
 
 		addNumberPart(heartsGroup.text,'-1',true)
 
@@ -734,10 +732,9 @@ var galacticPool = function(){
 		
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
+			baseSong.stop()
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number, gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
+			resultScreen.setScore(true, pointsBar.number, gameIndex)		
 			sceneloader.show("result")
 		})
 	}
