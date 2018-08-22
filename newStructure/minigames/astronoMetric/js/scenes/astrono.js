@@ -67,6 +67,22 @@ var astrono = function(){
 			 file: soundsPath + "rightChoice.mp3"},
 			{   name: "gameLose",
 			 file: soundsPath + "gameLose.mp3"}
+		],
+		spritesheets: [
+			{
+				name:"hand",
+				file:"images/spine/hand.png",
+				width:115,
+				height:111,
+				frames:4
+			},
+			{
+				name:"coin",
+				file:"images/spine/coin.png",
+				width:122,
+				height:123,
+				frames:12
+			}
 		]
 	}
 
@@ -452,11 +468,10 @@ var astrono = function(){
 		game.time.events.add(800, function () {
 			isActive = true
 			if(!tutorial){
-				hand.alpha=1;
-				tutorialLevel()
 				createClock()
 				startTimer(incorrectReaction)
 			}
+			if(tutorial)tutorialLevel();
 		})
 		// isActive = true
 	}
@@ -558,6 +573,7 @@ var astrono = function(){
 	function checkCorrectFigure() {
 		var isCorrect = true;
 		tutorial=false;
+		hand.alpha=0;
 		for(var lineIndex = 0; lineIndex < lines.length; lineIndex++){
 			var line = lines[lineIndex]
 
@@ -793,10 +809,11 @@ var astrono = function(){
 	}
 	function tutorialLevel(){
 		
-		handTween=game.add.tween(hand).to({x:starsInGame[1].x,y:starsInGame[1].y},400,Phaser.Easing.linear,true).onComplete.add(function(){
-			handTween=game.add.tween(hand).to({x:starsInGame[2].x,y:starsInGame[2].y},400,Phaser.Easing.linear,true).onComplete.add(function(){
-				handTween=game.add.tween(hand).to({x:starsInGame[0].x,y:starsInGame[0].y},400,Phaser.Easing.linear,true).onComplete.add(function(){
-					tutorialLevel();
+		handTween=game.add.tween(hand).to({x:starsInGame[1].x,y:starsInGame[1].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
+			hand.alpha=1;
+			handTween=game.add.tween(hand).to({x:starsInGame[2].x,y:starsInGame[2].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
+				handTween=game.add.tween(hand).to({x:starsInGame[0].x,y:starsInGame[0].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
+					if(tutorial)tutorialLevel();
 				})
 			})
 		})
@@ -814,9 +831,9 @@ var astrono = function(){
 
 		hand = game.add.sprite(0, 0, "hand")
 		hand.animations.add('hand')
-		hand.animations.play('hand', 24, true)
-		hand.alpha = 1
-		starsGroup.add(hand)
+		hand.animations.play('hand', 4, false)
+		hand.alpha = 0
+		UIGroup.add(hand)
 	}
 
 	function getCoins(player){

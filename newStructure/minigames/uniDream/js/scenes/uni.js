@@ -349,13 +349,13 @@ var uni = function(){
 
 		sound.play("alarmBell")
 		gameActive = false	
-		uniSong.stop()
+
 		if(clock.tween)
 			clock.tween.stop()
 
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Sinusoidal.In, true, 3000)
 		tweenScene.onComplete.add(function(){
-
+			uniSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
