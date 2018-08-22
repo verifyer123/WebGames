@@ -568,6 +568,10 @@ var lizart = function(){
 
 		eatingGroup = game.add.group();
 
+
+		tongue.alpha=1;
+		eatingGroup.add(tongue)
+		
 		eatingBodys = eatingGroup.create(0, 0, 'eatingBody');
 		eatingBodys.y =game.height -170;
 		eatingBodys.x = game.world.centerX-140;
@@ -578,8 +582,6 @@ var lizart = function(){
 
 		tongue.x=eatingBodys.x+50;
 		tongue.y=eatingBodys.y-80;
-		tongue.alpha=1;
-		eatingGroup.add(tongue)
 		
 
 
