@@ -111,6 +111,8 @@ var oona = function(){
     var levelZeroIndex;
     var correctAnswer = [0,1,2,3,4,5];
     var roundTime;
+    var pointeX;
+    var pointeY;
     
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -357,6 +359,7 @@ var oona = function(){
 
     function addClickButtonOK(){
         okBtnImg.inputEnabled = true;
+        okBtnImg.hitArea=new Phaser.Circle(0,0,okBtnImg.width*2);
         okBtnImg.events.onInputDown.add(function(){
         
             game.add.tween(okBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
@@ -494,10 +497,14 @@ var oona = function(){
     }
 
     function fixLocation(item) {
-        if(buttosGroup.length>0 && (item.y >=80 && item.y<=200)){
+        pointeX = item.x;
+        pointeY = item.y;
+        if(buttosGroup.length>0 && (item.y >=80 && item.y<=200) && (item.x >=-80 && item.x<=440)){
             sound.play("drag");
             buttosGroup.remove(item);
             answerGroup.add(item);
+            pointeX-= answerGroup.x/2 - item.width;
+            pointeY-= answerGroup.y/2 - item.height;
             colocationAnswer(item);
             item.parentColocation = "answer";
             if(levelZero && levelZeroIndex<totalRecipeElements-1){
@@ -511,13 +518,19 @@ var oona = function(){
                 addClickButtonOK();
                 okBtnImg.events.onInputUp.add(cook);
             }
-        }else if(item.parentColocation =="answer" && (item.y >=-200 && item.y<=-40)){
+        }else if(item.parentColocation =="answer" && (item.y >=-200 && item.y<=-40) && (item.x >=-80 && item.x<=440)){
             answerGroup.remove(item);
             buttosGroup.add(item);
+            pointeX-= buttosGroup.x/2 - item.width;
+            pointeY+= buttosGroup.y/2 - item.height/2;
+            var indexChange = item.newPos;
             colocationOriginal(item);
             item.parentColocation = "original";
             for(var g=0; g<answerGroup.length; g++){
                 answerGroup.children[g].x = buttonWidthWithSpace*g;
+                if(answerGroup.children[g].newPos>=indexChange){
+                    answerGroup.children[g].newPos -= 1;
+                }
             }
         }else if(item.parentColocation == "original"){
             colocationOriginal(item);
@@ -536,18 +549,25 @@ var oona = function(){
     }
 
     function colocationOriginal(itemCol){
-        itemCol.x = itemCol.originPosX;
-        itemCol.y = itemCol.originPosY;
+        itemCol.x = pointeX;
+        itemCol.y = pointeY;
+        game.add.tween(itemCol).to({x: itemCol.originPosX, y: itemCol.originPosY}, 200, Phaser.Easing.linear, true);
+        //itemCol.x = itemCol.originPosX;
+        //itemCol.y = itemCol.originPosY;
         itemCol.newPos = -1;
     }
 
     function colocationAnswer(itemCol){
+        itemCol.x = pointeX;
+        itemCol.y = pointeY;
         if(itemCol.parentColocation =="answer"){
-            itemCol.x = buttonWidthWithSpace*(itemCol.newPos);
-            itemCol.y = 0;
+            game.add.tween(itemCol).to({x: buttonWidthWithSpace*(itemCol.newPos), y: 0}, 200, Phaser.Easing.linear, true);
+            //itemCol.x = buttonWidthWithSpace*(itemCol.newPos);
+            //itemCol.y = 0;
         }else{
-            itemCol.x = buttonWidthWithSpace*(answerGroup.length-1);
-            itemCol.y = 0;
+            game.add.tween(itemCol).to({x: buttonWidthWithSpace*(answerGroup.length-1), y: 0}, 200, Phaser.Easing.linear, true);
+            //itemCol.x = buttonWidthWithSpace*(answerGroup.length-1);
+            //itemCol.y = 0;
             itemCol.newPos = answerGroup.length-1;
         }
     }
