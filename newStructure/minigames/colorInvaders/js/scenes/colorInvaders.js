@@ -840,8 +840,8 @@ var colorInvaders = function(){
 			var button=game.add.graphics(game.world.centerX + pivot, game.world.centerY -100)
 			box.beginFill(0xFF3300)
 			button.beginFill(0x00FF00)
-			box.drawRect(0, -70, 150, 100)
-			button.drawRect(0, 50, 150, 150)
+			box.drawRect(40, -70, 80, 100)
+			button.drawRect(40, 50, 80, 150)
 			box.alpha = 0
 			button.alpha = 0
 			button.events.onInputDown.add(IChoseYou, this)
@@ -908,7 +908,7 @@ var colorInvaders = function(){
 			aliensGroup.children[i].scale.setTo(0.7,0.7)
 			
 			
-			aliensGroup.children[i].boxX = positionsGroup.children[i].centerX
+			aliensGroup.children[i].boxX = positionsGroup.children[i].centerX + 40
 			aliensGroup.children[i].boxY = positionsGroup.children[i].centerY + 50
 		}
 
