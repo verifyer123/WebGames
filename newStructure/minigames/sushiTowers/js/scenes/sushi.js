@@ -625,30 +625,31 @@ var sushi = function(){
 	}
 
 	function onDragStart(obj, pointer) {
-						
-		sound.play("drag")
-		//inputsEnabled=false;
-		var option = obj.parent
-		option.inBottom = false
-		option.deltaX = pointer.x - obj.world.x
-		option.deltaY = pointer.y - obj.world.y - obj.originalY
-
-		option.startX = (obj.world.x - gameGroup.x)
-		option.startY = (obj.world.y - gameGroup.y - obj.originalY)
-
-		//console.log(option.num)
-
-		gameGroup.bringToTop(option)
-
-		if(option.scaleTween)
-			option.scaleTween.stop()
+				
 		
-		option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 200, Phaser.Easing.Cubic.Out, true)
-		//console.log(option.index)
-		if(option.index !== null){
-			sushisInGame[option.lane].splice(option.index, 1)
-			option.index = null
-		}
+			sound.play("drag")
+			inputsEnabled=false;
+			var option = obj.parent
+			option.inBottom = false
+			option.deltaX = pointer.x - obj.world.x
+			option.deltaY = pointer.y - obj.world.y - obj.originalY
+
+			option.startX = (obj.world.x - gameGroup.x)
+			option.startY = (obj.world.y - gameGroup.y - obj.originalY)
+
+			//console.log(option.num)
+
+			gameGroup.bringToTop(option)
+
+			if(option.scaleTween)
+				option.scaleTween.stop()
+
+			option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 300, Phaser.Easing.Cubic.Out, true)
+			//console.log(option.index)
+			if(option.index !== null){
+				sushisInGame[option.lane].splice(option.index, 1)
+				option.index = null
+			}
 
 	}
 
@@ -669,7 +670,6 @@ var sushi = function(){
 		
 		obj.x = 0
 		obj.y = obj.originalY
-		
 		
 		game.add.tween(option.scale).to({x: 1, y: 1}, 100, Phaser.Easing.Cubic.Out, true)
 
@@ -700,9 +700,9 @@ var sushi = function(){
 			option.y=300;
 		}
 		if (lastSushi){
-            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height - 10//lastSushi.y - lastSushi.height - 10
+            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height - 20//lastSushi.y - lastSushi.height - 10
 
-			toY = sushiHeight
+			toY = sushiHeight+10
             
 			if(toY <= 300){
 				toY = 330
@@ -713,7 +713,7 @@ var sushi = function(){
 			
 			//game.add.tween(option).to({x:toX,y:option.y},300,Phaser.Easing.Cubic.In,true);
 			
-			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed*30, Phaser.Easing.Cubic.In, true)
+			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed, Phaser.Easing.Cubic.In, true)
 			
 			option.tween.onComplete.add(function (thisOption) {
 

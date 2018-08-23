@@ -308,11 +308,6 @@ var astrono = function(){
 			figuresList[figureData.name] = {sprite: figure, figureData: figureData}
 		}
 
-		canvasGroup = game.add.group()
-		sceneGroup.add(canvasGroup)
-
-
-
 		for(var starIndex = 0; starIndex < MAX_STARTS; starIndex++){
 			var star = createSpine("stars", "normal")
 			star.setAnimation(["idle"])
@@ -425,7 +420,6 @@ var astrono = function(){
 			astronoSong.stop();
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number, gameIndex)
-
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
 			sound.play("gameLose")
@@ -476,6 +470,7 @@ var astrono = function(){
 			currentFigure = figuresList[round.figure]
 
 		currentFigure.sprite.alpha = 0
+		currentFigure.sprite.y = -25;
 		currentFigure.sprite.scale.x = 0.4; currentFigure.sprite.scale.y = 0.4
 		game.add.tween(currentFigure.sprite).to({alpha:1}, 500, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(currentFigure.sprite.scale).to({x:1, y:1}, 500, Phaser.Easing.Cubic.Out, true)
@@ -521,7 +516,10 @@ var astrono = function(){
 
 
 		generateFigure(round)
-		if(tutorial)tutorialLevel();
+		if(tutorial){
+			hand.alpha=1;
+			tutorialLevel();
+		}
 		game.time.events.add(800, function () {
 			isActive = true
 			if(!tutorial){
@@ -545,6 +543,7 @@ var astrono = function(){
 
 		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
 		scaleTween.onComplete.add(function(){
+			
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
 
@@ -717,14 +716,22 @@ var astrono = function(){
 	}
 
 	function createAstronoUI(oona,oof) {
-		var cloud = game.add.tileSprite(0,0,game.world.width, 296, "atlas.astrono", "cloud")
-		cloud.anchor.setTo(0, 1)
-		cloud.y = game.world.height - 100
-		sceneGroup.add(cloud)
+		
+				
+		var starTile = game.add.tileSprite(0,0,game.world.width*2, game.world.height*2, "atlas.astrono", "stars_tile")
+		starTile.anchor.setTo(0.5, 0.5);
+		starTile.y = 0;
+		sceneGroup.add(starTile)
+		
+		var mountains = game.add.tileSprite(0,0,game.world.width*2, 224, "atlas.astrono", "mountains")
+		mountains.anchor.setTo(0.5, 0.5)
+		mountains.y = game.world.height-240
+		sceneGroup.add(mountains)
 
-		cloud.update = function () {
-			this.tilePosition.x += 0.5
-		}
+
+//		cloud.update = function () {
+//			this.tilePosition.x += 0.5
+//		}
 
 		var floor = game.add.tileSprite(0,0,game.world.width, 196, "atlas.astrono", "floor")
 		floor.anchor.setTo(0, 1)
@@ -779,6 +786,9 @@ var astrono = function(){
 		wrongParticle.y = signGroup.y
 		sceneGroup.add(wrongParticle)
 
+		canvasGroup = game.add.group()
+		sceneGroup.add(canvasGroup)
+		
 		starsGroup = game.add.group()
 		starsGroup.x = game.world.centerX
 		starsGroup.y = game.world.centerY - 80
@@ -874,7 +884,6 @@ var astrono = function(){
 	}
 	function tutorialLevel(){
 		handTween=game.add.tween(hand).to({x:starsInGame[1].x,y:starsInGame[1].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
-			hand.alpha=1;
 			handTween=game.add.tween(hand).to({x:starsInGame[2].x,y:starsInGame[2].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
 				handTween=game.add.tween(hand).to({x:starsInGame[0].x,y:starsInGame[0].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
 					if(tutorial)tutorialLevel();
@@ -1051,9 +1060,9 @@ var astrono = function(){
 			background.width = game.world.width+2
 			background.height = game.world.height+2
 
-			var swatch = game.add.tileSprite(0,0,game.world.width, game.world.height, "atlas.astrono", "skypattern")
-			swatch.alpha = 0.2
-			sceneGroup.add(swatch)
+//			var swatch = game.add.tileSprite(0,0,game.world.width, game.world.height, "atlas.astrono", "skypattern")
+//			swatch.alpha = 0.2
+//			sceneGroup.add(swatch)
 
 
 			oona=game.add.spine(0,0,"yogotars");
