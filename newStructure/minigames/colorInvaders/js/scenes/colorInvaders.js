@@ -124,7 +124,7 @@ var colorInvaders = function(){
 	var texture;
 	var texture2;
 	var texture3;
-	var max = 500;
+	var max = 250;
 	var xx = [];
 	var yy = [];
 	var zz = [];
