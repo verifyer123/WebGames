@@ -38,6 +38,7 @@ function mixPanelTrack(minigameName,event,didWin,score){
 }
 
 function startGame(){
+    localStorage.removeItem("tutorial")
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, preload:preload, create: create }, false, true);
     document.body.style.visibility = "hidden"
     window.game.nextTitleScene = "instructions"

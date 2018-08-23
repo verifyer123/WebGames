@@ -138,11 +138,11 @@ amazing.getGames = function(){
         {name:'Zoé Kids',iconName:'zoe',url:'http://amazingapp.mx/juegos/zoe/',coupon : false,mixName:'zoeKids',sceneName:'zoeKids',demo:false,id:51},//32
         {name:'BB Mundo',iconName:'bbMundo',url:'http://amazingapp.mx/juegos/bbMundo/',coupon : false,mixName:'bebeMundo',sceneName:'bbMundo',demo:true,id:100010},//33
         {name:'Amazing Bros',iconName:'amazingbros',url:'http://amazingapp.mx/juegos/amazingbros/',coupon : false,mixName:'amazingbros',sceneName:'amazingbros',demo:true,id:100011},//34
-        {name:'Megablocks',iconName:'megablockTower',url:'http://amazingapp.mx/juegos/megablockTower/',coupon : false,mixName:'megablockTower',sceneName:'megablockTower',demo:true,id:100012},//35
+        {name:'Megaconstrux',iconName:'megablockTower',url:'http://amazingapp.mx/juegos/megablockTower/',coupon : false,mixName:'megablockTower',sceneName:'megablockTower',demo:true,id:100012},//35
         {name:'Snake vs Block',iconName:'snakeVsBlock',url:'http://amazingapp.mx/juegos/snakeVsBlock/',coupon : false,mixName:'snakeVsBlock',sceneName:'snakeVsBlock',demo:false,id:61},//36
         {name:'Snoopy En Busca Del Sabor',iconName:'snoopyEnBuscaDelSabor',url:'http://amazingapp.mx/juegos/snoopyEnBuscaDelSabor/',coupon : false,mixName:'snoopyEnBuscaDelSabor',sceneName:'snoopyEnBuscaDelSabor',demo:true,id:100014},//37
-        {name:'Burger Crush',iconName:'burguerCrush',url:'http://amazingapp.mx/juegos/burgerCrush/',coupon : false,mixName:'burgercrush',sceneName:'burguerCrush',demo:true,id:71},//38
-        {name:'Puebla',iconName:'puebla',url:'http://amazingapp.mx/juegos/puebla/',coupon : false,mixName:'puebla',sceneName:'puebla',demo:true,id:100016},//39
+        {name:'Burger Crush',iconName:'burguerCrush',url:'http://amazingapp.mx/juegos/burgerCrush/',coupon : false,mixName:'burgercrush',sceneName:'burguerCrush',demo:false,id:71},//38
+        {name:'Club Puebla',iconName:'puebla',url:'http://amazingapp.mx/juegos/clubPuebla/',coupon : false,mixName:'clubPuebla',sceneName:'puebla',demo:true,id:100016},//39
         //
     ]
 
@@ -511,7 +511,6 @@ amazing.getFromApp = function(){
 }
 
 amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
-    //console.log(minigameName)
     if(event=="finishGame"){
         mixpanel.track(
             event,
@@ -525,7 +524,6 @@ amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
         );
     }
 
-    console.log("Enter to setMixPanelTrack")
 
     var params = {
        type: "analyticsMessage",

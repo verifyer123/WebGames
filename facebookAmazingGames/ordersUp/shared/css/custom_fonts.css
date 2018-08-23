@@ -1,0 +1,16 @@
+@font-face{
+	font-family: 'VAGRounded';
+	src: url('../fonts/VAGRoundedStd-Bold.otf');
+}
+
+@font-face{
+	font-family: 'AvenirHeavy';
+	src: url('../fonts/AvenirHeavy.otf');
+}
+
+.custom-font{
+	font-family: "VAGRounded";
+	opacity: 0;
+	height: 0%;
+	width: 0%;
+}

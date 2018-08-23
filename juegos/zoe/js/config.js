@@ -1,6 +1,6 @@
 window.amazing = {
 	config: {
-		name: "Zoé Water",
+		name: "Zoé Kids",
 		language: "en",
 		minigameUrl: "../../minigames/zoe/index.html",
 		desktopUrl: "./desktop.html",

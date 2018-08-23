@@ -1,0 +1,83 @@
+
+balam.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal4/arm_a
+  rotate: true
+  xy: 2, 3
+  size: 27, 49
+  orig: 27, 49
+  offset: 0, 0
+  index: -1
+normal4/arm_c
+  rotate: false
+  xy: 234, 205
+  size: 20, 49
+  orig: 20, 49
+  offset: 0, 0
+  index: -1
+normal4/espiral
+  rotate: false
+  xy: 100, 5
+  size: 27, 23
+  orig: 27, 23
+  offset: 0, 0
+  index: -1
+normal4/leg_a
+  rotate: false
+  xy: 173, 98
+  size: 23, 44
+  orig: 23, 44
+  offset: 0, 0
+  index: -1
+normal4/leg_b
+  rotate: false
+  xy: 198, 160
+  size: 23, 44
+  orig: 23, 44
+  offset: 0, 0
+  index: -1
+normal4/leg_c
+  rotate: true
+  xy: 53, 3
+  size: 27, 45
+  orig: 27, 45
+  offset: 0, 0
+  index: -1
+normal4/tail
+  rotate: false
+  xy: 198, 206
+  size: 34, 48
+  orig: 34, 48
+  offset: 0, 0
+  index: -1
+normal4/torso_a
+  rotate: false
+  xy: 2, 144
+  size: 96, 110
+  orig: 96, 110
+  offset: 0, 0
+  index: -1
+normal4/torso_a1
+  rotate: false
+  xy: 2, 32
+  size: 96, 110
+  orig: 96, 110
+  offset: 0, 0
+  index: -1
+normal4/torso_b
+  rotate: false
+  xy: 100, 144
+  size: 96, 110
+  orig: 96, 110
+  offset: 0, 0
+  index: -1
+normal4/torso_c
+  rotate: false
+  xy: 100, 30
+  size: 71, 112
+  orig: 71, 112
+  offset: 0, 0
+  index: -1

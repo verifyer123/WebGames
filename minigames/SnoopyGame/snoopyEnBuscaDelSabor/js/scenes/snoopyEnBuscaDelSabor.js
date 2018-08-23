@@ -210,9 +210,11 @@ var snoopyEnBuscaDelSabor = function(){
         if(localStorage.getItem("tutorial")!=null){
         	inTutorial = -1
         	disableTouchByTutorial = false
+        	
         }
         else{
         	//localStorage.removeItem("tutorial")
+        	localStorage.setItem("tutorial","true")
         	inTutorial = 0
         	disableTouchByTutorial = true
         }
@@ -2097,7 +2099,7 @@ var snoopyEnBuscaDelSabor = function(){
         else{
         	randomLevel = temp
         }
-        console.log(inTutorial)
+
         if(inTutorial!=-1){
         	randomLevel = 0
         }
