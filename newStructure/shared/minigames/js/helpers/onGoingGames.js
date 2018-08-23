@@ -77,7 +77,6 @@ var onGoingGames={
 			{name:'Seaquence',url:'seaquence/',mapUrl:'seaquence', sceneName:'seaquence',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//60
 			{name:'Clock Fix',url:'clockfix/',mapUrl:'clockfix', sceneName:'clockfix',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},//61
 			{name:'Math Engine',url:'mathEngine/',mapUrl:'mathEngine', sceneName:'engine',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//62
-			{name:'Astronometric',url:'astronoMetric/',mapUrl:'astronoMetric', sceneName:'astrono',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.TRACE},//63
 			{name:'Jumptiply',url:'jumptiply/',mapUrl:'jumptiply', sceneName:'jump',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//64
 			{name:'Swamp Shapes',url:'swampShape/',mapUrl:'swampShape', sceneName:'swampShape',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.TRACE},//65
 			{name:'Duck Count',url:'duckCount/',mapUrl:'duckCount', sceneName:'duck',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//66

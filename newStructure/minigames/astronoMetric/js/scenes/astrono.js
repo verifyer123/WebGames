@@ -83,6 +83,12 @@ var astrono = function(){
 				height:123,
 				frames:12
 			}
+		],
+		spines:[
+			{
+				name:"yogotars",
+				file:"images/spine/yogotars/astronometric.json"
+			}
 		]
 	}
 
@@ -150,9 +156,11 @@ var astrono = function(){
 	var inputsEnabled
 	var index
 	var coinsGroup=null
+	var oona,oof;
 	var pointsBar
 	var roundCounter
 	var signGroup
+	var yogotarsGroup
 	var figuresList
 	var starsList
 	var starsGroup
@@ -243,6 +251,53 @@ var astrono = function(){
 
 	}
 
+	function setAnimationRules(oona,oof){
+		oona.setMixByName("idle", "win", 0.1);
+		oona.setMixByName("idle", "lose", 0.1);
+		oona.setMixByName("lose", "idle", 0.1);
+
+		oof.setMixByName("idle", "win", 0.1);
+		oof.setMixByName("idle", "lose", 0.1);
+		oof.setMixByName("lose", "idle", 0.1);
+	}
+	function yogotarsInBack(oona,oof){
+		oona.x=game.world.centerX-230;
+		oona.y=game.world.height-100;
+		oona.scale.setTo(0.8,0.8)
+
+		oof.x=game.world.centerX+230;
+		oof.y=game.world.height-100;
+		oof.scale.setTo(-0.8,0.8)
+
+		yogotarsGroup.add(oona);
+		yogotarsGroup.add(oof);
+	}
+	function runAnimations(oona,oof,event){
+		if(event=="win"){
+			oof.setAnimationByName(0,"win",false).onComplete=function(){
+				oof.setAnimationByName(0,"idle",true);
+			}
+			oona.setAnimationByName(0,"win",false).onComplete=function(){
+				oona.setAnimationByName(0,"idle",true);
+			}
+		}else{
+			oof.setAnimationByName(0,"lose",false).onComplete=function(){
+				if(lives>0){
+					oof.setAnimationByName(0,"idle",true);
+				}else{
+					oof.setAnimationByName(0,"lose",true);
+				}
+			}
+			oona.setAnimationByName(0,"lose",false).onComplete=function(){
+				if(lives>0){
+					oona.setAnimationByName(0,"idle",true);
+				}else{
+					oona.setAnimationByName(0,"lose",true);
+				}
+			}
+		}
+	}
+
 	function createGameObjects(){
 		for(var figureIndex = 0; figureIndex < FIGURES.length; figureIndex++){
 			var figureData = FIGURES[figureIndex]
@@ -260,7 +315,7 @@ var astrono = function(){
 
 		for(var starIndex = 0; starIndex < MAX_STARTS; starIndex++){
 			var star = createSpine("stars", "normal")
-			star.setAnimation(["IDLE_1"])
+			star.setAnimation(["idle"])
 			starsGroup.add(star)
 			starsList.push(star)
 			star.sprite = game.add.sprite(0,0)
@@ -269,7 +324,7 @@ var astrono = function(){
 			star.alpha = 0
 			star.index = starIndex
 		}
-
+		starsGroup.bringToTop(hand)
 	}
 
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
@@ -359,7 +414,7 @@ var astrono = function(){
 
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
-			star.setAnimation(["WRONG"])
+			star.setAnimation(["wrong"])
 			wrongParticle.x = star.centerX
 			wrongParticle.y = star.centerY
 			wrongParticle.start(true, 1000, null, 5)
@@ -367,7 +422,7 @@ var astrono = function(){
 
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
 		tweenScene.onComplete.add(function(){
-
+			astronoSong.stop();
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number, gameIndex)
 
@@ -456,7 +511,7 @@ var astrono = function(){
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
 
-			star.setAnimation(["IDLE_1"])
+			star.setAnimation(["idle"])
 			star.line = null
 			star.lineIndex = null
 		}
@@ -464,14 +519,17 @@ var astrono = function(){
 		lines = []
 		starsInGame = []
 
+
 		generateFigure(round)
+		if(tutorial)tutorialLevel();
 		game.time.events.add(800, function () {
 			isActive = true
 			if(!tutorial){
 				createClock()
 				startTimer(incorrectReaction)
+			}else{
+
 			}
-			if(tutorial)tutorialLevel();
 		})
 		// isActive = true
 	}
@@ -482,6 +540,7 @@ var astrono = function(){
 		inputsEnabled = false
 
 		lives--;
+		runAnimations(oona,oof,"lose")
 		heartsGroup.text.setText('X ' + lives)
 
 		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
@@ -657,7 +716,7 @@ var astrono = function(){
 		pointerGame.y = 0
 	}
 
-	function createAstronoUI() {
+	function createAstronoUI(oona,oof) {
 		var cloud = game.add.tileSprite(0,0,game.world.width, 296, "atlas.astrono", "cloud")
 		cloud.anchor.setTo(0, 1)
 		cloud.y = game.world.height - 100
@@ -672,13 +731,19 @@ var astrono = function(){
 		floor.y = game.world.height + 2
 		sceneGroup.add(floor)
 
+		yogotarsGroup = game.add.group();
+		sceneGroup.add(yogotarsGroup);
+
 		signGroup = game.add.group()
 		signGroup.x = game.world.centerX
 		signGroup.y = game.world.height - 273 * 0.5
 		sceneGroup.add(signGroup)
 
+		yogotarsInBack(oona,oof)
 		var sign = signGroup.create(0, 0, "atlas.astrono", "sign")
 		sign.anchor.setTo(0.5, 0.5)
+
+
 
 		var rectangle = game.add.graphics()
 		rectangle.beginFill(0xffffff)
@@ -691,6 +756,7 @@ var astrono = function(){
 		rectangle.events.onDragUpdate.add(onDragUpdate)
 		rectangle.events.onDragStop.add(onDragStop)
 		sceneGroup.add(rectangle)
+
 
 		var graphic = game.add.graphics()
 		graphic.beginFill(0xffffff)
@@ -724,11 +790,11 @@ var astrono = function(){
 		sceneGroup.add(nameGroup)
 		nameGroup.alpha = 0
 		nameGroup.scale.setTo(0.4, 0.4)
-		
+
 		coinsGroup= game.add.group()
 		sceneGroup.add(coinsGroup)
 
-		
+
 
 		var containerName = nameGroup.create(0, 0, "atlas.astrono", "container_name")
 		containerName.anchor.setTo(0.5, 0.5)
@@ -779,7 +845,7 @@ var astrono = function(){
 			var star = starsInGame[starIndex]
 			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
 			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 1000)
-			star.setAnimation(["IDLE"])
+			star.setAnimation(["win"])
 			correctParticle.x = star.centerX; correctParticle.y = star.centerY
 			correctParticle.start(true, 1000, null, 3)
 		}
@@ -796,7 +862,6 @@ var astrono = function(){
 			startRound();
 		})
 	}
-
 	function showFigure(){
 		figure.beginFill(0xffff00,0.5);
 		starsGroup.sendToBack(figure);
@@ -808,7 +873,6 @@ var astrono = function(){
 		figure.endFill();
 	}
 	function tutorialLevel(){
-		
 		handTween=game.add.tween(hand).to({x:starsInGame[1].x,y:starsInGame[1].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
 			hand.alpha=1;
 			handTween=game.add.tween(hand).to({x:starsInGame[2].x,y:starsInGame[2].y},900,Phaser.Easing.linear,true).onComplete.add(function(){
@@ -833,7 +897,7 @@ var astrono = function(){
 		hand.animations.add('hand')
 		hand.animations.play('hand', 4, false)
 		hand.alpha = 0
-		UIGroup.add(hand)
+		starsGroup.add(hand)
 	}
 
 	function getCoins(player){
@@ -871,7 +935,7 @@ var astrono = function(){
 				coin.motion.onComplete.add(function(){
 					addPoint(1);
 					coin.kill();
-//					createTextPart('+1',pointsBar.text)
+					//					createTextPart('+1',pointsBar.text)
 				})
 			})
 		})
@@ -905,7 +969,7 @@ var astrono = function(){
 			var star = starsInGame[starIndex]
 			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
 			game.add.tween(star).to({alpha:0}, 300, Phaser.Easing.Cubic.Out, true, 1000)
-			star.setAnimation(["WRONG"])
+			star.setAnimation(["wrong"])
 			wrongParticle.x = star.centerX; wrongParticle.y = star.centerY
 			wrongParticle.start(true, 1000, null, 3)
 		}
@@ -969,10 +1033,13 @@ var astrono = function(){
 					if(currentLine)
 						currentLine.clear()
 					isActive = false
-					if(isCorrect)
-						correctReaction()
-					else
-						incorrectReaction()
+					if(isCorrect){
+						correctReaction();
+						runAnimations(oona,oof,"win");
+					}
+					else{
+						incorrectReaction();
+					}
 				}
 			}
 		},
@@ -988,7 +1055,18 @@ var astrono = function(){
 			swatch.alpha = 0.2
 			sceneGroup.add(swatch)
 
-			createAstronoUI()
+
+			oona=game.add.spine(0,0,"yogotars");
+			oof=game.add.spine(0,0,"yogotars");
+			oona.setSkinByName("normal1");
+			oof.setSkinByName("normal2");
+			setAnimationRules(oona,oof);
+			oona.setAnimationByName(0,"idle",true);
+			oof.setAnimationByName(0,"idle",true);
+
+			createAstronoUI(oona,oof)
+
+
 
 			astronoSong = game.add.audio('astronoSong')
 			game.sound.setDecodedCallback(astronoSong, function(){
