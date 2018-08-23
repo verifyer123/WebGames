@@ -856,9 +856,7 @@ var hack = function(){
 			}
 						
 			game.add.tween(badTopo.scale).to({x:0,y:0},50,"Linear",true)
-			game.add.tween(badTopo).to({x:badTopo.x + moveTopoX,y:badTopo.y + moveTopoY},200,"Linear",true).onComplete.add(function(){
-				game.add.tween(badTopo.scale).to({x:1,y:1},50,"Linear",true)
-			})
+			game.add.tween(badTopo).to({x:badTopo.x + moveTopoX,y:badTopo.y + moveTopoY},200,"Linear",true).chain(game.add.tween(badTopo.scale).to({x:1,y:1},50,"Linear",true))
 			badTopo.anim.setAnimationByName(0,animationName,true)
 			badTopo.side.setAnimationByName(0,animationName,true) 
 		}
@@ -898,7 +896,7 @@ var hack = function(){
 				missPoint()
 			}
             if(checkOverlap(badTopo.yogoPos,hammer)){
-				
+				badTopo.alpha = 0
                 game.time.events.add(250, function(){
                     badTopo.x = -200
                     badTopo.ready = false
@@ -1078,6 +1076,13 @@ var hack = function(){
 		yogoPos.scale.setTo(0.7,0.7)
 		yogoPos.anchor.setTo(0.5,0.5)
 		yogotarGroup.yogoPos = yogoPos
+
+		badTopo = game.add.group()
+		badTopo.x = -200
+		badTopo.y = game.world.centerY - 190
+		badTopo.ready = false
+		sceneGroup.add(badTopo)
+		badTopo.indexPos = sceneGroup.getChildIndex(badTopo)
 		
 		var yogotar = game.add.spine(0,40, "topo");
 		yogotar.scale.setTo(0.8,0.8)
@@ -1103,13 +1108,6 @@ var hack = function(){
 	}
 	
 	function createHoles(){
-
-		badTopo = game.add.group()
-		badTopo.x = -200
-		badTopo.y = game.world.centerY - 190
-		badTopo.ready = false
-		sceneGroup.add(badTopo)
-		badTopo.indexPos = sceneGroup.getChildIndex(badTopo)
 		
 		holesGroup = game.add.group()
 		sceneGroup.add(holesGroup)
@@ -1246,6 +1244,7 @@ var hack = function(){
 			createHearts()
             createCoin()
 			createParticles()
+			addBadTopo()
 			
 			buttons.getButton(medievalSong,sceneGroup)
 			
