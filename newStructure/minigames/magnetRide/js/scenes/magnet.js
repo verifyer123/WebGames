@@ -470,7 +470,6 @@ var magnet = function(){
 
 		sound.play("gameLose")
 		stopWorld()
-		magnetSong.stop()
 
 		yogotar.setSkinByName('mas')
 		yogotar.setToSetupPose()
@@ -479,7 +478,7 @@ var magnet = function(){
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
-
+			magnetSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
 
