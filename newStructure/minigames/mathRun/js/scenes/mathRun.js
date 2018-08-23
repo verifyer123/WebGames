@@ -105,7 +105,8 @@ var mathRun = function(){
     var gameSong
     var coin
     var hand
-    var tileGroup
+    var tiles = []
+    var castleGroup
     var boardGroup
     var landGroup
     var jumpButton
@@ -274,7 +275,7 @@ var mathRun = function(){
 		
         player.touched = true
         player.body.collideWorldBounds = false
-        tileGroup.castles.setAll("body.velocity.x", 0)
+        castleGroup.setAll("body.velocity.x", 0)
         landGroup.setAll("body.velocity.x", 0)
         landGroup.forEach(function(obj){
             obj.body.velocity.x = 0
@@ -323,26 +324,31 @@ var mathRun = function(){
         var sky = sceneGroup.create(0,0,'sky')
         sky.width = game.world.width
         sky.height = game.world.height - 200
-        
-        tileGroup = game.add.group()
-        sceneGroup.add(tileGroup)
-        
-        var mountains = game.add.tileSprite(0, game.world.height - 100, game.world.width, game.world.height - 200, 'mountains')
-        mountains.anchor.setTo(0,1)
-        tileGroup.add(mountains)
-        tileGroup.mountains = mountains
+
+        for(var i = 0; i < 2; i++){
+
+            var mountains = sceneGroup.create(0, game.world.height - 100, "mountains")
+            mountains.anchor.setTo(0,1)
+            mountains.x = mountains.width * i
+            mountains.speed = 0.1
+            tiles.push(mountains)
+        }
         
         createCastles()
-        
-        var hills = game.add.tileSprite(0, game.world.height + 50, game.world.width, game.world.height - 240, 'hills')
-        hills.anchor.setTo(0,1)
-        tileGroup.add(hills)
-        tileGroup.hills = hills
+
+        for(var i = 0; i < 2; i++){
+
+            var hills = sceneGroup.create(0, game.world.height + 50, 'hills')
+            hills.anchor.setTo(0,1)
+            hills.x = hills.width * i
+            hills.speed = 2
+            tiles.push(hills)
+        }
     }
     
     function createCastles(){
 
-        var castleGroup = game.add.group()
+        castleGroup = game.add.group()
         castleGroup.enableBody = true
         castleGroup.createMultiple(10, "atlas.runneryogome", 'castle0')
         castleGroup.setAll('anchor.x', 0)
@@ -356,8 +362,7 @@ var mathRun = function(){
             obj.body.allowGravity = false
             obj.events.onOutOfBounds.add(resetObj, this)
         },this)
-        tileGroup.add(castleGroup)
-        tileGroup.castles = castleGroup
+        sceneGroup.add(castleGroup)
         
         var pivotX = 0
         var type = [2, 1, 0, 2]
@@ -370,7 +375,7 @@ var mathRun = function(){
     
     function createTown(x, type){
         
-        var obj = tileGroup.castles.getFirstExists(false)
+        var obj = castleGroup.getFirstExists(false)
             
         if(obj){
 
@@ -383,7 +388,7 @@ var mathRun = function(){
     function resetObj(castle){
         
         castle.kill()
-        var obj = tileGroup.castles.getFirstExists(false)
+        var obj = castleGroup.getFirstExists(false)
         
         if(obj){
             obj.loadTexture('atlas.runneryogome', "castle" + castle.tag)
@@ -396,9 +401,13 @@ var mathRun = function(){
 	function update(){
             
         if(gameActive){
-            
-            tileGroup.mountains.tilePosition.x -= 0.1
-            tileGroup.hills.tilePosition.x -= 2
+
+            for(var i = 0; i < tiles.length; i++){
+                tiles[i].x -= 3//0.1
+                if(tiles[i].x <= -tiles[i].width){
+                    tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
+                }
+            }
         
             if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
                 doJump(900)
@@ -968,7 +977,7 @@ var mathRun = function(){
             else{
                 gameActive = false
                 player.body.collideWorldBounds = false
-                tileGroup.castles.setAll("body.velocity.x", 0)
+                castleGroup.setAll("body.velocity.x", 0)
                 coinsGroup.setAll("body.velocity.x", 0)
                 doJump(800)
                 arthurius.setAnimationByName(0, "lose", true)
@@ -981,7 +990,7 @@ var mathRun = function(){
         
         gameActive = true
         
-        tileGroup.castles.forEachAlive(function(obj){
+        castleGroup.forEachAlive(function(obj){
             obj.body.velocity.x = -30
         },this)
         
@@ -1054,7 +1063,7 @@ var mathRun = function(){
     function initTuto(){
         
         tutoPath()
-        tileGroup.castles.forEachAlive(function(obj){
+        castleGroup.forEachAlive(function(obj){
             obj.body.velocity.x = -30
         },this)
         
@@ -1068,7 +1077,7 @@ var mathRun = function(){
         setTutoQuestion()
         
         game.time.events.add(2500, function(){
-            tileGroup.castles.setAll("body.velocity.x", 0)
+            castleGroup.setAll("body.velocity.x", 0)
             landGroup.setAll("body.velocity.x", 0)
             coinsGroup.setAll("body.velocity.x", 0)
             arthurius.setAnimationByName(0, "idle", true)   
