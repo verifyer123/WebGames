@@ -667,8 +667,8 @@ var sushi = function(){
 			
 		var option = obj.parent
 		
-//		obj.x = 0
-//		obj.y = obj.originalY
+		obj.x = 0
+		obj.y = obj.originalY
 		
 		
 		game.add.tween(option.scale).to({x: 1, y: 1}, 100, Phaser.Easing.Cubic.Out, true)

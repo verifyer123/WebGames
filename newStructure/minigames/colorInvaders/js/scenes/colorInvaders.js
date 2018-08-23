@@ -124,7 +124,7 @@ var colorInvaders = function(){
 	var texture;
 	var texture2;
 	var texture3;
-	var max = 500;
+	var max = 250;
 	var xx = [];
 	var yy = [];
 	var zz = [];
@@ -650,7 +650,7 @@ var colorInvaders = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 
-		createParticles('star',3)
+		createParticles('star',1)
 		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
