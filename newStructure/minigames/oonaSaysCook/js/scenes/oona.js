@@ -597,7 +597,6 @@ var oona = function(){
         okBtnImg.inputEnabled = false;
         var result = false;
        
-       console.log("totalRecipeElements:" + totalRecipeElements + "answerGroup:" + answerGroup.length);
         for (var i = 0; i < totalRecipeElements; i++){
             if(answerGroup.length>0 && answerGroup.length==totalRecipeElements && answerGroup.children[i].number == correctAnswer[i]){
                 animateOona(animations[correctAnswer[i]], timer);
@@ -607,36 +606,62 @@ var oona = function(){
             else {
                 result = true;
                 animateOona(animations[6], timer);
-                if(answerGroup.length>totalRecipeElements){
-                    for (var it = 0; it < totalRecipeElements; it++){
-                        if(answerGroup.children[it].number != correctAnswer[it]){
-                            colorTools(timer, it, 0xF63A3A);
-                        }else if(answerGroup.children[it].number == correctAnswer[it]){
-                            colorTools(timer, it, 0x00ff00);
-                        }
-                    }
-                    for(var t=totalRecipeElements; t<answerGroup.length; t++){
-                        colorTools(timer, t, 0xF63A3A);
-                    }
-                }else if(answerGroup.length<=totalRecipeElements){
-                    for (var it = 0; it < answerGroup.length; it++){
-                        if(answerGroup.children[it].number != correctAnswer[it]){
-                            colorTools(timer, it, 0xF63A3A);
-                        }else if(answerGroup.children[it].number == correctAnswer[it]){
-                            colorTools(timer, it, 0x00ff00);
-                        }
-                    }
-                }else{
-                    colorTools(timer, i, 0xF63A3A);
-                }
-                timer += 1000;
+                // if(answerGroup.length>totalRecipeElements){
+                //     for (var it = 0; it < totalRecipeElements; it++){
+                //         if(answerGroup.children[it].number != correctAnswer[it]){
+                //             colorTools(timer, it, 0xF63A3A);
+                //         }else if(answerGroup.children[it].number == correctAnswer[it]){
+                //             colorTools(timer, it, 0x00ff00);
+                //         }
+                //     }
+                //     for(var t=totalRecipeElements; t<answerGroup.length; t++){
+                //         colorTools(timer, t, 0xF63A3A);
+                //     }
+                // }else if(answerGroup.length<=totalRecipeElements){
+                //     for (var re = 0; re < answerGroup.length; re++){
+                //         if(answerGroup.children[re].number != correctAnswer[re]){
+                //             colorTools(timer, re, 0xF63A3A);
+                //         }else if(answerGroup.children[re].number == correctAnswer[re]){
+                //             colorTools(timer, re, 0x00ff00);
+                //         }
+                //     }
+                // }else{
+                //     colorTools(timer, i, 0xF63A3A);
+                // }
+                timer += 1600;
                 break;
             }
+        }
+        if(result){
+            checkResult();
         }
         
         game.time.events.add(timer,function(){
             endRound(result);
         },this);
+    }
+
+    function checkResult(){
+        if(answerGroup.length>totalRecipeElements){
+            for (var it = 0; it < totalRecipeElements; it++){
+                if(answerGroup.children[it].number != correctAnswer[it]){
+                    colorTools(1000, it, 0xF63A3A);
+                }else if(answerGroup.children[it].number == correctAnswer[it]){
+                    colorTools(1000, it, 0x00ff00);
+                }
+            }
+            for(var t=totalRecipeElements; t<answerGroup.length; t++){
+                colorTools(1000, t, 0xF63A3A);
+            }
+        }else if(answerGroup.length<=totalRecipeElements){
+            for (var re = 0; re < answerGroup.length; re++){
+                if(answerGroup.children[re].number != correctAnswer[re]){
+                    colorTools(1000, re, 0xF63A3A);
+                }else if(answerGroup.children[re].number == correctAnswer[re]){
+                    colorTools(1000, re, 0x00ff00);
+                }
+            }
+        }
     }
 
     function endRound(wasLost){
