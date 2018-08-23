@@ -1,10 +1,12 @@
 window.minigame = window.minigame || {}
 var completeLoading = false
 var completeAnimation = false
+var backgroundColor = 0xd1196d
+initMixPanel(true)
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create, preload:preload }, false, true);
     //document.body.style.visibility = "hidden"
-    
+    window.game.nextTitleScene = "instructions"
 	function preloadScenes(sceneList){
 
     	function onCompletePreloading(){

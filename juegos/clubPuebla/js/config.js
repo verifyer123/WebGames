@@ -1,8 +1,8 @@
 window.amazing = {
 	config: {
-		name: "Puebla",
+		name: "Club Puebla",
 		language: "en",
-		minigameUrl: "../../minigames/puebla/index.html",
+		minigameUrl: "../../minigames/clubPuebla/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }

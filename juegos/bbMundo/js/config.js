@@ -1,8 +1,8 @@
 window.amazing = {
 	config: {
-		name: "Bebe Mundo",
+		name: "BB Mundo",
 		language: "en",
-		minigameUrl: "../../minigames/bebeMundo/index.html",
+		minigameUrl: "../../minigames/bbMundo/index.html",
 		desktopUrl: "./desktop.html",
 	}
 }
