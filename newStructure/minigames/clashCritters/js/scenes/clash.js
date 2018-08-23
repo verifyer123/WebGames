@@ -672,7 +672,7 @@ var clash = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         sound.play("bah")
-        clashSong.stop()
+        
         dino.setAlive(false)
         var dissapear = game.add.tween(dino).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
         // clock.tween.stop()
@@ -686,6 +686,7 @@ var clash = function(){
             resultScreen.setScore(true, numPoints)
 
             //amazing.saveScore(pointsBar.number)
+            clashSong.stop()
             sceneloader.show("result")
             sound.play("gameLose")
         })
