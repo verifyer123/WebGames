@@ -681,9 +681,8 @@ var clash = function(){
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1800)
         tweenScene.onComplete.add(function(){
 
-            var numPoints = killedMonsters * 5
             var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, numPoints)
+            resultScreen.setScore(true, pointsBar.number)
 
             //amazing.saveScore(pointsBar.number)
             clashSong.stop()
