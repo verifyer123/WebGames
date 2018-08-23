@@ -150,6 +150,10 @@ var acorn = function(){
     var wasShot;
     var canSwipeUp;
     var canSwipeDown;
+    var isDesktop = false;
+    var mouseIsDown;
+    var startY;
+    var spaceIsDown;
 
     function loadSounds(){
         sound.decode(assets.sounds);
@@ -181,6 +185,11 @@ var acorn = function(){
         wasShot = false;
         canSwipeUp = false;
         canSwipeDown = false;
+        if(this.game.device.desktop) {
+            isDesktop = true;
+        }
+        mouseIsDown = false;
+        spaceIsDown = false;
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -347,9 +356,10 @@ var acorn = function(){
 
     function missPoint(){
 
-        sound.play("wrong");
-
         lives--;
+        sound.play("wrong");
+        console.log("entre a perder");
+        
         heartsGroup.text.setText('X ' + lives);
 
         var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true);
@@ -659,12 +669,31 @@ var acorn = function(){
         });
     }
 
+    function checkSwipeOrClick(){
+        if (mouseIsDown == true) {
+            var endY = game.input.y;
+
+            if(!(endY < startY) && !(endY > startY)){
+                if (canSwipe && counterAcorn>0) {
+                    if(!wasShot){
+                        wasShot = true;
+                    }
+                    weapon.fire();
+                }
+            }
+        }
+    }
+
     function shot(){
-        if((game.input.activePointer.leftButton.isDown || spaceKey.isDown) && counterAcorn>0){
+        if(spaceKey.isDown){
+            spaceIsDown = true;
+        }
+        if(spaceIsDown && (spaceKey.isUp) && counterAcorn>0 && canSwipe){
             if(!wasShot){
                 wasShot = true;
             }
             weapon.fire();
+            spaceIsDown = false;
         }
     }
 
@@ -734,17 +763,23 @@ var acorn = function(){
 
         background = game.add.tileSprite(0,0,game.world.width,961,'fondo');
         sceneGroup.add(background);
-
-        game.input.onTap.add(onTap, this);
     }
 
-    function onTap(pointer, doubleTap) {
-        if(counterAcorn>0){
-            if(!wasShot){
-                wasShot = true;
-            }
-            weapon.fire();
+    function inputs(){
+        game.input.onUp.add(mouseUp, this);
+        game.input.onDown.add(mouseDown, this);
+    }
+
+    function mouseDown() {
+        if(!mouseIsDown){   
+            mouseIsDown = true;
+            startY = game.input.y;
         }
+    }
+
+    function mouseUp() {
+        checkSwipeOrClick();
+        mouseIsDown = false;
     }
 
     function changeDay(){
@@ -1051,6 +1086,8 @@ var acorn = function(){
         for(var objectIndex = 0; objectIndex < gameGroup.objects.length; objectIndex++){
             var object = gameGroup.objects[objectIndex];
             object.alpha = 0;
+            object.x = -300;
+            object.y = -300;
             gameGroup.remove(object);
             pullGroup.add(object);
         }
@@ -1100,16 +1137,17 @@ var acorn = function(){
 
         sound.play("hit");
         var secondAnimation = lives > 0 ? "run" : "losestill";
+        console.log("Animation " + secondAnimation);
         if(secondAnimation == "run" && counterAcorn>0){
             secondAnimation = "run_cachetes";
         }
         ardilla.setAnimation(["hit", secondAnimation]);
         var toX = (-object.world.x + ardilla.x) + 300;
         currentDistance -= toX;
-        game.add.tween(background.tilePosition).to({x: background.tilePosition.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(boardGroup).to({x: boardGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
-        game.add.tween(blocksGroup).to({x: blocksGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
-        var tween = game.add.tween(gameGroup).to({x: gameGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true)
+        game.add.tween(background.tilePosition).to({x: background.tilePosition.x + toX}, 800, Phaser.Easing.Cubic.Out, true);
+        game.add.tween(boardGroup).to({x: boardGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true);
+        game.add.tween(blocksGroup).to({x: blocksGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true);
+        var tween = game.add.tween(gameGroup).to({x: gameGroup.x + toX}, 800, Phaser.Easing.Cubic.Out, true);
         tween.onComplete.add(function () {
             if (lives > 0) {
                 runnerMode = true;
@@ -1133,7 +1171,12 @@ var acorn = function(){
             particleCorrect.y = object.world.y;
 
             particleCorrect.start(true, 1000, null, 1);
-            game.add.tween(object).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true);
+            game.add.tween(object).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
+                ardilla.remove(object);
+                pullGroup.add(object);
+                object.x = -300;
+                object.y = -300;
+            });
         });
     }
 
@@ -1163,6 +1206,7 @@ var acorn = function(){
             initialize();
 			var acornSong = sound.play("acornSong", {loop:true, volume:0.6});
 
+            inputs();
             createBackground();
             createBoard();
             createBlocks();

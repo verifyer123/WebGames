@@ -55,8 +55,6 @@ var clash = function(){
                 file: soundsPath + "whoosh.mp3"},
             {   name: "bah",
                 file: soundsPath + "bah.mp3"},
-            {   name: "fart",
-                file: soundsPath + "splash.mp3"},
             {   name: "explosion",
                 file: soundsPath + "fireExplosion.mp3"},
             {   name: "clashSong",
@@ -339,7 +337,6 @@ var clash = function(){
 
         game.time.events.add(400, function () {
             monster.setAlive(false)
-            sound.play("fart")
             var dissapear = game.add.tween(monster).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
             dissapear.onComplete.add(function () {
                 sound.play("cut")
@@ -449,7 +446,7 @@ var clash = function(){
 
         if(inputsEnabled){
             circle.inputEnabled = false
-            inputsEnabled = false
+            enableCircles(false)
             indicator.timer.stop()
             if(hand)
                 hand.destroy()
@@ -458,7 +455,6 @@ var clash = function(){
             buttonEffect.onComplete.add(function () {
                 game.add.tween(option.scale).to({x: 1, y: 1}, 150, Phaser.Easing.Cubic.In, true)
             })
-            tweenTint(circle, 0xffffff, 0x9B9B9B, 300)
 
             var indicatorEffect = game.add.tween(indicator.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Cubic.Out, true)
             indicatorEffect.onComplete.add(function () {
@@ -466,6 +462,7 @@ var clash = function(){
             })
 
             if (option.number === clashGroup.answer) {
+                tintBtns(circle)
                 var particleCorrect = clashGroup.correctParticle
                 particleCorrect.x = option.x
                 particleCorrect.y = option.y
@@ -504,6 +501,15 @@ var clash = function(){
                 particleWrong.start(true, 3000, null, 6)
                 game.time.events.add(500, monsterAttack)
             }
+        }
+    }
+    
+    function tintBtns(circle){
+        var group = circle.parent
+        for(var i = 0; i < clashGroup.options.length; i++){
+            var cir = clashGroup.options[i].circle
+            if(cir != circle)
+                tweenTint(cir, 0xffffff, 0x9B9B9B, 300)
         }
     }
     
@@ -663,7 +669,7 @@ var clash = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         sound.play("bah")
-        clashSong.stop()
+        
         dino.setAlive(false)
         var dissapear = game.add.tween(dino).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
         // clock.tween.stop()
@@ -672,11 +678,11 @@ var clash = function(){
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1800)
         tweenScene.onComplete.add(function(){
 
-            var numPoints = killedMonsters * 5
             var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, numPoints)
+            resultScreen.setScore(true, pointsBar.number)
 
             //amazing.saveScore(pointsBar.number)
+            clashSong.stop()
             sceneloader.show("result")
             sound.play("gameLose")
         })
@@ -716,8 +722,12 @@ var clash = function(){
         game.add.tween(clashGroup.number2).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
     
-    function enableCircle(option) {
-        option.circle.inputEnabled = true
+    function enableCircles(state) {
+        
+        clashGroup.options.forEach(function(option){
+            option.circle.inputEnabled = state
+        })
+        inputsEnabled = state
     }
 
     function startIndicator(delay) {
@@ -789,13 +799,13 @@ var clash = function(){
             optionTween.onStart.add(function () {
                 sound.play("pop")
             })
-            optionTween.onComplete.add(enableCircle)
         }
+        
+        optionTween.onComplete.add(function(){
+            enableCircles(true)
+        })
 
         startIndicator(initialDelay + delayBetween * (NUM_OPTIONS + 1))
-
-        inputsEnabled = true
-        game.time.events.add(initialDelay + delayBetween * (NUM_OPTIONS + 1), iceStatus)
     }
     
     function createClashUI() {
@@ -1023,27 +1033,6 @@ var clash = function(){
             }
             obj.circle.inputEnabled = true
         })
-    }
-    
-    function iceStatus(){
-    
-        /*for(var i = 0; i < clashGroup.options.length; i++){
-            
-            var pic = clashGroup.options[i]
-            var pos = i + 1 >= clashGroup.options.length ? 0 : i + 1
-            var next = clashGroup.options[pos]
-               
-            game.add.tween(pic).to({x: next.x}, 1000, Phaser.Easing.Cubic.Out, true)
-        }*/
-        
-        for(var i = 0; i < clashGroup.options.length; i++){
-            
-            var pic = clashGroup.options[i]
-            if (pic.number !== clashGroup.answer) {
-                pic.number--
-                pic.text.setText(pic.number)
-            }        
-        }
     }
 
     return {

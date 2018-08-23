@@ -5,15 +5,15 @@ format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm1
-  rotate: true
-  xy: 1649, 926
+  rotate: false
+  xy: 1170, 502
   size: 48, 59
   orig: 48, 59
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 545, 376
+  xy: 1708, 921
   size: 36, 53
   orig: 36, 53
   offset: 0, 0
@@ -55,7 +55,7 @@ normal/eyes_f2
   index: -1
 normal/forearm1_a
   rotate: false
-  xy: 1332, 558
+  xy: 1649, 856
   size: 50, 51
   orig: 50, 51
   offset: 0, 0
@@ -69,7 +69,7 @@ normal/forearm2_a
   index: -1
 normal/hand1_a
   rotate: false
-  xy: 1710, 932
+  xy: 1273, 567
   size: 54, 42
   orig: 54, 42
   offset: 0, 0
@@ -97,14 +97,14 @@ normal/hand2_a
   index: -1
 normal/hand2_e
   rotate: false
-  xy: 1384, 625
+  xy: 1220, 522
   size: 45, 39
   orig: 45, 39
   offset: 0, 0
   index: -1
 normal/hand2_g
   rotate: false
-  xy: 1332, 517
+  xy: 1384, 625
   size: 41, 39
   orig: 41, 39
   offset: 0, 0
@@ -118,14 +118,14 @@ normal/head
   index: -1
 normal/leg1
   rotate: false
-  xy: 480, 356
+  xy: 480, 287
   size: 63, 73
   orig: 63, 73
   offset: 0, 0
   index: -1
 normal/leg2
   rotate: false
-  xy: 480, 289
+  xy: 1649, 909
   size: 57, 65
   orig: 57, 65
   offset: 0, 0
@@ -160,14 +160,14 @@ normal/menos1
   index: -1
 normal/mouth_a1
   rotate: false
-  xy: 480, 431
+  xy: 1649, 976
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
   index: -1
 normal/mouth_d1
   rotate: false
-  xy: 1649, 976
+  xy: 1170, 563
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
@@ -181,29 +181,29 @@ normal/mouth_d2
   index: -1
 normal/mouth_d5
   rotate: true
-  xy: 1284, 508
+  xy: 1601, 818
   size: 101, 46
   orig: 101, 46
   offset: 0, 0
   index: -1
 normal/redband
   rotate: true
-  xy: 1486, 799
-  size: 120, 126
-  orig: 120, 126
+  xy: 480, 362
+  size: 115, 87
+  orig: 115, 87
   offset: 0, 0
   index: -1
 normal/torso1
   rotate: false
-  xy: 1170, 501
-  size: 112, 108
-  orig: 112, 108
+  xy: 1486, 811
+  size: 113, 108
+  orig: 113, 108
   offset: 0, 0
   index: -1
 normal/torso2
   rotate: true
   xy: 253, 114
-  size: 127, 55
-  orig: 127, 55
+  size: 127, 56
+  orig: 127, 56
   offset: 0, 0
   index: -1

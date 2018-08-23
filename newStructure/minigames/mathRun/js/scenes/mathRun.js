@@ -53,8 +53,6 @@ var mathRun = function(){
 				file: soundsPath + "pop.mp3"},
             {	name: "whoosh",
 				file: soundsPath + "whoosh.mp3"},
-            {	name: "splash",
-				file: soundsPath + "splash.mp3"},
 			{	name: "gameLose",
 				file: soundsPath + "gameLose.mp3"},
             {   name: 'gameSong',
@@ -107,10 +105,13 @@ var mathRun = function(){
     var gameSong
     var coin
     var hand
-    var tileGroup
+    var tiles = []
+    var castleGroup
     var boardGroup
     var landGroup
     var jumpButton
+	var check;
+	var frames
     var button
     var player
     var arthurius
@@ -135,6 +136,8 @@ var mathRun = function(){
         jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
         gameActive = false
         coinCounter = 0
+		check=true;
+		frames=0;
         enemyCounter = 0
         enemyLvl = 3
         playingTuto = false
@@ -264,6 +267,7 @@ var mathRun = function(){
         })
         
         if(lives == 0){
+            gameActive = false
             stopGame()
         }
     }
@@ -273,20 +277,24 @@ var mathRun = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-        gameActive = false
         player.touched = true
         player.body.collideWorldBounds = false
-        tileGroup.castles.setAll("body.velocity.x", 0)
+        castleGroup.setAll("body.velocity.x", 0)
         landGroup.setAll("body.velocity.x", 0)
+        landGroup.forEach(function(obj){
+            obj.body.velocity.x = 0
+            if(obj.body.velocity.x != 0)
+                deactivateObj(obj)
+        })
         coinsGroup.setAll("body.velocity.x", 0)
         arthurius.setAnimationByName(0, "lose", true)
-        gameSong.stop()
+        
         		
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
+            gameSong.stop()
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
@@ -320,26 +328,31 @@ var mathRun = function(){
         var sky = sceneGroup.create(0,0,'sky')
         sky.width = game.world.width
         sky.height = game.world.height - 200
-        
-        tileGroup = game.add.group()
-        sceneGroup.add(tileGroup)
-        
-        var mountains = game.add.tileSprite(0, game.world.height - 100, game.world.width, game.world.height - 200, 'mountains')
-        mountains.anchor.setTo(0,1)
-        tileGroup.add(mountains)
-        tileGroup.mountains = mountains
+
+        for(var i = 0; i < 2; i++){
+
+            var mountains = sceneGroup.create(0, game.world.height - 100, "mountains")
+            mountains.anchor.setTo(0,1)
+            mountains.x = mountains.width * i
+            mountains.speed = 0.1
+            tiles.push(mountains)
+        }
         
         createCastles()
-        
-        var hills = game.add.tileSprite(0, game.world.height + 50, game.world.width, game.world.height - 240, 'hills')
-        hills.anchor.setTo(0,1)
-        tileGroup.add(hills)
-        tileGroup.hills = hills
+
+        for(var i = 0; i < 2; i++){
+
+            var hills = sceneGroup.create(0, game.world.height + 50, 'hills')
+            hills.anchor.setTo(0,1)
+            hills.x = hills.width * i
+            hills.speed = 2
+            tiles.push(hills)
+        }
     }
     
     function createCastles(){
 
-        var castleGroup = game.add.group()
+        castleGroup = game.add.group()
         castleGroup.enableBody = true
         castleGroup.createMultiple(10, "atlas.runneryogome", 'castle0')
         castleGroup.setAll('anchor.x', 0)
@@ -353,8 +366,7 @@ var mathRun = function(){
             obj.body.allowGravity = false
             obj.events.onOutOfBounds.add(resetObj, this)
         },this)
-        tileGroup.add(castleGroup)
-        tileGroup.castles = castleGroup
+        sceneGroup.add(castleGroup)
         
         var pivotX = 0
         var type = [2, 1, 0, 2]
@@ -367,7 +379,7 @@ var mathRun = function(){
     
     function createTown(x, type){
         
-        var obj = tileGroup.castles.getFirstExists(false)
+        var obj = castleGroup.getFirstExists(false)
             
         if(obj){
 
@@ -380,7 +392,7 @@ var mathRun = function(){
     function resetObj(castle){
         
         castle.kill()
-        var obj = tileGroup.castles.getFirstExists(false)
+        var obj = castleGroup.getFirstExists(false)
         
         if(obj){
             obj.loadTexture('atlas.runneryogome', "castle" + castle.tag)
@@ -391,11 +403,15 @@ var mathRun = function(){
     }
 
 	function update(){
-        
-        if(gameActive){
             
-            tileGroup.mountains.tilePosition.x -= 0.1
-            tileGroup.hills.tilePosition.x -= 2
+        if(gameActive){
+
+            for(var i = 0; i < tiles.length; i++){
+                tiles[i].x -= tiles[i].speed
+                if(tiles[i].x <= -tiles[i].width){
+                    tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
+                }
+            }
         
             if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
                 doJump(900)
@@ -414,7 +430,7 @@ var mathRun = function(){
                 }
             }
 
-            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10){
+            if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10 && gameActive){
                 
                 newPath()
                 coinCounter++
@@ -445,16 +461,29 @@ var mathRun = function(){
                 tutoPath()
             }
         }
-        
-        game.physics.arcade.collide(player, landGroup, land, null, this)
-        game.physics.arcade.collide(enemiesGroup, landGroup)
-        game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-        game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
-        
+		game.physics.arcade.collide(player, landGroup, land, null, this)
+        if(check){
+			game.physics.arcade.collide(player, landGroup, land, null, this)
+			game.physics.arcade.collide(enemiesGroup, landGroup)
+			game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
+			game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+			check=false;
+		}else{
+			regularSpeedColliders();
+		}
         player.x = 100
         arthurius.x = player.x
         arthurius.y = player.y + 10
     }
+	
+	function regularSpeedColliders(){
+		frames++;
+		if(frames==15){
+			check=true;
+			frames=0;
+			
+		}
+	}
     
     function doJump(force){
        
@@ -609,6 +638,8 @@ var mathRun = function(){
         
         text.anchor.setTo(0.5)
         text.alpha = 0
+        text.stroke = "#00aa55"
+        text.strokeThickness = 20
         hand.addChild(text)
         hand.text = text
     }
@@ -693,7 +724,7 @@ var mathRun = function(){
         boardGroup.setAll("alpha", 0)
         //bar.scale.setTo(1,0)
         
-        COIN_LIMIT = boardGroup.bar.centerY + 160
+        COIN_LIMIT = boardGroup.bar.centerY + 180
     }
     
     function createLand(){
@@ -839,11 +870,11 @@ var mathRun = function(){
         
         var obj = coinsGroup.getFirstExists(false)
         
-        if(obj && coinsGroup.canThrow){
+        if(obj && coinsGroup.canThrow && gameActive){
             
             setCoinNumber(obj)
             if(platform.tag == "floor"){
-                obj.reset(game.world.width, platform.y - platform.height - (100 * game.rnd.integerInRange(1, 2)))
+                obj.reset(game.world.width, platform.y - platform.height - (110 * game.rnd.integerInRange(1, 2)))
             }
             else{
                 var coinHeight = platform.y - platform.height - 200 - (10 * game.rnd.integerInRange(2, 6))
@@ -894,6 +925,9 @@ var mathRun = function(){
                 game.time.events.add(500, setQuestion)
             })
         }
+        else{
+            gameActive = false
+        }
         
     }
     
@@ -906,7 +940,6 @@ var mathRun = function(){
                     doJump(1400)
                     addCoin(enemy)
                     deactivateObj(enemy)
-                    sound.play("splash")
                 }
                 else{
                     player.touched = true
@@ -931,6 +964,9 @@ var mathRun = function(){
                     }
                 })
             }
+
+            if(lives == 0)
+                gameActive = false
         }
     }
     
@@ -947,24 +983,22 @@ var mathRun = function(){
     
     function fallFromLand(){
         
-        if(gameActive){
-            if(player.y >= game.world.height){
+        if(gameActive && player.y >= game.world.height){
+            
+            missPoint(arthurius)
 
-                missPoint(arthurius)
-
-                if(lives > 0){
-                    doJump(1850)
-                    arthurius.setAnimationByName(0, "lose", true)
-                }
-                else{
-                    gameActive = false
-                    player.body.collideWorldBounds = false
-                    tileGroup.castles.setAll("body.velocity.x", 0)
-                    landGroup.setAll("body.velocity.x", 0)
-                    coinsGroup.setAll("body.velocity.x", 0)
-                    doJump(800)
-                    arthurius.setAnimationByName(0, "lose", true)
-                }
+            if(lives > 0){
+                doJump(1850)
+                arthurius.setAnimationByName(0, "lose", true)
+            }
+            else{
+                gameActive = false
+                player.body.collideWorldBounds = false
+                castleGroup.setAll("body.velocity.x", 0)
+                coinsGroup.setAll("body.velocity.x", 0)
+                doJump(800)
+                arthurius.setAnimationByName(0, "lose", true)
+                landGroup.setAll("body.velocity.x", 0)
             }
         }
     }
@@ -973,7 +1007,7 @@ var mathRun = function(){
         
         gameActive = true
         
-        tileGroup.castles.forEachAlive(function(obj){
+        castleGroup.forEachAlive(function(obj){
             obj.body.velocity.x = -30
         },this)
         
@@ -1046,7 +1080,7 @@ var mathRun = function(){
     function initTuto(){
         
         tutoPath()
-        tileGroup.castles.forEachAlive(function(obj){
+        castleGroup.forEachAlive(function(obj){
             obj.body.velocity.x = -30
         },this)
         
@@ -1060,7 +1094,7 @@ var mathRun = function(){
         setTutoQuestion()
         
         game.time.events.add(2500, function(){
-            tileGroup.castles.setAll("body.velocity.x", 0)
+            castleGroup.setAll("body.velocity.x", 0)
             landGroup.setAll("body.velocity.x", 0)
             coinsGroup.setAll("body.velocity.x", 0)
             arthurius.setAnimationByName(0, "idle", true)   
@@ -1073,7 +1107,7 @@ var mathRun = function(){
         
         var obj = landGroup.getFirstExists(false)
         
-        if(obj){
+        if(obj && lives > 0){
             obj.loadTexture('atlas.runneryogome', "floor")
             obj.tag = "floor"
             obj.reset(game.world.width, game.world.height)

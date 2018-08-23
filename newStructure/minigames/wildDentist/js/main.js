@@ -44,7 +44,7 @@ function startGame(){
         game.time.advancedTiming = true;
         game.stage.disableVisibilityChange = true;        
 
-        game.plugins.add(PhaserSpine.SpinePlugin);
+        game.plugins.add(Fabrique.Plugins.Spine);
         //game.plugins.add(PhaserSpine.SpinePlugin);
         //epicparticles.init(game);
         

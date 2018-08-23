@@ -146,7 +146,7 @@ var magnet = function(){
 	var blueBar
 	var magnetSong
 	var isNoun
-	var coinS, coinS2
+	var coinS
 	var hand
 
 
@@ -470,7 +470,6 @@ var magnet = function(){
 
 		sound.play("gameLose")
 		stopWorld()
-		magnetSong.stop()
 
 		yogotar.setSkinByName('mas')
 		yogotar.setToSetupPose()
@@ -479,7 +478,7 @@ var magnet = function(){
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
-
+			magnetSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number)
 
@@ -1093,11 +1092,11 @@ var magnet = function(){
 
 		var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-		rect.alpha = 0
+		rect.drawRect(0,60,game.world.width * 2, game.world.height * 2)
+		rect.alpha = 0.1
 		rect.endFill()
 		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
+		rect.events.onInputUp.add(function(){
 			doJump()
 
 		})	

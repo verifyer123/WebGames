@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "ODzY1kyXlu1XKz/i1z5dV0FlQuA", "spine": "3.2.01", "width": 253.75, "height": 274.87, "images": "" },
+"skeleton": { "hash": "e6OyXJQ3Aa5i1085N7npHgrWsJo", "spine": "3.2.01", "width": 197.67, "height": 276.89, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "length": 67.76, "rotation": 90, "x": -2.25, "y": 34.77 },
@@ -48,10 +48,10 @@
 		},
 		"head": {
 			"head1": { "name": "nao/head1", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 187 },
-			"head2": { "name": "nao/head2", "x": 74.76, "y": 8.66, "rotation": 276.73, "width": 195, "height": 187 },
-			"head3": { "name": "nao/head3", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 187 },
-			"head4": { "name": "nao/head4", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 188 },
-			"head5": { "name": "nao/head5", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 187 }
+			"head2": { "name": "nao/head2", "x": 74.76, "y": 8.66, "rotation": 276.73, "width": 196, "height": 187 },
+			"head3": { "name": "nao/head3", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 186 },
+			"head4": { "name": "nao/head4", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 187 },
+			"head5": { "name": "nao/head5", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 195, "height": 186 }
 		},
 		"leg1": {
 			"estrella/leg1": { "name": "nao/leg1", "x": 21.14, "y": 2, "rotation": 90, "width": 47, "height": 69 }
@@ -72,10 +72,10 @@
 		},
 		"head": {
 			"head1": { "name": "tomiko/head1", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 192, "height": 181 },
-			"head2": { "name": "tomiko/head2", "x": 74.76, "y": 8.66, "rotation": 276.73, "width": 191, "height": 181 },
-			"head3": { "name": "tomiko/head3", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 191, "height": 181 },
+			"head2": { "name": "tomiko/head2", "x": 74.76, "y": 8.66, "rotation": 276.73, "width": 191, "height": 180 },
+			"head3": { "name": "tomiko/head3", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 190, "height": 180 },
 			"head4": { "name": "tomiko/head4", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 191, "height": 181 },
-			"head5": { "name": "tomiko/head5", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 192, "height": 181 }
+			"head5": { "name": "tomiko/head5", "x": 74.76, "y": 8.66, "rotation": -83.26, "width": 191, "height": 181 }
 		},
 		"leg1": {
 			"estrella/leg1": { "name": "tomiko/leg1", "x": 21.14, "y": 2, "rotation": 90, "width": 49, "height": 70 }

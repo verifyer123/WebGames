@@ -36,8 +36,8 @@ var greenRescue = function(){
 		],
 		images: [
 			{
-			name:"tutorial_image",
-			file:"images/green/tutorial_image.png"
+				name:"tutorial_image",
+				file:"images/green/tutorial_image.png"
 			}
 		],
 		sounds: [
@@ -67,6 +67,12 @@ var greenRescue = function(){
 			 file: soundsPath + "owl.mp3"},
 			{	name: "danced",
 			 file: soundsPath + "songs/jungle_fun.mp3"},
+			{	name: "hole",
+			 file: soundsPath + "flesh.mp3"},
+			{	name: "combo",
+			 file: soundsPath + "combo.mp3"},
+			{	name: "cog",
+			 file: soundsPath + "cog.mp3"},
 
 		],
 		jsons: [
@@ -77,32 +83,32 @@ var greenRescue = function(){
 		],
 		spritesheets: [
 			{
-                name:"hand",
-                file:"images/Spine/hand/hand.png",
-                width:115,
-                height:111,
-                frames:5
-            },
-			{
-                name:"coin",
-                file:"images/Spine/coin/coin.png",
-                width:122,
-                height:123,
-                frames:12
+				name:"hand",
+				file:"images/Spine/hand/hand.png",
+				width:115,
+				height:111,
+				frames:5
 			},
 			{
-                name:"sprinkler",
-                file:'images/Spine/sprinkler/sprinker.png',
-                width:272,
-                height:305,
-                frames:23
+				name:"coin",
+				file:"images/Spine/coin/coin.png",
+				width:122,
+				height:123,
+				frames:12
 			},
 			{
-                name:"can",
-                file:'images/Spine/trashcan/trashcan.png',
-                width:162,
-                height:260,
-                frames:24
+				name:"sprinkler",
+				file:'images/Spine/sprinkler/sprinker.png',
+				width:272,
+				height:305,
+				frames:23
+			},
+			{
+				name:"can",
+				file:'images/Spine/trashcan/trashcan.png',
+				width:162,
+				height:260,
+				frames:24
 			},
 		],
 		spines: [
@@ -118,7 +124,7 @@ var greenRescue = function(){
 				name:"trees",
 				file:"images/Spine/Trees/trees.json"
 			},
-			
+
 		],
 	}
 
@@ -131,12 +137,12 @@ var greenRescue = function(){
 	var gameIndex = 124
 	var indexGame
 	var overlayGroup
+	var coinsGroup=null
 	var morning,night, danced
 	var velocidadNubes=4
-
 	var backgroundGroup=null
 	var clock, timeBar,tweenTiempo;
-
+	var activeObj;
 	var proxy=new Array(9);
 	var iconic=new Array(9);
 	var trash=new Array(9);
@@ -146,6 +152,8 @@ var greenRescue = function(){
 	var readyToWater=new Array(9);
 	var animations=new Array(7);
 	var animatedSprinklers=new Array(9)
+	var broomIcon, shovelIcon, sprinklerIcon, sproutIcon, trashIcon, board
+	var shovel,broom, sprinkler, sprout, shovelProxy, sprinklerProxy, sproutProxy
 	var hole=[]
 	var objectOverlaping;
 	var tutorialState
@@ -163,6 +171,8 @@ var greenRescue = function(){
 	var sumX,sumY
 	var sunAct,moonAct;
 	var emitter
+	var index
+	var coinS
 
 
 	function loadSounds(){
@@ -178,7 +188,7 @@ var greenRescue = function(){
 			readyToWater[falseStates]=false;
 		}
 		passingLevel=false;
-
+		index=0;
 		animations[0]="BAG";
 		animations[1]="BOMB";
 		animations[2]="BOX";
@@ -391,8 +401,10 @@ var greenRescue = function(){
 
 	function onClickPlay(){
 		sunAct=true
-		//Aqui va la primera funciòn que realizara el juego
 		startGame=true
+		coinsGroup= new Phaser.Group(game)
+		sceneGroup.add(coinsGroup)
+		coinsGroup.add(coinS)
 		game.time.events.add(1250, function(){
 			putTrash();
 		});
@@ -447,13 +459,13 @@ var greenRescue = function(){
 		sceneGroup.add(boomParticle);
 
 
-		//Coins
-		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
-		coins.anchor.setTo(0.5)
-		coins.scale.setTo(0.5)
-		coins.animations.add('coin');
-		coins.animations.play('coin', 24, true);
-		coins.alpha=0
+		//		//Coins
+		//		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
+		//		coins.anchor.setTo(0.5)
+		//		coins.scale.setTo(0.5)
+		//		coins.animations.add('coin');
+		//		coins.animations.play('coin', 24, true);
+		//		coins.alpha=0
 
 		//Colocamos el escenario
 
@@ -511,36 +523,34 @@ var greenRescue = function(){
 		cloudsGroup.add(clouds4)
 		backgroundGroup.add(sun)
 		backgroundGroup.add(moon)
-		
+
 		hand=game.add.sprite(0,0, "hand")
-        hand.anchor.setTo(0.5,0.5);
-        hand.scale.setTo(1,1);
+		hand.anchor.setTo(0.5,0.5);
+		hand.scale.setTo(1,1);
 		hand.alpha=0;
-        hand.animations.add('hand');
-        hand.animations.play('hand', 3, false);
+		hand.animations.add('hand');
+		hand.animations.play('hand', 3, false);
 		sceneGroup.add(hand)
 
 		stars=game.add.tileSprite(0,10,game.world.width,game.world.height/7.7,'atlas.green',"STARS")
 		starsGroup.add(stars)
 		starsGroup.alpha=1
 
-		board=game.add.sprite(game.world.centerX-80,game.world.height-90,"atlas.green","BOARD")
+		board=game.add.sprite(game.world.centerX,game.world.height-90,"atlas.green","BOARD")
 		board.anchor.setTo(0.5,0.5)
-		board.width=450
+		board.width=650
 
-		board2=game.add.sprite(game.world.centerX+220,game.world.height-90,"atlas.green","BOARD2")
-		board2.anchor.setTo(0.5,0.5)
-		board2.width=150
+		broomIcon=game.add.sprite(board.centerX-230,board.centerY,"atlas.green","ICON_BROOM");
+		shovelIcon=game.add.sprite(board.centerX-100,board.centerY,"atlas.green","ICON SHOVEL");
+		sprinklerIcon=game.add.sprite(board.centerX+180,board.centerY,"atlas.green","ICON SPRINKLER");
+		sproutIcon=game.add.sprite(board.centerX+30,board.centerY,"atlas.green","ICON SPROUT");
 
-		shovelIcon=game.add.sprite(board.centerX-130,board.centerY,"atlas.green","ICON SHOVEL");
-		sprinklerIcon=game.add.sprite(board.centerX+120,board.centerY,"atlas.green","ICON SPRINKLER");
-		sproutIcon=game.add.sprite(board.centerX-10,board.centerY,"atlas.green","ICON SPROUT");
-		trashIcon=game.add.sprite(board2.centerX+10,board2.centerY-25,"can");
-
+		trashIcon=game.add.sprite(broomIcon.centerX-60,board.centerY-25,"can");
 		trashIcon.anchor.setTo(.5);
 		trashIcon.scale.setTo(.5);
 		trashIcon.animations.add('can');
 
+		broomIcon.anchor.setTo(0.5,0.5)
 		shovelIcon.anchor.setTo(0.5,0.5)
 		sprinklerIcon.anchor.setTo(0.5,0.5)
 		sproutIcon.anchor.setTo(0.5,0.5)
@@ -548,6 +558,7 @@ var greenRescue = function(){
 
 		trashIcon.scale.setTo(0.75);
 
+		broom=game.add.sprite(broomIcon.x,broomIcon.y,"atlas.green","BROOM")
 		shovel=game.add.sprite(shovelIcon.x,shovelIcon.y,"atlas.green","SHOVEL")
 		sprinkler=game.add.sprite(sprinklerIcon.x,sprinklerIcon.y,"atlas.green","SPRINKLER")
 		sprout=game.add.sprite(sproutIcon.x,sproutIcon.y,"atlas.green","SPROUT")
@@ -555,56 +566,57 @@ var greenRescue = function(){
 		sprinkler.anchor.setTo(.8)
 		sprinkler.scale.setTo(1)
 
+		broomProxy=game.add.sprite(board.centerX-230,board.centerY,"atlas.green","BROOM")
 		shovelProxy=game.add.sprite(board.centerX-170,board.centerY,"atlas.green","SHOVEL")
 		sprinklerProxy=game.add.sprite(board.centerX-10,board.centerY,"atlas.green","SPRINKLER")
 		sproutProxy=game.add.sprite(board.centerX+170,board.centerY,"atlas.green","SPROUT")
 
+		broomProxy.alpha=0;
 		shovelProxy.alpha=0;
 		sprinklerProxy.alpha=0;
 		sproutProxy.alpha=0;
 
-		shovelProxy.scale.setTo(0.5);
-		shovelProxy.anchor.setTo(0.5);
+		broomProxy.scale.setTo(0.5,0.5);
+		broomProxy.anchor.setTo(0.5,0.5);
 
-		sprinklerProxy.scale.setTo(0.5);
-		sprinklerProxy.anchor.setTo(0.5);
+		shovelProxy.scale.setTo(0.5,0.5);
+		shovelProxy.anchor.setTo(0.5,0.5);
 
-		sproutProxy.scale.setTo(0.5);
-		sproutProxy.anchor.setTo(0.5);
+		sprinklerProxy.scale.setTo(0.5,0.5);
+		sprinklerProxy.anchor.setTo(0.5,0.5);
 
+		sproutProxy.scale.setTo(0.5,0.5);
+		sproutProxy.anchor.setTo(0.5,0.5);
+
+		broom.inputEnabled=true;
 		shovel.inputEnabled=true;
 		sprinkler.inputEnabled=true;
 		sprout.inputEnabled=true;
+		broom.events.onInputDown.add(activeObject,this);
+		shovel.events.onInputDown.add(activeObject,this);
+		sprout.events.onInputDown.add(activeObject,this);
+		sprinkler.events.onInputDown.add(activeObject,this);
 
-		shovel.anchor.setTo(0.5);
-		sprinkler.anchor.setTo(0.5);
-		sprout.anchor.setTo(0.5);
+		broom.anchor.setTo(0.5,0.5);
+		shovel.anchor.setTo(0.5,0.5);
+		sprinkler.anchor.setTo(0.5,0.5);
+		sprout.anchor.setTo(0.5,0.5);
 
+		broom.tag="bro";
 		shovel.tag="sho";
 		sprinkler.tag="sprin";
 		sprout.tag="sprout";
 
-		shovel.input.enableDrag(true);
-		sprinkler.input.enableDrag(true);
-		sprout.input.enableDrag(true);
 
-		shovel.events.onDragStop.add(onDragStop, this);
-		sprinkler.events.onDragStop.add(onDragStop, this);
-		sprout.events.onDragStop.add(onDragStop, this);
-
-		shovel.events.onDragStart.add(onDragStart, this);
-		sprinkler.events.onDragStart.add(onDragStart, this);
-		sprout.events.onDragStart.add(onDragStart, this);
-
-
-
+		UIGroup.add(trashIcon)
 		UIGroup.add(board)
-		UIGroup.add(board2)
 
+		UIGroup.add(broomIcon)
 		UIGroup.add(shovelIcon)
 		UIGroup.add(sprinklerIcon)
 		UIGroup.add(sproutIcon)
-		UIGroup.add(trashIcon)
+
+		UIGroup.add(broom)
 		UIGroup.add(shovel)
 		UIGroup.add(sprinkler)
 		UIGroup.add(sprout)
@@ -616,7 +628,7 @@ var greenRescue = function(){
 		platform1.setSkinByName("normal");
 		platform1.setAnimationByName(0,"STAR_DIRTY",false)
 		platformGroup.add(platform1)
-		
+
 		platform2=game.add.spine(game.world.centerX,game.world.centerY,"floor")
 		platform2.scale.setTo(1,1)
 		platform2.alpha=0
@@ -682,7 +694,7 @@ var greenRescue = function(){
 			tree[translate].setSkinByName("normal");
 			//tree[translate].setAnimationByName(0,"SHOOT",false)
 			platformGroup.add(tree[translate])
-			
+
 			hole[translate]=game.add.sprite(game.world.centerX-standarX+5+acomodateX*general,game.world.centerY-10+standarY-acomodateY*general,"atlas.green","hole")
 			hole[translate].scale.setTo(1,0.7)
 			hole[translate].anchor.setTo(0.5,0.5)
@@ -706,6 +718,9 @@ var greenRescue = function(){
 			proxy[translate].scale.setTo(1.2,1.2)
 			proxy[translate].anchor.setTo(0.5,0.5)
 			proxy[translate].alpha=0
+			proxy[translate].inputEnabled=true;
+			proxy[translate].input.priorityID =2;
+			proxy[translate].events.onInputDown.add(managerObjects,this);
 			platformGroup.add(proxy[translate])
 
 			general++;
@@ -743,17 +758,23 @@ var greenRescue = function(){
 	function tutorialLevel(tutorialStates, position){
 		hand.alpha=1;
 		if(tutorialStates==0){
+			hand.x=broomIcon.x+30;
+			hand.y=broomIcon.y+10;
+			tutorialTween=game.add.tween(hand).to({x:hole[position].x+30,y:hole[position].y-70},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
+			tutorialState++;
+		}else if(tutorialStates==1){
+			tutorialTween.stop();
 			hand.x=shovelIcon.x+30;
 			hand.y=shovelIcon.y+10;
 			tutorialTween=game.add.tween(hand).to({x:hole[position].x+30,y:hole[position].y-70},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
 			tutorialState++;
-		}else if(tutorialStates==1){
+		}else if(tutorialStates==2){
 			tutorialTween.stop();
 			hand.x=sproutIcon.x+30;
 			hand.y=sproutIcon.y+10;
 			tutorialTween=game.add.tween(hand).to({x:hole[position].x+30,y:hole[position].y-70},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
 			tutorialState++;
-		}else if(tutorialStates==2){
+		}else if(tutorialStates==3){
 			tutorialTween.stop();
 			hand.x=sprinklerIcon.x+30;
 			hand.y=sprinklerIcon.y+10;
@@ -782,9 +803,11 @@ var greenRescue = function(){
 		tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
 		tweenTiempo.onComplete.add(function(){
 			missPoint()
+			broom.inputEnabled=false;
 			shovel.inputEnabled=false;
 			sprout.inputEnabled=false;
 			sprinkler.inputEnabled=false;
+
 			game.sound.setDecodedCallback(danced, function(){
 				danced.loopFull(0.6)
 			}, this);
@@ -804,13 +827,20 @@ var greenRescue = function(){
 
 		return Phaser.Rectangle.intersects(boundsA, boundsB);
 	}
+	function activeObject(obj){
+
+		if(activeObj!=null)onChangeObj(activeObj)
+		broom.input.priorityID = 1;
+		shovel.input.priorityID = 1;
+		sprout.input.priorityID = 1;
+		sprinkler.input.priorityID = 1;
+		obj.input.priorityID = 0;
+		activeObj=obj.tag;
+	}
 
 	function update(){
-
-
-		//PARCHEZOTE #1
 		for(var mess=0;mess<estados.length;mess++){
-			if(tweenIcon[mess] && estados[mess]==0 || estados[mess]==5){
+			if(tweenIcon[mess] && estados[mess]==0 || estados[mess]==7){
 				tweenIcon[mess].stop()
 				iconic[mess].alpha=0
 			}
@@ -908,7 +938,6 @@ var greenRescue = function(){
 						objectOverlaping=proxy[checkOverlaping];
 						objectOverlaping.tag=proxy[checkOverlaping].tag
 					}
-
 					if(iconic[checkOverlaping].alpha !=0 && checkOverlap(sprinklerProxy,iconic[checkOverlaping])){
 						objectOverlaping=proxy[checkOverlaping];
 						objectOverlaping.tag=proxy[checkOverlaping].tag
@@ -923,8 +952,23 @@ var greenRescue = function(){
 						objectOverlaping=proxy[checkOverlaping];
 						objectOverlaping.tag=proxy[checkOverlaping].tag
 					}
+					if (checkOverlap(broomProxy,proxy[checkOverlaping]) && broomProxy.alpha==0)
+					{
+						objectOverlaping=proxy[checkOverlaping];
+						objectOverlaping.tag=proxy[checkOverlaping].tag
+					}
 				}
 			}
+
+			for(var hide=0; hide<estados.length;hide++){
+				if(estados[hide-2]>2 && estados[hide-2]<7  && estados[hide]==6 && (hide!=2 && hide!=5 && hide!=7)){
+					game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
+				}
+			}
+			checkMouse();
+			broomProxy.position.x=broom.x;
+			broomProxy.position.y=broom.y;
+
 			shovelProxy.position.x=shovel.x;
 			shovelProxy.position.y=shovel.y;
 
@@ -937,63 +981,75 @@ var greenRescue = function(){
 
 	}
 
+	function checkMouse(){
 
-	function onDragStart(obj){
-		obj.alpha=1;
-		sound.play("pop")
-
-
-		for(var hide=0; hide<estados.length;hide++){
-			if(estados[hide-2]>2 && estados[hide-2]<5  && estados[hide]==5 && (hide!=2 && hide!=5 && hide!=8)){
-				game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
-			}
+		if(activeObj=="bro"){
+			broom.position.x=game.input.mousePointer.x;
+			broom.position.y=game.input.mousePointer.y;
+			broom.alpha=1
+		}else{
+			broom.alpha=1
 		}
+		if(activeObj=="sho"){
+			shovel.position.x=game.input.mousePointer.x;
+			shovel.position.y=game.input.mousePointer.y;
+			shovel.alpha=1
+		}else{
+			shovel.alpha=1
+		}
+		if(activeObj=="sprin"){
+			sprinkler.position.x=game.input.mousePointer.x;
+			sprinkler.position.y=game.input.mousePointer.y;
+			sprinkler.alpha=1
+		}else{
+			sprinkler.alpha=1
+		}
+		if(activeObj=="sprout"){
+			sprout.position.x=game.input.mousePointer.x;
+			sprout.position.y=game.input.mousePointer.y;
+			sprout.alpha=1
+		}else{
+			sprout.alpha=1
+		}
+
+
 	}
+	//	function onDragStart(obj){
+	//		obj.alpha=1;
+	//		sound.play("pop")
+
+	//	}
 
 
-	function onDragStop(obj){
+	function onChangeObj(obj){
+		sound.play("cog")
+		if(obj=="sho"){
+			shovel.x=shovelIcon.x;
+			shovel.y=shovelIcon.y;
+			shovel.alpha=0;
 
-		if(obj.tag=="sho"){
-//			obj.position.x=shovelIcon.x
-//			obj.position.y=shovelIcon.y
-			game.add.tween(obj).to({x:shovelIcon.x,y:shovelIcon.y},500,Phaser.Easing.linear,true).onComplete.add(function(){
-				obj.alpha=0;
-			});
-		}else if(obj.tag=="sprin"){
-//			obj.position.x=sprinklerIcon.x
-//			obj.position.y=sprinklerIcon.y 
-			game.add.tween(obj).to({x:sprinklerIcon.x,y:sprinklerIcon.y},500,Phaser.Easing.linear,true).onComplete.add(function(){
-				obj.alpha=0;
-			});
-		}else if(obj.tag=="sprout"){
-//			obj.position.x=sproutIcon.x
-//			obj.position.y=sproutIcon.y
-			game.add.tween(obj).to({x:sproutIcon.x,y:sproutIcon.y},500,Phaser.Easing.linear,true).onComplete.add(function(){
-				obj.alpha=0;
-			});
+		}else if(obj=="sprin"){
+			sprinkler.x=sprinklerIcon.x;
+			sprinkler.y=sprinklerIcon.y;
+			sprinkler.alpha=0;
+		}else if(obj=="sprout"){
+			sprout.x=sproutIcon.x;
+			sprout.y=sproutIcon.y;
+			sprout.alpha=0;
+		}
+		else if(obj=="bro"){
+			broom.x=broomIcon.x;
+			broom.y=broomIcon.y;
+			broom.alpha=0;
 		}
 
 
 
 		for(var show=0; show<estados.length;show++){
-			if(estados[show-2]>2 && estados[show]==5 && (show!=2 && show!=5 && show!=8) && !passingLevel){
+			if(estados[show-2]>2 && estados[show]==7 && (show!=2 && show!=5 && show!=8) && !passingLevel){
 				game.add.tween(tree[show]).to({alpha:1},10,Phaser.Easing.Cubic.In,true,200);
 			}
 		}
-
-		if(objectOverlaping){
-			if(obj.tag=="sho" && estados[objectOverlaping.tag]==1){
-				clean(objectOverlaping);
-			}
-			if(obj.tag=="sprout" && estados[objectOverlaping.tag]==2){
-				plant(objectOverlaping);
-			}
-			if(obj.tag=="sprin" && estados[objectOverlaping.tag]>=3){
-				water(objectOverlaping);
-			}
-		}
-		objectOverlaping=null
-		
 	}
 
 	function putTrash(){
@@ -1002,7 +1058,7 @@ var greenRescue = function(){
 		var donde=0;
 		var whichOne=0;
 		var tutoTrash
-		
+
 		if(counter<9){
 			while(counter<dificulty){ 
 				donde=game.rnd.integerInRange(0,8)
@@ -1017,7 +1073,6 @@ var greenRescue = function(){
 				estados[allEstates]=0;
 			}
 		}
-
 		for(var placeTrash=0;placeTrash<estados.length;placeTrash++){
 			if(estados[placeTrash]==1){
 				whichOne=game.rnd.integerInRange(0,6);
@@ -1025,106 +1080,142 @@ var greenRescue = function(){
 				trash[placeTrash].alpha=1;
 			}
 		}
-
 		if(!tutorial){
 			positionTimer();
 			startTimer(50000);
+			broom.inputEnabled=true;
 			shovel.inputEnabled=true;
 			sprout.inputEnabled=true;
 			sprinkler.inputEnabled=true;
 		}else{
 			tutorialLevel(tutorialState, tutoTrash);
 		}
-
 	}
 
 
-	function clean(obj){
+	function managerObjects(obj){
+		if(objectOverlaping){
+			if(activeObj=="bro" && estados[objectOverlaping.tag]==1 && broom.alpha==1){
+				clean(objectOverlaping);
+			}
+			if(activeObj=="sho" && estados[objectOverlaping.tag]==3 && shovel.alpha==1){
+				makeHole(objectOverlaping);
+			}
+			if(activeObj=="sprout" && estados[objectOverlaping.tag]==4 && sprout.alpha==1){
+				plant(objectOverlaping);
+			}
+			if(activeObj=="sprin" && estados[objectOverlaping.tag]>=5 && sprinkler.alpha==1){
+				water(objectOverlaping);
+			}
+		}
+		objectOverlaping=null
+	}
 
+	function clean(obj){
+		var counterHole=0;
 		trashIcon.animations.play('can', 24,false);
 		sound.play("swipe")
 
-		game.add.tween(trashIcon).to({y:trashIcon.y-100},300,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
-			game.add.tween(trashIcon).to({x:trashIcon.x,y:trashIcon.y+100},200,Phaser.Easing.Cubic.Out,true,100);
-			hole[obj.tag].alpha=1;
+		game.add.tween(trashIcon).to({y:board.y-200},300,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
+			game.add.tween(trashIcon).to({x:trashIcon.x,y:board.y},200,Phaser.Easing.Cubic.Out,true,100);
 		})
 		game.add.tween(trash[obj.tag]).to({x:trashIcon.x,y:trashIcon.y},300,Phaser.Easing.Cubic.In,true);
 		game.add.tween(trash[obj.tag]).to({alpha:0},300,Phaser.Easing.Cubic.Out,true,300);
 		game.add.tween(trash[obj.tag]).to({x:trash[obj.tag].x,y:trash[obj.tag].y},200,Phaser.Easing.Cubic.In,true,1200);
-		estados[obj.tag]=2;
-		readyToPlant[obj.tag]=true;
+		estados[obj.tag]=3;
+		iconic[obj.tag].loadTexture("atlas.green","SHOVEL")
+		tweenIcon[obj.tag]=game.add.tween(iconic[obj.tag]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
+		game.add.tween(iconic[obj.tag].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
+
+
 		allClean++;
 		if(tutorial){
 			hand.alpha=0;
 		}
+
 		if(allClean==dificulty){
 			if(tutorial){
 				tutorialLevel(tutorialState,obj.tag);
 			}
 			allClean=0;
-			//platform1.setAnimationByName(0,"OUT_DIRTY",false);
-			//platform1.setAnimationByName(0,"START_CLEAN",false)
 			platform1.alpha=0;
-			platform2.alpha=1;	
+			platform2.alpha=1;
+			sound.play("combo")
 			emitter = epicparticles.newEmitter("pickedEnergy")
 			emitter.duration=0.2;
-			emitter.x = coins.x
-			emitter.y = coins.y
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			platformGroup.add(emitter)
-			game.time.events.add(1500,function(){
-				game.time.events.add(500,function(){
-					for(var checkToPlant=0; checkToPlant<estados.length; checkToPlant++){
-						if(readyToPlant[checkToPlant]){
-							iconic[checkToPlant].loadTexture("atlas.green","SPROUT")
-							tweenIcon[checkToPlant]=game.add.tween(iconic[checkToPlant]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
-							game.add.tween(iconic[checkToPlant].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
-						}
-					}
-					canPlant=true;
-				})
-			})
+
 		}
 	}
 
-
+	function makeHole(obj){
+		var counterToPlant=0;
+		hand.alpha=0;
+		if(estados[obj.tag]==3){
+			sound.play("hole");
+			estados[obj.tag]=4;
+			hole[obj.tag].alpha=1;
+			readyToPlant[obj.tag]=true;
+			for(var checkToPlant=0; checkToPlant<estados.length; checkToPlant++){
+				if(readyToPlant[checkToPlant]){
+					counterToPlant++;
+				}
+			}
+			tweenIcon[obj.tag].stop();
+			iconic[obj.tag].alpha=0;
+			if(counterToPlant==dificulty){
+				if(tutorial){
+					tutorialLevel(tutorialState,obj.tag);
+				}
+				for(var checkHoles=0; checkHoles<estados.length; checkHoles++){
+					iconic[checkHoles].loadTexture("atlas.green","SPROUT")
+					tweenIcon[checkHoles]=game.add.tween(iconic[checkHoles]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
+					game.add.tween(iconic[checkHoles].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
+				}
+				canPlant=true;
+			}
+		}
+	}
 	function plant(obj){
 		if(canPlant){
 			sound.play("plant")
-			if(tutorial && tutorialState==2){
+			if(tutorial && tutorialState==3){
 				tutorialLevel(tutorialState,obj.tag);
 			}
 			tree[obj.tag].setAnimationByName(0,"shoot",false);
 			tree[obj.tag].alpha=1;
 			hole[obj.tag].alpha=0;
-			estados[obj.tag]=3;
+			estados[obj.tag]=5;
 			iconic[obj.tag].loadTexture("atlas.green","SPRINKLER")
 		}
 	}
 	function water(obj){
 		var objHere=obj.tag 
-		if(estados[obj.tag]==2 || estados[obj.tag]==3 || estados[obj.tag]==4){
-			sound.play("water")
+		if(estados[obj.tag]==4 || estados[obj.tag]==5 || estados[obj.tag]==6){
+			sound.play("water");
 		}
 		tweenIcon[obj.tag].stop()
 		iconic[obj.tag].alpha=0
-		if(estados[obj.tag]==3){
+		if(estados[obj.tag]==5){
 			animatedSprinklers[objHere].alpha=1
 			animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
 			iconic[obj.tag].alpha=0
 			tree[obj.tag].setAnimationByName(0,"half",false);
 			iconic[obj.tag].y-=70
 			animatedSprinklers[objHere].y-=70
-			estados[obj.tag]=4
+			estados[obj.tag]=6
 			game.time.events.add(1100,function(){
 				sound.stop("water")
 				tweenIcon[objHere]=game.add.tween(iconic[objHere]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
 				animatedSprinklers[objHere].alpha=0
 			})
-		}else if(estados[obj.tag]==4){
-			animatedSprinklers[objHere].alpha=1
+		}else if(estados[obj.tag]==6){
+			animatedSprinklers[objHere].alpha=10
 			animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
 			tree[obj.tag].setAnimationByName(0,"complete",false);
-			estados[obj.tag]=5;
+			estados[obj.tag]=7;
 			iconic[obj.tag].y-=100
 			if(tutorial){
 				tutorialTween.stop()
@@ -1132,6 +1223,11 @@ var greenRescue = function(){
 			}
 			animatedSprinklers[objHere].y-=100
 			tweenIcon[obj.tag].stop()
+			getCoins(platform1)
+			emitter = epicparticles.newEmitter("pickedEnergy")
+			emitter.duration=0.2;
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			game.add.tween(iconic[obj.tag]).to({alpha:0}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
 				iconic[obj.tag].y+=170
 				game.time.events.add(390,function(){
@@ -1157,11 +1253,11 @@ var greenRescue = function(){
 					iconic[mess].alpha=0
 				}
 			}
+			broom.inputEnabled=false;
 			shovel.inputEnabled=false;
 			sprout.inputEnabled=false;
 			sprinkler.inputEnabled=false;
 			game.time.events.add(100,function(){
-				Coin(platform1,pointsBar,200)
 				checked=0;
 				canPlant=false
 				game.time.events.add(1500,function(){
@@ -1183,25 +1279,78 @@ var greenRescue = function(){
 		}
 	}
 
-	function Coin(objectBorn,objectDestiny,time){
+	//	function Coin(objectBorn,objectDestiny,time){
+	//
+	//
+	//		//objectBorn= Objeto de donde nacen
+	//		coins.x=objectBorn.centerX
+	//		coins.y=objectBorn.centerY
+	//
+	//		emitter = epicparticles.newEmitter("pickedEnergy")
+	//		emitter.duration=0.2;
+	//		emitter.x = coins.x
+	//		emitter.y = coins.y
+	//		platformGroup.add(emitter)
+	//		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+	//		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+	//			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+	//			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+	//				coins.x=objectBorn.centerX
+	//				coins.y=objectBorn.centerY
+	//				addPoint(1)
+	//			})
+	//		})
+	//	}
 
+	function getCoins(player){
+		var coin=coinsGroup.getFirstDead();
 
-		//objectBorn= Objeto de donde nacen
-		coins.x=objectBorn.centerX
-		coins.y=objectBorn.centerY
+		if(coin==undefined){
+			game["coinS"+index] = game.add.sprite(0, 0, "coin")
+			game["coinS"+index].anchor.setTo(0.5)
+			game["coinS"+index].scale.setTo(0.8)
+			game["coinS"+index].animations.add('coin')
+			game["coinS"+index].animations.play('coin', 24, true)
+			game["coinS"+index].alpha = 0
+			coinsGroup.add(game["coinS"+index])
+			coin=game["coinS"+index];
+			index++;
+			addCoin(coin,player)
+		}else{
+			addCoin(coin,player)
+		}
+	}
+	function createCoin(){
 
-		emitter = epicparticles.newEmitter("pickedEnergy")
-		emitter.duration=1;
-		emitter.x = coins.x
-		emitter.y = coins.y
-		platformGroup.add(emitter)
-		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
-			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
-				coins.x=objectBorn.centerX
-				coins.y=objectBorn.centerY
-				addPoint(1)
+		coinS = game.add.sprite(0, 0, "coin")
+		coinS.anchor.setTo(0.5)
+		coinS.scale.setTo(0.8)
+		coinS.animations.add('coin')
+		coinS.animations.play('coin', 24, true)
+		coinS.alpha = 0
+		coinS.kill()
+
+	}
+
+	function addCoin(coin,obj){
+
+		if(coin.motion)
+			coin.motion.stop()
+
+		coin.reset(obj.centerX,obj.centerY);
+
+		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
+
+		coin.motion = game.add.tween(coin).to({y:coin.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
+		coin.motion.onComplete.add(function(){
+			coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+			coin.motion.onComplete.add(function(){
+				coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+				coin.motion.onComplete.add(function(){
+					addPoint(1);
+					coin.kill();
+					createTextPart('+1',pointsBar.text)
+				})
 			})
 		})
 	}
@@ -1209,7 +1358,7 @@ var greenRescue = function(){
 	function reset(){
 		checked=0;
 		allClean=0;
-		
+
 		for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
 			if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
 				tweenIcon[iconicDissapear].stop()
@@ -1476,10 +1625,11 @@ var greenRescue = function(){
 				game.sound.mute = false
 			}, this);
 
-			initialize()
+			initialize();
 
-			createPointsBar()
-			createHearts()
+			createPointsBar();
+			createHearts();
+			createCoin();
 
 			buttons.getButton(morning,sceneGroup)
 			createOverlay()

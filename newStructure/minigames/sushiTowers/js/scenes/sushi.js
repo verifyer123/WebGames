@@ -625,30 +625,31 @@ var sushi = function(){
 	}
 
 	function onDragStart(obj, pointer) {
-						
-		sound.play("drag")
-		//inputsEnabled=false;
-		var option = obj.parent
-		option.inBottom = false
-		option.deltaX = pointer.x - obj.world.x
-		option.deltaY = pointer.y - obj.world.y - obj.originalY
-
-		option.startX = (obj.world.x - gameGroup.x)
-		option.startY = (obj.world.y - gameGroup.y - obj.originalY)
-
-		//console.log(option.num)
-
-		gameGroup.bringToTop(option)
-
-		if(option.scaleTween)
-			option.scaleTween.stop()
+				
 		
-		option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 200, Phaser.Easing.Cubic.Out, true)
-		//console.log(option.index)
-		if(option.index !== null){
-			sushisInGame[option.lane].splice(option.index, 1)
-			option.index = null
-		}
+			sound.play("drag")
+			inputsEnabled=false;
+			var option = obj.parent
+			option.inBottom = false
+			option.deltaX = pointer.x - obj.world.x
+			option.deltaY = pointer.y - obj.world.y - obj.originalY
+
+			option.startX = (obj.world.x - gameGroup.x)
+			option.startY = (obj.world.y - gameGroup.y - obj.originalY)
+
+			//console.log(option.num)
+
+			gameGroup.bringToTop(option)
+
+			if(option.scaleTween)
+				option.scaleTween.stop()
+
+			option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 300, Phaser.Easing.Cubic.Out, true)
+			//console.log(option.index)
+			if(option.index !== null){
+				sushisInGame[option.lane].splice(option.index, 1)
+				option.index = null
+			}
 
 	}
 
@@ -669,10 +670,7 @@ var sushi = function(){
 		
 		obj.x = 0
 		obj.y = obj.originalY
-		/*for(var containerIndex = 0; containerIndex < option.sushiList.length; containerIndex++){
-			var container = option.sushiList[containerIndex]
-			//container.inputEnabled = false
-		}*/
+		
 		game.add.tween(option.scale).to({x: 1, y: 1}, 100, Phaser.Easing.Cubic.Out, true)
 
 		var lineToCollide = option.lane
@@ -702,9 +700,9 @@ var sushi = function(){
 			option.y=300;
 		}
 		if (lastSushi){
-            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height - 10//lastSushi.y - lastSushi.height - 10
+            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height - 20//lastSushi.y - lastSushi.height - 10
 
-			toY = sushiHeight
+			toY = sushiHeight+10
             
 			if(toY <= 300){
 				toY = 330
@@ -713,7 +711,10 @@ var sushi = function(){
 			toY = option.y
 		}
 			
-			option.tween = game.add.tween(option).to({x: toX, y: toY}, speed, Phaser.Easing.Cubic.Out, true)
+			//game.add.tween(option).to({x:toX,y:option.y},300,Phaser.Easing.Cubic.In,true);
+			
+			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed, Phaser.Easing.Cubic.In, true)
+			
 			option.tween.onComplete.add(function (thisOption) {
 
                 for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
@@ -721,9 +722,6 @@ var sushi = function(){
                     container.inputEnabled = true
                 }
                 for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
-//                    if(checkOverlap(option.container,sushisInGame[lineToCollide][checkPositions])){
-//                        option.y-=sushisInGame[lineToCollide][checkPositions].height;
-//                    }
                     if(option.y<sushisInGame[lineToCollide][checkPositions].y){
                         cont++;
                     }else{
@@ -732,14 +730,11 @@ var sushi = function(){
                     prevSushi = sushisInGame[lineToCollide][checkPositions]
                     prevSushi.index = cont
                 }
-                //if(prevSushi)
-                    //option.container = prevSushi
 			
                 thisOption.lane = lineToCollide
                 thisOption.tween = null
                 thisOption.index = cont
                 sushisInGame[lineToCollide].splice(cont,0,option);
-                //sushisInGame[lineToCollide].push(thisOption)
                 sushisInGame[lineToCollide].delaySushi = 100
                 if(tutorial){
                     sushisInGame[lineToCollide].y=maxHeight
@@ -899,9 +894,7 @@ var sushi = function(){
 
 				if (sushi.y < sushi.toY) {
 					sushi.y += speed
-				}
-				
-				else {
+				}else {
 					if (sushiIndex > 0 && prevSushi)
 						sushi.toY = prevSushi.y - prevSushi.height + 15
 					else

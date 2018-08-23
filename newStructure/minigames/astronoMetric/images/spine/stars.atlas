@@ -6,36 +6,36 @@ filter: Linear,Linear
 repeat: none
 normal/eye1
   rotate: false
-  xy: 80, 93
-  size: 30, 13
-  orig: 30, 13
+  xy: 80, 76
+  size: 30, 10
+  orig: 30, 10
   offset: 0, 0
   index: -1
 normal/eye2
   rotate: false
-  xy: 2, 2
-  size: 30, 9
-  orig: 30, 9
+  xy: 80, 88
+  size: 30, 12
+  orig: 30, 12
   offset: 0, 0
   index: -1
 normal/mouth1
   rotate: false
-  xy: 2, 13
-  size: 34, 18
-  orig: 34, 18
+  xy: 2, 2
+  size: 37, 22
+  orig: 37, 22
   offset: 0, 0
   index: -1
 normal/mouth2
   rotate: false
-  xy: 38, 21
-  size: 10, 10
-  orig: 10, 10
+  xy: 112, 86
+  size: 14, 14
+  orig: 14, 14
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 2, 33
-  size: 76, 73
-  orig: 76, 73
+  xy: 2, 26
+  size: 76, 74
+  orig: 76, 74
   offset: 0, 0
   index: -1

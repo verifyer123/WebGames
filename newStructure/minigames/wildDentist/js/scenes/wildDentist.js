@@ -219,11 +219,10 @@ var wildDentist = function(){
 
     function stopGame(win){
 
-        sound.stop("wormwood");
-
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
         tweenScene.onComplete.add(function(){
 
+            sound.stop("wormwood");
             var resultScreen = sceneloader.getScene("result");
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
@@ -373,7 +372,6 @@ var wildDentist = function(){
         })
 
         if(lives === 0){
-            console.log("Perdio!!");
             gameOver();
             stopGame(false);
         }
@@ -479,7 +477,7 @@ var wildDentist = function(){
 
     function moveTrunk(trunk,speed,target, index){
             if(!target.biteBeaver){
-                if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.5)){
+                if(trunk.tronco1.x > (target.idle.x + target.idle.width/1.3)){
                         trunk.tronco1.x -= speed;
                         trunk.tronco2.x = trunk.tronco1.x;
                         trunk.tronco3.x = trunk.tronco1.x
@@ -521,21 +519,23 @@ var wildDentist = function(){
             }else{
                 starGame = false;
             }
+            if(lives == 0){
+                for(var i = 0; i<3; i++){
+                    buttonsOptions[i].input.enabled = false;
+                    buttonsOptions[i].events.onDragStart.removeAll();
+                }
+            }
         });
     }
 
     function gameOver(){
         for(var c=0; c<3; c++){
-            if(castores[c].stage != null){
-                castores[c].state.alpha = 0;
-            }else{
-                castores[c].idle.alpha = 0;
-                castores[c].hit.alpha = 0;
-                castores[c].bite.alpha = 0;
-                castores[c].bad_breath.alpha = 0;
-                castores[c].broken.alpha = 0;
-                castores[c].caries.alpha = 0;
-            }
+            castores[c].idle.alpha = 0;
+            castores[c].hit.alpha = 0;
+            castores[c].bite.alpha = 0;
+            castores[c].bad_breath.alpha = 0;
+            castores[c].broken.alpha = 0;
+            castores[c].caries.alpha = 0;
             castores[c].lose.alpha = 1;
         }
     }
@@ -569,7 +569,8 @@ var wildDentist = function(){
                 trunk.tronco1.x = game.width + 100;
                 target.biteBeaver = false;
                 
-                switch(getRandomArbitrary(0,3)){
+                if(lives!=0){
+                    switch(getRandomArbitrary(0,3)){
                     case 0:
                         target.clean = false;
                         target.caries.alpha = 1;
@@ -589,9 +590,9 @@ var wildDentist = function(){
                         target.state = target.bad_breath;
                          
                     break;
-                       }
+                    }
+                }
             }
-           
         }
         
     }
@@ -606,14 +607,14 @@ var wildDentist = function(){
     function createScene(){
         background = game.add.tileSprite(0,0,game.world.width, 216,"atlas.game", "tile_sky");
         sceneGroup.add(background);
-        var groupTrunks = game.add.group();   
+        var groupTrunks = game.add.group();
         
         var seaBg = new Phaser.Graphics(game);
         seaBg.beginFill(0x45B4AF);
         seaBg.drawRect(0,160,game.world.width, game.world.height);
         seaBg.endFill();
         sceneGroup.add(seaBg);
-        //sceneGroup.add(groupTrunks);
+        sceneGroup.add(groupTrunks);
         shuffle(trunkPosition);
         for(var i=0;i<=2;i++){
                 
@@ -681,7 +682,7 @@ var wildDentist = function(){
             TweenMax.fromTo(ondasCastores[i].scale,1,{x:0.7},{x:0.8,repeat:-1,yoyo:true});
             arrayTrunks[i].tronco1 = groupTrunks.create(0,0,"atlas.game","tronco1");
             arrayTrunks[i].tronco1.scale.setTo(0.7,0.7);
-            arrayTrunks[i].tronco1.x = game.width - (trunkPosition[i] * 50);
+            arrayTrunks[i].tronco1.x = game.width + (trunkPosition[i] * 50);
             arrayTrunks[i].tronco1.y = castores[i].idle.y + arrayTrunks[i].tronco1.height + 30;        
             arrayTrunks[i].tronco2 = groupTrunks.create(0,0,"atlas.game","tronco2");
             arrayTrunks[i].tronco2.scale.setTo(0.7,0.7);
@@ -690,7 +691,7 @@ var wildDentist = function(){
             arrayTrunks[i].tronco2.alpha = 0;
             arrayTrunks[i].tronco3 = groupTrunks.create(0,0,"atlas.game","tronco3");
             arrayTrunks[i].tronco3.scale.setTo(0.7,0.7); 
-            arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x - 20;
+            arrayTrunks[i].tronco3.x = arrayTrunks[i].tronco1.x + 20;
             arrayTrunks[i].tronco3.y = castores[i].idle.y + arrayTrunks[i].tronco3.height + 30;
             arrayTrunks[i].tronco3.alpha = 0;
 
@@ -713,8 +714,6 @@ var wildDentist = function(){
             }
             castores[i].clean = false;
         }
-
-        sceneGroup.add(groupTrunks);
         
         var container = sceneGroup.create(0,0,"atlas.game","contenedor");
         container.y = game.height - container.height + 10;
@@ -765,7 +764,7 @@ var wildDentist = function(){
         buttonsSquare[indexInverse].tint = 0xffffff;
         buttonsOptions[indexInverse].tint = 0xffffff;
         buttonsOptions[indexInverse].input.enabled = true;
-        buttonsOptions[indexInverse].input.enableDrag();
+        buttonsOptions[indexInverse].input.enableDrag(true);
         buttonsOptions[indexInverse].events.onDragStart.add(onDragStart, this);
         buttonsOptions[indexInverse].events.onDragStop.add(onDragStop, this);
         hand.x = buttonsOptions[indexInverse].x;
@@ -792,6 +791,10 @@ var wildDentist = function(){
     }
     
    function onDragStart(sprite, pointer) {
+       //  console.log("sprite: " + sprite.id);
+       //  console.log("hit zone: " + hitZones[0].id);  
+       // console.log("hit zone: " + hitZones[1].id);  
+       // console.log("hit zone: " + hitZones[2].id);
        indexDrag = sceneGroup.getIndex(sprite);
        sceneGroup.bringToTop(sprite); 
     }
@@ -833,14 +836,22 @@ var wildDentist = function(){
                     if(starGame){
                         missPoint();
                     }
+                    if(lives == 0){
+                        for(var i = 0; i<3; i++){
+                            buttonsOptions[i].input.enabled = false;
+                            buttonsOptions[i].events.onDragStart.removeAll();
+                            buttonsOptions[i].events.onDragStop.removeAll();
+                        }
+                    }
                 }
             }
         
         }
-        sprite.scale.setTo(0);
-        sprite.x = sprite.posx;
-        sprite.y = sprite.posy;
-        game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
+        //sprite.scale.setTo(0);
+        //sprite.x = sprite.posx;
+        //sprite.y = sprite.posy;
+        game.add.tween(sprite).to({x:sprite.posx,y:sprite.posy},300,Phaser.Easing.linear,true);
+        //game.add.tween(sprite.scale).to({x:1,y:1},300,Phaser.Easing.linear,true);
         sceneGroup.setChildIndex(sprite, indexDrag);
     }
 
@@ -849,10 +860,14 @@ var wildDentist = function(){
         name: "wildDentist",
         preload:preload,
         update:update,
+        getGameData:function () {
+            var games = yogomeGames.getGames()
+            return games[gameIndex]
+        },
         create: function(event){
 
             sceneGroup = game.add.group();
-            //yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+            yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
             game.onPause.add(function(){
                 game.sound.mute = true;

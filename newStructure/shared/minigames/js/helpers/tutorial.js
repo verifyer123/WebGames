@@ -82,22 +82,20 @@ var tutorialHelper = function () {
 
 
 
-
-
-
-		
-
-		rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(button.x-120,button.y-80,240, 160)
-		rect.alpha = 0
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			rect.inputEnabled = false
-			clickPlay(group,onClickFunction)
-		})
-		group.add(rect)
+		if(configuration=="withstars"){
+			button.inputEnabled=true;
+			button.events.onInputDown.add(function(){
+				button.inputEnabled = false
+				clickPlay(group,onClickFunction)
+			});
+		}else if(configuration=="nostars"){
+			button.inputEnabled=true;
+			button.hitArea=new Phaser.Circle(0,0,button.width);
+			button.events.onInputDown.add(function(){
+				button.inputEnabled = false
+				clickPlay(group,onClickFunction)
+			})	
+		}
 
 
 		game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
@@ -208,11 +206,6 @@ var tutorialHelper = function () {
             
         }
 
-		//tutorialVideo.video.setAttribute('webkit-playsinline', 'webkit-playsinline');
-		//tutorialVideo.video.setAttribute('playsinline', 'playsinline');
-
-		//setTimeout(function(){tutorialVideo.play(true)},1000)
-
 	}
 
 	function repeatSpine(){
@@ -226,48 +219,15 @@ var tutorialHelper = function () {
 		sound.play("pop")
 		game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			onClickFunction()
+			group.destroy()
 		})
 		clearTimeout(spineTimeOut)
-		group.destroy()
-
 	}
 
-// function tutorialUpdate(){
-// 	return
-// 	if(inTutorial){
-// 		if(!game.device.webmVideo && tutorialVideo.playing){
-// 			bmd.cls()
-// 			bmd.draw(videoImage,game.world.centerX-120, game.world.centerY+354)
-// 			bmd.update()
-// 			bmd.processPixelRGB(forEachPixel, this,game.world.centerX-280, game.world.centerY+252,400,400);
-// 		}
-// 	}
-// }
 
 	function onTweenText(text){
 		game.add.tween(text.scale).to({x:1,y:1},100,Phaser.Easing.Linear.none,true)
 	}
-
-	function forEachPixel(pixel){
-		//console.log(pixel)
-
-
-		if(pixel.r <10 && pixel.g<10 && pixel.b<10){
-			pixel.r = 1
-			pixel.g = 1
-			pixel.b =1
-			pixel.a = 1
-			//console.log("alpha pixel")
-		}
-		else{
-			//console.log(pixel)
-		}
-		//else{
-		return pixel
-		//}
-
-	}
-	
 
 
 	function loadType(gameData, currentLoader){

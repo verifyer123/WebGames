@@ -142,12 +142,12 @@ var galacticPool = function(){
 	var shoot
 	var particlesGroup, particlesUsed
 	var physicPlanets
-	var gameIndex = 1
 	var tutoGroup
 	var indexGame
 	var overlayGroup
 	var blackHole
 	var stick;
+	var gameIndex;
 	var planetsGroup;
 	var fontStyleWord
 	var targetsGroup;
@@ -170,7 +170,7 @@ var galacticPool = function(){
 	var texture2;
 	var texture3;
 	var distance = 950;
-	var max = 1000;
+	var max = 250;
 	var xx = [];
 	var yy = [];
 	var zz = [];
@@ -227,7 +227,7 @@ var galacticPool = function(){
 
 	function initialize(){
 
-		game.stage.backgroundColor = "#000000"
+		//game.stage.backgroundColor = "#000000"
 		lives = 3
 		emitter=""
 		START_TIMING=300;
@@ -245,7 +245,6 @@ var galacticPool = function(){
 
 	function onClickPlay(rect) {
 		tutoGroup.y = -game.world.height
-
 		game.time.events.add(900,function(){
 			stickAnimation()
 		});
@@ -268,8 +267,8 @@ var galacticPool = function(){
 		}
 		game.time.events.add(3000, function(){
 			for(var resetGame=0; resetGame<planets.length; resetGame++){
-				planets[resetGame].body.x=positionPoolX[resetGame];
-				planets[resetGame].body.y=positionPoolY[resetGame];
+				planets[resetGame].body.x=positionX[resetGame];
+				planets[resetGame].body.y=positionY[resetGame];
 				planets[resetGame].spines.x=positionX[resetGame];
 				planets[resetGame].spines.y=positionY[resetGame];
 				planets[resetGame].text.x=positionX[resetGame]+50;
@@ -314,7 +313,7 @@ var galacticPool = function(){
 		});
 	}
 	function stopDragging(obj){
-		sound.play("released")
+		sound.play("pop")
 		for(var overTargets=0; overTargets<planets.length; overTargets++){
 			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled){
 				checkIfCorrect(obj,targets[overTargets]);
@@ -400,18 +399,19 @@ var galacticPool = function(){
 		goal++;
 		if(planet.tag==target.tag){
 			getCoins(planet);
-			correctParticle.x = planet.centerX
-			correctParticle.y = planet.centerY
+			correctParticle.x = planet.centerX;
+			correctParticle.y = planet.centerY;
 			correctParticle.start(true, 1200, null, 10)
-			planet.body.x=target.x;
-			planet.body.y=target.y;
+//			planet.body.x=target.x;
+//			planet.body.y=target.y;
+			game.add.tween(planet.body).to({x:target.x,y:target.y},100,Phaser.Easing.Cubic.In,true);
 			planet.text.alpha=1;
 			speedTimer-=200;
 			sound.play("pop")
 			planet.inputEnabled=false;
 			if(goal==TOTAL_PLANETS && !tutorial){
 				goal=0;
-				stopTimer();	
+				stopTimer();
 			}
 			if(tutorial){
 				tutoPlanet++;
@@ -429,8 +429,9 @@ var galacticPool = function(){
 			missPoint();
 			for(var checkRightPlace=0; checkRightPlace<planets.length; checkRightPlace++){
 				if(planet.tag==targets[checkRightPlace].tag){
-					planet.body.x=positionX[checkRightPlace];
-					planet.body.y=positionY[checkRightPlace];
+//					planet.body.x=positionX[checkRightPlace];
+//					planet.body.y=positionY[checkRightPlace];
+					game.add.tween(planet.body).to({x:positionX[checkRightPlace],y:positionY[checkRightPlace]},100,Phaser.Easing.Cubic.In,true);
 					planet.text.alpha=1;
 					planet.inputEnabled=false;
 				}
@@ -498,10 +499,12 @@ var galacticPool = function(){
 		if(!lost){
 			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
 				sound.play("inflateballoon")
+				blackHole.alpha+=0.2;
 				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+1.5,y:blackHole.scale.y+1.5}, 500, Phaser.Easing.Linear.Out, true)
 			});
 		}else{
 			stopTimer()
+			blackHole.alpha=1;
 			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
 				for(var toHole=0; toHole<TOTAL_PLANETS; toHole++){
 					planets[toHole].text.alpha=0;
@@ -654,9 +657,6 @@ var galacticPool = function(){
 		}else{
 			biggerBlackHole(false);
 		}
-//		if(lives == 0){
-//			stopGame(false)
-//		}
 
 		addNumberPart(heartsGroup.text,'-1',true)
 
@@ -725,24 +725,23 @@ var galacticPool = function(){
 	}
 
 	function stopGame(win){
-
+		
+		
 		sound.play("gameLose")
 		gameActive = false
-		baseSong.stop()
-
+		
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
+			baseSong.stop()
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
+			resultScreen.setScore(true, pointsBar.number, gameIndex)		
 			sceneloader.show("result")
 		})
 	}
 
 
 	function preload(){		
-		game.stage.disableVisibilityChange = false;
+		//game.stage.disableVisibilityChange = false;
 		epicparticles.loadEmitter(game.load, "pickedEnergy") 
 	}
 
@@ -760,6 +759,7 @@ var galacticPool = function(){
 			planets[planetsTargets].spines.setSkinByName(planetsNames[planetsTargets].SKIN);
 			planets[planetsTargets].spines.setAnimationByName(0, "idle", true);
 			planets[planetsTargets].spines.alpha=1;
+			planets[planetsTargets].spines.scale.setTo(planetsNames[planetsTargets].size,planetsNames[planetsTargets].size);
 			planets[planetsTargets].body.x=positionX[planetsTargets];
 			planets[planetsTargets].body.y=positionY[planetsTargets];
 			planets[planetsTargets].tag=planetsNames[planetsTargets].word;
@@ -772,6 +772,7 @@ var galacticPool = function(){
 			targets[planetsTargets]=game.add.sprite(0,0,"atlas.galacticPool","destino");
 			targets[planetsTargets].x=positionX[planetsTargets];
 			targets[planetsTargets].y=positionY[planetsTargets];
+			targets[planetsTargets].scale.setTo(planetsNames[planetsTargets].size,planetsNames[planetsTargets].size);
 			targets[planetsTargets].anchor.setTo(0.5,0.5);
 			targets[planetsTargets].tag=planetsNames[planetsTargets].word;
 			targets[planetsTargets].alpha=0;
@@ -854,20 +855,21 @@ var galacticPool = function(){
 		
 		blackHole=game.add.spine(game.world.centerX, game.world.centerY, "blackHole");
 		blackHole.setSkinByName("normal");
+		blackHole.alpha=0.3;
 		blackHole.setAnimationByName(0, "black_hole", true);
 		blackHole.scale.setTo(0.2,0.2)
 		backgroundGroup.add(blackHole)
 		
 		planetsNames=[
-			{SKIN:"neptune",word:localization.getString(localizationData,"planet9")},
-			{SKIN:"uranus",word:localization.getString(localizationData,"planet8")},
-			{SKIN:"saturn",word:localization.getString(localizationData,"planet7")},
-			{SKIN:"jupiter",word:localization.getString(localizationData,"planet6")},
-			{SKIN:"mars",word:localization.getString(localizationData,"planet5")},
-			{SKIN:"earth",word:localization.getString(localizationData,"planet4")},
-			{SKIN:"venus",word:localization.getString(localizationData,"planet3")},
-			{SKIN:"mercury",word:localization.getString(localizationData,"planet2")},
-			{SKIN:"sun",word:localization.getString(localizationData,"planet1")}
+			{SKIN:"neptune",word:localization.getString(localizationData,"planet9"),size:0.9},
+			{SKIN:"uranus",word:localization.getString(localizationData,"planet8"),size:0.9},
+			{SKIN:"saturn",word:localization.getString(localizationData,"planet7"),size:0.9},
+			{SKIN:"jupiter",word:localization.getString(localizationData,"planet6"),size:0.7},
+			{SKIN:"mars",word:localization.getString(localizationData,"planet5"),size:0.9},
+			{SKIN:"earth",word:localization.getString(localizationData,"planet4"),size:0.6},
+			{SKIN:"venus",word:localization.getString(localizationData,"planet3"),size:0.6},
+			{SKIN:"mercury",word:localization.getString(localizationData,"planet2"),size:0.6},
+			{SKIN:"sun",word:localization.getString(localizationData,"planet1"),size:0.8}
 		];
 		wall=physicPlanets.create(game.world.centerX,-350,"atlas.galacticPool","fondo");
 		wall.scale.setTo(2,1)
@@ -903,7 +905,7 @@ var galacticPool = function(){
 				pivotYPool=pivotYPool+80;
 			}
 		}
-		planets[PLANETS_TOTAL-1].scale.setTo(0.5,0.5);
+		planets[PLANETS_TOTAL-1].scale.setTo(0.4,0.4);
 
 		
 		for(var positionNebuls=0;positionNebuls<TOTAL_PLANETS;positionNebuls++){
@@ -1221,17 +1223,14 @@ var galacticPool = function(){
 		localizationData:localizationData,
 		preload:preload,
 		update:update,
-		getGameData:function () {
-			var games = yogomeGames.getGames()
-			return games[gameIndex]
-		},
 		create: function(event){
 
 
 			sceneGroup = game.add.group()
+			sceneGroup.alpha=1;
 			createBackground()
 			addParticles()
-			baseSong = sound.play("acornSong", {loop:true, volume:0.6})
+//			baseSong = sound.play("acornSong", {loop:true, volume:0.6})
 
 			baseSong = game.add.audio('acornSong')
 			game.sound.setDecodedCallback(baseSong, function(){

@@ -124,7 +124,7 @@ var colorInvaders = function(){
 	var texture;
 	var texture2;
 	var texture3;
-	var max = 1000;
+	var max = 250;
 	var xx = [];
 	var yy = [];
 	var zz = [];
@@ -170,7 +170,7 @@ var colorInvaders = function(){
 		timeAttack = false
 		timer = 50000
 
-		if(localization.getLanguage() === 'EN'){
+		if(localization.getLanguage() === 'ES'){
 			colorsText = ['Blue', 'Green', 'Orange', 'Pink', 'Purple', 'Red', 'Yellow']
 		}
 		else{
@@ -342,10 +342,10 @@ var colorInvaders = function(){
 		sound.play("gameLose")
 
 		gameActive = false
-		colorSong.stop()
-
+		
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
+			colorSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)	
 			sceneloader.show("result")
@@ -650,7 +650,7 @@ var colorInvaders = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 
-		createParticles('star',3)
+		createParticles('star',1)
 		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
@@ -771,6 +771,7 @@ var colorInvaders = function(){
 		coin.x = obj.centerX
 		coin.y = obj.centerY
 		var time = 300
+		if(timer>4000)timer-=2000;
 
 		game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
 
@@ -839,8 +840,8 @@ var colorInvaders = function(){
 			var button=game.add.graphics(game.world.centerX + pivot, game.world.centerY -100)
 			box.beginFill(0xFF3300)
 			button.beginFill(0x00FF00)
-			box.drawRect(0, -70, 150, 100)
-			button.drawRect(0, 50, 150, 150)
+			box.drawRect(40, -70, 80, 100)
+			button.drawRect(40, 50, 80, 150)
 			box.alpha = 0
 			button.alpha = 0
 			button.events.onInputDown.add(IChoseYou, this)
@@ -907,7 +908,7 @@ var colorInvaders = function(){
 			aliensGroup.children[i].scale.setTo(0.7,0.7)
 			
 			
-			aliensGroup.children[i].boxX = positionsGroup.children[i].centerX
+			aliensGroup.children[i].boxX = positionsGroup.children[i].centerX + 40
 			aliensGroup.children[i].boxY = positionsGroup.children[i].centerY + 50
 		}
 
@@ -925,7 +926,7 @@ var colorInvaders = function(){
             continueSpinning=false
 			gameActive = false
 			sound.play("pop")
-
+			
 			if(timeAttack){
 				stopTimer()
 				timer -= 200
@@ -938,9 +939,10 @@ var colorInvaders = function(){
 			}
 			if(btn == undefined){
 				btn = buttonsGroup.children[theOne]
+				
 				btn.correct = false
 			}
-
+			
 			if(btn.correct){
 				sound.play("rightChoice")
 				addCoin(btn)
@@ -951,6 +953,7 @@ var colorInvaders = function(){
 				for(var i = 0; i < countAliens; i++){ 
 					aliensGroup.children[i].setAnimationByName(0, "win", true)
 				}
+				
 			}
 			else{
 				missPoint()
@@ -975,13 +978,16 @@ var colorInvaders = function(){
 				game.add.tween(timerGroup).to({alpha: 1}, 300, Phaser.Easing.linear, true)
 				spinAliens=true;
 			}
-
+			var alienInTop=aliensGroup.bringToTop(aliensGroup.children[theOne]);
+			var alienCorrected=theOne;
 			game.time.events.add(500,function(){
 				if(lives !== 0){
 					sound.play("throw")
+					
 					for(var i = 0; i < aliensGroup.length; i++){
-						if(i !== theOne){
+						if(aliensGroup.children[i] !== alienInTop){
 							game.add.tween(aliensGroup.children[i]).to({x: aliensGroup.children[i].originX, y: aliensGroup.children[i].originY}, 1000, Phaser.Easing.linear, true)
+							
 						}
 						else{
 							var aux = i
@@ -989,8 +995,10 @@ var colorInvaders = function(){
 					}
 					game.time.events.add(1000,function(){
 						sound.play("throw")
-						game.add.tween(aliensGroup.children[aux]).to({x: aliensGroup.children[aux].originX, y: aliensGroup.children[aux].originY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
-							colorsGroup.text.setText("")
+						game.add.tween(alienInTop).to({x: alienInTop.originX, y:alienInTop.originY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
+							game.add.tween(colorsGroup.text.scale).to({y:0}, 200,Phaser.Easing.linear,true).onComplete.add(function(){
+								colorsGroup.text.setText("")
+							})
 							game.time.events.add(500,function(){
 								tutorial=false;
 								initGame()
@@ -1017,13 +1025,15 @@ var colorInvaders = function(){
 				    continueSpinning=true;
                 })
 			}
+			colorsGroup.text.scale.setTo(1,0)
 			colorsGroup.text.setText(colorsText[rand])
 			if(pointsBar.number > 9){
 				colorsGroup.text.strokeThickness = 10
 				colorsGroup.text.fill = colorsGroup.colorName[color]
 			}
 			sound.play("cut")
-			game.add.tween(colorsGroup.text.scale).from({y:0}, 200,Phaser.Easing.linear,true)
+	
+			game.add.tween(colorsGroup.text.scale).to({y:1}, 200,Phaser.Easing.linear,true)
 			gameActive = true
 			if(timeAttack)
 				startTimer(timer)

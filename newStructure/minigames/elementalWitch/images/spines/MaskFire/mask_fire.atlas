@@ -1,117 +1,117 @@
 
 mask_fire.png
-size: 4096,256
+size: 2048,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 lanzando/lanzando_00000
   rotate: false
-  xy: 2, 2
+  xy: 2, 282
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00001
   rotate: false
-  xy: 204, 2
+  xy: 2, 80
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00002
   rotate: false
-  xy: 406, 2
+  xy: 204, 282
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00003
   rotate: false
-  xy: 608, 2
+  xy: 204, 80
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00004
   rotate: false
-  xy: 810, 2
+  xy: 406, 282
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00005
   rotate: false
-  xy: 1012, 2
+  xy: 406, 80
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00006
   rotate: false
-  xy: 1214, 2
+  xy: 608, 282
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00007
   rotate: false
-  xy: 1416, 2
+  xy: 608, 80
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00008
   rotate: false
-  xy: 1618, 2
+  xy: 810, 282
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00009
   rotate: false
-  xy: 1820, 2
+  xy: 810, 80
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00010
   rotate: false
-  xy: 2022, 2
+  xy: 1012, 282
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 lanzando/lanzando_00011
   rotate: false
-  xy: 2224, 2
+  xy: 1012, 80
   size: 200, 200
   orig: 200, 200
   offset: 0, 0
   index: -1
 normal/mask_fire
   rotate: false
-  xy: 2426, 13
+  xy: 1214, 293
   size: 106, 189
   orig: 106, 189
   offset: 0, 0
   index: -1
 normal/mask_fire_b
   rotate: false
-  xy: 2534, 14
+  xy: 1214, 103
   size: 106, 188
   orig: 106, 188
   offset: 0, 0
   index: -1
 normal/mask_fire_c
   rotate: false
-  xy: 2642, 14
+  xy: 1322, 294
   size: 106, 188
   orig: 106, 188
   offset: 0, 0
   index: -1
 normal/shadow
   rotate: false
-  xy: 2750, 126
+  xy: 2, 2
   size: 117, 76
   orig: 117, 76
   offset: 0, 0
