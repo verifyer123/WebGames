@@ -56,7 +56,7 @@ var heladoObscuro = function(){
     var PROBABILITY_EXTRA_POINTS = 0.2
     
     var gameIndex = 31
-    var gameId = 100008
+    var gameId = 22
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -121,11 +121,11 @@ var heladoObscuro = function(){
         game.forceSingleUpdate = true
         game.stage.disableVisibilityChange = false;
                 
-        if(amazing.getMinigameId()){
+        //if(amazing.getMinigameId()){
             marioSong = sound.setSong(soundsPath + 'songs/retrowave.mp3',0.3)
-        }else{
+        /*}else{
             game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
-        }
+        }*/
 
 
     }
@@ -434,12 +434,13 @@ var heladoObscuro = function(){
                             lastObjectCollision.nextBall = ice
                             lastObjectCollision = ice
 
-
+                            sound.play("pop")
 
                             if(currentExtraPoints>=2){
                                 currentExtraPoints = 0
                                 createPart('star', ice)
                                 addPoint(3,{x:game.world.width-50,y:50})
+
                                 //ice.visible = false
                                 lastObjectCollision.visible = false
                                 lastObjectCollision.lastBall.visible = false
@@ -755,7 +756,7 @@ var heladoObscuro = function(){
 
         createBackground()
 
-        if(amazing.getMinigameId()){
+        if(!amazing.getMinigameId()){
 			marioSong = game.add.audio('arcadeSong')
 			game.sound.setDecodedCallback(marioSong, function(){
 				marioSong.loopFull(0.6)
@@ -767,6 +768,8 @@ var heladoObscuro = function(){
 			if(amazing.getMinigameId()){
 				marioSong.pause()
 			}
+            console.log("sajgdv")
+            ///marioSong.stop()
 
             if(ballTimeOut != null){
                 clearTimeout(ballTimeOut)

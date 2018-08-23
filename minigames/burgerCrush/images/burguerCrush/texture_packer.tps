@@ -393,6 +393,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">cliente5_enojado.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,22,56,43</rect>
+                <key>scale9Paddings</key>
+                <rect>28,22,56,43</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">cliente5_feliz.png</key>
             <key type="filename">cliente5_normal.png</key>
             <key type="filename">cliente5_triste.png</key>
@@ -818,6 +831,7 @@
             <filename>ticket_contenedor.png</filename>
             <filename>palomita.png</filename>
             <filename>rayo3.png</filename>
+            <filename>cliente5_enojado.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

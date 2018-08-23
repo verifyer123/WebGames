@@ -1,8 +1,53 @@
 {"frames": [
 
 {
+	"filename": "background",
+	"frame": {"x":123,"y":66,"w":2,"h":941},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":941},
+	"sourceSize": {"w":2,"h":941},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ball",
+	"frame": {"x":71,"y":196,"w":29,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":29,"h":30},
+	"sourceSize": {"w":29,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "ballStar",
+	"frame": {"x":71,"y":164,"w":30,"h":30},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":30},
+	"sourceSize": {"w":30,"h":30},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "chispaParticle",
+	"frame": {"x":107,"y":117,"w":6,"h":6},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":6,"h":6},
+	"sourceSize": {"w":6,"h":6},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "chispas",
+	"frame": {"x":1,"y":117,"w":104,"h":45},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":104,"h":45},
+	"sourceSize": {"w":104,"h":45},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "coin",
-	"frame": {"x":303,"y":84,"w":68,"h":70},
+	"frame": {"x":1,"y":164,"w":68,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
@@ -10,89 +55,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "conexion",
-	"frame": {"x":297,"y":1,"w":4,"h":172},
+	"filename": "pointsBar",
+	"frame": {"x":1,"y":66,"w":120,"h":49},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":4,"h":172},
-	"sourceSize": {"w":4,"h":172},
+	"spriteSourceSize": {"x":0,"y":0,"w":120,"h":49},
+	"sourceSize": {"w":120,"h":49},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "conexion_roja",
-	"frame": {"x":385,"y":1,"w":3,"h":172},
+	"filename": "specialStar",
+	"frame": {"x":67,"y":246,"w":44,"h":42},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":3,"h":172},
-	"sourceSize": {"w":3,"h":172},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "esfera",
-	"frame": {"x":1,"y":295,"w":293,"h":292},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":293,"h":292},
-	"sourceSize": {"w":293,"h":292},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "esfera_roja",
-	"frame": {"x":1,"y":1,"w":294,"h":292},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":294,"h":292},
-	"sourceSize": {"w":294,"h":292},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "estrella",
-	"frame": {"x":296,"y":295,"w":173,"h":167},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":173,"h":167},
-	"sourceSize": {"w":173,"h":167},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "expansion",
-	"frame": {"x":303,"y":1,"w":80,"h":81},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":80,"h":81},
-	"sourceSize": {"w":80,"h":81},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "life_box",
-	"frame": {"x":297,"y":175,"w":105,"h":41},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":41},
-	"sourceSize": {"w":105,"h":41},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "pin",
-	"frame": {"x":363,"y":218,"w":54,"h":53},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":53},
-	"sourceSize": {"w":54,"h":53},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "pin_rojo",
-	"frame": {"x":390,"y":1,"w":54,"h":53},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":54,"h":53},
-	"sourceSize": {"w":54,"h":53},
+	"spriteSourceSize": {"x":0,"y":0,"w":44,"h":42},
+	"sourceSize": {"w":44,"h":42},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "star",
-	"frame": {"x":297,"y":218,"w":64,"h":64},
+	"frame": {"x":1,"y":236,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -101,7 +83,7 @@
 },
 {
 	"filename": "starPart",
-	"frame": {"x":296,"y":464,"w":124,"h":63},
+	"frame": {"x":1,"y":1,"w":124,"h":63},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":0,"w":124,"h":63},
@@ -110,7 +92,7 @@
 },
 {
 	"filename": "starParticle",
-	"frame": {"x":422,"y":464,"w":16,"h":16},
+	"frame": {"x":71,"y":228,"w":16,"h":16},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":16,"h":16},
@@ -118,12 +100,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "xpcoins",
-	"frame": {"x":296,"y":529,"w":165,"h":41},
+	"filename": "wallLine",
+	"frame": {"x":115,"y":117,"w":2,"h":941},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
-	"sourceSize": {"w":165,"h":41},
+	"spriteSourceSize": {"x":0,"y":0,"w":2,"h":941},
+	"sourceSize": {"w":2,"h":941},
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
@@ -131,8 +113,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":470,"h":588},
+	"size": {"w":126,"h":1059},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:630c9211f8a99cb9c567773f4f85c104:48c8d1db7c81ad0e238af49e71852290:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ebcb89b4a4cbe7c7faa8a51d47fd2ad3:f3bf9af4d283fd9d3f6fa11c0e299d18:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

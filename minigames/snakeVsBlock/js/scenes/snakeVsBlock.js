@@ -38,7 +38,7 @@ var snakeVsBlock = function(){
     var UPDATE_DOTS = 30
     var BLOCKS_IN_LINE = 5
     var WIDT_BLOCK = 100
-    var DIAMETER_DOT = 20
+    var DIAMETER_DOT = 30
     var WIDTH_LINE = 5
     var INITIAL_DOTS = 4
     var MAX_DELTA = 50
@@ -55,16 +55,19 @@ var snakeVsBlock = function(){
     var PROBABILITY_LINE = 0.15
     var FRAMES_DELAY = 3
 
-    var SPEED = 3
-    var SPECIAL_SPEED = 6
+    var SPEED = 4
+    var SPECIAL_SPEED = 7
 
-    var PROBABILTY_SPECIAL_DOT = 0.1
+    var BLOCKS_TO_SPECIAL = 35
     var TIME_SPECIAL = 10000
+    var OFFSET_SHADOW = 10
+
+    var DELTA_SPECIAL_VALUE = 5
 
     var skinTable
     
     var gameIndex = 29
-    var gameId = 100013
+    var gameId = 61
     var marioSong = null
     var sceneGroup = null
     var pointsGroup = null
@@ -95,6 +98,13 @@ var snakeVsBlock = function(){
     var emitterHit
     var walls
 
+    var shadowGroup
+    var currentBlocks
+    var currentSpecialValue
+
+    var collisionParticle, collisionParticle2
+    var frameSpecial
+
     function loadSounds(){
         sound.decode(assets.sounds)
     }
@@ -118,6 +128,10 @@ var snakeVsBlock = function(){
         currentQuadsDestroyed = 0
         canCollide = true
         walls = []
+        currentBlocks = 0
+        currentSpecialValue = DELTA_SPECIAL_VALUE
+        frameSpecial = 0
+        
     }
     
 
@@ -147,20 +161,21 @@ var snakeVsBlock = function(){
         }else{
             game.load.audio('arcadeSong', soundsPath + 'songs/retrowave.mp3');
         }
-
+        var fontStyle = {font: "60px SulphurPoint-Regular", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var text = new Phaser.Text(game, 0, 0, 0, fontStyle)
 
     }
 
     
     function stopGame(win){
 
-        heartsGroup.text.setText('X ' + 0)
+        //heartsGroup.text.setText('X ' + 0)
         sound.play("gameLose")
 
         gameActive = false
 
         
-        if(amazing.getMinigameId() && marioSong!=null){
+        if(amazing.getMinigameId() ){
             marioSong.pause()
         }else{
             marioSong.stop()
@@ -193,14 +208,14 @@ var snakeVsBlock = function(){
         pointsBar = game.add.group()
         sceneGroup.add(pointsBar)
         
-        var pointsImg = pointsBar.create(0,10,'atlas.game','xpcoins')
+        var pointsImg = pointsBar.create(0,10,'atlas.game','pointsBar')
         pointsImg.x = game.world.width - pointsImg.width * 1.2
         pointsImg.width *=1
         pointsImg.height *=1
     
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "36px SulphurPoint-Regular", fontWeight: "bold", fill: "#030630", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "0", fontStyle)
-        pointsText.x = pointsImg.x + pointsImg.width * 0.6
+        pointsText.x = pointsImg.x + pointsImg.width * 0.5
         pointsText.y = pointsImg.height * 0.3
         pointsText.anchor.setTo(0.5,0)
         pointsBar.add(pointsText)
@@ -366,12 +381,12 @@ var snakeVsBlock = function(){
         sound.play("wrong")
         
         lives--;
-        heartsGroup.text.setText('X ' + lives)
+        //heartsGroup.text.setText('X ' + lives)
 
-        var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+        /*var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
         scaleTween.onComplete.add(function(){
             game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-        })
+        })*/
 
         stopTouch = true
         
@@ -558,27 +573,17 @@ var snakeVsBlock = function(){
                 if(dotsGroup.children[i].visible){
                     var dot = dotsGroup.children[i]
                     if(!dot.inPlayer){
-                        dot.y += SPEED
+                        if(player.special){
+                            dot.y += SPECIAL_SPEED
+                        }
+                        else{
+                            dot.y += SPEED
+                        }
                         if(dot.y > game.world.height + 100){
                             dot.visible == false
                         }
 
                         if(checkOverlap(dot,player)){
-
-                            /*if(dot.special){
-                                player.text.addColor('#00ff00', 0);
-                                player.special = true
-                                dot.visible = false
-                                dot.text.visible = false
-                                dot.inPlayer = false
-                                setTimeout(function(){
-                                    player.special = false
-                                    player.text.addColor('#ffffff', 0);
-                                    console.log("player quit special")
-
-                                },TIME_SPECIAL)
-                            }
-                            else{*/
 
                                 dot.inPlayer = true
                                 dot.text.visible = false
@@ -593,15 +598,18 @@ var snakeVsBlock = function(){
                                     d.inPlayer = true
                                     currentDots.push(d)
 
+                                    if(player.special){
+                                        d.loadTexture("atlas.game","ballStar")
+                                    }
+
                                     dot.y = currentDots[currentDots.length-1].y+DIAMETER_DOT
 
     	                            dot.x = currentDots[currentDots.length-1].x
-    	                            //updateDot(currentDots.length-1)
+    	                            
 
                                 }
 
                                 player.text.setText(currentDots.length+1)
-                            //}
                         }
                     }
                 }
@@ -610,12 +618,23 @@ var snakeVsBlock = function(){
             for(var i =0; i < lineGroup.length; i++){
                 if(lineGroup.children[i].visible){
                     var line = lineGroup.children[i]
-                    line.y += SPEED
+                     if(player.special){
+                        line.y += SPECIAL_SPEED
+                    }
+                    else{
+                        line.y += SPEED
+                    }
                     
                 }
             }
 
-            valueYLastLine += SPEED
+            if(player.special){
+                valueYLastLine += SPECIAL_SPEED
+            }
+            else{
+                valueYLastLine += SPEED
+            }
+
             if(valueYLastLine > limitY){
                 decideLine()
             }
@@ -640,7 +659,13 @@ var snakeVsBlock = function(){
 
                 var block = blockGroup.children[i]
                 if(state == STATES.MOVE){
-                    block.y += SPEED
+                    if(player.special){
+                        block.y += SPECIAL_SPEED
+                    }
+                    else{
+                        block.y += SPEED
+                    }
+                    block.shadow.y = block.y + OFFSET_SHADOW
                 }
                 if(player.y > block.y+WIDT_BLOCK/2 ){
 	                if(checkOverlap(block,player) && block.y >0){
@@ -648,13 +673,23 @@ var snakeVsBlock = function(){
 	                    //console.log(player.y,block.y,block)
 	                    collide = true
 	                    if(canCollide){
+                            addPoint(1,{x:game.world.width-80,y:80})
+                            collisionParticle.visible = true
+                            collisionParticle.x = player.x
+                            collisionParticle.y  = player.y-10
+                            collisionParticle.scale.setTo(0.7)
+                            game.add.tween(collisionParticle.scale).to({x:1,y:1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                                collisionParticle.scale.setTo(0.7)
+                                collisionParticle.visible = false
+                            })
+
                             emitterHit.x = player.x;
                             emitterHit.y = player.y;
                             emitterHit.start(true,500,null,10)
 
                             if(player.special){
                                 block.value = 0
-                                addPoint(1,{x:game.world.width-80,y:80})
+                               //addPoint(1,{x:game.world.width-80,y:80})
                             }
                             else{
     		                    block.value --
@@ -662,6 +697,7 @@ var snakeVsBlock = function(){
                                     block.tween.stop()
                                 }
                                 block.tween = game.add.tween(block.scale).to({x:0.8,y:0.8},50,Phaser.Easing.linear,true)
+
                                 block.tween.yoyo(true)
                                 canCollide = false
                                 block.tween.onComplete.add(function(){
@@ -674,20 +710,36 @@ var snakeVsBlock = function(){
 
 		                    if(block.value == 0 && Math.abs(player.y - block.y)<WIDT_BLOCK){
 		                        block.visible = false
+                                block.shadow.visible = false
                                 canCollide = true
                                 addPoint(1,{x:game.world.width-80,y:80})
+                                collisionParticle2.y = block.y +10
+                                collisionParticle2.visible = true
+                                collisionParticle2.x = block.x
+                                collisionParticle2.y  = block.y-10
+                                collisionParticle.scale.setTo(0.7)
+                                game.add.tween(collisionParticle2.scale).to({x:1,y:1},200,Phaser.Easing.linear,true).onComplete.add(function(){
+                                    collisionParticle2.scale.setTo(0.7)
+                                    collisionParticle2.visible = false
+                                })
+
                                 if(block.special){
-                                    player.text.addColor('#00ff00', 0);
+                                    //player.text.addColor('#00ff00', 0);
                                     player.special = true
+                                    currentSpecialValue += DELTA_SPECIAL_VALUE
+                                    
+
+                                    frameSpecial = 0
                                     
                                     setTimeout(function(){
                                         player.special = false
-                                        player.text.addColor('#ffffff', 0);
-                                       
+                                        currentBlocks = 0
+                                        //player.text.addColor('#ffffff', 0);
 
                                     },TIME_SPECIAL)
                                 }
 		                    }
+
                             if(!player.special){
     		                    if(currentDots.length > 0){
     		                        currentDots[currentDots.length-1].inPlayer = false
@@ -715,10 +767,58 @@ var snakeVsBlock = function(){
             state = STATES.MOVE
         }
 
-        var number = currentDots.length
-        if(number > UPDATE_DOTS){
-            number = UPDATE_DOTS
+        if(player.special){
+            if(frameSpecial == 0){
+                frameSpecial = 1
+                player.loadTexture("atlas.game","ballStar")
+                for(var i =0; i < dotsGroup.length; i++){
+                    if(dotsGroup.children[i].visible){
+                        if(dotsGroup.children[i].inPlayer){
+                            dotsGroup.children[i].loadTexture("atlas.game","ballStar")
+                        }
+                    }
+                }
+            }
+            else if(frameSpecial <5){
+                frameSpecial ++
+            }
+            else if(frameSpecial == 5){
+                frameSpecial ++
+                player.loadTexture("atlas.game","ball")
+                for(var i =0; i < dotsGroup.length; i++){
+                    if(dotsGroup.children[i].visible){
+                        if(dotsGroup.children[i].inPlayer){
+                            dotsGroup.children[i].loadTexture("atlas.game","ball")
+                        }
+                    }
+                }
+            }
+            else if(frameSpecial < 10){
+                frameSpecial ++
+            }
+            else{
+                frameSpecial = 0
+            }
         }
+        else{
+            if(frameSpecial != 0){
+                frameSpecial = 0
+                player.loadTexture("atlas.game","ball")
+                for(var i =0; i < dotsGroup.length; i++){
+                    if(dotsGroup.children[i].visible){
+                        if(dotsGroup.children[i].inPlayer){
+                            dotsGroup.children[i].loadTexture("atlas.game","ball")
+                        }
+                    }
+                }
+            }
+        }
+
+        var number = currentDots.length
+        /*if(number > UPDATE_DOTS){
+            number = UPDATE_DOTS
+        }*/
+
         for(var i=0; i < number; i++){
 
         	updateDot(i)
@@ -731,12 +831,27 @@ var snakeVsBlock = function(){
 
     	if(i ==0){
     		last = player
-    		last.imaginaryY = player.y - SPEED
+            if(player.special){
+    		  last.imaginaryY = player.y - SPECIAL_SPEED
+            }
+            else{
+                last.imaginaryY = player.y - SPEED
+            }
     	}
         else{
 	    	last=currentDots[i-1]
-	        last.imaginaryY = last.y-SPEED
+
+            if(player.special){
+              last.imaginaryY = last.y- SPECIAL_SPEED
+            }
+            else{
+                last.imaginaryY = last.y-SPEED
+            }
+
+	        
 	    }
+
+
 
     	var x = last.x - currentDots[i].x
     	var h = Math.sqrt(Math.pow(last.x - currentDots[i].x,2) + Math.pow(last.imaginaryY - currentDots[i].y,2))
@@ -750,6 +865,11 @@ var snakeVsBlock = function(){
 
     	currentDots[i].x = last.x + newX
     	currentDots[i].y = last.y + newY
+
+        if(currentDots[i].y <player.y){
+            console.log("wrong dot")
+            currentDots[i].visible = false
+        }
     }
 
     
@@ -778,7 +898,7 @@ var snakeVsBlock = function(){
                         value = Math.round(game.rnd)
                     }
                     else{*/
-                        var v = (currentDots.length/3)*2
+                        var v = (currentDots.length/3)
                         if(v < 5){
                             v = 5
                         }
@@ -847,10 +967,10 @@ var snakeVsBlock = function(){
             dot.text.visible = true
         }
 
-        addLine(player.y - WIDT_BLOCK*3,true)
-        valueYLastLine = player.y - WIDT_BLOCK*3
+        addLine(player.y - WIDT_BLOCK*4,true)
+        valueYLastLine = player.y - WIDT_BLOCK*4
         while(valueYLastLine >= limitY){
-            console.log(valueYLastLine)
+            
             decideLine()
         }
 
@@ -862,44 +982,80 @@ var snakeVsBlock = function(){
 
     function createBackground(){
 
-        var background = game.add.graphics()
-        background.beginFill(0x000000)
-        background.drawRect(0,0,game.world.width,game.world.height)
-        background.endFill()
+        var bmd = game.add.bitmapData(game.world.width, game.world.height)
+
+        //bmd.addToWorld()
+        //sceneGroup.add(bmd)
+
+        /*var y = 0;
+
+        for (var i = 0; i < game.world.centerY/4; i++)
+        {
+            var c = Phaser.Color.interpolateColor(0x8ae5f8, 0x030630, game.world.centerY, i);
+
+            // console.log(Phaser.Color.getWebRGB(c));
+
+            bmd.rect(0, y, game.world.width, y+2, Phaser.Color.getWebRGB(c));
+
+            //out.push(Phaser.Color.getWebRGB(c));
+
+            y += 2;
+        }*/
+
+        var background = game.add.sprite(0, 0, "atlas.game","background");
+        background.scale.setTo(game.world.width/2,game.world.height/background.height)
         sceneGroup.add(background)
 
         var wall = game.add.graphics()
         wall.x = game.world.centerX + (WIDT_BLOCK*2.5)
-        wall.beginFill(0x0000ff)
+        //wall.beginFill(0x0000ff)
         wall.drawRect(0,0,game.world.width - wall.x, game.world.height)
-        wall.endFill()
+        //wall.endFill()
         sceneGroup.add(wall)
         walls.push(wall)
+
+        var line = game.add.sprite(0, 0, "atlas.game","wallLine");
+        line.scale.setTo(WIDTH_LINE,game.world.height/line.height)
+        wall.addChild(line)
+
 
         wall = game.add.graphics()
         wall.x = game.world.centerX - (WIDT_BLOCK*2.5)
-        wall.beginFill(0x0000ff)
         wall.drawRect(-wall.x,0,wall.x, game.world.height)
-        wall.endFill()
         sceneGroup.add(wall)
         walls.push(wall)
 
+        line = game.add.sprite(0, 0, "atlas.game","wallLine");
+        line.anchor.setTo(1,0)
+        line.scale.setTo(WIDTH_LINE,game.world.height/line.height)
+        wall.addChild(line)
+
 
         emitterHit = game.add.emitter(0, 0, 100);
-        emitterHit.makeParticles("atlas.game","starParticle");
+        emitterHit.makeParticles("atlas.game","chispaParticle");
         emitterHit.gravity = 300;
+
+        collisionParticle = sceneGroup.create(0,0,"atlas.game","chispas")
+        collisionParticle.anchor.setTo(0.5)
+        collisionParticle.scale.setTo(0.7)
+        collisionParticle.visible = false
+
+        collisionParticle2 = sceneGroup.create(0,0,"atlas.game","chispas")
+        collisionParticle2.anchor.setTo(0.5)
+        collisionParticle2.scale.setTo(0.7)
+        collisionParticle2.visible = false
+        collisionParticle2.angle = 180
 
     }
 
     function createPlayer(){
 
-        player = game.add.graphics()
-        player.x = game.world.centerX
-        player.y = game.world.height - WIDT_BLOCK*2
-        player.beginFill(0xffffff)
-        player.drawCircle(0,0,20)
-        player.endFill()
-        sceneGroup.add(player)
+        shadowGroup = game.add.group()
+        sceneGroup.add(shadowGroup)
+
+
+        player = sceneGroup.create(game.world.centerX,game.world.height - WIDT_BLOCK*4,"atlas.game","ball")
+        player.anchor.setTo(0.5)
         state = STATES.MOVE
         player.special = false
         lastSpecialDot = game.add.graphics()
@@ -909,7 +1065,7 @@ var snakeVsBlock = function(){
             lastSpecialDot.visible = false
         },5000)
 
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "21px SulphurPoint-Regular", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var numberDot = new Phaser.Text(sceneGroup.game, 0, -20, "", fontStyle)
         numberDot.anchor.setTo(0.5)
         player.addChild(numberDot)
@@ -951,19 +1107,27 @@ var snakeVsBlock = function(){
                 dotsGroup.children[i].value = 0
                 dotsGroup.children[i].inPlayer = false
 
+                /*if(player.special){
+                    dotsGroup.children[i].loadTexture("atlas.game","ballStar")
+                }else{
+                    dotsGroup.children[i].loadTexture("atlas.game","ball")
+                }*/
+
+                dotsGroup.children[i].loadTexture("atlas.game","ball")
+
                 return dotsGroup.children[i]
             }
         }
 
-        var dot = game.add.graphics()
+        var dot = dotsGroup.create(0,0,"atlas.game","ball")
+        dot.anchor.setTo(0.5)
 
-        dot.beginFill(0xffffff)
-        dot.drawCircle(0,0,DIAMETER_DOT)
-        dot.endFill()
+        /*if(player.special){
+            dot.loadTexture("atlas.game","ballStar")
+        }*/
         
-        dotsGroup.add(dot)
 
-        var fontStyle = {font: "20px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var fontStyle = {font: "21px SulphurPoint-Regular", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var numberDot = new Phaser.Text(sceneGroup.game, 0, -20, "", fontStyle)
         numberDot.anchor.setTo(0.5)
         dot.addChild(numberDot)
@@ -977,34 +1141,79 @@ var snakeVsBlock = function(){
 
     function getBlock(value,x,y){
 
-        var special = game.rnd.frac()
-        if(special <= PROBABILTY_SPECIAL_DOT && !player.special){
-            special = true
+        if(value == 0){
+            value = 1
+        }
+
+        var special = false
+        if(currentBlocks<BLOCKS_TO_SPECIAL){
+            currentBlocks++
         }
         else{
-            special = false
+            if(value > currentDots.length && !player.special){
+                currentBlocks = 0
+                special = true
+                value = currentSpecialValue
+            }
         }
+
 
         for(var i =0; i < blockGroup.length; i++){
             if(!blockGroup.children[i].visible){
                 var block = blockGroup.children[i]
                 block.visible = true
+                block.shadow.visible = true
                 block.x = x
                 block.y = y
+                block.shadow.x = x
+                block.shadow.y = y+OFFSET_SHADOW
                 block.text.setText(value)
                 block.value = value
-                if(special != block.special){
-                    block.clear()
-                    if(special){ 
-                        block.beginFill(0x00ff00)
-                    }
-                    else{
-                        block.beginFill(0xff0000)
-                    }
-                    block.drawRoundedRect(-WIDT_BLOCK/2,-WIDT_BLOCK/2,WIDT_BLOCK,WIDT_BLOCK,20)
-                    block.endFill()
+                 block.clear()
+                
+                   
+                if(special){ 
+                    block.beginFill(0xe80169)
                 }
+                else{
+                    if(value >=1 && value <=3){
+                        block.beginFill(0x8ae5f8)
+                    }
+                    else if(value >=4 && value <=10){
+                        block.beginFill(0x35ffb1)
+                    }
+                    else if(value >=11 && value <=20){
+                        block.beginFill(0x87eb4d)
+                    }
+                    else if(value >=21 && value <=25){
+                        block.beginFill(0xffc973)
+                    }
+                    else if(value >=26 && value <=33){
+                        block.beginFill(0xff6666)
+                    }
+                    else if(value >=34 && value <=39){
+                        block.beginFill(0xe80169)
+                    }
+                    else if(value >=40 && value <=50){
+                        block.beginFill(0x880e59)
+                    }
+                }
+                   
                 block.special = special
+
+                
+                block.drawRoundedRect(-WIDT_BLOCK/2,-WIDT_BLOCK/2,WIDT_BLOCK,WIDT_BLOCK,20)
+                block.endFill()
+
+                if(special){
+                    block.star.visible = true
+                    block.text.y = -15
+                }
+                else{
+                    block.star.visible = false
+                    block.text.y = 0
+                }
+
                 return block
             }
         }
@@ -1012,27 +1221,85 @@ var snakeVsBlock = function(){
         var block = game.add.graphics()
         block.x = x
         block.y = y
+        block.special = special
+
         if(special){
-            block.beginFill(0x00ff00)
+            block.beginFill(0xe80169)
         }
         else{
-            block.beginFill(0xff0000)
+            if(value >=1 && value <=3){
+                block.beginFill(0x8ae5f8)
+            }
+            else if(value >=4 && value <=10){
+                block.beginFill(0x35ffb1)
+            }
+            else if(value >=11 && value <=20){
+                block.beginFill(0x87eb4d)
+            }
+            else if(value >=21 && value <=25){
+                block.beginFill(0xffc973)
+            }
+            else if(value >=26 && value <=33){
+                block.beginFill(0xff6666)
+            }
+            else if(value >=34 && value <=39){
+                block.beginFill(0xe80169)
+            }
+            else if(value >=40 && value <=50){
+                block.beginFill(0x880e59)
+            }
         }
-        block.special = special
+
         block.drawRoundedRect(-WIDT_BLOCK/2,-WIDT_BLOCK/2,WIDT_BLOCK,WIDT_BLOCK,20)
         block.endFill()
         blockGroup.add(block)
         block.value = value
 
-        var fontStyle = {font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        var star = game.add.sprite(0,20,"atlas.game","star")
+        star.scale.setTo(0.6)
+        star.anchor.setTo(0.5)
+        star.visible = false
+        block.star = star
+        block.addChild(star)
+
+        var fontStyle = {font: "45px SulphurPoint-Regular", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var numberText = new Phaser.Text(sceneGroup.game, 0, 0, value, fontStyle)
         numberText.anchor.setTo(0.5)
 
         block.addChild(numberText)
         block.text = numberText
 
+
+        block.shadow = getShadow()
+        block.shadow.x = x
+        block.shadow.y = y + OFFSET_SHADOW
+
+        if(special){
+            star.visible = true
+            numberText.y -=10
+        }
+
+
         return block
     }
+
+    function getShadow(){
+        /*for(var i =0; i < shadowGroup.length; i++){
+            if(!shadowGroup.children[i].visible){
+
+            }
+        }*/
+
+        var shadow = game.add.graphics()
+        shadow.beginFill(0x030630)
+        shadow.drawRoundedRect(-WIDT_BLOCK/2,-WIDT_BLOCK/2,WIDT_BLOCK,WIDT_BLOCK,20)
+        shadow.endFill()
+        shadow.alpha = 0.65
+        shadowGroup.add(shadow)
+        return shadow
+    }
+
+
 
     function getVerticalLine(x,y){
         for(var i = 0; i < lineGroup.length; i ++){
@@ -1128,10 +1395,11 @@ var snakeVsBlock = function(){
 		}
 
         game.onPause.add(function(){
-			
-			if(amazing.getMinigameId()){
-				marioSong.pause()
-			}
+			if(lives>0){
+    			if(amazing.getMinigameId()){
+    				marioSong.pause()
+    			}
+            }
 			
 	        game.sound.mute = true
 	    } , this);
@@ -1150,7 +1418,7 @@ var snakeVsBlock = function(){
         spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createPointsBar()
-        createHearts()
+        //createHearts()
 
         animateScene()
 

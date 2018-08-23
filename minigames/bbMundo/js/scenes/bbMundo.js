@@ -1,5 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
-var bebeMundo = function(){
+var bbMundo = function(){
 
 	var FOOD_TYPE = {
 		GOOD:1,
@@ -16,22 +16,22 @@ var bebeMundo = function(){
         atlases: [
             {   
                 name: "atlas.game",
-                json: "images/bebeMundo/atlas.json",
-                image: "images/bebeMundo/atlas.png",
+                json: "images/bbMundo/atlas.json",
+                image: "images/bbMundo/atlas.png",
             },
         ],
         images: [
             {
                 name:"edificios",
-                file:"images/bebeMundo/edificios.png"
+                file:"images/bbMundo/edificios.png"
             },
             {
                 name:"pasto",
-                file:"images/bebeMundo/pasto.png"
+                file:"images/bbMundo/pasto.png"
             },
             {
                 name:"arbusto",
-                file:"images/bebeMundo/arbustos.png"
+                file:"images/bbMundo/arbustos.png"
             },
         ],
         sounds: [
@@ -57,7 +57,8 @@ var bebeMundo = function(){
     var MAX_PROBABILiTY = 0.7
     var INITIAL_TIME_APPEAR = 1.5
     var DELTA_TIME_APPEAR = 0.02
-    var MIN_TIME_APPEAR =0.5 
+    var NEW_DELTA = 0.003
+    var MIN_TIME_APPEAR =0.5
     var MAX_GOOD = 3
 
     var DELTA_BAR = 0.0015
@@ -98,6 +99,8 @@ var bebeMundo = function(){
     var tapArray
 
     var hitImage
+    var spaceBar
+    var canTouch
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -117,6 +120,9 @@ var bebeMundo = function(){
         barValue = INITIAL_BAR_VALUE
         tapArray = []
         timer = 0
+        MIN_TIME_APPEAR = 0.5
+        DELTA_TIME_APPEAR = 0.02
+        canTouch = true
     }
     
 
@@ -396,8 +402,18 @@ var bebeMundo = function(){
             return
         }
 
+        if(spaceBar.isDown){
+            if(canTouch){
+                canTouch = false
+                Tap()
+            }
+        }
+        else{
+            canTouch = true
+        }
+
         if(timer < currentTimeAppear){
-            console.log(timer)
+            //console.log(timer)
             timer+=game.time.elapsed/1000
         }
         else{
@@ -585,8 +601,18 @@ var bebeMundo = function(){
     	}
 
     	if(currentTimeAppear > MIN_TIME_APPEAR){
-    		currentTimeAppear-=DELTA_TIME_APPEAR
+            if(currentTimeAppear > 0){
+        		currentTimeAppear-=DELTA_TIME_APPEAR
+                if(currentTimeAppear <=0){
+                    currentTimeAppear = 0
+                }
+            }
     	}
+        else{
+            MIN_TIME_APPEAR = 0
+            DELTA_TIME_APPEAR = NEW_DELTA
+
+        }
 
     	if(currentProbabilityWrong < MAX_PROBABILiTY){
     		currentProbabilityWrong+=DELTA_PROBABILTY
@@ -632,7 +658,7 @@ var bebeMundo = function(){
     	food.type = type
 
     	if(type == FOOD_TYPE.GOOD){
-            food.loadTexture("atlas.game","good"+game.rnd.integerInRange(1,6))
+            food.loadTexture("atlas.game","good"+game.rnd.integerInRange(1,8))
     	}else{
             food.loadTexture("atlas.game","bad"+game.rnd.integerInRange(1,6))
     	}
@@ -878,6 +904,7 @@ var bebeMundo = function(){
 	        game.sound.mute = false
 	    }, this);
 
+        spaceBar = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 
         createPointsBar()
         createHearts()
@@ -894,7 +921,7 @@ var bebeMundo = function(){
     
     return {
         assets: assets,
-        name: "bebeMundo",
+        name: "bbMundo",
         create: create,
         preload: preload,
         update: update

@@ -199,6 +199,72 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">background.png</key>
+            <key type="filename">wallLine.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>1,235,1,471</rect>
+                <key>scale9Paddings</key>
+                <rect>1,235,1,471</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ball.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>7,8,15,15</rect>
+                <key>scale9Paddings</key>
+                <rect>7,8,15,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">ballStar.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,15,15</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">chispaParticle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,2,3,3</rect>
+                <key>scale9Paddings</key>
+                <rect>2,2,3,3</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">chispas.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,11,52,23</rect>
+                <key>scale9Paddings</key>
+                <rect>26,11,52,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">coin.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -212,108 +278,29 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">conexion.png</key>
+            <key type="filename">pointsBar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>1,43,2,86</rect>
+                <rect>30,12,60,25</rect>
                 <key>scale9Paddings</key>
-                <rect>1,43,2,86</rect>
+                <rect>30,12,60,25</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">conexion_roja.png</key>
+            <key type="filename">specialStar.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>1,43,1,86</rect>
+                <rect>11,11,22,21</rect>
                 <key>scale9Paddings</key>
-                <rect>1,43,1,86</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">esfera.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>73,73,147,146</rect>
-                <key>scale9Paddings</key>
-                <rect>73,73,147,146</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">esfera_roja.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>74,73,147,146</rect>
-                <key>scale9Paddings</key>
-                <rect>74,73,147,146</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">estrella.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>43,42,87,83</rect>
-                <key>scale9Paddings</key>
-                <rect>43,42,87,83</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">expansion.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,20,40,41</rect>
-                <key>scale9Paddings</key>
-                <rect>20,20,40,41</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">life_box.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>26,10,53,21</rect>
-                <key>scale9Paddings</key>
-                <rect>26,10,53,21</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">pin.png</key>
-            <key type="filename">pin_rojo.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>14,13,27,27</rect>
-                <key>scale9Paddings</key>
-                <rect>14,13,27,27</rect>
+                <rect>11,11,22,21</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -356,36 +343,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">xpcoins.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>41,10,83,21</rect>
-                <key>scale9Paddings</key>
-                <rect>41,10,83,21</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileList</key>
         <array>
             <filename>coin.png</filename>
-            <filename>life_box.png</filename>
             <filename>star.png</filename>
             <filename>starPart.png</filename>
-            <filename>xpcoins.png</filename>
-            <filename>conexion.png</filename>
-            <filename>esfera.png</filename>
-            <filename>pin.png</filename>
-            <filename>expansion.png</filename>
-            <filename>conexion_roja.png</filename>
-            <filename>esfera_roja.png</filename>
-            <filename>pin_rojo.png</filename>
-            <filename>estrella.png</filename>
             <filename>starParticle.png</filename>
+            <filename>background.png</filename>
+            <filename>chispas.png</filename>
+            <filename>specialStar.png</filename>
+            <filename>wallLine.png</filename>
+            <filename>ball.png</filename>
+            <filename>ballStar.png</filename>
+            <filename>chispaParticle.png</filename>
+            <filename>pointsBar.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

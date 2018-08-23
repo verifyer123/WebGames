@@ -70,7 +70,7 @@ var instructions = function(){
             })
         })
 
-        //amazing.setMixPanelTrack("puebla","enterGame")
+        amazing.setMixPanelTrack("clubPuebla","enterGame")
         
     }
     
@@ -151,7 +151,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        //amazing.setMixPanelTrack("puebla","loadGame")
+        amazing.setMixPanelTrack("clubPuebla","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

@@ -66,11 +66,11 @@ var instructions = function(){
             
             var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,500)
             alphaTween.onComplete.add(function(){
-                sceneloader.show("bebeMundo")
+                sceneloader.show("bbMundo")
             })
         })
 
-        //amazing.setMixPanelTrack("pinDots","enterGame")
+        amazing.setMixPanelTrack("bbMundo","enterGame")
         
     }
     
@@ -151,7 +151,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        //amazing.setMixPanelTrack("pinDots","loadGame")
+        amazing.setMixPanelTrack("bbMundo","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

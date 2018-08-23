@@ -1711,14 +1711,14 @@ var burguerCrush = function(){
         var ticketback = sceneGroup.create(planchaS.x+planchaS.width+20,game.world.centerY -200,"atlas.game","ticket_contenedor")
         ticketback.anchor.setTo(0,0.5)
 
-        var ticketShadow = sceneGroup.create(ticketback.x,game.world.centerY +100,"atlas.game","sombra")
-        ticketShadow.anchor.setTo(0,0.5)
+        /*var ticketShadow = sceneGroup.create(ticketback.x,game.world.centerY +100,"atlas.game","sombra")
+        ticketShadow.anchor.setTo(0,0.5)*/
 
         var scale = game.world.width -ticketback.x
         if(scale > ticketback.width){
             scale = scale/ticketback.width
             ticketback.scale.setTo(scale,1)
-            ticketShadow.scale.setTo(scale,1)
+            //ticketShadow.scale.setTo(scale,1)
         }
 
         ticketSprite = sceneGroup.create(game.world.centerX+235,ticketback.y,"atlas.game","ticket")

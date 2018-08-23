@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.6.1</string>
         <key>fileName</key>
-        <string>/Applications/MAMP/htdocs/WebGames/minigames/bebeMundo/images/bebeMundo/texture_packer.tps</string>
+        <string>/Applications/MAMP/htdocs/WebGames/minigames/bbMundo/images/bbMundo/texture_packer.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -459,6 +459,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">good7.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>18,26,36,53</rect>
+                <key>scale9Paddings</key>
+                <rect>18,26,36,53</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">good8.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>20,21,39,43</rect>
+                <key>scale9Paddings</key>
+                <rect>20,21,39,43</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">hit.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -680,6 +706,8 @@
             <filename>tierra.png</filename>
             <filename>barra_vida.png</filename>
             <filename>contenedor_vida.png</filename>
+            <filename>good7.png</filename>
+            <filename>good8.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
