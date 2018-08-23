@@ -402,12 +402,12 @@ var mathRun = function(){
             
         if(gameActive){
 
-            // for(var i = 0; i < tiles.length; i++){
-            //     tiles[i].x -= tiles[i].speed
-            //     if(tiles[i].x <= -tiles[i].width){
-            //         tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
-            //     }
-            // }
+            for(var i = 0; i < tiles.length; i++){
+                tiles[i].x -= tiles[i].speed
+                if(tiles[i].x <= -tiles[i].width){
+                    tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
+                }
+            }
         
             if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
                 doJump(900)
@@ -990,9 +990,9 @@ var mathRun = function(){
         
         gameActive = true
         
-        // castleGroup.forEachAlive(function(obj){
-        //     obj.body.velocity.x = -30
-        // },this)
+        castleGroup.forEachAlive(function(obj){
+            obj.body.velocity.x = -30
+        },this)
         
         landGroup.forEachAlive(function(obj){
             obj.body.velocity.x = -225
