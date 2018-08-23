@@ -342,10 +342,10 @@ var colorInvaders = function(){
 		sound.play("gameLose")
 
 		gameActive = false
-		colorSong.stop()
-
+		
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
+			colorSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)	
 			sceneloader.show("result")
@@ -991,7 +991,9 @@ var colorInvaders = function(){
 					game.time.events.add(1000,function(){
 						sound.play("throw")
 						game.add.tween(aliensGroup.children[aux]).to({x: aliensGroup.children[aux].originX, y: aliensGroup.children[aux].originY}, 1000, Phaser.Easing.linear, true).onComplete.add(function(){
-							colorsGroup.text.setText("")
+							game.add.tween(colorsGroup.text.scale).to({y:0}, 200,Phaser.Easing.linear,true).onComplete.add(function(){
+								colorsGroup.text.setText("")
+							})
 							game.time.events.add(500,function(){
 								tutorial=false;
 								initGame()
@@ -1018,13 +1020,15 @@ var colorInvaders = function(){
 				    continueSpinning=true;
                 })
 			}
+			colorsGroup.text.scale.setTo(1,0)
 			colorsGroup.text.setText(colorsText[rand])
 			if(pointsBar.number > 9){
 				colorsGroup.text.strokeThickness = 10
 				colorsGroup.text.fill = colorsGroup.colorName[color]
 			}
 			sound.play("cut")
-			game.add.tween(colorsGroup.text.scale).from({y:0}, 200,Phaser.Easing.linear,true)
+	
+			game.add.tween(colorsGroup.text.scale).to({y:1}, 200,Phaser.Easing.linear,true)
 			gameActive = true
 			if(timeAttack)
 				startTimer(timer)
