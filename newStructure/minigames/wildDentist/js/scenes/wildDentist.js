@@ -372,7 +372,6 @@ var wildDentist = function(){
         })
 
         if(lives === 0){
-            console.log("Perdio!!");
             gameOver();
             stopGame(false);
         }
@@ -524,7 +523,6 @@ var wildDentist = function(){
                 for(var i = 0; i<3; i++){
                     buttonsOptions[i].input.enabled = false;
                     buttonsOptions[i].events.onDragStart.removeAll();
-                    buttonsOptions[i].events.onDragStop.removeAll();
                 }
             }
         });
@@ -532,16 +530,12 @@ var wildDentist = function(){
 
     function gameOver(){
         for(var c=0; c<3; c++){
-            if(castores[c].stage != null){
-                castores[c].state.alpha = 0;
-            }else{
-                castores[c].idle.alpha = 0;
-                castores[c].hit.alpha = 0;
-                castores[c].bite.alpha = 0;
-                castores[c].bad_breath.alpha = 0;
-                castores[c].broken.alpha = 0;
-                castores[c].caries.alpha = 0;
-            }
+            castores[c].idle.alpha = 0;
+            castores[c].hit.alpha = 0;
+            castores[c].bite.alpha = 0;
+            castores[c].bad_breath.alpha = 0;
+            castores[c].broken.alpha = 0;
+            castores[c].caries.alpha = 0;
             castores[c].lose.alpha = 1;
         }
     }
@@ -575,7 +569,8 @@ var wildDentist = function(){
                 trunk.tronco1.x = game.width + 100;
                 target.biteBeaver = false;
                 
-                switch(getRandomArbitrary(0,3)){
+                if(lives!=0){
+                    switch(getRandomArbitrary(0,3)){
                     case 0:
                         target.clean = false;
                         target.caries.alpha = 1;
@@ -595,9 +590,9 @@ var wildDentist = function(){
                         target.state = target.bad_breath;
                          
                     break;
-                       }
+                    }
+                }
             }
-           
         }
         
     }
