@@ -403,7 +403,7 @@ var mathRun = function(){
         if(gameActive){
 
             for(var i = 0; i < tiles.length; i++){
-                tiles[i].x -= 3//0.1
+                tiles[i].x -= tiles[i].speed
                 if(tiles[i].x <= -tiles[i].width){
                     tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
                 }
