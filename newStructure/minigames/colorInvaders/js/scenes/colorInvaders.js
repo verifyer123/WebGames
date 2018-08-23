@@ -650,7 +650,7 @@ var colorInvaders = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 
-		createParticles('star',3)
+		createParticles('star',1)
 		createParticles('wrong',1)
 		createParticles('text',5)
 		createParticles('smoke',1)
