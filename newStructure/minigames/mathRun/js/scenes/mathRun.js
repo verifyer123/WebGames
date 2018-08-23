@@ -409,9 +409,9 @@ var mathRun = function(){
                 }
             }
         
-            if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
-                doJump(900)
-            }
+//            if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
+//                doJump(900)
+//            }
 
             if(player.isJumpin){
                 player.body.velocity.y -= 2
