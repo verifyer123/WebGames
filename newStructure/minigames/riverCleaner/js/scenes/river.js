@@ -213,7 +213,7 @@ var river = function(){
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
+            gameSong.stop()
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
@@ -394,7 +394,7 @@ var river = function(){
         nao.box = box
 
         var box2 = game.add.graphics(100, -200)
-        box2.beginFill(0x0000ff)
+        box2.beginFill(0x0000ff,0)
         box2.drawRect(0, 0, 300, 200)
         box2.endFill()
         game.physics.arcade.enable(box2)
