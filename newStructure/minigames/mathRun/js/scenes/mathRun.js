@@ -110,6 +110,8 @@ var mathRun = function(){
     var boardGroup
     var landGroup
     var jumpButton
+	var check;
+	var frames
     var button
     var player
     var arthurius
@@ -134,6 +136,8 @@ var mathRun = function(){
         jumpButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
         gameActive = false
         coinCounter = 0
+		check=true;
+		frames=0;
         enemyCounter = 0
         enemyLvl = 3
         playingTuto = false
@@ -409,9 +413,9 @@ var mathRun = function(){
                 }
             }
         
-//            if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
-//                doJump(900)
-//            }
+            if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
+                doJump(900)
+            }
 
             if(player.isJumpin){
                 player.body.velocity.y -= 2
@@ -457,16 +461,29 @@ var mathRun = function(){
                 tutoPath()
             }
         }
-        
-        game.physics.arcade.collide(player, landGroup, land, null, this)
-        game.physics.arcade.collide(enemiesGroup, landGroup)
-        game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-        game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
-        
+		game.physics.arcade.collide(player, landGroup, land, null, this)
+        if(check){
+			game.physics.arcade.collide(player, landGroup, land, null, this)
+			game.physics.arcade.collide(enemiesGroup, landGroup)
+			game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
+			game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+			check=false;
+		}else{
+			regularSpeedColliders();
+		}
         player.x = 100
         arthurius.x = player.x
         arthurius.y = player.y + 10
     }
+	
+	function regularSpeedColliders(){
+		frames++;
+		if(frames==15){
+			check=true;
+			frames=0;
+			
+		}
+	}
     
     function doJump(force){
        
