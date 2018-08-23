@@ -315,11 +315,10 @@ var mathgicGate = function(){
 		sound.play("gameLose")
 
 		gameActive = false
-		spaceSong.stop()
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
 		tweenScene.onComplete.add(function(){
-
+			spaceSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
