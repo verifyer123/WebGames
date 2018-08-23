@@ -325,25 +325,25 @@ var mathRun = function(){
         sky.width = game.world.width
         sky.height = game.world.height - 200
 
-        // for(var i = 0; i < 2; i++){
+        for(var i = 0; i < 2; i++){
 
-        //     var mountains = sceneGroup.create(0, game.world.height - 100, "mountains")
-        //     mountains.anchor.setTo(0,1)
-        //     mountains.x = mountains.width * i
-        //     mountains.speed = 0.1
-        //     tiles.push(mountains)
-        // }
+            var mountains = sceneGroup.create(0, game.world.height - 100, "mountains")
+            mountains.anchor.setTo(0,1)
+            mountains.x = mountains.width * i
+            mountains.speed = 0.1
+            tiles.push(mountains)
+        }
         
         createCastles()
 
-        // for(var i = 0; i < 2; i++){
+        for(var i = 0; i < 2; i++){
 
-        //     var hills = sceneGroup.create(0, game.world.height + 50, 'hills')
-        //     hills.anchor.setTo(0,1)
-        //     hills.x = hills.width * i
-        //     hills.speed = 2
-        //     tiles.push(hills)
-        // }
+            var hills = sceneGroup.create(0, game.world.height + 50, 'hills')
+            hills.anchor.setTo(0,1)
+            hills.x = hills.width * i
+            hills.speed = 2
+            tiles.push(hills)
+        }
     }
     
     function createCastles(){
@@ -402,12 +402,12 @@ var mathRun = function(){
             
         if(gameActive){
 
-            // for(var i = 0; i < tiles.length; i++){
-            //     tiles[i].x -= tiles[i].speed
-            //     if(tiles[i].x <= -tiles[i].width){
-            //         tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
-            //     }
-            // }
+            for(var i = 0; i < tiles.length; i++){
+                tiles[i].x -= tiles[i].speed
+                if(tiles[i].x <= -tiles[i].width){
+                    tiles[i].x = game.world.width + 400//tiles[i].width * 0.35
+                }
+            }
         
             if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
                 doJump(900)
@@ -990,9 +990,9 @@ var mathRun = function(){
         
         gameActive = true
         
-        // castleGroup.forEachAlive(function(obj){
-        //     obj.body.velocity.x = -30
-        // },this)
+        castleGroup.forEachAlive(function(obj){
+            obj.body.velocity.x = -30
+        },this)
         
         landGroup.forEachAlive(function(obj){
             obj.body.velocity.x = -225

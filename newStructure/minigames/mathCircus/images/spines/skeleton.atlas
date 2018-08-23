@@ -5,15 +5,15 @@ format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm1
-  rotate: false
-  xy: 544, 224
+  rotate: true
+  xy: 585, 256
   size: 34, 66
   orig: 34, 66
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 580, 240
+  xy: 899, 323
   size: 38, 50
   orig: 38, 50
   offset: 0, 0
@@ -27,7 +27,7 @@ normal/ball
   index: -1
 normal/dm1
   rotate: true
-  xy: 455, 209
+  xy: 769, 292
   size: 81, 87
   orig: 81, 87
   offset: 0, 0
@@ -48,7 +48,7 @@ normal/dm3
   index: -1
 normal/dm4
   rotate: false
-  xy: 455, 292
+  xy: 585, 292
   size: 182, 81
   orig: 182, 81
   offset: 0, 0
@@ -118,7 +118,7 @@ normal/head4
   index: -1
 normal/leg
   rotate: false
-  xy: 723, 316
+  xy: 858, 316
   size: 39, 57
   orig: 39, 57
   offset: 0, 0
@@ -131,9 +131,9 @@ normal/leg1_b
   offset: 0, 0
   index: -1
 normal/torso
-  rotate: true
-  xy: 639, 297
-  size: 76, 82
-  orig: 76, 82
+  rotate: false
+  xy: 455, 236
+  size: 128, 137
+  orig: 128, 137
   offset: 0, 0
   index: -1
