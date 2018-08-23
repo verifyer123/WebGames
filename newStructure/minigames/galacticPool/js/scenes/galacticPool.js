@@ -759,6 +759,7 @@ var galacticPool = function(){
 			planets[planetsTargets].spines.setSkinByName(planetsNames[planetsTargets].SKIN);
 			planets[planetsTargets].spines.setAnimationByName(0, "idle", true);
 			planets[planetsTargets].spines.alpha=1;
+			planets[planetsTargets].spines.scale.setTo(planetsNames[planetsTargets].size,planetsNames[planetsTargets].size);
 			planets[planetsTargets].body.x=positionX[planetsTargets];
 			planets[planetsTargets].body.y=positionY[planetsTargets];
 			planets[planetsTargets].tag=planetsNames[planetsTargets].word;
@@ -771,6 +772,7 @@ var galacticPool = function(){
 			targets[planetsTargets]=game.add.sprite(0,0,"atlas.galacticPool","destino");
 			targets[planetsTargets].x=positionX[planetsTargets];
 			targets[planetsTargets].y=positionY[planetsTargets];
+			targets[planetsTargets].scale.setTo(planetsNames[planetsTargets].size,planetsNames[planetsTargets].size);
 			targets[planetsTargets].anchor.setTo(0.5,0.5);
 			targets[planetsTargets].tag=planetsNames[planetsTargets].word;
 			targets[planetsTargets].alpha=0;
@@ -859,15 +861,15 @@ var galacticPool = function(){
 		backgroundGroup.add(blackHole)
 		
 		planetsNames=[
-			{SKIN:"neptune",word:localization.getString(localizationData,"planet9")},
-			{SKIN:"uranus",word:localization.getString(localizationData,"planet8")},
-			{SKIN:"saturn",word:localization.getString(localizationData,"planet7")},
-			{SKIN:"jupiter",word:localization.getString(localizationData,"planet6")},
-			{SKIN:"mars",word:localization.getString(localizationData,"planet5")},
-			{SKIN:"earth",word:localization.getString(localizationData,"planet4")},
-			{SKIN:"venus",word:localization.getString(localizationData,"planet3")},
-			{SKIN:"mercury",word:localization.getString(localizationData,"planet2")},
-			{SKIN:"sun",word:localization.getString(localizationData,"planet1")}
+			{SKIN:"neptune",word:localization.getString(localizationData,"planet9"),size:0.9},
+			{SKIN:"uranus",word:localization.getString(localizationData,"planet8"),size:0.9},
+			{SKIN:"saturn",word:localization.getString(localizationData,"planet7"),size:0.9},
+			{SKIN:"jupiter",word:localization.getString(localizationData,"planet6"),size:0.7},
+			{SKIN:"mars",word:localization.getString(localizationData,"planet5"),size:0.9},
+			{SKIN:"earth",word:localization.getString(localizationData,"planet4"),size:0.6},
+			{SKIN:"venus",word:localization.getString(localizationData,"planet3"),size:0.6},
+			{SKIN:"mercury",word:localization.getString(localizationData,"planet2"),size:0.6},
+			{SKIN:"sun",word:localization.getString(localizationData,"planet1"),size:0.8}
 		];
 		wall=physicPlanets.create(game.world.centerX,-350,"atlas.galacticPool","fondo");
 		wall.scale.setTo(2,1)
