@@ -371,7 +371,7 @@ var mathRun = function(){
             
         if(gameActive){
 
-            moveScene()
+            //moveScene()
             //landGroup.forEachAlive(removeLand,this)
 
             if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
@@ -419,7 +419,7 @@ var mathRun = function(){
             }
             
             if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 30){
-                tutoPath()
+                //tutoPath()
             }
         }
 //		game.physics.arcade.collide(player, landGroup, land, null, this)
@@ -1044,13 +1044,13 @@ var mathRun = function(){
     function initTuto(){
         
         tutoPath()
-        castleGroup.forEachAlive(function(obj){
-            game.add.tween(obj).to({x: obj.x - 100},2500,Phaser.Easing.linear,true)
-        },this)
+//        castleGroup.forEachAlive(function(obj){
+//            game.add.tween(obj).to({x: obj.x - 100},2500,Phaser.Easing.linear,true)
+//        },this)
         
-        landGroup.forEachAlive(function(obj){
-            obj.body.velocity.x = -SPEED
-        },this)
+//        landGroup.forEachAlive(function(obj){
+//            obj.body.velocity.x = -SPEED
+//        },this)
         
         player.isRunning = true
         arthurius.setAnimationByName(0, "run", true)
@@ -1149,7 +1149,7 @@ var mathRun = function(){
             
 			sceneGroup = game.add.group()
 			game.input.mspointer.capture = false;
-			createBackground()
+			//createBackground()
             
             game.physics.startSystem(Phaser.Physics.ARCADE)
             game.physics.arcade.gravity.y = 1500

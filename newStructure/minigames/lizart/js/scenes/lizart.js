@@ -261,7 +261,8 @@ var lizart = function(){
 		"Green",
 		"Orange",
 		"Purple",
-		"Red"
+		"Red",
+		"Yellow",
 	]
 	var positionStates=[]
 	var allPositions;

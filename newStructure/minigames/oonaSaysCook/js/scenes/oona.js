@@ -113,6 +113,11 @@ var oona = function(){
     var roundTime;
     var pointeX;
     var pointeY;
+    var posLastHandX;
+    var posLastHandY;
+    var actualObject;
+    var releaseMoveHand;
+    var releaseButtonOk;
     
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -127,6 +132,8 @@ var oona = function(){
         levelZero = true;
         levelZeroIndex = 0;
         roundTime = 15000;
+        releaseMoveHand = true;
+        releaseButtonOk = false;
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -171,6 +178,14 @@ var oona = function(){
     }
 
     function update() {
+        if(levelZero && actualObject!=null && releaseMoveHand && !releaseButtonOk){
+            releaseMoveHand = false;
+            hand.x = actualObject.world.x;
+            hand.y = actualObject.world.y;
+            tweenSwipe = game.add.tween(hand).to( { x: posLastHandX, y: posLastHandY }, 800, Phaser.Easing.Linear.InOut, true, 0).onComplete.add(function(){
+                releaseMoveHand = true;
+            });
+        }
     }
 
     function createPointsBar(){
@@ -415,12 +430,12 @@ var oona = function(){
 
     function changeHand(index){
         if(levelZero){
-            if(tweenSwipe!= null){
-                tweenSwipe.stop();
-            }
+            actualObject = null;
             hand.x = buttosGroup.x + buttonWidthWithSpace*correctAnswer[index];
             hand.y = buttosGroup.y;
-            tweenSwipe = game.add.tween(hand).to( { y: hand.y + 100 }, 500, Phaser.Easing.Linear.InOut, true, 0, -1, true, 0);
+            posLastHandX = buttosGroup.x + buttonWidthWithSpace*correctAnswer[index];
+            posLastHandY = buttosGroup.y + 120;
+            tweenSwipe = game.add.tween(hand).to( {x: posLastHandX, y: posLastHandY }, 800, Phaser.Easing.Linear.InOut, true, 0, -1);
 
             for(rev=0; rev<buttosGroup.length; rev++){
                 if(buttosGroup.children[rev].number == correctAnswer[levelZeroIndex]){
@@ -511,10 +526,11 @@ var oona = function(){
                 levelZeroIndex++;
                 changeHand(levelZeroIndex);
             }else if(levelZero && levelZeroIndex==totalRecipeElements-1){
-                tweenSwipe.stop();
                 answerGroup.children[answerGroup.length-1].inputEnabled = false;
                 hand.x = okBtn.x;
                 hand.y = okBtn.y;
+                releaseButtonOk = true;
+                game.tweens.removeFrom(hand);
                 addClickButtonOK();
                 okBtnImg.events.onInputUp.add(cook);
             }
@@ -546,6 +562,7 @@ var oona = function(){
         }else if(item.parentColocation == "original"){
             sceneGroup.bringToTop(buttosGroup);
         }
+        actualObject = item;
     }
 
     function colocationOriginal(itemCol){
@@ -770,11 +787,11 @@ var oona = function(){
                     tweenTime = game.add.tween(timeGroup.time.scale).to({x: 0}, roundTime, Phaser.Easing.linear, true);
                 
                     tweenTime.onComplete.add(function(){
-                        oonaAvatar.setAnimationByName(0, 'lose', false);
-                        oonaAvatar.addAnimationByName(0, 'idle', true);
-                        okBtnImg.events.onInputUp.removeAll();
-                        okBtnImg.inputEnabled = false;
-                        endRound(true);
+                    oonaAvatar.setAnimationByName(0, 'lose', false);
+                    oonaAvatar.addAnimationByName(0, 'idle', true);
+                    okBtnImg.events.onInputUp.removeAll();
+                    okBtnImg.inputEnabled = false;
+                    endRound(true);
                     });
                 }
             }, this);
