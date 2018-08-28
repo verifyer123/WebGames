@@ -720,18 +720,12 @@ function createTextPart(text,obj){
                          
                     break;
                        }
-            }
-           
+            }  
         }
-        
     }
     
     
 	function update() {
-        
-
-       
-        
 		if(starGame){	
 			if(lives != 0){	
 				for(var p = 0; p<=2;p++){

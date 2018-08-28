@@ -739,6 +739,7 @@ var river = function(){
         
         if(playTuto){
             nao.canMove = false
+            playTuto = false
             sound.play("swipe")
             game.add.tween(nao).to({y:row.centerY + 40}, 250, Phaser.Easing.Cubic.Out, true).onComplete.add(function(){
                 nao.canMove = true
@@ -748,14 +749,17 @@ var river = function(){
                             hand.obj.kill()
                             hand.obj = null
                             game.add.tween(hand).to({alpha: 0}, 200, Phaser.Easing.linear, true)
-                            playTuto = false
                             throwTrashTuto()
                         })
                     }
                     else{
                         game.add.tween(hand).to({alpha: 0}, 200, Phaser.Easing.linear, true)
+                        playTuto = true
                         hitTrashTuto(hand.obj)
                     }
+                }
+                else{
+                    playTuto = true
                 }
             })
         }
@@ -781,6 +785,7 @@ var river = function(){
                 posHand(obj, 2)
                 nao.setAnimationByName(0, "idle", true)
                 rowsGroup.tag = 2
+                playTuto = true
             })
         }
     }
