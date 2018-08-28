@@ -735,6 +735,9 @@ var lizart = function(){
 					for(var movefruits=0; movefruits<ALL_FRUITS+1; movefruits++){
 						fruits[movefruits].y=-500;
 					}
+					for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
+						tintSpine(lizard,colorR[colorChoosed],colorR[colorChoosed],colorR[colorChoosed],BODY_PARTS[tintRound].part);
+					}
 					tongue.alpha=0;
 					winLizar();
 					eatingBodys.tint=fruitItem.color;
