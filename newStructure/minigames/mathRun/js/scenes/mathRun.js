@@ -95,7 +95,7 @@ var mathRun = function(){
 
     var SPEED = 225
     var JUMP_FORCE = 900
-        
+    var check
     var lives = null
 	var sceneGroup = null
     var gameActive
@@ -138,6 +138,7 @@ var mathRun = function(){
         coinCounter = 0
         enemyCounter = 0
         enemyLvl = 3
+		check=false;
         playingTuto = false
         easyMode = true
         
@@ -371,7 +372,7 @@ var mathRun = function(){
         if(gameActive){
 
             moveScene()
-            landGroup.forEachAlive(removeLand,this)
+            //landGroup.forEachAlive(removeLand,this)
 
             if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
                 doJump(900)
@@ -392,7 +393,7 @@ var mathRun = function(){
 
             if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10 && gameActive){
                 
-                newPath()
+                //newPath()
                 coinCounter++
                 enemyCounter++
             }
@@ -421,21 +422,17 @@ var mathRun = function(){
                 tutoPath()
             }
         }
-		game.physics.arcade.collide(player, landGroup, land, null, this)
-		//game.physics.arcade.collide(enemiesGroup, landGroup)
-        if(check){
-			game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-			//game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
-			check=false;
-		}else{
-			regularSpeedColliders();
-		}
-        game.physics.arcade.collide(player, landGroup, land, null, this)
-        game.physics.arcade.collide(enemiesGroup, landGroup)
-        game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-        game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+//		game.physics.arcade.collide(player, landGroup, land, null, this)
+//		//game.physics.arcade.collide(enemiesGroup, landGroup)
+//			game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
+//			//game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+//        game.physics.arcade.collide(player, landGroup, land, null, this)
+//        game.physics.arcade.collide(enemiesGroup, landGroup)
+//        game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
+//        game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
         positionPlayer()
     }
+
 
     function moveScene(){
         for(var i = 0; i < tiles.length; i++){
