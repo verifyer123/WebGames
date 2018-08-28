@@ -17,11 +17,11 @@ var onGoingGames={
 	},
     
     minigames:[
-		
 			{name:'Addition Dojo',url:'additiondojo/',mapUrl:'AdditionDojo', sceneName:'dojo',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
 			{name:'Space Words',url:'spaceWords/',mapUrl:'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Water Morphosis',url:'waterMorph/',mapUrl:'waterMorph', sceneName:'water',subject:'science',review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Ice Cream Numbers',url:'numberIce/',mapUrl:'numberIce', sceneName:'ice',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
+			{name:'Magnet Ride',url:'magnetRide/',mapUrl:'magnetRide', sceneName:'magnet',subject:'science',review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
 			{name:'Salad Cards',url:'tapcards/',mapUrl:'tapcards', sceneName:'tapcards',subject:'language',review:false,objective:30,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Sky Language',url:'skyLanguage/',mapUrl:'skyLanguage', sceneName:'skyLanguage',subject:'language',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
@@ -65,6 +65,7 @@ var onGoingGames={
 			{name:'Minmax Duel',url:'minmaxduel/',mapUrl:'minmaxduel', sceneName:'minmaxduel',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//46
 			{name:'Math Invader',url:'mathInvader/',mapUrl:'mathInvader', sceneName:'invader',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//47
 			{name:'Locksmath',url:'locksmath/',mapUrl:'locksmath', sceneName:'lock',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.MATCH},//48
+			{name:'Magic Gate',url:'magicGate/',mapUrl:'magicGate', sceneName:'magicGate',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//49
 			{name:'Lucky Numbers',url:'luckynumber/',mapUrl:'luckynumber', sceneName:'luckynumber',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.MATCH},//50
 			{name:'Robovet',url:'robovet/',mapUrl:'robovet', sceneName:'robo',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//51
 			{name:'Math Bomb',url:'mathBomb/',mapUrl:'mathBomb', sceneName:'bomb',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},//52
@@ -77,6 +78,7 @@ var onGoingGames={
 			{name:'Seaquence',url:'seaquence/',mapUrl:'seaquence', sceneName:'seaquence',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//60
 			{name:'Clock Fix',url:'clockfix/',mapUrl:'clockfix', sceneName:'clockfix',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},//61
 			{name:'Math Engine',url:'mathEngine/',mapUrl:'mathEngine', sceneName:'engine',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//62
+			{name:'Astronometric',url:'astronoMetric/',mapUrl:'astronoMetric', sceneName:'astrono',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.TRACE},//63
 			{name:'Jumptiply',url:'jumptiply/',mapUrl:'jumptiply', sceneName:'jump',subject:'math', review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//64
 			{name:'Swamp Shapes',url:'swampShape/',mapUrl:'swampShape', sceneName:'swampShape',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.TRACE},//65
 			{name:'Duck Count',url:'duckCount/',mapUrl:'duckCount', sceneName:'duck',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//66
@@ -108,7 +110,10 @@ var onGoingGames={
 			{name:'FrutiLluvia',url:'frutiLluvia/',mapUrl:'frutiLluvia', sceneName:'fruti',subject:'math', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//93
 			{name:'Dr Zombie',url:'drZombie/',mapUrl:'drZombie', sceneName:'drzombie',subject:'health', review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},//94
 			{name:'Cog Count',url:'cogCount/',mapUrl:'cogCount', sceneName:'cog',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.COUNT},//96
+			{name:'Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galactic',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},//97
+			{name:'Oona Says Cook',url:'oonaSaysCook/',mapUrl:'oonaSaysCook', sceneName:'oona',subject:'coding', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},//98
 			{name:'River Rescue',url:'riverRescue/',mapUrl:'riverRescue', sceneName:'riverRescue',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//99
+			{name:'River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability', review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},//100
 			{name:'Garbage Diving',url:'garbageDiving/',mapUrl:'garbageDiving', sceneName:'garbageDiving',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//101
 			{name:'Space Vaccum',url:'spaceVaccum/',mapUrl:'spaceVaccum', sceneName:'spaceVaccum',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//102
 			{name:'Garbage Mole',url:'garbageMole/',mapUrl:'garbageMole', sceneName:'mole',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//103
@@ -126,11 +131,12 @@ var onGoingGames={
 		   {name:'H2Orbit',url:'H2Orbit/',mapUrl:'H2Orbit', sceneName:'H2Orbit',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},//116
 		   {name:'Fridge',url:'fridge/',mapUrl:'fridge', sceneName:'fridge',subject:'health', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//117
 		   {name:'Sympho Master',url:'symphoMaster/',mapUrl:'symphoMaster', sceneName:'symphoMaster',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//118
+		   {name:'Dinamita Dance',url:'dinamitaDance/',mapUrl:'dinamitaDance', sceneName:'dinamitaDance',subject:'language', review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//119
 		   {name:'Rabbit Trace',url:'rabitTrace/',mapUrl:'rabitTrace', sceneName:'rabitTrace',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.TRACE},//120
 		   {name:'Noisy Monsters',url:'noisyMonsters/',mapUrl:'noisyMonsters', sceneName:'noisyMonsters',subject:'sustainability', review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//121
 		   {name:'Balance Science',url:'balanceScience/',mapUrl:'balanceScience', sceneName:'balanceScience',subject:'sciencie', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//122
 		   {name:'Liquidungeon',url:'liquidungeon/',mapUrl:'liquidungeon', sceneName:'liquidungeon',subject:'sciencie', review:false,objective:40,demo:false,type:gameTypeEnum.CHOOSE},//123
-		   {name:'Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.TAP},//124
+		   {name:'Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//124
 		   {name:'Lake Strike',url:'lakeStrike/',mapUrl:'lakeStrike', sceneName:'lakeStrike',subject:'sustainability', review:false,objective:30,demo:false,type:gameTypeEnum.TARGET},//125
 		   {name:'Noisy Streets',url:'noisyStreets/',mapUrl:'noisyStreets', sceneName:'noisyStreets',subject:'sustainability', review:false,objective:15,demo:false,type:gameTypeEnum.MATCH},//126
 		   {name:'Continental Puzzle',url:'continentalPuzzle/',mapUrl:'continentalPuzzle',sceneName:'continentalPuzzle',subject:'geography',review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//127
@@ -183,6 +189,7 @@ var onGoingGames={
 		   {name:'Hygiene Plus',url:'hygienePlus/',mapUrl:'hygienePlus', sceneName:'hygienePlus',subject:'language', review:false,objective:15,demo:false, type:gameTypeEnum.CHOOSE},//174
 		   {name:'Wild Feed',url:'wildFeed/',mapUrl:'wildFeed', sceneName:'wildFeed',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//175
 		   {name:'Cubetinent',url:'cubetinent/',mapUrl:'cubetinent', sceneName:'cubetinent',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//176
+		   {name:'Color Invaders',url:'colorInvaders/',mapUrl:'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},//177
 		   {name:'Clean Crossing',url:'cleanCrossing/',mapUrl:'cleanCrossing', sceneName:'cleanCrossing',subject:'sustainability', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//178
 		   {name:'Climb O Weight',url:'climbOWeight/',mapUrl:'climbOWeight', sceneName:'climbOWeight',subject:'sciencie', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//179
 		   {name:'Water Gunner',url:'waterGunner/',mapUrl:'waterGunner', sceneName:'waterGunner',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//180
