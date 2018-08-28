@@ -2,7 +2,7 @@
 
 {
 	"filename": "buildingBg",
-	"frame": {"x":110,"y":513,"w":379,"h":275},
+	"frame": {"x":110,"y":325,"w":379,"h":275},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":379,"h":275},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "fondo",
-	"frame": {"x":110,"y":325,"w":394,"h":186},
+	"frame": {"x":110,"y":602,"w":394,"h":186},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":394,"h":186},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "lamp",
-	"frame": {"x":636,"y":470,"w":110,"h":63},
+	"frame": {"x":636,"y":797,"w":110,"h":63},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":110,"h":63},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":506,"y":339,"w":140,"h":55},
+	"frame": {"x":433,"y":839,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "numberBg",
-	"frame": {"x":648,"y":339,"w":46,"h":61},
+	"frame": {"x":110,"y":900,"w":46,"h":61},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":46,"h":61},
@@ -47,11 +47,11 @@
 },
 {
 	"filename": "roll",
-	"frame": {"x":506,"y":476,"w":95,"h":512},
+	"frame": {"x":506,"y":325,"w":128,"h":512},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":95,"h":512},
-	"sourceSize": {"w":95,"h":512},
+	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":512},
+	"sourceSize": {"w":128,"h":512},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":711,"y":296,"w":64,"h":64},
+	"frame": {"x":386,"y":898,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -83,7 +83,7 @@
 },
 {
 	"filename": "sushi1",
-	"frame": {"x":213,"y":891,"w":101,"h":98},
+	"frame": {"x":575,"y":862,"w":101,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":98},
@@ -92,7 +92,7 @@
 },
 {
 	"filename": "sushi2",
-	"frame": {"x":696,"y":362,"w":105,"h":106},
+	"frame": {"x":219,"y":790,"w":105,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":106},
@@ -101,7 +101,7 @@
 },
 {
 	"filename": "sushi3",
-	"frame": {"x":702,"y":858,"w":99,"h":98},
+	"frame": {"x":739,"y":477,"w":99,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":98},
@@ -110,7 +110,7 @@
 },
 {
 	"filename": "sushi4",
-	"frame": {"x":603,"y":645,"w":105,"h":106},
+	"frame": {"x":326,"y":790,"w":105,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":106},
@@ -119,7 +119,7 @@
 },
 {
 	"filename": "sushi11",
-	"frame": {"x":110,"y":894,"w":101,"h":100},
+	"frame": {"x":636,"y":695,"w":101,"h":100},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":100},
@@ -128,7 +128,7 @@
 },
 {
 	"filename": "sushi12",
-	"frame": {"x":213,"y":790,"w":101,"h":99},
+	"frame": {"x":735,"y":376,"w":101,"h":99},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":99},
@@ -137,7 +137,7 @@
 },
 {
 	"filename": "sushi21",
-	"frame": {"x":110,"y":790,"w":101,"h":102},
+	"frame": {"x":636,"y":591,"w":101,"h":102},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":102},
@@ -146,7 +146,7 @@
 },
 {
 	"filename": "sushi22",
-	"frame": {"x":603,"y":753,"w":101,"h":103},
+	"frame": {"x":636,"y":486,"w":101,"h":103},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":101,"h":103},
@@ -155,7 +155,7 @@
 },
 {
 	"filename": "sushi31",
-	"frame": {"x":706,"y":753,"w":95,"h":85},
+	"frame": {"x":739,"y":676,"w":95,"h":85},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":95,"h":85},
@@ -164,7 +164,7 @@
 },
 {
 	"filename": "sushi32",
-	"frame": {"x":316,"y":885,"w":98,"h":97},
+	"frame": {"x":739,"y":577,"w":98,"h":97},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":98,"h":97},
@@ -173,7 +173,7 @@
 },
 {
 	"filename": "sushi41",
-	"frame": {"x":603,"y":535,"w":107,"h":108},
+	"frame": {"x":110,"y":790,"w":107,"h":108},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":107,"h":108},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "sushi42",
-	"frame": {"x":603,"y":858,"w":97,"h":108},
+	"frame": {"x":636,"y":376,"w":97,"h":108},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":97,"h":108},
@@ -200,7 +200,7 @@
 },
 {
 	"filename": "swatch",
-	"frame": {"x":506,"y":396,"w":128,"h":78},
+	"frame": {"x":636,"y":296,"w":128,"h":78},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":128,"h":78},
@@ -209,7 +209,7 @@
 },
 {
 	"filename": "wrong",
-	"frame": {"x":316,"y":790,"w":100,"h":93},
+	"frame": {"x":678,"y":862,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -218,7 +218,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":544,"y":296,"w":165,"h":41},
+	"frame": {"x":219,"y":898,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -230,8 +230,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":802,"h":995},
+	"size": {"w":839,"h":963},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e28ce379c7d2f8538709229fa98142fd:d08bb4f7c0f23dbf3d6dffffcb8c96bc:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e2207d4c0b0c3add05bb896dddd4406e:252914d775a957ef6af2c955f0a7ec2b:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

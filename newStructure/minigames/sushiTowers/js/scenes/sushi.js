@@ -700,9 +700,9 @@ var sushi = function(){
 			option.y=300;
 		}
 		if (lastSushi){
-            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height-20 //lastSushi.y - lastSushi.height - 10
+            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height+15 //lastSushi.y - lastSushi.height - 10
 
-			toY = sushiHeight+10
+			toY = sushiHeight
             
 			if(toY <= 300){
 				toY = 330
@@ -887,7 +887,7 @@ var sushi = function(){
 				sushi.index = sushiIndex
 				var prevSushi = sushiLane[sushiIndex - 1] !== sushi ? sushiLane[sushiIndex - 1] : null
 				if (prevSushi) {
-					sushi.toY = prevSushi.y - prevSushi.height + 15
+					sushi.toY = prevSushi.y - prevSushi.height + 20
 				}
 				else
 					sushi.toY = maxHeight
@@ -896,7 +896,7 @@ var sushi = function(){
 					sushi.y += speed
 				}else {
 					if (sushiIndex > 0 && prevSushi)
-						sushi.toY = prevSushi.y - prevSushi.height + 15
+						sushi.toY = prevSushi.y - prevSushi.height + 20
 					else
 						sushi.toY = maxHeight
 					
@@ -1138,11 +1138,11 @@ var sushi = function(){
 				barSprite.anchor.setTo(0.5, 1)
 				singleBar.add(barSprite)
 
-				var rollTile = game.add.tileSprite(0, 0, 96, game.world.height - 330, "atlas.sushi", "roll")
+				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
 				rollTile.anchor.setTo(0.5, 1)
 				singleBar.add(rollTile)
 				
-				//rollTile.update = updateRoll
+				rollTile.update = updateRoll
 				barLanes.push(singleBar)
 
 			}
