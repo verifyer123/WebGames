@@ -700,7 +700,7 @@ var sushi = function(){
 			option.y=300;
 		}
 		if (lastSushi){
-            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height-10 //lastSushi.y - lastSushi.height - 10
+            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height-20 //lastSushi.y - lastSushi.height - 10
 
 			toY = sushiHeight+10
             
@@ -1142,7 +1142,7 @@ var sushi = function(){
 				rollTile.anchor.setTo(0.5, 1)
 				singleBar.add(rollTile)
 				
-				rollTile.update = updateRoll
+				//rollTile.update = updateRoll
 				barLanes.push(singleBar)
 
 			}
