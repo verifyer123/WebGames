@@ -1,11 +1,11 @@
 
 lengua.png
-size: 64,128
+size: 128,64
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/lengua
-  rotate: false
+  rotate: true
   xy: 2, 2
   size: 33, 97
   orig: 33, 97

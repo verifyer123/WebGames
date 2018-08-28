@@ -462,11 +462,10 @@ var mathRun = function(){
             }
         }
 		game.physics.arcade.collide(player, landGroup, land, null, this)
+		//game.physics.arcade.collide(enemiesGroup, landGroup)
         if(check){
-			game.physics.arcade.collide(player, landGroup, land, null, this)
-			game.physics.arcade.collide(enemiesGroup, landGroup)
 			game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-			game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+			//game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
 			check=false;
 		}else{
 			regularSpeedColliders();
@@ -1205,7 +1204,7 @@ var mathRun = function(){
 			
             createLand()
             createCoins()
-            createEnemies()
+            //createEnemies()
             createPlayer()
             createBoard()
             createPointsBar()
