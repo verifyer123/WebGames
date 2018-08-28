@@ -29,7 +29,7 @@ var river = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/river/tutorial_image.png"
+				file:"images/river/tutorial_image_%input.png"
 			}
 		],
 		sounds: [
