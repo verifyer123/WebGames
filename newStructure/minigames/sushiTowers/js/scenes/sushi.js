@@ -1073,15 +1073,15 @@ var sushi = function(){
 			bgRect.endFill()
 			sceneGroup.add(bgRect)
 
-			var floor = game.add.tileSprite(0 , 0, game.world.width, game.world.height - 240, "atlas.sushi", "swatch")
-            floor.y = game.world.height+100
-			floor.anchor.setTo(0, 1)
-            sceneGroup.add(floor)
-
-			var buildings = game.add.tileSprite(0 , 0, game.world.width, 275, "atlas.sushi", "buildingBg")
-			buildings.y = 74
-			buildings.anchor.setTo(0, 0)
-			sceneGroup.add(buildings)
+//			var floor = game.add.tileSprite(0 , 0, game.world.width, game.world.height - 240, "atlas.sushi", "swatch")
+//            floor.y = game.world.height+100
+//			floor.anchor.setTo(0, 1)
+//            sceneGroup.add(floor)
+//
+//			var buildings = game.add.tileSprite(0 , 0, game.world.width, 275, "atlas.sushi", "buildingBg")
+//			buildings.y = 74
+//			buildings.anchor.setTo(0, 0)
+//			sceneGroup.add(buildings)
 
 			var barTop = game.add.graphics()
 			barTop.beginFill(0xFF4817)
@@ -1102,9 +1102,9 @@ var sushi = function(){
 			scenary.y = scenary.height * 0.5 + 38
 			scenary.anchor.setTo(0.5, 0.5)
 
-			var lamp = game.add.tileSprite(0 , 0, game.world.width, 63, "atlas.sushi", "lamp")
-			lamp.y = 40
-			sceneGroup.add(lamp)
+//			var lamp = game.add.tileSprite(0 , 0, game.world.width, 63, "atlas.sushi", "lamp")
+//			lamp.y = 40
+//			sceneGroup.add(lamp)
 
 			//Coins
 			coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
@@ -1128,21 +1128,21 @@ var sushi = function(){
 				singleBar.x = BAR_POSITIONS[barIndex]
 				barsGroup.add(singleBar)
 
-				var bar = game.add.graphics()
-				bar.beginFill(0xD6C26D)
-				bar.drawRect(0,0,107, game.world.height - 330)
-				bar.endFill()
+//				var bar = game.add.graphics()
+//				bar.beginFill(0xD6C26D)
+//				bar.drawRect(0,0,107, game.world.height - 330)
+//				bar.endFill()
 
-				var barSprite = game.add.sprite(0, 0, bar.generateTexture())
-				bar.destroy()
-				barSprite.anchor.setTo(0.5, 1)
-				singleBar.add(barSprite)
+//				var barSprite = game.add.sprite(0, 0, bar.generateTexture())
+//				bar.destroy()
+//				barSprite.anchor.setTo(0.5, 1)
+//				singleBar.add(barSprite)
 
-				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
-				rollTile.anchor.setTo(0.5, 1)
-				singleBar.add(rollTile)
+//				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
+//				rollTile.anchor.setTo(0.5, 1)
+//				singleBar.add(rollTile)
 				
-				rollTile.update = updateRoll
+				//rollTile.update = updateRoll
 				barLanes.push(singleBar)
 
 			}
