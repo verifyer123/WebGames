@@ -301,7 +301,7 @@ var sushi = function(){
 			var yogotar = yogotars[yogoIndex]
 			yogotar.setAnimation(["lose"])
 		}
-		octopus.setAnimation(["lose"])
+//		octopus.setAnimation(["lose"])
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
             
@@ -515,7 +515,7 @@ var sushi = function(){
             game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
-					octopus.setAnimation(["idle"])
+//					octopus.setAnimation(["idle"])
 				}
 			});
         }
@@ -940,7 +940,7 @@ var sushi = function(){
 //				wrongParticle.y = lastSushi.centerY
 //				wrongParticle.start(true, 1000, null, 5)
 				missPoint()
-				octopus.setAnimation(["lose"]);
+//				octopus.setAnimation(["lose"]);
 				gameEnded = true
 				return
 			}
@@ -1093,10 +1093,10 @@ var sushi = function(){
 			background.y = background.height * 0.5 + 50
 			background.anchor.setTo(0.5, 0.5)
 
-			octopus = createSpine("octopus", "normal")
-			octopus.x = game.world.centerX
-			octopus.y = background.y + 110
-			sceneGroup.add(octopus)
+//			octopus = createSpine("octopus", "normal")
+//			octopus.x = game.world.centerX
+//			octopus.y = background.y + 110
+//			sceneGroup.add(octopus)
 
 			var scenary = sceneGroup.create(game.world.centerX,game.world.centerY,"atlas.sushi",'scenary')
 			scenary.y = scenary.height * 0.5 + 38
@@ -1142,7 +1142,7 @@ var sushi = function(){
 				rollTile.anchor.setTo(0.5, 1)
 				singleBar.add(rollTile)
 				
-				rollTile.update = updateRoll
+//				rollTile.update = updateRoll
 				barLanes.push(singleBar)
 
 			}
@@ -1172,7 +1172,7 @@ var sushi = function(){
 
             createPointsBar()
 			createHearts()
-            createSpines()
+            //createSpines()
             createGameObjects()
             
             createTutorial()
