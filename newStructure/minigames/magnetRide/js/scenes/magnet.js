@@ -675,7 +675,9 @@ var magnet = function(){
 
 						player.invincible = true
 						game.add.tween(yogotar).from({alpha:0},500,"Linear",true,0,5,true).onComplete.add(function(){
-							player.invincible = false
+							game.time.events.add(200,function(){
+								player.invincible = false
+							})
 						})
 						missPoint()
 					}
