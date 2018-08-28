@@ -336,7 +336,7 @@ var clash = function(){
             dissapear.onComplete.add(function () {
                 sound.play("cut")
 
-                monster.x = game.world.width + 100
+                monster.x = game.world.width + 120
                 monster.alpha = 1
                 monster.setAlive(true)
                 monster.statusAnimation = "IDLE"
@@ -345,7 +345,7 @@ var clash = function(){
                 monsterCounter = monsterCounter + 1 < MONSTERS.length ? monsterCounter + 1 : 0
                 monster.setSkinByName(MONSTERS[monsterCounter].skin)
                 monster.hpBar.resetHealth()
-                var newMonster = game.add.tween(monster).to({x:game.world.width - 140}, 800, Phaser.Easing.Cubic.Out, true)
+                var newMonster = game.add.tween(monster).to({x:game.world.width - 150}, 800, Phaser.Easing.Cubic.Out, true, 1300)
                 newMonster.onComplete.add(startRound)
                 monster.name.setText(MONSTERS[monsterCounter].name)
 
@@ -597,14 +597,14 @@ var clash = function(){
 
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
         var monsterName = new Phaser.Text(game, 0, 5, MONSTERS[monsterCounter].name, fontStyle)
-        monsterName.x = monster.x - 350
+        monsterName.x = monster.x - 250
         monsterName.y = monster.y - monster.height + 30
         monsterName.anchor.setTo(0,0.5)
         sceneGroup.add(monsterName)
         monster.name = monsterName
 
         var hpBar1 = createHpbar()
-        hpBar1.x = monster.x - 250
+        hpBar1.x = monster.x - 200
         hpBar1.y = monsterName.y + 38
         sceneGroup.add(hpBar1)
         monster.hpBar = hpBar1
@@ -628,7 +628,7 @@ var clash = function(){
         dino.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
         var dinoName = new Phaser.Text(game, 0, 5, DINOS[dinoCounter].name, fontStyle)
-        dinoName.x = dino.x + 320
+        dinoName.x = dino.x + 350
         dinoName.y = dino.y - 100
         dinoName.anchor.setTo(1,0.5)
         sceneGroup.add(dinoName)
