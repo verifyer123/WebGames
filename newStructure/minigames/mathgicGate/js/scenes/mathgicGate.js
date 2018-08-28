@@ -146,13 +146,13 @@ var mathgicGate = function(){
 	function popObject(obj,delay,appear){
 
 		game.time.events.add(delay,function(){
-			sound.play("cut")
+			sound.play("cut");
 			if(appear){
 
 				obj.alpha = 1
-				game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true)
+				game.add.tween(obj.scale).from({x:0, y:0},450,Phaser.Easing.linear,true)
 			}else{
-				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
+				game.add.tween(obj.scale).to({x:0,y:0},450,"Linear",true).onComplete.add(function(){
 					obj.scale.setTo(1,1)
 					obj.alpha = 0
 				})
@@ -356,9 +356,6 @@ var mathgicGate = function(){
 	}
 
 	function createBackground(){
-
-
-
 		var grass = sceneGroup.create(0,game.world.height,'atlas.magic','grass')
 		grass.anchor.setTo(0,1)
 		grass.width = game.world.width+200
@@ -369,13 +366,13 @@ var mathgicGate = function(){
 		sky.height = game.world.height - grass.height
 
 		sky.scale.setTo(game.world.width*2,1)
-		
-		
+
+
 		for(var placeMountains=0; placeMountains<game.world.width;placeMountains+=200){
 			var mountains = sceneGroup.create(placeMountains,game.world.centerY-100,'mountain');
 			mountains.anchor.setTo(0.5,0.5)
 		}
-		
+
 		clouds = game.add.tileSprite(0,100,game.world.width,191,'atlas.magic','clouds')
 		sceneGroup.add(clouds)
 
@@ -383,7 +380,7 @@ var mathgicGate = function(){
 			var towers = sceneGroup.create(placeTowers+80,game.world.centerY-120,'tower');
 			towers.anchor.setTo(0.5,0.5)
 		}
-		
+
 		for(var placeArcs=0; placeArcs<game.world.width;placeArcs+=127){
 			var arcs = sceneGroup.create(placeArcs,game.world.centerY,'arc');
 			arcs.anchor.setTo(0.5,0.5)
@@ -429,7 +426,6 @@ var mathgicGate = function(){
 	}
 
 	function Coin(objectBorn,objectDestiny,time){
-		//objectBorn= Objeto de donde nacen
 		coins.x=objectBorn.centerX
 		coins.y=objectBorn.centerY
 		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
@@ -669,7 +665,7 @@ var mathgicGate = function(){
 				towersGroup.children[1].yogotar.addAnimationByName(0,"idle",true)
 				attack2.alpha=1;
 				attack2.x=towersGroup.children[1].x-50
-				attack2.y=towersGroup.children[1].y-400
+				attack2.y=towersGroup.children[1].y-350
 				attack2.animations.play('meteor2', 16, true);
 				game.add.tween(attack2).to({x:attack2.x-10,y:attack2.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
 					game.add.tween(attack2).to({x:attack2.x-130,y:attack2.y+100},550,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
@@ -681,16 +677,14 @@ var mathgicGate = function(){
 					})
 				})
 			}
-
 			if(obj.tag=="minus"){
 				towersGroup.children[0].yogotar.setAnimationByName(0,"win",false)
 				towersGroup.children[0].yogotar.addAnimationByName(0,"idle",true)
 				attack1.alpha=1;
 				attack1.x=towersGroup.children[0].x+50
-				attack1.y=towersGroup.children[0].y-400
+				attack1.y=towersGroup.children[0].y-350
 				attack1.animations.play('meteor1', 16, true);
 				game.add.tween(attack1).to({x:attack1.x+10,y:attack1.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
-
 					game.add.tween(attack1).to({x:attack1.x+130,y:attack1.y+100},550,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
 						createPart('smoke',attack1)
 						attack1.animations.stop('meteor1');
@@ -700,8 +694,6 @@ var mathgicGate = function(){
 					});
 				});
 			}
-
-
 			game.time.events.add(1000,function(){
 				showButtons(false)
 				game.time.events.add(1000,function(){
@@ -710,18 +702,15 @@ var mathgicGate = function(){
 					game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
 				})
 			})
-
-			monster.setAnimationByName(0,"LOSE",false)
-			monster.addAnimationByName(0,"IDLE",true)
+			monster.setAnimationByName(0,"LOSE",false);
+			monster.addAnimationByName(0,"IDLE",true);
 			if(!tutorial){
 				game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
 			}
 		}else{
-
 			missPoint()
 			createPart('brick', doorsGroup.children[0],-200)
 			createPart('brick2', doorsGroup.children[1],250)
-			//createPart('smoke',doorsGroup.children[0])
 			sound.play("evilLaugh")
 			if(!tutorial){
 				game.add.tween(clock.bar.scale).to({x:clock.bar.origScale},500,"Linear",true)
@@ -756,8 +745,8 @@ var mathgicGate = function(){
 					tower2.x=game.world.centerX + 200;
 					showButtons(false)
 					game.time.events.add(1000,function(){
-						game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
-						game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
+						game.add.tween(plusle.scale).to({x:0,y:0},200,"Linear",true,0,0)
+						game.add.tween(minus.scale).to({x:0,y:0},200,"Linear",true,0,0)
 						showButtons(true)
 					})
 
@@ -767,7 +756,6 @@ var mathgicGate = function(){
 				enterMonster()
 			}
 		}
-
 	}
 
 	function enterMonster(){
@@ -875,6 +863,7 @@ var mathgicGate = function(){
 			image.events.onInputDown.add(inputButton)
 			image.addition = addition
 			addition = !addition
+			image.hitArea=new Phaser.Circle(0,0,image.width/2,10);
 		}
 		buttonsGroup.x+=130
 		min = game.add.spine(game.world.centerX - 257 ,game.world.height - 105,'operation')
@@ -1116,7 +1105,6 @@ var mathgicGate = function(){
 		operationGroup.result.text.setText(result)
 
 	}
-
 	return {
 
 		assets: assets,
