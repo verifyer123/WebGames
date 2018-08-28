@@ -55,8 +55,6 @@ var clash = function(){
                 file: soundsPath + "whoosh.mp3"},
             {   name: "bah",
                 file: soundsPath + "bah.mp3"},
-            {   name: "fart",
-                file: soundsPath + "splash.mp3"},
             {   name: "explosion",
                 file: soundsPath + "fireExplosion.mp3"},
             {   name: "clashSong",
@@ -339,7 +337,6 @@ var clash = function(){
 
         game.time.events.add(400, function () {
             monster.setAlive(false)
-            sound.play("fart")
             var dissapear = game.add.tween(monster).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
             dissapear.onComplete.add(function () {
                 sound.play("cut")

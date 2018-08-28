@@ -668,7 +668,7 @@ var mathgicGate = function(){
 				attack2.y=towersGroup.children[1].y-350
 				attack2.animations.play('meteor2', 16, true);
 				game.add.tween(attack2).to({x:attack2.x-10,y:attack2.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
-					game.add.tween(attack2).to({x:attack2.x-130,y:attack2.y+100},550,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
+					game.add.tween(attack2).to({x:attack2.x-130,y:attack2.y+150},350,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
 						createPart('smoke',attack2)
 						attack2.animations.stop('meteor2');
 						attack2.alpha=0;
@@ -685,7 +685,7 @@ var mathgicGate = function(){
 				attack1.y=towersGroup.children[0].y-350
 				attack1.animations.play('meteor1', 16, true);
 				game.add.tween(attack1).to({x:attack1.x+10,y:attack1.y-100},350,Phaser.Easing.Cubic.In,true,0,0).onComplete.add(function(){
-					game.add.tween(attack1).to({x:attack1.x+130,y:attack1.y+100},550,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
+					game.add.tween(attack1).to({x:attack1.x+130,y:attack1.y+150},350,Phaser.Easing.Cubic.Out,true,0,0).onComplete.add(function(){
 						createPart('smoke',attack1)
 						attack1.animations.stop('meteor1');
 						attack1.alpha=0;
@@ -698,8 +698,8 @@ var mathgicGate = function(){
 				showButtons(false)
 				game.time.events.add(1000,function(){
 					showButtons(true)
-					game.add.tween(plusle.scale).to({x:0,y:0},100,"Linear",true,0,0)
-					game.add.tween(minus.scale).to({x:0,y:0},100,"Linear",true,0,0)
+					game.add.tween(plusle.scale).to({x:0,y:0},200,"Linear",true,0,0)
+					game.add.tween(minus.scale).to({x:0,y:0},200,"Linear",true,0,0)
 				})
 			})
 			monster.setAnimationByName(0,"LOSE",false);

@@ -47,6 +47,17 @@
         c.parentNode.insertBefore(b, c)
     }
 })(document, window.mixpanel || []);
-
 console.log("Mixpanel Initialization...")
 mixpanel.init("1e7e3783b001fc56d1604ca73204d887")
+
+function initMixPanel(prod){
+
+    /*if(prod){
+        console.log("Mixpanel Initialization... prod")
+        mixpanel.init("1e7e3783b001fc56d1604ca73204d887")
+    }
+    else{
+        console.log("Mixpanel Initialization... dev")
+        mixpanel.init("3dfea2f39c42852a599d940ed4677f2b")
+    }*/
+}

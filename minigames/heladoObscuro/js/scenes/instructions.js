@@ -70,7 +70,7 @@ var instructions = function(){
             })
         })
 
-        //amazing.setMixPanelTrack("heladoObscuro","enterGame")
+        amazing.setMixPanelTrack("heladoObscuro","enterGame")
         
     }
     
@@ -151,7 +151,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        //amazing.setMixPanelTrack("heladoObscuro","loadGame")
+        amazing.setMixPanelTrack("heladoObscuro","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

@@ -1,5 +1,5 @@
 window.minigame = window.minigame || {}
-
+initMixPanel(true)
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
@@ -26,6 +26,7 @@ function startGame(){
 	}
 	
     function init(){
+        //console.log(document.body.clientHeight,game.world.height)
 
         var fullWidth = 540
         var fullHeight = 960
@@ -34,8 +35,11 @@ function startGame(){
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
 
-        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight)
+        game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
+
+        //if(document.body.clientHeight>=game.world.height){
+            game.scale.setGameSize(gameWidth, gameHeight)
+        //}
 		amazing.checkBrowser(game)
 
         game.stage.backgroundColor = "#ffffff"
@@ -66,5 +70,16 @@ function startGame(){
     	])
     }
 }
+
+ window.addEventListener('resize', function(){
+    console.log("reszize")
+    var fullWidth = 540
+    var fullHeight = 960
+
+    var ratio = document.body.clientWidth / document.body.clientHeight
+    var gameHeight = Math.round(fullHeight)
+    var gameWidth = Math.round(fullHeight * ratio)
+    game.scale.setGameSize(gameWidth, gameHeight)
+})
 
 minigame.orientation.init(startGame)
