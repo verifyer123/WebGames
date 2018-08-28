@@ -700,7 +700,7 @@ var sushi = function(){
 			option.y=300;
 		}
 		if (lastSushi){
-            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height - 20//lastSushi.y - lastSushi.height - 10
+            var sushiHeight = sushiLane[sushiLane.length - 2].y - sushiLane[sushiLane.length - 2].height-10 //lastSushi.y - lastSushi.height - 10
 
 			toY = sushiHeight+10
             
@@ -816,7 +816,7 @@ var sushi = function(){
 			
 			if(containerIndex < difNumSushi){
 				var toY = -container.height * 0.5 * (totalSushis - 1 - (num - containerIndex - 1)) //sushi.container.y
-				var actualY = container.world.y - prevSushi.container.world.y
+				var actualY = container.world.y - prevSushi.container.world.y -10
 				container.y = actualY
 				game.add.tween(container).to({y:toY}, 300, null, true).onComplete.add(function(obj){
 					game.input.enabled = true

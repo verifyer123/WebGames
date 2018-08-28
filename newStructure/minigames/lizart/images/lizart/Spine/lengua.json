@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "wJ2+CwvZD1PVcBuNR19xFW3AImI", "spine": "3.2.01", "width": 33.01, "height": 97, "images": "" },
+"skeleton": { "hash": "wJ2+CwvZD1PVcBuNR19xFW3AImI", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root", "shearY": 0.08 },
 	{ "name": "lengua", "parent": "root", "length": 45.25, "rotation": 89.81, "x": -1.5, "y": -28.75, "inheritScale": false }
