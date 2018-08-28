@@ -1122,7 +1122,7 @@ var sushi = function(){
 			barsGroup.y = game.world.height
 			sceneGroup.add(barsGroup)
 			barLanes = []
-			for(var barIndex = 0; barIndex < 3; barIndex++){
+			for(var barIndex = 0; barIndex < 2; barIndex++){
 
 				var singleBar = game.add.group()
 				singleBar.x = BAR_POSITIONS[barIndex]
@@ -1138,9 +1138,9 @@ var sushi = function(){
 //				barSprite.anchor.setTo(0.5, 1)
 //				singleBar.add(barSprite)
 
-//				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
-//				rollTile.anchor.setTo(0.5, 1)
-//				singleBar.add(rollTile)
+				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
+				rollTile.anchor.setTo(0.5, 1)
+				singleBar.add(rollTile)
 				
 				//rollTile.update = updateRoll
 				barLanes.push(singleBar)
