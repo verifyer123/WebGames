@@ -41,11 +41,6 @@ var result = function(){
 	var assets = {
 		atlases: [
 			{
-				name: 'atlas.resultScreen',
-				json: imagesPath + "result/atlas.json",
-				image: imagesPath + "result/atlas.png"
-			},
-			{
 				name: 'atlas.resultScreenImagic',
 				json: imagesPath + "result/result_IMagic/atlasImagic.json",
 				image: imagesPath + "result/result_IMagic/atlasImagic.png"
