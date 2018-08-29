@@ -598,14 +598,14 @@ var clash = function(){
 
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
         var monsterName = new Phaser.Text(game, 0, 5, MONSTERS[monsterCounter].name, fontStyle)
-        monsterName.x = monster.x - 250
+        monsterName.x = monster.x - 340
         monsterName.y = monster.y - monster.height + 30
         monsterName.anchor.setTo(0,0.5)
         sceneGroup.add(monsterName)
         monster.name = monsterName
 
         var hpBar1 = createHpbar()
-        hpBar1.x = monster.x - 200
+        hpBar1.x = monster.x - 240
         hpBar1.y = monsterName.y + 38
         sceneGroup.add(hpBar1)
         monster.hpBar = hpBar1
@@ -826,6 +826,7 @@ var clash = function(){
             var optionCircle = option.create(0, 0, 'atlas.clash', 'option')
             optionCircle.anchor.setTo(0.5, 0.5)
             optionCircle.inputEnabled = true
+            optionCircle.hitArea = new Phaser.Circle(0,0,optionCircle.width * 1.1)
             optionCircle.events.onInputDown.add(checkAnswer, this)
             option.circle = optionCircle
 
