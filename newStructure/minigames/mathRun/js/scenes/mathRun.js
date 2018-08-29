@@ -95,7 +95,7 @@ var mathRun = function(){
 
     var SPEED = 225
     var JUMP_FORCE = 900
-    var check
+
     var lives = null
 	var sceneGroup = null
     var gameActive
@@ -375,8 +375,7 @@ var mathRun = function(){
             landGroup.forEachAlive(removeLand,this)
 
             if(jumpButton.isDown && checkTouchDown() && !player.isJumpin){
-                doJump(900)
-                checkTouchDown()
+                doJump(JUMP_FORCE)
             }
 
             if(player.isJumpin){
@@ -402,8 +401,7 @@ var mathRun = function(){
         else{
             if(playingTuto){
                 if(jumpButton.isDown && checkTouchDown() && !player.isJumpin){
-                    doJump(900)
-                    checkTouchDown()
+                    doJump(JUMP_FORCE)
                 }
                 
                 if(player.isJumpin){
@@ -444,7 +442,7 @@ var mathRun = function(){
         for(var i = 0; i < tiles.length; i++){
             tiles[i].x -= tiles[i].speed
             if(tiles[i].x <= -tiles[i].width){
-                tiles[i].x = game.world.width + tiles[i].width * 0.33
+                tiles[i].x = game.world.width + tiles[i].width * 0.15
             }
         }
 
@@ -511,32 +509,29 @@ var mathRun = function(){
 
         if(obj && gameActive){
             var rand = game.rnd.integerInRange(0, 1)
-            
+            var type = rand == 0 ? "floor" : "brick"
+
+            obj.loadTexture('atlas.runneryogome', type)
+            obj.tag = type
+
             if(rand == 0){
-                obj.loadTexture('atlas.runneryogome', "floor")
-                obj.tag = "floor"
                 obj.reset(game.world.width, game.world.height)
             }
             else{
-                obj.loadTexture('atlas.runneryogome', "brick")
-                obj.tag = "brick"
-                
-                if(landGroup.lastObj.tag === "floor"){
+                if(landGroup.lastObj.tag == "floor"){
                     
-                    rand = game.rnd.integerInRange(1, 2)
+                    rand = game.rnd.integerInRange(0, 2)
                     obj.reset(game.world.width - 10, (game.world.height - 200) - (obj.height * rand))
                 }
                 else{
                     if(landGroup.lastObj.y < game.world.centerY){
                         rand = game.rnd.integerInRange(0, 2)
                     }
+                    else if(landGroup.lastObj.y > game.world.height - 400){
+                        rand = game.rnd.integerInRange(-2, -1)
+                    }
                     else{
-                        if(landGroup.lastObj.y > game.world.height - 400){
-                            rand = game.rnd.integerInRange(1, 2) * -1
-                        }
-                        else{
-                            rand = game.rnd.integerInRange(0, 2) * -1
-                        }
+                        rand = game.rnd.integerInRange(-2, 0)    
                     }
                     obj.reset(game.world.width, landGroup.lastObj.y + (obj.height * rand))
                 }
@@ -549,11 +544,11 @@ var mathRun = function(){
             landGroup.lastObj.tag = obj.tag
             
             if(coinCounter === coinsGroup.rand){
-                game.time.events.add(coinsGroup.delay, throwCoin, this, obj)
-                coinsGroup.delay > 200 ? coinsGroup.delay = 200 : 350
+                game.time.events.add(coinsGroup.delay, throwCoin, null, obj)
+                coinsGroup.delay = coinsGroup.delay > 200 ? 200 : 350
             }
             if(enemyCounter === enemiesGroup.rand){
-                game.time.events.add(350, throwEnemy, this, obj)
+                game.time.events.add(350, throwEnemy, null, obj)
             }
         }
     }
@@ -1162,7 +1157,7 @@ var mathRun = function(){
 			game.input.mspointer.capture = false;
 			createBackground()
             
-            game.physics.startSystem(Phaser.Physics.ARCADE)
+            //game.physics.startSystem(Phaser.Physics.ARCADE)
             game.physics.arcade.gravity.y = 1500
             
             initialize()
@@ -1176,7 +1171,7 @@ var mathRun = function(){
                 game.sound.mute = false
             }, this)
 			            
-			
+	
             createLand()
             createCoins()
             createEnemies()
