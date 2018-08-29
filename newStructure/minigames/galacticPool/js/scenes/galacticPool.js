@@ -334,7 +334,7 @@ var galacticPool = function(){
 				if(dificulty<2){
 					canCollide=false;
 					planets[stopPlanets].body.setZeroVelocity();
-					planets[stopPlanets].body.data.shapes[0].sensor= true
+					planets[stopPlanets].body.data.shapes[0].sensor= true;
 				}
 			}
 			if(tutoPlanet!=TOTAL_PLANETS)tutorial=true;
@@ -445,6 +445,7 @@ var galacticPool = function(){
 		star = game.make.sprite(-300, 0, "atlas.galacticPool",'star_1');
 		star.scale.setTo(0.4,0.4)
 		star.anchor.setTo(0.5,0.5)
+		star.tint=0x00ffff
 		
 		star2 = game.make.sprite(-300, 0, "atlas.galacticPool",'star_2');
 		star2.scale.setTo(0.5,0.5)
@@ -510,6 +511,7 @@ var galacticPool = function(){
 					planets[toHole].text.alpha=0;
 					targets[toHole].alpha=0;
 					planets[toHole].body.data.shapes[0].sensor= false
+					nebul[toHole].alpha=0;
 					game.add.tween(planets[toHole].body).to({x:blackHole.centerX,y:blackHole.centerY},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].spines.scale).to({x:0,y:0},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].spines).to({alpha:0},300,Phaser.Easing.Linear.In,true);
@@ -861,18 +863,18 @@ var galacticPool = function(){
 		backgroundGroup.add(blackHole)
 		
 		planetsNames=[
-			{SKIN:"neptune",word:localization.getString(localizationData,"planet9"),size:0.9},
-			{SKIN:"uranus",word:localization.getString(localizationData,"planet8"),size:0.9},
-			{SKIN:"saturn",word:localization.getString(localizationData,"planet7"),size:0.9},
-			{SKIN:"jupiter",word:localization.getString(localizationData,"planet6"),size:0.7},
-			{SKIN:"mars",word:localization.getString(localizationData,"planet5"),size:0.9},
+			{SKIN:"neptune",word:localization.getString(localizationData,"planet9"),size:0.8},
+			{SKIN:"uranus",word:localization.getString(localizationData,"planet8"),size:0.8},
+			{SKIN:"saturn",word:localization.getString(localizationData,"planet7"),size:0.8},
+			{SKIN:"jupiter",word:localization.getString(localizationData,"planet6"),size:0.9},
+			{SKIN:"mars",word:localization.getString(localizationData,"planet5"),size:0.7},
 			{SKIN:"earth",word:localization.getString(localizationData,"planet4"),size:0.6},
 			{SKIN:"venus",word:localization.getString(localizationData,"planet3"),size:0.6},
 			{SKIN:"mercury",word:localization.getString(localizationData,"planet2"),size:0.6},
 			{SKIN:"sun",word:localization.getString(localizationData,"planet1"),size:0.8}
 		];
 		wall=physicPlanets.create(game.world.centerX,-350,"atlas.galacticPool","fondo");
-		wall.scale.setTo(2,1)
+		wall.scale.setTo(3,1)
 		wall.alpha=0;
 		wall.body.setCollisionGroup(allPlanets);
 		wall.body.kinematic=true;

@@ -85,7 +85,7 @@ var sushi = function(){
     }
 
     var NUM_LIFES = 3
-    var MAX_NUM_SUSHIS = 10
+    var MAX_NUM_SUSHIS = 15
     var SUSHIS = ["sushi1", "sushi2", "sushi3", "sushi4"]
 	var SUSHI_DATA = {
     	"sushi1":{num:1, denom:3},
@@ -516,7 +516,7 @@ var sushi = function(){
             game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
-//					octopus.setAnimation(["idle"])
+					octopus.setAnimation(["idle"])
 				}
 			});
         }
@@ -645,7 +645,7 @@ var sushi = function(){
 			if(option.scaleTween)
 				option.scaleTween.stop()
 
-			option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 300, Phaser.Easing.Cubic.Out, true)
+//			option.scaleTween = game.add.tween(option.scale).to({x: 1.1, y: 1.1}, 300, Phaser.Easing.Cubic.Out, true)
 			//console.log(option.index)
 			if(option.index !== null){
 				sushisInGame[option.lane].splice(option.index, 1)
@@ -672,8 +672,8 @@ var sushi = function(){
 		obj.x = 0
 		obj.y = obj.originalY
 		
-		game.add.tween(option.scale).to({x: 1, y: 1}, 100, Phaser.Easing.Cubic.Out, true)
-
+		//game.add.tween(option.scale).to({x: 1, y: 1}, 100, Phaser.Easing.Cubic.Out, true)
+		option.scale.setTo(1,1);
 		var lineToCollide = option.lane
 		for(var barIndex = 0; barIndex < barLanes.length; barIndex++){
 			var bar = barLanes[barIndex]
@@ -816,7 +816,7 @@ var sushi = function(){
 			var container = sushi.sushiList.shift()
 			
 			if(containerIndex < difNumSushi){
-				var toY = -container.height * 0.5 * (totalSushis - 1 - (num - containerIndex - 1)) //sushi.container.y
+				var toY = -container.height * 0.4 * (totalSushis - 1 - (num - containerIndex - 1)) //sushi.container.y
 				var actualY = container.world.y - prevSushi.container.world.y -10
 				container.y = actualY
 				game.add.tween(container).to({y:toY}, 300, null, true).onComplete.add(function(obj){
@@ -888,7 +888,7 @@ var sushi = function(){
 				sushi.index = sushiIndex
 				var prevSushi = sushiLane[sushiIndex - 1] !== sushi ? sushiLane[sushiIndex - 1] : null
 				if (prevSushi) {
-					sushi.toY = prevSushi.y - prevSushi.height + 20
+					sushi.toY = prevSushi.y - prevSushi.height + 15
 				}
 				else
 					sushi.toY = maxHeight
@@ -898,7 +898,7 @@ var sushi = function(){
 				}else{
 					sushi.y=maxHeight
 					if (sushiIndex > 0 && prevSushi)
-						sushi.toY = prevSushi.y - prevSushi.height + 20
+						sushi.toY = prevSushi.y - prevSushi.height + 15
 					else
 						sushi.toY = maxHeight
 					
@@ -928,7 +928,7 @@ var sushi = function(){
 					lastSushi = sushi
 				}
 				
-//				allBottom = allBottom && sushi.inBottom
+				allBottom = allBottom && sushi.inBottom
 					
 			}
 			if(sushiLane.delaySushi > 0)
@@ -938,11 +938,11 @@ var sushi = function(){
 				sushiAnimation(lineIndex)
 				sound.play("wrong")
 				notMissing=true;
-//				wrongParticle.x = lastSushi.centerX
-//				wrongParticle.y = lastSushi.centerY
-//				wrongParticle.start(true, 1000, null, 5)
+				wrongParticle.x = lastSushi.centerX
+				wrongParticle.y = lastSushi.centerY
+				wrongParticle.start(true, 1000, null, 5)
 				missPoint()
-//				octopus.setAnimation(["lose"]);
+				octopus.setAnimation(["lose"]);
 				gameEnded = true
 				return
 			}
@@ -1141,7 +1141,7 @@ var sushi = function(){
 				barSprite.anchor.setTo(0.5, 1)
 				singleBar.add(barSprite)
 
-				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
+				var rollTile = game.add.tileSprite(3, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
 				rollTile.anchor.setTo(0.5, 1)
 				singleBar.add(rollTile)
 				
