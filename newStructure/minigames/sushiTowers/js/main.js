@@ -39,7 +39,7 @@ function startGame(){
         game.input.maxPointers = 1
 
         game.stage.backgroundColor = "#ffffff"
-//        game.time.advancedTiming = true
+        game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
 
         game.plugins.add(PhaserSpine.SpinePlugin);

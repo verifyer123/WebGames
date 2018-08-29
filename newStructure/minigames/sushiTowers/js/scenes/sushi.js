@@ -1051,11 +1051,16 @@ var sushi = function(){
 	function updateRoll() {
 		this.tilePosition.y += speed * 0.5
 	}
+	
+	function render(){
+       game.debug.text(game.time.fps, 2, 14, "#00ff00");
+	}
     
 	return {
 		assets: assets,
 		name: "sushi",
         preload:preload,
+		render:render,
         update:function(event) {
             if(gameActive)
                 update()

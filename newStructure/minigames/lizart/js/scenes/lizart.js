@@ -498,7 +498,7 @@ var lizart = function(){
 		back = game.add.tileSprite(0,0,game.world.width,game.world.height,"back");
 		sceneGroup.add(back);
 
-		var colors = [
+		var colorR = [
 			"19",
 			"6c",
 			"36",
@@ -506,7 +506,7 @@ var lizart = function(){
 			"97",
 			"f2"
 		]
-		var colorsGreen = [
+		var colorG = [
 			0x196abc,
 			0x6c4f0d,
 			0x36c462,
@@ -514,7 +514,7 @@ var lizart = function(){
 			0x9733e0,
 			0xf21414
 		]
-		var colorsBlue = [
+		var colorB= [
 			0x196abc,
 			0x6c4f0d,
 			0x36c462,
@@ -736,7 +736,7 @@ var lizart = function(){
 						fruits[movefruits].y=-500;
 					}
 					for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
-						//tintSpine(lizard,colorR[colorChoosed],colorR[colorChoosed],colorR[colorChoosed],BODY_PARTS[tintRound].part);
+						tintSpine(lizard,colorR[colorChoosed],colorR[colorChoosed],colorR[colorChoosed],BODY_PARTS[tintRound].part);
 					}
 					tongue.alpha=0;
 					winLizar();

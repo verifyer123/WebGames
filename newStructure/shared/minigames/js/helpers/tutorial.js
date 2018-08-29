@@ -236,7 +236,6 @@ var tutorialHelper = function () {
         document.addEventListener("contextmenu", function(e){
 			e.preventDefault();
 		}, false);
-		game.input.mspointer.capture = false;
         configuration=gameData.config.tutorial;
 		var path = sharePath+"tutorial_gifs/"
 		var videoName
