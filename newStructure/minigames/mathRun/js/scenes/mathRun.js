@@ -371,11 +371,12 @@ var mathRun = function(){
             
         if(gameActive){
 
-            //moveScene()
-            //landGroup.forEachAlive(removeLand,this)
+            moveScene()
+            landGroup.forEachAlive(removeLand,this)
 
-            if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
+            if(jumpButton.isDown && checkTouchDown() && !player.isJumpin){
                 doJump(900)
+                checkTouchDown()
             }
 
             if(player.isJumpin){
@@ -393,15 +394,16 @@ var mathRun = function(){
 
             if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 10 && gameActive){
                 
-                //newPath()
+                newPath()
                 coinCounter++
                 enemyCounter++
             }
         }
         else{
             if(playingTuto){
-                if(jumpButton.isDown && game.physics.arcade.collide(player, landGroup) && !player.isJumpin){
+                if(jumpButton.isDown && checkTouchDown() && !player.isJumpin){
                     doJump(900)
+                    checkTouchDown()
                 }
                 
                 if(player.isJumpin){
@@ -419,26 +421,30 @@ var mathRun = function(){
             }
             
             if(landGroup.lastObj.x <= game.world.width - landGroup.lastObj.width + 30){
-                //tutoPath()
+                tutoPath()
             }
         }
-//		game.physics.arcade.collide(player, landGroup, land, null, this)
-//		//game.physics.arcade.collide(enemiesGroup, landGroup)
-//			game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-//			//game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
-//        game.physics.arcade.collide(player, landGroup, land, null, this)
-//        game.physics.arcade.collide(enemiesGroup, landGroup)
-//        game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
-//        game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+        game.physics.arcade.collide(player, landGroup, land, null, this)
+        if(enemiesGroup.canThrow){
+            game.physics.arcade.collide(enemiesGroup, landGroup)
+            game.physics.arcade.overlap(player, enemiesGroup, null, hitEnemy, this)
+        }
+        if(coinsGroup.canThrow)
+            game.physics.arcade.overlap(player, coinsGroup, null, colectCoin, this)
+        
         positionPlayer()
     }
 
+    function checkTouchDown(){
+
+        return game.physics.arcade.collide(player, landGroup)
+    }
 
     function moveScene(){
         for(var i = 0; i < tiles.length; i++){
             tiles[i].x -= tiles[i].speed
             if(tiles[i].x <= -tiles[i].width){
-                tiles[i].x = game.world.width + tiles[i].width * 0.35
+                tiles[i].x = game.world.width + tiles[i].width * 0.33
             }
         }
 
@@ -475,6 +481,7 @@ var mathRun = function(){
                 arthurius.setAnimationByName(0, "land", true)
                 arthurius.addAnimationByName(0, "run", true)
             }
+            player.touchDown = false
         }
         else if(playingTuto){
             if(!player.isRunning){
@@ -700,7 +707,9 @@ var mathRun = function(){
     
     function createLand(){
         
-        landGroup = game.add.physicsGroup()
+        landGroup = game.add.group()
+        landGroup.enableBody = true
+        landGroup.physicsBodyType = Phaser.Physics.ARCADE
         landGroup.createMultiple(15, "atlas.runneryogome", 'floor')
         landGroup.setAll('anchor.x', 0)
         landGroup.setAll('anchor.y', 1)
@@ -721,7 +730,7 @@ var mathRun = function(){
             }
         }
         landGroup.lastObj = obj
-        landGroup.lastObj.tag = "floor" 
+        landGroup.lastObj.tag = "floor"
     }
 
     function removeLand(obj){
@@ -758,7 +767,9 @@ var mathRun = function(){
         
         var fontStyle = {font: "70px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center"}
         
-        coinsGroup = game.add.physicsGroup()
+        coinsGroup = game.add.group()
+        coinsGroup.enableBody = true
+        coinsGroup.physicsBodyType = Phaser.Physics.ARCADE
         coinsGroup.createMultiple(10, "atlas.runneryogome", 'coin')
         coinsGroup.setAll('anchor.x', 0)
         coinsGroup.setAll('anchor.y', 1)
@@ -797,7 +808,6 @@ var mathRun = function(){
         enemiesGroup.setAll('exists', false)
         enemiesGroup.setAll('visible', false)
         enemiesGroup.setAll('.body.allowGravity', true)
-        enemiesGroup.setAll('.body.bounce.y', 0.4)
         enemiesGroup.canThrow = false
         enemiesGroup.rand = getRand(2, 5, 0)
         sceneGroup.add(landGroup)
@@ -957,16 +967,16 @@ var mathRun = function(){
             missPoint(arthurius)
 
             if(lives > 0){
-                doJump(1850)
+                doJump(JUMP_FORCE * 2)
                 arthurius.setAnimationByName(0, "lose", true)
             }
             else{
                 gameActive = false
                 player.body.collideWorldBounds = false
                 coinsGroup.setAll("body.velocity.x", 0)
-                doJump(800)
-                arthurius.setAnimationByName(0, "lose", true)
                 landGroup.setAll("body.velocity.x", 0)
+                doJump(JUMP_FORCE)
+                arthurius.setAnimationByName(0, "lose", true)
             }
         }
     }
@@ -1044,13 +1054,13 @@ var mathRun = function(){
     function initTuto(){
         
         tutoPath()
-//        castleGroup.forEachAlive(function(obj){
-//            game.add.tween(obj).to({x: obj.x - 100},2500,Phaser.Easing.linear,true)
-//        },this)
+       castleGroup.forEachAlive(function(obj){
+           game.add.tween(obj).to({x: obj.x - 100},2500,Phaser.Easing.linear,true)
+       },this)
         
-//        landGroup.forEachAlive(function(obj){
-//            obj.body.velocity.x = -SPEED
-//        },this)
+       landGroup.forEachAlive(function(obj){
+           obj.body.velocity.x = -SPEED
+       },this)
         
         player.isRunning = true
         arthurius.setAnimationByName(0, "run", true)
@@ -1134,6 +1144,7 @@ var mathRun = function(){
                 hand.y = game.world.centerY
                 game.add.tween(hand).to({alpha:1},200,Phaser.Easing.linear,true).onComplete.add(function(){
                     playingTuto = true
+                    coinsGroup.canThrow = true
                 })
             })
         })
@@ -1149,7 +1160,7 @@ var mathRun = function(){
             
 			sceneGroup = game.add.group()
 			game.input.mspointer.capture = false;
-			//createBackground()
+			createBackground()
             
             game.physics.startSystem(Phaser.Physics.ARCADE)
             game.physics.arcade.gravity.y = 1500
@@ -1168,7 +1179,7 @@ var mathRun = function(){
 			
             createLand()
             createCoins()
-            //createEnemies()
+            createEnemies()
             createPlayer()
             createBoard()
             createPointsBar()
