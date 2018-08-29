@@ -144,6 +144,10 @@ var drzombie = function(){
 	var trashLevelZeroX;
 	var trashLevelZeroY;
 	var tagsToUse;
+	var firstPositionX;
+	var firstPositionY;
+	var lastPositionX;
+	var lastPositionY;
 
 	function loadSounds(){
 		sound.decode(assets.sounds);
@@ -581,10 +585,17 @@ var drzombie = function(){
 	}
 
 	function bringToTopTrash(obj){
-		sceneGroup.bringToTop(obj);  
+		sceneGroup.bringToTop(obj);
+		firstPositionX = game.input.x;
+		firstPositionY = game.input.y;
 	}
 
-	function deleteTrash(obj){           
+	function deleteTrash(obj){ 
+	lastPositionX = game.input.x;
+	lastPositionY = game.input.y;
+	var distX = Math.abs(lastPositionX - firstPositionX);
+	var distY = Math.abs(lastPositionY - firstPositionY);
+	if(distX > 20 || distY > 20){
 		game.add.tween(obj).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
 			obj.release.active = true;
 			obj.destroy();
@@ -595,6 +606,7 @@ var drzombie = function(){
 			var indexAns = searchPositionOrgan(tagsToUse);
 			game.add.tween(hand).to( { x: organsContainers.children[indexAns].x, y: organsContainers.children[indexAns].y}, 2000, Phaser.Easing.Linear.InOut, true, 0, -1);
 		}
+	}
 	}
 
 	function searchPositionOrgan(tagsToUse){
@@ -872,7 +884,7 @@ var drzombie = function(){
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
 
-		return Phaser.Rectangle.intersects(boundsA , boundsB );
+		return Phaser.Rectangle.intersects(boundsA , boundsB);
 
     }
 	
