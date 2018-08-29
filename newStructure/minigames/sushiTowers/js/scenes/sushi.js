@@ -984,7 +984,8 @@ var sushi = function(){
         
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
-        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+		onClickPlay()
+        //tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
     }
 	
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
