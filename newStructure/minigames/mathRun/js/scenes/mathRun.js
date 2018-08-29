@@ -302,31 +302,21 @@ var mathRun = function(){
         sky.width = game.world.width
         sky.height = game.world.height - 200
 
-        for(var i = 0; i < 2; i++){
+        mountains = game.add.tileSprite(0, game.world.centerY + 190, game.world.width, 380, "mountains")
+        mountains.anchor.setTo(0,1)
+        sceneGroup.add(mountains)
 
-            var mountains = sceneGroup.create(0, game.world.height - 100, "mountains")
-            mountains.anchor.setTo(0,1)
-            mountains.x = mountains.width * i
-            mountains.speed = 0.1
-            tiles.push(mountains)
-        }
-        
         createCastles()
 
-        for(var i = 0; i < 2; i++){
-
-            var hills = sceneGroup.create(0, game.world.height + 50, 'hills')
-            hills.anchor.setTo(0,1)
-            hills.x = hills.width * i
-            hills.speed = 2
-            tiles.push(hills)
-        }
+        hills = game.add.tileSprite(0, game.world.height, game.world.width, 370, "hills")
+        hills.anchor.setTo(0,1)
+        sceneGroup.add(hills)
     }
     
     function createCastles(){
 
         castleGroup = game.add.group()
-        castleGroup.SPEED = 1.2
+        castleGroup.SPEED = 0.8
         castleGroup.createMultiple(5, "atlas.runneryogome", 'castle0')
         castleGroup.setAll('anchor.x', 0)
         castleGroup.setAll('anchor.y', 1)
@@ -339,7 +329,7 @@ var mathRun = function(){
         var type = [2, 1, 0, 2]
         for(var i = 0; i < type.length; i++){
             createTown(pivotX, type[i])
-            pivotX += 120
+            pivotX += 230
         }
     }
     
@@ -361,9 +351,11 @@ var mathRun = function(){
         var obj = castleGroup.getFirstExists(false)
         
         if(obj){
-            //obj.loadTexture('atlas.runneryogome', "castle" + castle.tag)
-            obj.reset(game.world.width, game.world.centerY + 160)
-            //obj.tag = getRand(0, 2, oldTag)
+            obj.loadTexture('atlas.runneryogome', "castle" + obj.tag)
+            obj.tag = getRand(0, 2, obj.tag) 
+            game.time.events.add(1000, function(){
+                obj.reset(game.world.width, game.world.centerY + 160)
+            })
         }
     }
 
@@ -439,12 +431,9 @@ var mathRun = function(){
     }
 
     function moveScene(){
-        for(var i = 0; i < tiles.length; i++){
-            tiles[i].x -= tiles[i].speed
-            if(tiles[i].x <= -tiles[i].width){
-                tiles[i].x = game.world.width + tiles[i].width * 0.15
-            }
-        }
+
+        mountains.tilePosition.x -= 0.2
+        hills.tilePosition.x -= 1
 
         castleGroup.forEachAlive(function(castle){
             castle.x -= castleGroup.SPEED

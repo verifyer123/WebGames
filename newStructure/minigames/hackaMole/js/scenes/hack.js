@@ -256,6 +256,7 @@ var hack = function(){
 		
 		badTopo.x = holesGroup.children[holeIndex].x
 		badTopo.y = holesGroup.children[holeIndex].y - 35
+		badTopo.alpha = 1
 		
 		while(checkOverlap(badTopo,yogotarGroup)){
 			holeIndex++
@@ -1244,7 +1245,6 @@ var hack = function(){
 			createHearts()
             createCoin()
 			createParticles()
-			addBadTopo()
 			
 			buttons.getButton(medievalSong,sceneGroup)
 			
