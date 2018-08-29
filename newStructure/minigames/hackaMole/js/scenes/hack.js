@@ -1244,7 +1244,6 @@ var hack = function(){
 			createHearts()
             createCoin()
 			createParticles()
-			addBadTopo()
 			
 			buttons.getButton(medievalSong,sceneGroup)
 			

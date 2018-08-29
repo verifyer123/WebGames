@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.8.0</string>
+        <string>4.8.3</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -248,19 +248,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">dropPart.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,17,64,34</rect>
-                <key>scale9Paddings</key>
-                <rect>32,17,64,34</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">life_box.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -271,19 +258,6 @@
                 <rect>35,14,70,28</rect>
                 <key>scale9Paddings</key>
                 <rect>35,14,70,28</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">mill.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>63,63,125,125</rect>
-                <key>scale9Paddings</key>
-                <rect>63,63,125,125</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -334,14 +308,12 @@
             <filename>brick.png</filename>
             <filename>coin.png</filename>
             <filename>coinmissing.png</filename>
-            <filename>dropPart.png</filename>
             <filename>floor.png</filename>
             <filename>castle0.png</filename>
             <filename>castle1.png</filename>
             <filename>castle2.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>mill.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
