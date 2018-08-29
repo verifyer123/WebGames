@@ -334,7 +334,7 @@ var result_iMagic = function(){
 			playerTotalScoreContainer.add(playerAllScoreText)
 			playerTotalScoreContainer.text = playerAllScoreText
 
-			var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/5.8,0,'atlas.result','coinImagic')
+			var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/5,0,'atlas.result','coinImagic')
 			coinContainer_coin.anchor.setTo(0.5,0.5)
 
 			coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-30,0,'atlas.result','coinImagic')
