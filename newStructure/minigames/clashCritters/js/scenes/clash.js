@@ -310,6 +310,7 @@ var clash = function(){
 
     function monsterAttack(){
 
+        gameActive = false
         if (monster.hpBar.health > 0){
             monster.setAnimation(["ATTACK", monster.statusAnimation])
 
