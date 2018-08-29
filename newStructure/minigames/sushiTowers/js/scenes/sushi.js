@@ -85,7 +85,7 @@ var sushi = function(){
     }
 
     var NUM_LIFES = 3
-    var MAX_NUM_SUSHIS = 100
+    var MAX_NUM_SUSHIS = 10
     var SUSHIS = ["sushi1", "sushi2", "sushi3", "sushi4"]
 	var SUSHI_DATA = {
     	"sushi1":{num:1, denom:3},
@@ -209,10 +209,10 @@ var sushi = function(){
 			sushiList.bg = []
 		sushiList.bg.push(sushiBg)
 		sprite.inputEnabled = true
-		//sprite.input.enableDrag(true)
-//		sprite.events.onDragStart.add(onDragStart, this)
-//		sprite.events.onDragUpdate.add(onDragUpdate, this)
-//		sprite.events.onDragStop.add(onDragStop, this)
+		sprite.input.enableDrag(true)
+		sprite.events.onDragStart.add(onDragStart, this)
+		sprite.events.onDragUpdate.add(onDragUpdate, this)
+		sprite.events.onDragStop.add(onDragStop, this)
 		sprite.inputEnabled = false
     }
     
@@ -491,11 +491,11 @@ var sushi = function(){
            	addSushi("sushi1", brickIndex, toY);
 		}
 		
-//		hand.x=game.world.centerX-200;
-//		hand.y=game.world.height-100;
-//		hand.alpha=1;
-//		sushisInGame[1][0].container.input.enabled=false;
-//		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true)
+		hand.x=game.world.centerX-200;
+		hand.y=game.world.height-100;
+		hand.alpha=1;
+		sushisInGame[1][0].container.input.enabled=false;
+		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true)
     }
 
     function onClickPlay(rect) {
@@ -610,10 +610,10 @@ var sushi = function(){
 		if(tutorial){
 			hand.alpha=0;
 			tutorial=false;
-//			if(firstAnimation)
+			if(firstAnimation)
 //				firstAnimation.stop();
-//			if(secondAnimation)
-//				secondAnimation.stop();
+			if(secondAnimation)
+				secondAnimation.stop();
 		}
 	}
 
@@ -896,72 +896,72 @@ var sushi = function(){
 				if (sushi.y < sushi.toY) {
 					sushi.y += speed
 				}else{
-					sushi.y=0
-//					if (sushiIndex > 0 && prevSushi)
-//						sushi.toY = prevSushi.y - prevSushi.height + 20
-//					else
-//						sushi.toY = maxHeight
-//					
-//					
-//					
-//					totalNum += sushi.num
-//					if(sushi.completed)
-//						totalNum = 0
-//
-//					var notCompleted = ((prevSushi) && (!prevSushi.completed) && (!sushi.completed))
-//					if ((prevSushi) && (prevSushi.denom === sushi.denom) && (notCompleted)) {
-//						mergeSushis(sushi, prevSushi)
-//					}
-//					
-//					if((sushi.y >= maxHeight)||((prevSushi)&&(prevSushi.inBottom))){
-//						sushi.inBottom = true
-//						/*if((sushi.y <= 340) && (!sushiLane.merging)){
-//							sushiAnimation(lineIndex)
-//							sound.play("wrong")
-//							wrongParticle.x = sushi.centerX
-//							wrongParticle.y = sushi.centerY
-//							wrongParticle.start(true, 1000, null, 5)
-//							missPoint()
-//						}*/
-//					}
-//					sushi.y=sushi.toY;
-//					lastSushi = sushi
+					sushi.y=maxHeight
+					if (sushiIndex > 0 && prevSushi)
+						sushi.toY = prevSushi.y - prevSushi.height + 20
+					else
+						sushi.toY = maxHeight
+					
+					
+					
+					totalNum += sushi.num
+					if(sushi.completed)
+						totalNum = 0
+
+					var notCompleted = ((prevSushi) && (!prevSushi.completed) && (!sushi.completed))
+					if ((prevSushi) && (prevSushi.denom === sushi.denom) && (notCompleted)) {
+						mergeSushis(sushi, prevSushi)
+					}
+					
+					if((sushi.y >= maxHeight)||((prevSushi)&&(prevSushi.inBottom))){
+						sushi.inBottom = true
+						/*if((sushi.y <= 340) && (!sushiLane.merging)){
+							sushiAnimation(lineIndex)
+							sound.play("wrong")
+							wrongParticle.x = sushi.centerX
+							wrongParticle.y = sushi.centerY
+							wrongParticle.start(true, 1000, null, 5)
+							missPoint()
+						}*/
+					}
+					sushi.y=sushi.toY;
+					lastSushi = sushi
 				}
 				
 //				allBottom = allBottom && sushi.inBottom
 					
 			}
-//			if(sushiLane.delaySushi > 0)
-//				sushiLane.delaySushi -= speed
-//			
-//			if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
-//				sushiAnimation(lineIndex)
-//				sound.play("wrong")
-//				notMissing=true;
-////				wrongParticle.x = lastSushi.centerX
-////				wrongParticle.y = lastSushi.centerY
-////				wrongParticle.start(true, 1000, null, 5)
-//				missPoint()
-////				octopus.setAnimation(["lose"]);
-//				gameEnded = true
-//				return
-//			}
-//		}
-//        timeNextSushi += game.time.elapsedMS
-//
-//		if((timeNextSushi >= timeBetween)&&(pointsBar.number > 0)){
-//
-//			var arrayLane = new Array(0,1,2)
-//			arrayLane = Phaser.ArrayUtils.shuffle(arrayLane)
-//
-//			for(var laneIndex = 0; laneIndex < arrayLane.length; laneIndex++){
-//				var chosenLane = arrayLane[laneIndex]
-//				if(sushisInGame[chosenLane].delaySushi <= 0) {
-//					var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
-//					addSushi(SUSHIS[randomNum], chosenLane)
-//					break
-//				}
-//			}
+			if(sushiLane.delaySushi > 0)
+				sushiLane.delaySushi -= speed
+			
+			if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
+				sushiAnimation(lineIndex)
+				sound.play("wrong")
+				notMissing=true;
+//				wrongParticle.x = lastSushi.centerX
+//				wrongParticle.y = lastSushi.centerY
+//				wrongParticle.start(true, 1000, null, 5)
+				missPoint()
+//				octopus.setAnimation(["lose"]);
+				gameEnded = true
+				return
+			}
+		}
+        timeNextSushi += game.time.elapsedMS
+
+		if((timeNextSushi >= timeBetween)&&(pointsBar.number > 0)){
+
+			var arrayLane = new Array(0,1,2)
+			arrayLane = Phaser.ArrayUtils.shuffle(arrayLane)
+
+			for(var laneIndex = 0; laneIndex < arrayLane.length; laneIndex++){
+				var chosenLane = arrayLane[laneIndex]
+				if(sushisInGame[chosenLane].delaySushi <= 0) {
+					var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
+					addSushi(SUSHIS[randomNum], chosenLane)
+					break
+				}
+			}
 //        }
 
     }
@@ -984,8 +984,7 @@ var sushi = function(){
         
         tutoGroup = game.add.group()
         sceneGroup.add(tutoGroup)
-		onClickPlay()
-        //tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
     }
 	
 	function createSpine(skeleton, skin, idleAnimation, x, y) {
@@ -1053,15 +1052,10 @@ var sushi = function(){
 		this.tilePosition.y += speed * 0.5
 	}
 	
-	function render(){
-       game.debug.text(game.time.fps, 2, 14, "#00ff00");
-	}
     
 	return {
 		assets: assets,
 		name: "sushi",
-        preload:preload,
-		render:render,
         update:function(event) {
             if(gameActive)
                 update()
@@ -1082,15 +1076,15 @@ var sushi = function(){
 			bgRect.endFill()
 			sceneGroup.add(bgRect)
 
-//			var floor = game.add.tileSprite(0 , 0, game.world.width, game.world.height - 240, "atlas.sushi", "swatch")
-//            floor.y = game.world.height+100
-//			floor.anchor.setTo(0, 1)
-//            sceneGroup.add(floor)
-//
-//			var buildings = game.add.tileSprite(0 , 0, game.world.width, 275, "atlas.sushi", "buildingBg")
-//			buildings.y = 74
-//			buildings.anchor.setTo(0, 0)
-//			sceneGroup.add(buildings)
+			var floor = game.add.tileSprite(0 , 0, game.world.width, game.world.height - 240, "atlas.sushi", "swatch")
+            floor.y = game.world.height+100
+			floor.anchor.setTo(0, 1)
+            sceneGroup.add(floor)
+
+			var buildings = game.add.tileSprite(0 , 0, game.world.width, 275, "atlas.sushi", "buildingBg")
+			buildings.y = 74
+			buildings.anchor.setTo(0, 0)
+			sceneGroup.add(buildings)
 
 			var barTop = game.add.graphics()
 			barTop.beginFill(0xFF4817)
@@ -1102,18 +1096,18 @@ var sushi = function(){
 			background.y = background.height * 0.5 + 50
 			background.anchor.setTo(0.5, 0.5)
 
-//			octopus = createSpine("octopus", "normal")
-//			octopus.x = game.world.centerX
-//			octopus.y = background.y + 110
-//			sceneGroup.add(octopus)
+			octopus = createSpine("octopus", "normal")
+			octopus.x = game.world.centerX
+			octopus.y = background.y + 110
+			sceneGroup.add(octopus)
 
 			var scenary = sceneGroup.create(game.world.centerX,game.world.centerY,"atlas.sushi",'scenary')
 			scenary.y = scenary.height * 0.5 + 38
 			scenary.anchor.setTo(0.5, 0.5)
 
-//			var lamp = game.add.tileSprite(0 , 0, game.world.width, 63, "atlas.sushi", "lamp")
-//			lamp.y = 40
-//			sceneGroup.add(lamp)
+			var lamp = game.add.tileSprite(0 , 0, game.world.width, 63, "atlas.sushi", "lamp")
+			lamp.y = 40
+			sceneGroup.add(lamp)
 
 			//Coins
 			coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
@@ -1131,27 +1125,27 @@ var sushi = function(){
 			barsGroup.y = game.world.height
 			sceneGroup.add(barsGroup)
 			barLanes = []
-			for(var barIndex = 0; barIndex <2; barIndex++){
+			for(var barIndex = 0; barIndex <3; barIndex++){
 
 				var singleBar = game.add.group()
 				singleBar.x = BAR_POSITIONS[barIndex]
 				barsGroup.add(singleBar)
 
-//				var bar = game.add.graphics()
-//				bar.beginFill(0xD6C26D)
-//				bar.drawRect(0,0,107, game.world.height - 330)
-//				bar.endFill()
+				var bar = game.add.graphics()
+				bar.beginFill(0xD6C26D)
+				bar.drawRect(0,0,107, game.world.height - 330)
+				bar.endFill()
 
-//				var barSprite = game.add.sprite(0, 0, bar.generateTexture())
-//				bar.destroy()
-//				barSprite.anchor.setTo(0.5, 1)
-//				singleBar.add(barSprite)
+				var barSprite = game.add.sprite(0, 0, bar.generateTexture())
+				bar.destroy()
+				barSprite.anchor.setTo(0.5, 1)
+				singleBar.add(barSprite)
 
 				var rollTile = game.add.tileSprite(0, 0, 128, game.world.height - 330, "atlas.sushi", "roll")
 				rollTile.anchor.setTo(0.5, 1)
 				singleBar.add(rollTile)
 				
-//				rollTile.update = updateRoll
+				rollTile.update = updateRoll
 				barLanes.push(singleBar)
 
 			}
@@ -1181,7 +1175,7 @@ var sushi = function(){
 
             createPointsBar()
 			createHearts()
-            //createSpines()
+            createSpines()
             createGameObjects()
             
             createTutorial()
