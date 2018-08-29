@@ -148,6 +148,7 @@ var drzombie = function(){
 	var firstPositionY;
 	var lastPositionX;
 	var lastPositionY;
+	var dragArea
 
 	function loadSounds(){
 		sound.decode(assets.sounds);
@@ -591,11 +592,13 @@ var drzombie = function(){
 	}
 
 	function deleteTrash(obj){ 
-	lastPositionX = game.input.x;
-	lastPositionY = game.input.y;
-	var distX = Math.abs(lastPositionX - firstPositionX);
-	var distY = Math.abs(lastPositionY - firstPositionY);
-	if(distX > 20 || distY > 20){
+	// lastPositionX = game.input.x;
+	// lastPositionY = game.input.y;
+	// var distX = Math.abs(lastPositionX - firstPositionX);
+	// var distY = Math.abs(lastPositionY - firstPositionY);
+
+	var isOn = checkOverlap(dragArea, obj)
+	if(!isOn){//if(distX > 20 || distY > 20){
 		game.add.tween(obj).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
 			obj.release.active = true;
 			obj.destroy();
@@ -669,20 +672,6 @@ var drzombie = function(){
 	    sceneGroup.add(grandientSpr);
 	}
 	
-	function inputButton(obj){
-		
-		if(!gameActive){
-			return;
-		}
-		
-		var positions = '';
-		for(var i = 0; i < organsGroup.length;i++){
-			
-			var organ = organsGroup.children[i];
-			positions+= '{name: "' + organ.tag + '" ,x:' + (game.world.centerX - organ.x) + ', y:' + (game.world.centerY - organ.y) + '},\n';
-		}
-	}
-	
 	function createZombie(){
 		
 		zombieSpine = game.add.spine(game.world.centerX, game.world.height - 250,'zombie');
@@ -708,7 +697,16 @@ var drzombie = function(){
 		hand = game.add.sprite(0, 0, "hand");
         hand.animations.add('hand');
         hand.animations.play('hand', 24, true);
-        hand.alpha = 0;
+		hand.alpha = 0;
+		
+		dragArea = game.add.graphics()
+		dragArea.beginFill(0xffffff)
+		dragArea.drawRect(0, 0, xContainer.width * 0.8, xContainer.height)
+		dragArea.x = xContainer.x - xContainer.width * 0.4
+		dragArea.y = xContainer.y - xContainer.height * 0.5
+		dragArea.endFill()
+		dragArea.alpha = 0
+        sceneGroup.add(dragArea)
 	}
 	
 	function createOrgans(){
