@@ -1069,7 +1069,7 @@ var sushi = function(){
         create: function(event){
 
 			
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+			sceneGroup = game.add.group(); 
 			handGroup = game.add.group();
 			
 			document.addEventListener("contextmenu", function(e){
