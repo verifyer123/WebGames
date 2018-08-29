@@ -209,10 +209,10 @@ var sushi = function(){
 			sushiList.bg = []
 		sushiList.bg.push(sushiBg)
 		sprite.inputEnabled = true
-		sprite.input.enableDrag(true)
-		sprite.events.onDragStart.add(onDragStart, this)
-		sprite.events.onDragUpdate.add(onDragUpdate, this)
-		sprite.events.onDragStop.add(onDragStop, this)
+		//sprite.input.enableDrag(true)
+//		sprite.events.onDragStart.add(onDragStart, this)
+//		sprite.events.onDragUpdate.add(onDragUpdate, this)
+//		sprite.events.onDragStop.add(onDragStop, this)
 		sprite.inputEnabled = false
     }
     
@@ -491,11 +491,11 @@ var sushi = function(){
            	addSushi("sushi1", brickIndex, toY);
 		}
 		
-		hand.x=game.world.centerX-200;
-		hand.y=game.world.height-100;
-		hand.alpha=1;
-		sushisInGame[1][0].container.input.enabled=false;
-		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true)
+//		hand.x=game.world.centerX-200;
+//		hand.y=game.world.height-100;
+//		hand.alpha=1;
+//		sushisInGame[1][0].container.input.enabled=false;
+//		firstAnimation=game.add.tween(hand).to({x:hand.x+200,y:hand.y},2000,Phaser.Easing.Cubic.Linear,true)
     }
 
     function onClickPlay(rect) {
@@ -504,6 +504,7 @@ var sushi = function(){
 	    tutoGroup.y = -game.world.height
 	    gameActive = true
 		startRound()
+		
 		
     }
 
@@ -895,11 +896,12 @@ var sushi = function(){
 				if (sushi.y < sushi.toY) {
 					sushi.y += speed
 				}else{
-					if (sushiIndex > 0 && prevSushi)
-						sushi.toY = prevSushi.y - prevSushi.height + 20
-					else
-						sushi.toY = maxHeight
-					
+					sushi.y=0
+//					if (sushiIndex > 0 && prevSushi)
+//						sushi.toY = prevSushi.y - prevSushi.height + 20
+//					else
+//						sushi.toY = maxHeight
+//					
 //					
 //					
 //					totalNum += sushi.num
