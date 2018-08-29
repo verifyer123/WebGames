@@ -327,7 +327,7 @@ var mathRun = function(){
 
         castleGroup = game.add.group()
         castleGroup.SPEED = 1.2
-        castleGroup.createMultiple(10, "atlas.runneryogome", 'castle0')
+        castleGroup.createMultiple(5, "atlas.runneryogome", 'castle0')
         castleGroup.setAll('anchor.x', 0)
         castleGroup.setAll('anchor.y', 1)
         castleGroup.setAll('exists', false)
@@ -361,9 +361,9 @@ var mathRun = function(){
         var obj = castleGroup.getFirstExists(false)
         
         if(obj){
-            obj.loadTexture('atlas.runneryogome', "castle" + castle.tag)
+            //obj.loadTexture('atlas.runneryogome', "castle" + castle.tag)
             obj.reset(game.world.width, game.world.centerY + 160)
-            obj.tag = getRand(0, 2, castle.tag)
+            //obj.tag = getRand(0, 2, oldTag)
         }
     }
 
@@ -705,7 +705,7 @@ var mathRun = function(){
         landGroup = game.add.group()
         landGroup.enableBody = true
         landGroup.physicsBodyType = Phaser.Physics.ARCADE
-        landGroup.createMultiple(15, "atlas.runneryogome", 'floor')
+        landGroup.createMultiple(10, "atlas.runneryogome", 'floor')
         landGroup.setAll('anchor.x', 0)
         landGroup.setAll('anchor.y', 1)
         landGroup.setAll('tag', 'floor')
@@ -765,7 +765,7 @@ var mathRun = function(){
         coinsGroup = game.add.group()
         coinsGroup.enableBody = true
         coinsGroup.physicsBodyType = Phaser.Physics.ARCADE
-        coinsGroup.createMultiple(10, "atlas.runneryogome", 'coin')
+        coinsGroup.createMultiple(5, "atlas.runneryogome", 'coin')
         coinsGroup.setAll('anchor.x', 0)
         coinsGroup.setAll('anchor.y', 1)
         coinsGroup.setAll('scale.x', 0.7)
@@ -794,8 +794,8 @@ var mathRun = function(){
         enemiesGroup = game.add.group()
         enemiesGroup.enableBody = true
         enemiesGroup.physicsBodyType = Phaser.Physics.ARCADE
-        enemiesGroup.createMultiple(4, 'pink')
-        enemiesGroup.createMultiple(4, 'brown')
+        enemiesGroup.createMultiple(3, 'pink')
+        enemiesGroup.createMultiple(3, 'brown')
         enemiesGroup.setAll('anchor.x', 1)
         enemiesGroup.setAll('anchor.y', 1)
         enemiesGroup.setAll('checkWorldBounds', true)
