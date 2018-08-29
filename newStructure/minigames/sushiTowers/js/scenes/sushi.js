@@ -894,75 +894,76 @@ var sushi = function(){
 
 				if (sushi.y < sushi.toY) {
 					sushi.y += speed
-				}else {
+				}else{
 					if (sushiIndex > 0 && prevSushi)
 						sushi.toY = prevSushi.y - prevSushi.height + 20
 					else
 						sushi.toY = maxHeight
 					
-					
-					
-					totalNum += sushi.num
-					if(sushi.completed)
-						totalNum = 0
-
-					var notCompleted = ((prevSushi) && (!prevSushi.completed) && (!sushi.completed))
-					if ((prevSushi) && (prevSushi.denom === sushi.denom) && (notCompleted)) {
-						mergeSushis(sushi, prevSushi)
-					}
-					
-					if((sushi.y >= maxHeight)||((prevSushi)&&(prevSushi.inBottom))){
-						sushi.inBottom = true
-						/*if((sushi.y <= 340) && (!sushiLane.merging)){
-							sushiAnimation(lineIndex)
-							sound.play("wrong")
-							wrongParticle.x = sushi.centerX
-							wrongParticle.y = sushi.centerY
-							wrongParticle.start(true, 1000, null, 5)
-							missPoint()
-						}*/
-					}
-					sushi.y=sushi.toY;
-					lastSushi = sushi
+//					
+//					
+//					totalNum += sushi.num
+//					if(sushi.completed)
+//						totalNum = 0
+//
+//					var notCompleted = ((prevSushi) && (!prevSushi.completed) && (!sushi.completed))
+//					if ((prevSushi) && (prevSushi.denom === sushi.denom) && (notCompleted)) {
+//						mergeSushis(sushi, prevSushi)
+//					}
+//					
+//					if((sushi.y >= maxHeight)||((prevSushi)&&(prevSushi.inBottom))){
+//						sushi.inBottom = true
+//						/*if((sushi.y <= 340) && (!sushiLane.merging)){
+//							sushiAnimation(lineIndex)
+//							sound.play("wrong")
+//							wrongParticle.x = sushi.centerX
+//							wrongParticle.y = sushi.centerY
+//							wrongParticle.start(true, 1000, null, 5)
+//							missPoint()
+//						}*/
+//					}
+//					sushi.y=sushi.toY;
+//					lastSushi = sushi
 				}
 				
-				allBottom = allBottom && sushi.inBottom
+//				allBottom = allBottom && sushi.inBottom
 					
 			}
-			if(sushiLane.delaySushi > 0)
-				sushiLane.delaySushi -= speed
-			
-			if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
-				sushiAnimation(lineIndex)
-				sound.play("wrong")
-				notMissing=true;
-//				wrongParticle.x = lastSushi.centerX
-//				wrongParticle.y = lastSushi.centerY
-//				wrongParticle.start(true, 1000, null, 5)
-				missPoint()
-//				octopus.setAnimation(["lose"]);
-				gameEnded = true
-				return
-			}
-		}
-        timeNextSushi += game.time.elapsedMS
-
-		if((timeNextSushi >= timeBetween)&&(pointsBar.number > 0)){
-
-			var arrayLane = new Array(0,1,2)
-			arrayLane = Phaser.ArrayUtils.shuffle(arrayLane)
-
-			for(var laneIndex = 0; laneIndex < arrayLane.length; laneIndex++){
-				var chosenLane = arrayLane[laneIndex]
-				if(sushisInGame[chosenLane].delaySushi <= 0) {
-					var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
-					addSushi(SUSHIS[randomNum], chosenLane)
-					break
-				}
-			}
-        }
+//			if(sushiLane.delaySushi > 0)
+//				sushiLane.delaySushi -= speed
+//			
+//			if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
+//				sushiAnimation(lineIndex)
+//				sound.play("wrong")
+//				notMissing=true;
+////				wrongParticle.x = lastSushi.centerX
+////				wrongParticle.y = lastSushi.centerY
+////				wrongParticle.start(true, 1000, null, 5)
+//				missPoint()
+////				octopus.setAnimation(["lose"]);
+//				gameEnded = true
+//				return
+//			}
+//		}
+//        timeNextSushi += game.time.elapsedMS
+//
+//		if((timeNextSushi >= timeBetween)&&(pointsBar.number > 0)){
+//
+//			var arrayLane = new Array(0,1,2)
+//			arrayLane = Phaser.ArrayUtils.shuffle(arrayLane)
+//
+//			for(var laneIndex = 0; laneIndex < arrayLane.length; laneIndex++){
+//				var chosenLane = arrayLane[laneIndex]
+//				if(sushisInGame[chosenLane].delaySushi <= 0) {
+//					var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
+//					addSushi(SUSHIS[randomNum], chosenLane)
+//					break
+//				}
+//			}
+//        }
 
     }
+	}
     
 	function destroySushi(lane){
 		var moveLastSushi=sushisInGame[lane].length;

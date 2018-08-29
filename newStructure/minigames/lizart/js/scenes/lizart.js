@@ -556,7 +556,7 @@ var lizart = function(){
 	
 		positionTimer()
 
-		shadowLizar = sceneGroup.create(lizard.x+50,game.height-50,"shadowLizar");
+		shadowLizar = sceneGroup.create(lizard.x-100,game.height-50,"shadowLizar");
 
 		var options=[];
 
@@ -714,11 +714,11 @@ var lizart = function(){
 		positionLizardX=lizard.x;
 		tutorial=false;
 		sound.play("tongue")
-		game.add.tween(shadowLizar).to({x:fruitItem.x},500,Phaser.Easing.linear,true)
-		game.add.tween(lizard).to({x:fruitItem.x-350},500,Phaser.Easing.linear,true).onComplete.add(function(){
+		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
+		game.add.tween(lizard).to({x:fruitItem.x-100},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
-			lizard.x=positionLizardX;
-			lizard.body.tint=fruitItem.color;
+			//lizard.x=positionLizardX;
+			//lizard.body.tint=fruitItem.color;
 
 			tongue.alpha=1;
 			tongue.setAnimationByName(0,"lengua",false).onComplete=function(){
@@ -731,16 +731,15 @@ var lizart = function(){
 				}
 				TweenMax.to(fruitItem,0.8,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
 				game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
-				game.add.tween(fruitItem).to({x:lizard.x+300,y:lizard.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				game.add.tween(fruitItem).to({x:lizard.x,y:lizard.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					for(var movefruits=0; movefruits<ALL_FRUITS+1; movefruits++){
 						fruits[movefruits].y=-500;
 					}
 					for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
-						tintSpine(lizard,colorR[colorChoosed],colorR[colorChoosed],colorR[colorChoosed],BODY_PARTS[tintRound].part);
+						//tintSpine(lizard,colorR[colorChoosed],colorR[colorChoosed],colorR[colorChoosed],BODY_PARTS[tintRound].part);
 					}
 					tongue.alpha=0;
 					winLizar();
-					eatingBodys.tint=fruitItem.color;
 					sound.play("magic");
 				});
 			})
@@ -797,27 +796,26 @@ var lizart = function(){
 	}
 	
 	function winLizar(){
-		Coin(rightGroup,pointsBar,50)
-		eatingGroup.alpha=0;
+		Coin(lizard,pointsBar,50)
 		wasCorrect=true;
-		game.add.tween(shadowLizar).to({x:game.world.width+140},1200,Phaser.Easing.linear,true);
-		game.add.tween(lizard).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
+		game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
+		game.add.tween(lizard).to({x:game.world.width+200},1200,Phaser.Easing.linear,true);
 		globo.destroy();
 		textGlobo.destroy();
-		rightGroup.alpha = 1;
-		idleGroup.alpha = 0;
 		sound.play("combo");
 		TweenMax.to(lizard,1,{alpha:1,onComplete:newLizar,delay:1});
 	}
 
 	function newLizar(){
 		canTakeFruit = true
-		rightBody.tint=0xb7b7b7;
-		eatingBodys.tint=0xb7b7b7;
+		//rightBody.tint=0xb7b7b7;
+		//eatingBodys.tint=0xb7b7b7;
 		if(wasCorrect){
-			shadowLizar.x=-200;
-			game.add.tween(shadowLizar).to({x:idleBody.x+50, y:game.height-50},500,Phaser.Easing.linear,true);
-			game.add.tween(lizard).to({x:game.world.centerX/2},500,Phaser.Easing.linear,true).onComplete.add(function(){
+			shadowLizar.x=-100;
+			lizard.x=-200;
+			game.add.tween(shadowLizar).to({x:game.world.centerX-100, y:game.height-50},500,Phaser.Easing.linear,true);
+			game.add.tween(lizard).to({x:game.world.centerX},500,Phaser.Easing.linear,true).onComplete.add(function(){
+				
 				createFruits();
 				createBallon(colorSelect);
 			});
