@@ -512,6 +512,7 @@ var galacticPool = function(){
 					targets[toHole].alpha=0;
 					planets[toHole].body.data.shapes[0].sensor= false
 					nebul[toHole].alpha=0;
+					UIGroup.alpha=0;
 					game.add.tween(planets[toHole].body).to({x:blackHole.centerX,y:blackHole.centerY},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].spines.scale).to({x:0,y:0},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].spines).to({alpha:0},300,Phaser.Easing.Linear.In,true);

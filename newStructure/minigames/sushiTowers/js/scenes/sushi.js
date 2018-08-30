@@ -948,7 +948,7 @@ var sushi = function(){
 			if(sushiLane.delaySushi > 0)
 				sushiLane.delaySushi -= speed
 			
-			if(checkingFrame==55){
+			if(checkingFrame==60){
 				checkingFrame=0;
 				if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging) && (!isCompleting)){
 					sushiAnimation(lineIndex)
