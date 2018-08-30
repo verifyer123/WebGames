@@ -50,6 +50,7 @@ var onGoingGames={
 			{name:'Galaxy Heroes',url:'galaxyHeroes/',mapUrl:'galaxyHeroes', sceneName:'galaxy',subject:'geography',review:true,objective:20,demo:false,type:gameTypeEnum.GRAB},//31
 			{name:'Pop Fish',url:'popFish/',mapUrl:'popFish', sceneName:'fish',subject:'math',review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},//32
 			{name:'Bouncy Bath',url:'bouncybath/',mapUrl:'bouncybath', sceneName:'bouncybath',subject:'health',review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//33
+			{name:'Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},//34
 			{name:'Popsteroids',url:'popSteroids/',mapUrl:'popSteroids', sceneName:'popScene',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//35
 			{name:'Candy Shapes',url:'candyShapes/',mapUrl:'candyShapes', sceneName:'candy',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//36
 			{name:'Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//37
