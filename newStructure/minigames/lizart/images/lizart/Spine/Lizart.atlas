@@ -4,16 +4,23 @@ size: 1024,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+lengua
+  rotate: false
+  xy: 2, 19
+  size: 128, 64
+  orig: 128, 64
+  offset: 0, 0
+  index: -1
 normal/eye_1
   rotate: false
-  xy: 2, 2
+  xy: 132, 2
   size: 80, 81
   orig: 80, 81
   offset: 0, 0
   index: -1
 normal/eye_2
   rotate: false
-  xy: 84, 27
+  xy: 214, 28
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
@@ -55,28 +62,28 @@ normal/head_win2
   index: -1
 normal/leg1
   rotate: false
-  xy: 142, 46
+  xy: 272, 47
   size: 30, 37
   orig: 30, 37
   offset: 0, 0
   index: -1
 normal/leg2
   rotate: false
-  xy: 142, 9
+  xy: 978, 73
   size: 30, 35
   orig: 30, 35
   offset: 0, 0
   index: -1
 normal/leg3
   rotate: false
-  xy: 978, 71
+  xy: 978, 110
   size: 30, 36
   orig: 30, 36
   offset: 0, 0
   index: -1
 normal/leg4
   rotate: false
-  xy: 978, 109
+  xy: 304, 47
   size: 30, 37
   orig: 30, 37
   offset: 0, 0

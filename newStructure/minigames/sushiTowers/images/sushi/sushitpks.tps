@@ -212,19 +212,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">button.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>32,29,65,57</rect>
-                <key>scale9Paddings</key>
-                <rect>32,29,65,57</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">fondo.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -505,7 +492,6 @@
         <key>fileList</key>
         <array>
             <filename>buildingBg.png</filename>
-            <filename>button.png</filename>
             <filename>fondo.png</filename>
             <filename>lamp.png</filename>
             <filename>life_box.png</filename>

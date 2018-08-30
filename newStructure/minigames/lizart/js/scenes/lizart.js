@@ -72,6 +72,10 @@ var lizart = function(){
 				file:imagePath +"fruit5.png"
 			},
 			{
+				name:"fruit6",
+				file:imagePath +"fruit6.png"
+			},
+			{
 				name:"tutorial_image",
 				file:imagePath +"tutorial_image.png"
 			},
@@ -231,11 +235,12 @@ var lizart = function(){
 	var tree;
 	var piso;
 	var POINT_TO_CHANGE_DIFICULTY=5
-	var ALL_FRUITS=5;
+	var ALL_FRUITS=6;
 	var wasCorrect;
 	var heartsIcon;
 	var lizard;
 	var dificultyTimer
+	var colorChoosed;
 	var score;
 	var pointsBar
 	var START_TIMING=300;
@@ -249,46 +254,49 @@ var lizart = function(){
 	var cursors;
 	var lives = 1;
 	var passingLevel
-	var INDEX_NUMBER=[0,1,2,3,4,5]
+	var INDEX_NUMBER=[0,1,2,3,4,5,6]
 	var positionLizardX;
 	var coins = 0;
 	var fruitsDificulty;
 	var bgm = null;
 	var colorSelect = null;
 	var colorsArray =[
+		"Yellow",
+		"Red",
 		"Blue",
 		"Brown",
-		"Green",
 		"Orange",
-		"Purple",
-		"Red",
-		"Yellow",
+		"Green",
+		"Purple"
 	]
 	var positionStates=[]
 	var allPositions;
 	var POSITION_LIST_1=[
 		{x:130,y:350},
 		{x:200,y:230},
-		{x:450,y:450},
+		{x:550,y:450},
 		{x:350,y:250},
 		{x:270,y:390},
-		{x:500,y:230}
+		{x:500,y:230},
+		{x:620,y:200}
 	];
 	var POSITION_LIST_2=[
-		{x:490,y:230},
+		{x:510,y:430},
 		{x:240,y:350},
 		{x:400,y:400},
-		{x:100,y:390},
+		{x:100,y:290},
 		{x:350,y:230},
-		{x:150,y:230}
+		{x:550,y:230},
+		{x:100,y:450}
 	];
 	var POSITION_LIST_3=[
 		{x:300,y:430},
 		{x:340,y:270},
 		{x:440,y:420},
-		{x:490,y:250},
+		{x:600,y:250},
 		{x:150,y:230},
-		{x:130,y:400}
+		{x:130,y:400},
+		{x:450,y:200}
 	];
 	var pasing=[];
 	var hand, coin, timeBar, clock; 
@@ -301,7 +309,6 @@ var lizart = function(){
 	var timerDificulty;
 	var fruitsBeforeCorrect;
 	var eatingBodys, eatingEyes_1, eatingEyes_2;
-	var tongue;
 	var shadowLizar;
 	var tweenTiempo;
 	var BODY_PARTS=[
@@ -312,6 +319,34 @@ var lizart = function(){
 		{part:"torso"},
 		{part:"leg1"},
 		{part:"leg3"}
+	]
+	var colorR = [
+		255,
+		202,
+		17,
+		99,
+		247,
+		116,
+		168
+	]
+	var colorG = [
+		212,
+		0,
+		82,
+		57,
+		133,
+		204,
+		63
+
+	]
+	var colorB= [
+		7,
+		0,
+		175,
+		22,
+		0,
+		31,
+		212	
 	]
 	var good, wrong, stars;
 	var fruits = new Array;
@@ -481,11 +516,11 @@ var lizart = function(){
 		fruitsDificulty=3;
 		dificultyTimer=30000;
 		fruitsBeforeCorrect=0;
-		
+
 
 		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
 		loadSounds();
-		
+
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 		game.physics.startSystem(Phaser.Physics.P2JS);
 
@@ -498,65 +533,36 @@ var lizart = function(){
 		back = game.add.tileSprite(0,0,game.world.width,game.world.height,"back");
 		sceneGroup.add(back);
 
-		var colorR = [
-			"19",
-			"6c",
-			"36",
-			"e0",
-			"97",
-			"f2"
-		]
-		var colorG = [
-			0x196abc,
-			0x6c4f0d,
-			0x36c462,
-			0xe08b28,
-			0x9733e0,
-			0xf21414
-		]
-		var colorB= [
-			0x196abc,
-			0x6c4f0d,
-			0x36c462,
-			0xe08b28,
-			0x9733e0,
-			0xf21414
-		]
-		
-		tongue=game.add.spine(0,0,"tongue");
-		tongue.setSkinByName("normal");
-		tongue.alpha=0;
-		sceneGroup.add(tongue);
-		
 		lizard=game.add.spine(0,0,"lizard");
 		lizard.x=game.world.centerX;
 		lizard.y=game.world.height-90;
 		lizard.setSkinByName("normal");
 		lizard.setAnimationByName(0,"idle",true);
-	
+		setAnimationConfigurations(lizard)
+
+		shadowLizar = sceneGroup.create(lizard.x-100,game.height-50,"shadowLizar");
 		sceneGroup.add(lizard);
-		
+
 		for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
-			tintSpine(lizard,colors[0],colors[2],colors[4],BODY_PARTS[tintRound].part);
+			tintSpine(lizard,100,100,100,BODY_PARTS[tintRound].part);
 		}
-		
+
 		UIGroup= game.add.group();
 		sceneGroup.add(UIGroup);
-		
+
 		fruitsGroup= game.add.group();
-				
+
 		for(var i = 0;i<=ALL_FRUITS;i++){
 			fruits[i] = fruitsGroup.create(-500,0,"fruit" + i);
 			fruits[i].id = i;
 			fruits[i].anchor.setTo(0.5,0.5);
-			fruits[i].color = colors[i];
+			//			fruits[i].color = colors[i];
 			fruits[i].inputEnabled = true
 			fruits[i].events.onInputDown.add(chooseFruit,this);
 		}
-	
+
 		positionTimer()
 
-		shadowLizar = sceneGroup.create(lizard.x-100,game.height-50,"shadowLizar");
 
 		var options=[];
 
@@ -568,11 +574,10 @@ var lizart = function(){
 		displayFruits(options)
 	}
 	function setAnimationConfigurations(lizard){
-		
-		lizard.setMixByName("idle", "win", 0.2);
+
 		lizard.setMixByName("idle", "run", 0.2);
-		lizard.setMixByName("idle", "win", 0.2);
-		lizard.setMixByName("idle", "win", 0.2);
+		lizard.setMixByName("run", "eat", 0.2);
+//		lizard.setMixByName("idle", "lose", 0.2);
 	}
 	function tintSpine(spine, colorR, colorG, colorB, slotName){
 		spine.skeleton.findSlot(slotName).r = colorR;
@@ -589,7 +594,6 @@ var lizart = function(){
 		}else if(selectList==3){
 			options=POSITION_LIST_3;
 		}
-
 		pasing=[];
 
 		Phaser.ArrayUtils.shuffle(options)
@@ -623,12 +627,11 @@ var lizart = function(){
 			fruitsBeforeCorrect=0;
 		}else if(notCorrect && fruitsBeforeCorrect<4){
 			fruitsBeforeCorrect++;
-			
 		}
 		fruits[INDEX_NUMBER[fruitToAppear]].inputEnabled=true
 		fruits[INDEX_NUMBER[fruitToAppear]].x=options[fruitToAppear].x;
 		fruits[INDEX_NUMBER[fruitToAppear]].alpha=1;
-		
+
 		TweenMax.to(fruits[INDEX_NUMBER[fruitToAppear]],1,{y:options[fruitToAppear].y,ease:Bounce.easeOut,delay:0});
 		game.add.tween(fruits[INDEX_NUMBER[fruitToAppear]]).to({alpha:1},200,Phaser.Easing.linear,true);
 		game.time.events.add(300,function(){
@@ -699,31 +702,26 @@ var lizart = function(){
 		if(pointsBar.number%POINT_TO_CHANGE_DIFICULTY==0 && pointsBar.number!=0 && pointsBar.number!=1){
 			if(fruitsDificulty<5)fruitsDificulty++;
 		}
-		
+
 	}
-	function correctFruit(fruitItem){
+	function correctFruit(fruitItem,color){
 		globo.destroy();
 		textGlobo.destroy();
 		if(dificultyTimer>5000)dificultyTimer=dificultyTimer-1000;
 		canTakeFruit = false
-
 		hand.alpha=0;
 		for(var deactivate=0; deactivate<ALL_FRUITS; deactivate++){
 			fruits[deactivate].inputEnabled=false;
 		}
 		positionLizardX=lizard.x;
 		tutorial=false;
+		lizard.setAnimationByName(0,"run",true);
 		sound.play("tongue")
 		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
 		game.add.tween(lizard).to({x:fruitItem.x-100},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
-			//lizard.x=positionLizardX;
-			//lizard.body.tint=fruitItem.color;
-
-			tongue.alpha=1;
-			tongue.setAnimationByName(0,"lengua",false).onComplete=function(){
-				tongue.alpha=0;
-			}
+			
+			lizard.setAnimationByName(0,"eat",false);
 
 			game.time.events.add(150,function(){
 				for(var dissapearAll=0; dissapearAll<ALL_FRUITS+1; dissapearAll++){
@@ -731,14 +729,13 @@ var lizart = function(){
 				}
 				TweenMax.to(fruitItem,0.8,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
 				game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
-				game.add.tween(fruitItem).to({x:lizard.x,y:lizard.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				game.add.tween(fruitItem).to({x:lizard.x+100,y:lizard.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					for(var movefruits=0; movefruits<ALL_FRUITS+1; movefruits++){
 						fruits[movefruits].y=-500;
 					}
 					for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
-						tintSpine(lizard,colorR[colorChoosed],colorR[colorChoosed],colorR[colorChoosed],BODY_PARTS[tintRound].part);
+						tintSpine(lizard,colorR[color],colorG[color],colorB[color],BODY_PARTS[tintRound].part);
 					}
-					tongue.alpha=0;
 					winLizar();
 					sound.play("magic");
 				});
@@ -757,19 +754,17 @@ var lizart = function(){
 		}
 		if(tweenTiempo!=null)stopTimer();
 		missPoint()
-
-		if(lives<=0){
-			wrongEyes.animations.play('wrongEyesAnimation', 24, false);
-			wrongBody.animations.play('wrongBodyAnimation', 24, false);	
-		}
-		else{
+		lizard.setAnimationByName(0,"lose",true).onComplete=function(){
+			if(lives<=0){
+				lizard.setAnimationByName(0,"losestill",true)
+			}else{
 			sound.play("wrong")
-			wrongEyes.animations.play('wrongEyesAnimation', 24, false);
-			wrongBody.animations.play('wrongBodyAnimation', 24, false);
+			lizard.setAnimationByName(0,"lose",false)
 			game.time.events.add(300,function(){
-				TweenMax.to(wrongBody,1,{alpha:0,onComplete:endwrong});	
+				TweenMax.to(lizard,1,{alpha:0,onComplete:endwrong});	
 			})	
-		}	
+		}
+		}
 		canTakeFruit = false
 	}
 	function chooseFruit(fruitItem){
@@ -783,7 +778,7 @@ var lizart = function(){
 		if(tweenTiempo)stopTimer();
 		if(functionTime)functionTime.clearEvents=true;
 		if(INDEX_NUMBER[good] == fruitItem.id && canTakeFruit){
-			correctFruit(fruitItem);
+			correctFruit(fruitItem,fruitItem.id);
 		}else if(INDEX_NUMBER[good] != fruitItem.id && !tutorial && canTakeFruit){
 			wrongFruit(fruitItem);
 		}
@@ -792,12 +787,14 @@ var lizart = function(){
 		for(var i = 0;i<=ALL_FRUITS;i++){
 			fruits[i].y = -500;
 		}
+		lizard.setAnimationByName(0,"idle",true)
 		TweenMax.to(lizard,1,{alpha:1,onComplete:newLizar,delay:0});
 	}
-	
+
 	function winLizar(){
 		Coin(lizard,pointsBar,50)
 		wasCorrect=true;
+		lizard.setAnimationByName(0,"run",true);
 		game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
 		game.add.tween(lizard).to({x:game.world.width+200},1200,Phaser.Easing.linear,true);
 		globo.destroy();
@@ -808,14 +805,16 @@ var lizart = function(){
 
 	function newLizar(){
 		canTakeFruit = true
-		//rightBody.tint=0xb7b7b7;
-		//eatingBodys.tint=0xb7b7b7;
 		if(wasCorrect){
-			shadowLizar.x=-100;
 			lizard.x=-200;
-			game.add.tween(shadowLizar).to({x:game.world.centerX-100, y:game.height-50},500,Phaser.Easing.linear,true);
-			game.add.tween(lizard).to({x:game.world.centerX},500,Phaser.Easing.linear,true).onComplete.add(function(){
-				
+			shadowLizar.x=lizard.x-100;
+			for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
+				tintSpine(lizard,100,100,100,BODY_PARTS[tintRound].part);
+			}
+			game.add.tween(shadowLizar).to({x:game.world.centerX-100, y:game.height-50},550,Phaser.Easing.linear,true);
+			lizard.setAnimationByName(0,"run",true);
+			game.add.tween(lizard).to({x:game.world.centerX},550,Phaser.Easing.linear,true).onComplete.add(function(){
+				lizard.setAnimationByName(0,"idle",true)
 				createFruits();
 				createBallon(colorSelect);
 			});
@@ -824,7 +823,6 @@ var lizart = function(){
 			createBallon(colorSelect);
 		}
 		wasCorrect=false;
-
 	}
 
 	function addNumberPart(obj,number){
@@ -860,11 +858,10 @@ var lizart = function(){
 
 		addNumberPart(heartsGroup.text,'-1')
 	}	
-
 	function stopGame(win){
 
 		gameActive = false	
-		
+
 		sound.play("gameLose")
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Sinusoidal.In, true, 1500)
 		tweenScene.onComplete.add(function(){
