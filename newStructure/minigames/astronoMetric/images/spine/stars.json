@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "btydl03i5bjghP2lPQ2r6Du68XE", "spine": "3.2.01", "width": 76, "height": 74, "images": "../" },
+"skeleton": { "hash": "reQvWCHmbQOB1Qli/G+2txt5unA", "spine": "3.2.01", "width": 77, "height": 74, "images": "./../" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "eye", "parent": "root", "length": 12.34, "rotation": 90, "y": 0.17 },
@@ -22,7 +22,7 @@
 			"normal/mouth2": { "x": 9.47, "rotation": 89.99, "width": 14, "height": 14 }
 		},
 		"normal/torso": {
-			"normal/torso": { "name": "normal/torso2", "path": "normal/torso", "width": 76, "height": 74 }
+			"normal/torso": { "name": "normal/torso2", "path": "normal/torso", "width": 77, "height": 74 }
 		}
 	}
 },

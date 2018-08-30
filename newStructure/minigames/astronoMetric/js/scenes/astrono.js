@@ -159,6 +159,7 @@ var astrono = function(){
 	var oona,oof;
 	var pointsBar
 	var roundCounter
+	var rect;
 	var signGroup
 	var yogotarsGroup
 	var figuresList
@@ -487,6 +488,7 @@ var astrono = function(){
 			// star.x = coordinate.x
 			// star.y = coordinate.y
 			starsInGame.push(star)
+			console.log(starsInGame)
 		}
 
 	}
@@ -608,8 +610,9 @@ var astrono = function(){
 
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
-
-		return Phaser.Rectangle.intersects(boundsA , boundsB );
+		boundsB.width=boundsB.width/3.3;
+		boundsB.height=boundsB.height/3.3;
+		return Phaser.Rectangle.intersects(boundsA , boundsB);
 
 	}
 
@@ -624,6 +627,8 @@ var astrono = function(){
 			currentLine = null
 		}else{
 			sound.play("cut")
+			correctParticle.x = game.input.mousePointer.x; correctParticle.y = game.input.mousePointer.y;
+			correctParticle.start(true, 1000, null, 3)
 			lines.push(currentLine)
 		}
 	}
@@ -653,7 +658,6 @@ var astrono = function(){
 
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
-			star.alive=false;
 			var collide = checkOverlap(pointerGame, star)
 			if(collide) {
 				var exists = false
@@ -1024,6 +1028,9 @@ var astrono = function(){
 		heartsGroup.text = pointsText
 
 	}
+	function render(){
+		 game.debug.rectangle(rect, '#ffffff', false);
+	}
 
 	return {
 		assets: assets,
@@ -1097,6 +1104,7 @@ var astrono = function(){
 			createHearts()
 			createCoin()
 			createGameObjects()
+			
 
 			// startRound(true)
 			createTutorial()
