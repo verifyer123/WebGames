@@ -148,6 +148,7 @@ var drzombie = function(){
 	var firstPositionY;
 	var lastPositionX;
 	var lastPositionY;
+	var counterTrashCleaning;
 
 	function loadSounds(){
 		sound.decode(assets.sounds);
@@ -163,6 +164,7 @@ var drzombie = function(){
 		levelZero = true;
 		OFFSETPIVOTX = game.world.centerX - 200;
 		OFFSETPIVOTY = game.world.height - 175;
+		counterTrashCleaning = 0;
         
         loadSounds();
         
@@ -445,6 +447,7 @@ var drzombie = function(){
     }
 	
 	function chooseOrgans(){
+		counterTrashCleaning = 0;
 		numberOk = 0;
 		tagsToUse = [];
 		Phaser.ArrayUtils.shuffle(organsPosition);
@@ -530,7 +533,9 @@ var drzombie = function(){
 				popObject(clock,0);
 				game.time.events.add(250,function(){
 					activateInputTrash();
-					activateOrgans(true);
+					if(counterTrashCleaning == 0){
+						activateOrgans(true);
+					}
 				},this);
 				
 				var bar = clock.bar;
@@ -572,6 +577,7 @@ var drzombie = function(){
 	}
 
 	function createTrash(organ){
+		counterTrashCleaning++;
 		indexTrash = game.rnd.integerInRange(1,6);
 		var trashPrefab = game.add.sprite(organ.x, organ.y, 'atlas.zombie', 'toy_0'+indexTrash);
 		trashPrefab.anchor.setTo(0.5,0.5);
@@ -595,10 +601,14 @@ var drzombie = function(){
 	lastPositionY = game.input.y;
 	var distX = Math.abs(lastPositionX - firstPositionX);
 	var distY = Math.abs(lastPositionY - firstPositionY);
-	if(distX > 20 || distY > 20){
+	if(distX > 50 || distY > 50){
 		game.add.tween(obj).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
 			obj.release.active = true;
 			obj.destroy();
+			counterTrashCleaning--;
+			if(counterTrashCleaning == 0){
+				activateOrgans(true);
+			}
 		});
 		if(levelZero){
 			hand.x = OFFSETPIVOTX;
@@ -606,6 +616,8 @@ var drzombie = function(){
 			var indexAns = searchPositionOrgan(tagsToUse);
 			game.add.tween(hand).to( { x: organsContainers.children[indexAns].x, y: organsContainers.children[indexAns].y}, 2000, Phaser.Easing.Linear.InOut, true, 0, -1);
 		}
+	}else{
+		game.add.tween(obj).to( { x: firstPositionX, y: firstPositionY}, 300, Phaser.Easing.Linear.InOut, true, 0);
 	}
 	}
 
@@ -812,9 +824,12 @@ var drzombie = function(){
 			var organ = organsContainers.children[i];
 			if(checkOverlap(obj,organ) && obj.tag == organ.tag && gameActive && organ.active){
 				
-				game.add.tween(obj).to({x:organ.x, y:organ.y, angle:obj.angle + 360},500,"Linear",true);
-				game.add.tween(obj).to({angle:obj.angle+360},500,"Linear",true);
-				
+				game.add.tween(obj).to({x:organ.x, y:organ.y, angle:obj.angle + 360},500,"Linear",true).onComplete.add(function(){
+					game.add.tween(obj).to({alpha: 0},500,"Linear",true);
+					game.add.tween(organ).to({alpha: 0},500,"Linear",true);
+				});
+				//game.add.tween(obj).to({angle:obj.angle+360},500,"Linear",true);
+
 				particleCorrect.x = obj.x;
                 particleCorrect.y = obj.y;
                 particleCorrect.start(true, 800, null, 5);
