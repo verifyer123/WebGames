@@ -486,13 +486,14 @@ var hack = function(){
 	
 	function addObject(tag){
 		
-		var index = game.rnd.integerInRange(0,holesGroup.length - 1)
+		var index = getEmtpy(0)
 			
-		while(holesGroup.children[index].carrot.active || checkOverlap(holesGroup.children[index].carrot,yogotarGroup.yogoPos) || (badTopo.ready && index == 4)){
-			index = game.rnd.integerInRange(0,holesGroup.length - 1)
-		}
+		if(index == -1)
+			return
+		// while(holesGroup.children[index].carrot.active || holesGroup.children[index].hit.active || checkOverlap(holesGroup.children[index].carrot,yogotarGroup.yogoPos)){
+		// 	index = game.rnd.integerInRange(0,holesGroup.length - 1)
+		// }
 
-		
 		var hole = holesGroup.children[index]
 				
 		if(tag == 'carrot'){
@@ -506,12 +507,28 @@ var hack = function(){
 		}else if(tag == 'hit'){
 			
 			hole.hit.alpha = 1
+			hole.hit.active = true
 			hole.hit.number = game.rnd.integerInRange(2,9)
 			hole.hit.text.setText(hole.hit.number)
-			
 			popObject(hole.hit,0)
+			}
+		
+	}
+
+	function getEmtpy(top){
+
+		if(top == holesGroup.length - 1)
+			return -1
+
+		var index = game.rnd.integerInRange(0,holesGroup.length - 1)
+		var holes = holesGroup.children[index]
+
+		if(holes.carrot.active || holes.hit.active || checkOverlap(holes.carrot, yogotarGroup.yogoPos)){
+			return getEmtpy(top + 1)
 		}
-			
+		else{
+			return index
+		}
 	}
 	
     function createOverlay(){
@@ -918,7 +935,7 @@ var hack = function(){
 		for(var i = 0; i < holesGroup.length;i++){
 			
 			var hole = holesGroup.children[i].hit
-			if(hole.alpha == 1){
+			if(hole.active){
 				
 				popObject(hole,0)
 				hole.number--
@@ -930,6 +947,7 @@ var hack = function(){
 					hitHammer(hammer)
 					
 					game.add.tween(hole).to({alpha : 0},500,"Linear",true)
+					hole.active = false
 				}
 			}
 		}
@@ -1133,6 +1151,7 @@ var hack = function(){
 			
 			var hitGroup = game.add.group()
 			hitGroup.alpha = 0
+			hitGroup.active = false
 			hitGroup.x = 0
 			hitGroup.y = -75
 			hole.add(hitGroup)
