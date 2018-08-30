@@ -383,20 +383,22 @@ var astrono = function(){
 		return spineGroup
 	}
 
-	function createPart(key){
-		var particle = game.add.emitter(0, 0, 100);
+    function createPart(key){
+        var particle = game.add.emitter(0, 0, 100);
 
-		particle.makeParticles('atlas.astrono',key);
-		particle.minParticleSpeed.setTo(-200, -50);
-		particle.maxParticleSpeed.setTo(200, -100);
-		particle.minParticleScale = 0.6;
-		particle.maxParticleScale = 1;
-		particle.gravity = 150;
-		particle.angularDrag = 30;
+        particle.makeParticles('atlas.astrono',key);
+        particle.minParticleSpeed.setTo(-200, -50);
+        particle.maxParticleSpeed.setTo(200, -100);
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
+        particle.gravity = 150;
+        particle.angularDrag = 30;
+		particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
 
-		return particle
-
-	}
+        return particle
+        
+    }
+	
 
 	function stopGame(win){
 
@@ -408,7 +410,6 @@ var astrono = function(){
 		inputsEnabled = false
 		isActive = false
 		sound.play("wrong")
-
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
 			star.setAnimation(["wrong"])
@@ -539,7 +540,7 @@ var astrono = function(){
 
 		sound.play("wrong")
 		inputsEnabled = false
-
+		currentLine.clear()
 		lives--;
 		runAnimations(oona,oof,"lose")
 		heartsGroup.text.setText('X ' + lives)
