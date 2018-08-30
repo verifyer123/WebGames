@@ -653,6 +653,7 @@ var astrono = function(){
 
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
+			star.alive=false;
 			var collide = checkOverlap(pointerGame, star)
 			if(collide) {
 				var exists = false

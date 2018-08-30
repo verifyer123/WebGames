@@ -35,8 +35,8 @@ var optimizedGames={
 		{name:'Optimized Math Circus',url:'mathCircus/',mapUrl:'mathCircus', sceneName:'circus',subject:'math',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Optimized Astronometric',url:'astronoMetric/',mapUrl:'astronoMetric', sceneName:'astrono',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.TRACE},
 		{name:'Optimized Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.TAP},
-		{name:'Elemental Witch',url:'elementalWitch/',mapUrl:'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
-		{name:'Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},
+		{name:'Optimized Elemental Witch',url:'elementalWitch/',mapUrl:'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
+		{name:'Optimized Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},
 	]
 	
 }
