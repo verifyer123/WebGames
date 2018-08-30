@@ -1005,8 +1005,10 @@ var galacticPool = function(){
 			var perspective = distance / (distance - zz[i]);
 			var x = game.world.centerX + xx[i] * perspective;
 			var y = game.world.centerY+ yy[i] * perspective;
+			
 
 			zz[i] -= speedStars;
+
 			if (zz[i] < 100)
 			{
 				zz[i] = 950;

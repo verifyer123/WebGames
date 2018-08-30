@@ -1,0 +1,132 @@
+
+nao.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm1
+  rotate: false
+  xy: 483, 220
+  size: 27, 34
+  orig: 27, 34
+  offset: 0, 0
+  index: -1
+arm2
+  rotate: false
+  xy: 28, 3
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+eyes1
+  rotate: false
+  xy: 125, 2
+  size: 96, 31
+  orig: 96, 31
+  offset: 0, 0
+  index: -1
+eyes2
+  rotate: true
+  xy: 447, 163
+  size: 91, 34
+  orig: 91, 34
+  offset: 0, 0
+  index: -1
+forearm1
+  rotate: false
+  xy: 447, 125
+  size: 35, 36
+  orig: 35, 36
+  offset: 0, 0
+  index: -1
+forearm2
+  rotate: true
+  xy: 2, 2
+  size: 29, 24
+  orig: 29, 24
+  offset: 0, 0
+  index: -1
+hand1_a
+  rotate: false
+  xy: 321, 98
+  size: 31, 30
+  orig: 31, 30
+  offset: 0, 0
+  index: -1
+hand1_b
+  rotate: false
+  xy: 284, 96
+  size: 35, 32
+  orig: 35, 32
+  offset: 0, 0
+  index: -1
+hand2_a
+  rotate: false
+  xy: 354, 104
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+hand2_b
+  rotate: false
+  xy: 483, 188
+  size: 21, 30
+  orig: 21, 30
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 125, 104
+  size: 157, 150
+  orig: 157, 150
+  offset: 0, 0
+  index: -1
+leg1
+  rotate: false
+  xy: 201, 46
+  size: 39, 56
+  orig: 39, 56
+  offset: 0, 0
+  index: -1
+leg2
+  rotate: false
+  xy: 242, 52
+  size: 35, 50
+  orig: 35, 50
+  offset: 0, 0
+  index: -1
+mouth1
+  rotate: false
+  xy: 55, 16
+  size: 30, 15
+  orig: 30, 15
+  offset: 0, 0
+  index: -1
+mouth2
+  rotate: false
+  xy: 483, 175
+  size: 20, 11
+  orig: 20, 11
+  offset: 0, 0
+  index: -1
+torso
+  rotate: true
+  xy: 125, 35
+  size: 67, 74
+  orig: 67, 74
+  offset: 0, 0
+  index: -1
+trash1
+  rotate: true
+  xy: 284, 130
+  size: 124, 161
+  orig: 124, 161
+  offset: 0, 0
+  index: -1
+trash2
+  rotate: false
+  xy: 2, 33
+  size: 121, 221
+  orig: 121, 221
+  offset: 0, 0
+  index: -1

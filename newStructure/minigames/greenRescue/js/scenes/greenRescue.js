@@ -73,6 +73,9 @@ var greenRescue = function(){
 			 file: soundsPath + "combo.mp3"},
 			{	name: "cog",
 			 file: soundsPath + "cog.mp3"},
+			{	name: "cheers",
+			 file: soundsPath + "cheers.mp3"},
+			
 
 		],
 		jsons: [
@@ -124,6 +127,18 @@ var greenRescue = function(){
 				name:"trees",
 				file:"images/Spine/Trees/trees.json"
 			},
+			{
+				name:"nao",
+				file:"images/Spine/Yogotars/nao.json"
+			},
+			{
+				name:"justice",
+				file:"images/Spine/Yogotars/justice.json"
+			},
+			{
+				name:"estrella",
+				file:"images/Spine/Yogotars/estrella.json"
+			},
 
 		],
 	}
@@ -152,7 +167,7 @@ var greenRescue = function(){
 	var readyToWater=new Array(9);
 	var animations=new Array(7);
 	var animatedSprinklers=new Array(9)
-	var broomIcon, shovelIcon, sprinklerIcon, sproutIcon, trashIcon, board
+	var broomIcon, shovelIcon, sprinklerIcon, sproutIcon, board
 	var shovel,broom, sprinkler, sprout, shovelProxy, sprinklerProxy, sproutProxy
 	var hole=[]
 	var objectOverlaping;
@@ -164,6 +179,7 @@ var greenRescue = function(){
 	var colora1,colora2,colora3;
 	var colorb1,colora2,colora3;
 	var bmd, gradient
+	var nao, estrella, justice;
 	var hand
 	var tutorialTween
 	var out, passingLevel;
@@ -395,8 +411,6 @@ var greenRescue = function(){
 		sceneGroup.add(overlayGroup)
 
 		tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
-
-
 	}
 
 	function onClickPlay(){
@@ -545,18 +559,11 @@ var greenRescue = function(){
 		sprinklerIcon=game.add.sprite(board.centerX+180,board.centerY,"atlas.green","ICON SPRINKLER");
 		sproutIcon=game.add.sprite(board.centerX+30,board.centerY,"atlas.green","ICON SPROUT");
 
-		trashIcon=game.add.sprite(broomIcon.centerX-60,board.centerY-25,"can");
-		trashIcon.anchor.setTo(.5);
-		trashIcon.scale.setTo(.5);
-		trashIcon.animations.add('can');
 
 		broomIcon.anchor.setTo(0.5,0.5)
 		shovelIcon.anchor.setTo(0.5,0.5)
 		sprinklerIcon.anchor.setTo(0.5,0.5)
 		sproutIcon.anchor.setTo(0.5,0.5)
-		trashIcon.anchor.setTo(0.5,0.5)
-
-		trashIcon.scale.setTo(0.75);
 
 		broom=game.add.sprite(broomIcon.x,broomIcon.y,"atlas.green","BROOM")
 		shovel=game.add.sprite(shovelIcon.x,shovelIcon.y,"atlas.green","SHOVEL")
@@ -607,8 +614,6 @@ var greenRescue = function(){
 		sprinkler.tag="sprin";
 		sprout.tag="sprout";
 
-
-		UIGroup.add(trashIcon)
 		UIGroup.add(board)
 
 		UIGroup.add(broomIcon)
@@ -836,6 +841,14 @@ var greenRescue = function(){
 		sprinkler.input.priorityID = 1;
 		obj.input.priorityID = 0;
 		activeObj=obj.tag;
+		UIGroup.bringToTop(obj)
+		if(obj.tag=="bro"){
+			game.add.tween(nao).to({y:board.y-	100},300,Phaser.Easing.linear,true).onComplete.add(function(){
+				nao.setAnimationByName(0,"idle",true);
+			})
+		}else{
+			game.add.tween(nao).to({y:game.world.height},300,Phaser.Easing.linear,true)
+		}
 	}
 
 	function update(){
@@ -1011,15 +1024,35 @@ var greenRescue = function(){
 		}else{
 			sprout.alpha=1
 		}
-
-
 	}
-	//	function onDragStart(obj){
-	//		obj.alpha=1;
-	//		sound.play("pop")
 
-	//	}
-
+	function yogotars(){
+		nao=game.add.spine(0,0,"nao");
+		nao.setSkinByName("normal1");
+		nao.setAnimationByName(0,"idle",true);
+		nao.y=game.world.height;
+		nao.x=game.world.centerX-250;
+		nao.scale.setTo(0.8,0.8);
+		
+		estrella=game.add.spine(0,0,"estrella");
+		estrella.setSkinByName("normal1");
+		estrella.setAnimationByName(0,"win",true);
+		estrella.x=game.world.centerX+230;
+		estrella.y=game.world.height-200;
+		estrella.alpha=0;
+		
+		justice=game.add.spine(0,0,"justice");
+		justice.setSkinByName("normal2");
+		justice.setAnimationByName(0,"win",true);
+		justice.x=game.world.centerX+230;
+		justice.y=game.world.height-200;
+		justice.alpha=0;
+		
+		backgroundGroup.add(nao)
+		backgroundGroup.add(estrella)
+		backgroundGroup.add(justice)
+		
+	}
 
 	function onChangeObj(obj){
 		sound.play("cog")
@@ -1113,13 +1146,11 @@ var greenRescue = function(){
 
 	function clean(obj){
 		var counterHole=0;
-		trashIcon.animations.play('can', 24,false);
 		sound.play("swipe")
-
-		game.add.tween(trashIcon).to({y:board.y-200},300,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
-			game.add.tween(trashIcon).to({x:trashIcon.x,y:board.y},200,Phaser.Easing.Cubic.Out,true,100);
-		})
-		game.add.tween(trash[obj.tag]).to({x:trashIcon.x,y:trashIcon.y},300,Phaser.Easing.Cubic.In,true);
+		nao.setAnimationByName(0,"appear",false).onComplete=function(){
+			nao.setAnimationByName(0,"idle",true)
+		};
+		game.add.tween(trash[obj.tag]).to({x:nao.x+50,y:nao.y},300,Phaser.Easing.Cubic.In,true);
 		game.add.tween(trash[obj.tag]).to({alpha:0},300,Phaser.Easing.Cubic.Out,true,300);
 		game.add.tween(trash[obj.tag]).to({x:trash[obj.tag].x,y:trash[obj.tag].y},200,Phaser.Easing.Cubic.In,true,1200);
 		estados[obj.tag]=3;
@@ -1397,6 +1428,18 @@ var greenRescue = function(){
 
 		if(dificulty<9)dificulty++;
 		passingLevel=true;
+		var witchYogotar=game.rnd.integerInRange(0,1);
+		sound.play("cheers")
+		if(witchYogotar==0){
+			game.add.tween(estrella).to({alpha:1},200,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				game.add.tween(estrella).to({alpha:0},200,Phaser.Easing.Cubic.Out,true,1500)																		 
+			});																					 
+		}
+		else if(witchYogotar==1){
+			game.add.tween(justice).to({alpha:1},200,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				game.add.tween(justice).to({alpha:0},200,Phaser.Easing.Cubic.Out,true,1500)																		 
+			});	
+		}
 		game.time.events.add(1500,function(){
 			platformGroup.alpha=1
 			platform1.alpha=1;
@@ -1597,8 +1640,10 @@ var greenRescue = function(){
 			document.addEventListener("contextmenu", function(e){
 				e.preventDefault();
 			}, false);
-
+			
+			
 			createBackground()
+			yogotars();
 			addParticles()
 
 			morning = game.add.audio('morning')
@@ -1630,6 +1675,7 @@ var greenRescue = function(){
 			createPointsBar();
 			createHearts();
 			createCoin();
+			
 
 			buttons.getButton(morning,sceneGroup)
 			createOverlay()
