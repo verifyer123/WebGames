@@ -85,7 +85,7 @@ var sushi = function(){
     }
 
     var NUM_LIFES = 3
-    var MAX_NUM_SUSHIS = 15
+    var MAX_NUM_SUSHIS = 30
     var SUSHIS = ["sushi1", "sushi2", "sushi3", "sushi4"]
 	var SUSHI_DATA = {
     	"sushi1":{num:1, denom:3},
@@ -105,6 +105,7 @@ var sushi = function(){
     var pullGroup = null
     var numPoints
     var inputsEnabled
+	var checkingFrame
     var pointsBar
     var sushiList
 	var notFinished
@@ -122,6 +123,7 @@ var sushi = function(){
 	var hand
 	var coins
     var addBrickCounter
+	var isCompleting
 	var diferentSushi=[];
     var speed
 	var yogotars
@@ -143,6 +145,7 @@ var sushi = function(){
         gameActive = false
         lives = NUM_LIFES
         numPoints = 0
+		isCompleting=false;
 		notFinished=false
 		notMissing=false;
         roundCounter = 0
@@ -151,6 +154,7 @@ var sushi = function(){
         speed = 4
         timeBetween = 3000
         sushiList = []
+		checkingFrame=0;
         sushisInGame = [[],[],[]]
 		tutorial=true;
 		sushisInGame[0].delaySushi = 0
@@ -214,6 +218,8 @@ var sushi = function(){
 		sprite.events.onDragUpdate.add(onDragUpdate, this)
 		sprite.events.onDragStop.add(onDragStop, this)
 		sprite.inputEnabled = false
+		sprite.alive=false;
+		console.log(sprite)
     }
     
     function createPointsBar(){
@@ -254,6 +260,8 @@ var sushi = function(){
         for(var sushiNameIndex = 0; sushiNameIndex < SUSHIS.length; sushiNameIndex++){
 			for(var sushiIndex = 0; sushiIndex < MAX_NUM_SUSHIS; sushiIndex++){
 				createSushi(SUSHIS[sushiNameIndex])
+				
+				
 			}
 		}
 
@@ -467,6 +475,7 @@ var sushi = function(){
 		sushi.bg = bg
 
         pullGroup.remove(sushiSprite)
+		sushi.alive=true;
 		gameGroup.add(sushi)
 		sushi.scale.x = 1
 		sushi.scale.y = 1
@@ -560,7 +569,9 @@ var sushi = function(){
 		sushisInGame[sushi.lane].merging = false
 		pullGroup.add(sushi.bg)
 		sushiList.bg.push(sushi.bg)
+		sushi.alive=false;
 		sushi.destroy()
+		isCompleting=false;
 	}
 	
 	function moveSushi(args) {
@@ -589,7 +600,6 @@ var sushi = function(){
 			var container = sushi.sushiList[containerIndex]
 			container.inputEnabled = false
 		}
-
 		var toYogotar
 		if(sushi.lane < 1){
 			toYogotar = 0
@@ -615,6 +625,7 @@ var sushi = function(){
 			if(secondAnimation)
 				secondAnimation.stop();
 		}
+		
 	}
 
 	function checkOverlap(spriteA, spriteB) {
@@ -865,6 +876,7 @@ var sushi = function(){
 			nextAnimation=true;
 		}
 		if(prevSushi.num === prevSushi.denom && !notMissing){
+			isCompleting=true;
 			sushisInGame[prevSushi.lane].merging = true
 			sushiCompleted(prevSushi)
 		}
@@ -899,10 +911,12 @@ var sushi = function(){
 					sushi.y=maxHeight
 					if (sushiIndex > 0 && prevSushi)
 						sushi.toY = prevSushi.y - prevSushi.height + 15
-					else
+					else{
+						
+					
 						sushi.toY = maxHeight
 					
-					
+					}
 					
 					totalNum += sushi.num
 					if(sushi.completed)
@@ -934,17 +948,23 @@ var sushi = function(){
 			if(sushiLane.delaySushi > 0)
 				sushiLane.delaySushi -= speed
 			
-			if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging)){
-				sushiAnimation(lineIndex)
-				sound.play("wrong")
-				notMissing=true;
-				wrongParticle.x = lastSushi.centerX
-				wrongParticle.y = lastSushi.centerY
-				wrongParticle.start(true, 1000, null, 5)
-				missPoint()
-				octopus.setAnimation(["lose"]);
-				gameEnded = true
-				return
+			if(checkingFrame==60){
+				console.log("Hola")
+				checkingFrame=0;
+				if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging) && (!isCompleting)){
+					sushiAnimation(lineIndex)
+					sound.play("wrong")
+					notMissing=true;
+					wrongParticle.x = lastSushi.centerX
+					wrongParticle.y = lastSushi.centerY
+					wrongParticle.start(true, 1000, null, 5)
+					missPoint()
+					octopus.setAnimation(["lose"]);
+					gameEnded = true
+					return
+				}
+			}else{
+				addCheckingFrame();
 			}
 		}
         timeNextSushi += game.time.elapsedMS
@@ -963,10 +983,13 @@ var sushi = function(){
 				}
 			}
 //        }
-
-    }
+    	}
 	}
     
+	function addCheckingFrame(){
+		checkingFrame++;
+	}
+	
 	function destroySushi(lane){
 		var moveLastSushi=sushisInGame[lane].length;
 		

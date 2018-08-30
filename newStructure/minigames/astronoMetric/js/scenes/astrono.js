@@ -176,6 +176,7 @@ var astrono = function(){
 	var currentFigure
 	var isActive
 	var correctParticle
+	var sparksParticle
 	var wrongParticle
 	var canvasGroup
 	var nameGroup
@@ -627,8 +628,6 @@ var astrono = function(){
 			currentLine = null
 		}else{
 			sound.play("cut")
-			correctParticle.x = game.input.mousePointer.x; correctParticle.y = game.input.mousePointer.y;
-			correctParticle.start(true, 1000, null, 3)
 			lines.push(currentLine)
 		}
 	}
@@ -665,6 +664,9 @@ var astrono = function(){
 					exists = (currentLine.star === star)
 				}
 				if(!exists){
+					sparksParticle.x = star.x; 
+					sparksParticle.y = star.y;
+					sparksParticle.start(true, 1000, null, 3)
 					if(currentLine){
 						var from = currentLine.star.sprite
 						var to = star.sprite
@@ -798,6 +800,11 @@ var astrono = function(){
 		starsGroup.x = game.world.centerX
 		starsGroup.y = game.world.centerY - 80
 		sceneGroup.add(starsGroup)
+		
+		sparksParticle = createPart("star")
+		sparksParticle.x = 0
+		sparksParticle.y = 0
+		starsGroup.add(sparksParticle)
 
 		nameGroup = game.add.group()
 		nameGroup.x = game.world.centerX
