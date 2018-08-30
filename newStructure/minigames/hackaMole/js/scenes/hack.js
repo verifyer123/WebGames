@@ -487,7 +487,7 @@ var hack = function(){
 	function addObject(tag){
 		
 		var index = getEmtpy(0)
-			console.log(index)
+			
 		if(index == -1)
 			return
 		// while(holesGroup.children[index].carrot.active || holesGroup.children[index].hit.active || checkOverlap(holesGroup.children[index].carrot,yogotarGroup.yogoPos)){
