@@ -50,6 +50,7 @@ var onGoingGames={
 			{name:'Galaxy Heroes',url:'galaxyHeroes/',mapUrl:'galaxyHeroes', sceneName:'galaxy',subject:'geography',review:true,objective:20,demo:false,type:gameTypeEnum.GRAB},//31
 			{name:'Pop Fish',url:'popFish/',mapUrl:'popFish', sceneName:'fish',subject:'math',review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},//32
 			{name:'Bouncy Bath',url:'bouncybath/',mapUrl:'bouncybath', sceneName:'bouncybath',subject:'health',review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//33
+			{name:'Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},//34
 			{name:'Popsteroids',url:'popSteroids/',mapUrl:'popSteroids', sceneName:'popScene',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//35
 			{name:'Candy Shapes',url:'candyShapes/',mapUrl:'candyShapes', sceneName:'candy',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//36
 			{name:'Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//37
@@ -192,7 +193,7 @@ var onGoingGames={
 		   {name:'Motion Slip',url:'motionSlip/',mapUrl:'motionSlip', sceneName:'motionSlip',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//187
 		   {name:'Syncphony',url:'syncphony/',mapUrl:'syncphony', sceneName:'syncphony',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//188
 		   {name:'Orbiturn',url:'orbiturn/',mapUrl:'orbiturn', sceneName:'orbiturn',subject:'math', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//189
-		   {name:'Magic Spell',url:'magicSpell/',mapUrl:'magicSpell', sceneName:'magicSpell',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.MATCH},//190
+		   {name:'Magic Spell',url:'magicSpell/',mapUrl:'magicSpell', sceneName:'magicSpell',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.GRAB},//190
 		   {name:'Grammart',url:'grammart/',mapUrl:'grammart', sceneName:'grammart',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//191
 		   {name:'Robotic Figures',url:'roboticFigures/',mapUrl:'roboticFigures', sceneName:'roboticFigures',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//192
 		   {name:'Nestling Quest',url:'nestlingQuest/',mapUrl:'nestlingQuest', sceneName:'nestlingQuest',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//193

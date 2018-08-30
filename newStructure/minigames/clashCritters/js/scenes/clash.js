@@ -1002,7 +1002,7 @@ var clash = function(){
                     break
                 }
             }
-            game.time.events.add(1000, posHand, this, clashGroup.options[i])
+            game.time.events.add(1800, posHand, this, clashGroup.options[i])
         })
     }
 
