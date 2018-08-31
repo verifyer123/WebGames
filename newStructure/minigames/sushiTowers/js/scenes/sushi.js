@@ -878,6 +878,7 @@ var sushi = function(){
 		if(prevSushi.num === prevSushi.denom && !notMissing){
 			isCompleting=true;
 			sushisInGame[prevSushi.lane].merging = true
+			checkingFrame=0;
 			sushiCompleted(prevSushi)
 		}
 	}
