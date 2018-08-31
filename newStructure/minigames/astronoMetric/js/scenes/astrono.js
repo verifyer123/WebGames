@@ -485,10 +485,7 @@ var astrono = function(){
 		for(var startIndex = 0; startIndex < coordinates.length; startIndex++){
 			var coordinate = coordinates[startIndex]
 			var star = starsList[startIndex]
-			// star.alpha = 1
 			game.add.tween(star).to({alpha:1, x: coordinate.x, y: coordinate.y}, 800, Phaser.Easing.Cubic.Out, true)
-			// star.x = coordinate.x
-			// star.y = coordinate.y
 			starsInGame.push(star)
 			console.log(starsInGame)
 		}
@@ -498,9 +495,9 @@ var astrono = function(){
 	function startRound(notStarted) {
 		game.add.tween(nameGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(nameGroup.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Cubic.Out, true)
-		var round = ROUNDS[roundCounter]
-		starsGroup.add(figure)
-
+		var round = ROUNDS[roundCounter];
+		starsGroup.add(figure);
+		startDrag = false;
 		roundCounter = roundCounter + 1 < ROUNDS.length ? roundCounter + 1 : roundCounter
 		if(!tutorial){
 			createClock()
@@ -517,20 +514,17 @@ var astrono = function(){
 
 		lines = []
 		starsInGame = []
-
-
 		generateFigure(round)
-		if(tutorial){
-			hand.alpha=1;
-			tutorialLevel();
-		}
 		game.time.events.add(800, function () {
 			isActive = true
 			if(!tutorial){
 				createClock()
 				startTimer(incorrectReaction)
 			}else{
-
+				tutorialLevel();
+				game.time.events.add(200,function (){
+					hand.alpha=1;
+				})
 			}
 		})
 		// isActive = true
@@ -540,7 +534,6 @@ var astrono = function(){
 
 		sound.play("wrong")
 		inputsEnabled = false
-		if(currentLine)currentLine.clear()
 		lives--;
 		runAnimations(oona,oof,"lose")
 		heartsGroup.text.setText('X ' + lives)
@@ -751,7 +744,7 @@ var astrono = function(){
 
 		signGroup = game.add.group()
 		signGroup.x = game.world.centerX
-		signGroup.y = game.world.height - 273 * 0.5
+		signGroup.y = game.world.height - 245 * 0.5
 		sceneGroup.add(signGroup)
 
 		yogotarsInBack(oona,oof)
@@ -863,7 +856,7 @@ var astrono = function(){
 		getCoins(nameGroup)
 		// correctParticle.start(true, 1000, null, 5)
 		game.add.tween(currentFigure.sprite.scale).to({x:1.2, y:1.2}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
-
+		
 		for(var starIndex = 0; starIndex < starsInGame.length; starIndex++){
 			var star = starsInGame[starIndex]
 			game.add.tween(star.scale).to({x: 1.5, y:1.5}, 300, Phaser.Easing.Sinusoidal.In, true).yoyo(true)
@@ -877,7 +870,8 @@ var astrono = function(){
 			var line = lines[lineIndex]
 			game.add.tween(line).to({alpha:0}, 400, Phaser.Easing.Cubic.Out, true, 1000)
 		}
-
+		if(currentLine)
+			currentLine.clear()
 		game.add.tween(currentFigure.sprite).to({alpha: 0}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
 		game.add.tween(currentFigure.sprite.scale).to({x: 0.4, y:0.4}, 300, Phaser.Easing.Sinusoidal.In, true, 1000)
 		game.time.events.add(1600,function(){
@@ -915,11 +909,13 @@ var astrono = function(){
 		coinsGroup.add(coinS)
 		coinS.kill()
 
-		hand = game.add.sprite(0, 0, "hand")
+		hand = game.add.sprite(0,0, "hand")
 		hand.animations.add('hand')
 		hand.animations.play('hand', 4, false)
 		hand.alpha = 0
 		starsGroup.add(hand)
+		hand.x=0;
+		hand.y=-180;
 	}
 
 	function getCoins(player){
@@ -1059,6 +1055,7 @@ var astrono = function(){
 						currentLine.clear()
 					isActive = false
 					if(isCorrect){
+						currentLine.clear()
 						correctReaction();
 						runAnimations(oona,oof,"win");
 					}
