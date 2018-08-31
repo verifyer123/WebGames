@@ -733,12 +733,26 @@ var magicSpell = function(){
                     missPoint(dinamita)
                     enemy.setAnimationByName(0, "attack", false)
                     enemy.addAnimationByName(0, "idle", true)
-                    if(lives > 0)
-                        game.time.events.add(2000, changeSeason)
+                    if(lives > 0) showAnswer()
                 }
                 dinamita.addAnimationByName(0, "idle", true)
             }
         }
+    }
+
+    function showAnswer(){
+
+        var ans = SPELL_WORDS[season]
+
+        for(var i = 0; i < ans.length; i++){
+            var slot = slotsGroup.children[i]
+            if(slot.empty && slot.alpha != 0){
+                slot.rune.text.setText(ans.charAt(i))
+                game.add.tween(slot.rune).to({alpha:1}, 250, Phaser.Easing.Cubic.InOut, true)
+            }
+        }
+
+        game.time.events.add(1800, changeSeason)
     }
 
     function restoreAssets(){
