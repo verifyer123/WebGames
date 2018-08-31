@@ -504,6 +504,7 @@ var dinamitaDance = function(){
     }
 
     function changeHand(index){
+        actualObject = null;
         hand.x = allButtonsGroup.x + allButtonsGroup.getAt(index).x;
         hand.y = allButtonsGroup.y + allButtonsGroup.getAt(index).y;
     }
