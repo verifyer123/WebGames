@@ -122,6 +122,7 @@ var sushi = function(){
     var swipe
 	var hand
 	var coins
+	var handleSushi
     var addBrickCounter
 	var isCompleting
 	var diferentSushi=[];
@@ -522,6 +523,7 @@ var sushi = function(){
         for(var sushiIndex = 0; sushiIndex<sushisInGame[lane].length; sushiIndex++){
 			toX = game.rnd.integerInRange(-100,100)
             var sushi = sushisInGame[lane][sushiIndex]
+			sushi.inputEnabled=false
             game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
@@ -642,6 +644,7 @@ var sushi = function(){
 			sound.play("drag")
 			inputsEnabled=false;
 			var option = obj.parent
+			handleSushi=option;
 			option.inBottom = false
 			option.deltaX = pointer.x - obj.world.x
 			option.deltaY = pointer.y - obj.world.y - obj.originalY
@@ -794,6 +797,7 @@ var sushi = function(){
                     }
 			   }
 		  })
+		checkingFrame=0;
 		sound.play("cut")
 	}
 	
@@ -878,6 +882,7 @@ var sushi = function(){
 		if(prevSushi.num === prevSushi.denom && !notMissing){
 			isCompleting=true;
 			sushisInGame[prevSushi.lane].merging = true
+			checkingFrame=0;
 			sushiCompleted(prevSushi)
 		}
 	}
@@ -929,14 +934,6 @@ var sushi = function(){
 					
 					if((sushi.y >= maxHeight)||((prevSushi)&&(prevSushi.inBottom))){
 						sushi.inBottom = true
-						/*if((sushi.y <= 340) && (!sushiLane.merging)){
-							sushiAnimation(lineIndex)
-							sound.play("wrong")
-							wrongParticle.x = sushi.centerX
-							wrongParticle.y = sushi.centerY
-							wrongParticle.start(true, 1000, null, 5)
-							missPoint()
-						}*/
 					}
 					sushi.y=sushi.toY;
 					lastSushi = sushi
@@ -957,6 +954,7 @@ var sushi = function(){
 					wrongParticle.x = lastSushi.centerX
 					wrongParticle.y = lastSushi.centerY
 					wrongParticle.start(true, 1000, null, 5)
+					removeSushi(handleSushi);
 					missPoint()
 					octopus.setAnimation(["lose"]);
 					gameEnded = true

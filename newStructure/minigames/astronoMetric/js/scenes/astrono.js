@@ -540,7 +540,7 @@ var astrono = function(){
 
 		sound.play("wrong")
 		inputsEnabled = false
-		currentLine.clear()
+		if(currentLine)currentLine.clear()
 		lives--;
 		runAnimations(oona,oof,"lose")
 		heartsGroup.text.setText('X ' + lives)
