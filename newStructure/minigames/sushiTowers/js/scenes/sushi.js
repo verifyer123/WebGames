@@ -122,6 +122,7 @@ var sushi = function(){
     var swipe
 	var hand
 	var coins
+	var handleSushi
     var addBrickCounter
 	var isCompleting
 	var diferentSushi=[];
@@ -642,6 +643,7 @@ var sushi = function(){
 			sound.play("drag")
 			inputsEnabled=false;
 			var option = obj.parent
+			handleSushi=option;
 			option.inBottom = false
 			option.deltaX = pointer.x - obj.world.x
 			option.deltaY = pointer.y - obj.world.y - obj.originalY
@@ -958,6 +960,7 @@ var sushi = function(){
 					wrongParticle.x = lastSushi.centerX
 					wrongParticle.y = lastSushi.centerY
 					wrongParticle.start(true, 1000, null, 5)
+					removeSushi(handleSushi);
 					missPoint()
 					octopus.setAnimation(["lose"]);
 					gameEnded = true
