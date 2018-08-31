@@ -2,7 +2,7 @@
 
 {
 	"filename": "bar",
-	"frame": {"x":306,"y":1562,"w":30,"h":34},
+	"frame": {"x":417,"y":1014,"w":30,"h":34},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":34},
@@ -20,11 +20,11 @@
 },
 {
 	"filename": "cerebro",
-	"frame": {"x":340,"y":837,"w":118,"h":93},
+	"frame": {"x":340,"y":837,"w":119,"h":94},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":118,"h":93},
-	"sourceSize": {"w":118,"h":93},
+	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":94},
+	"sourceSize": {"w":119,"h":94},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -56,47 +56,47 @@
 },
 {
 	"filename": "corazon",
-	"frame": {"x":417,"y":932,"w":41,"h":76},
+	"frame": {"x":417,"y":933,"w":45,"h":79},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":41,"h":76},
-	"sourceSize": {"w":41,"h":76},
+	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":79},
+	"sourceSize": {"w":45,"h":79},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "estomago",
-	"frame": {"x":264,"y":1828,"w":83,"h":112},
+	"frame": {"x":264,"y":1828,"w":85,"h":111},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":112},
-	"sourceSize": {"w":83,"h":112},
+	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":111},
+	"sourceSize": {"w":85,"h":111},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "higado",
-	"frame": {"x":306,"y":1496,"w":85,"h":64},
+	"frame": {"x":340,"y":1059,"w":86,"h":67},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":64},
-	"sourceSize": {"w":85,"h":64},
+	"spriteSourceSize": {"x":0,"y":0,"w":86,"h":67},
+	"sourceSize": {"w":86,"h":67},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "intestino_del",
-	"frame": {"x":401,"y":1315,"w":61,"h":49},
+	"frame": {"x":351,"y":1896,"w":64,"h":52},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":61,"h":49},
-	"sourceSize": {"w":61,"h":49},
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":52},
+	"sourceSize": {"w":64,"h":52},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "intestino_grueso",
-	"frame": {"x":349,"y":1896,"w":82,"h":65},
+	"frame": {"x":306,"y":1527,"w":83,"h":67},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":82,"h":65},
-	"sourceSize": {"w":82,"h":65},
+	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":67},
+	"sourceSize": {"w":83,"h":67},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -164,16 +164,16 @@
 },
 {
 	"filename": "rinones",
-	"frame": {"x":259,"y":1372,"w":105,"h":35},
+	"frame": {"x":259,"y":1372,"w":106,"h":39},
 	"rotated": false,
 	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":105,"h":35},
-	"sourceSize": {"w":105,"h":35},
+	"spriteSourceSize": {"x":0,"y":0,"w":106,"h":39},
+	"sourceSize": {"w":106,"h":39},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "smoke",
-	"frame": {"x":349,"y":1801,"w":100,"h":93},
+	"frame": {"x":351,"y":1801,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -182,7 +182,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":393,"y":1496,"w":64,"h":64},
+	"frame": {"x":391,"y":1527,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -191,7 +191,7 @@
 },
 {
 	"filename": "toy_01",
-	"frame": {"x":340,"y":1058,"w":119,"h":66},
+	"frame": {"x":306,"y":1459,"w":119,"h":66},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":66},
@@ -209,7 +209,7 @@
 },
 {
 	"filename": "toy_03",
-	"frame": {"x":340,"y":932,"w":75,"h":124},
+	"frame": {"x":340,"y":933,"w":75,"h":124},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":75,"h":124},
@@ -227,7 +227,7 @@
 },
 {
 	"filename": "toy_05",
-	"frame": {"x":306,"y":1409,"w":95,"h":85},
+	"frame": {"x":367,"y":1372,"w":95,"h":85},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":95,"h":85},
@@ -257,8 +257,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":463,"h":1962},
+	"size": {"w":463,"h":1955},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:25db64d016485d3ff5722f0d5644d56e:e35295242643574b7a91e655fc26c25e:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:fda7bf0ea00376eda14432a7bd2bcc9b:da2bf4f076ec161a0871c6cfbdd6878b:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
