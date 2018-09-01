@@ -766,7 +766,8 @@ var drzombie = function(){
 			
 			var organ = organsGroup.create(-200,-100,'atlas.zombie',organsPosition[i].name);
 			organ.inputEnabled = true;
-			organ.input.enableDrag(true);
+			organ.input.enableDrag();//true
+			organ.hitArea = new Phaser.Circle(0,0,organ.width*1.3);
 			organ.tag = organsPosition[i].name;
 			organ.anchor.setTo(0.5,0.5);
 			organ.events.onDragStart.add(onDragStart, this);
@@ -898,6 +899,8 @@ var drzombie = function(){
 
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
+		boundsB.width=boundsB.width/3.3;
+        boundsB.height=boundsB.height/3.3;
 
 		return Phaser.Rectangle.intersects(boundsA , boundsB);
 
