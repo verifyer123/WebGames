@@ -491,7 +491,6 @@ var astrono = function(){
 		}
 
 	}
-
 	function startRound(notStarted) {
 		game.add.tween(nameGroup).to({alpha:0}, 500, Phaser.Easing.Cubic.Out, true)
 		game.add.tween(nameGroup.scale).to({x:0.4, y:0.4}, 500, Phaser.Easing.Cubic.Out, true)
@@ -590,7 +589,7 @@ var astrono = function(){
 
 		var clockImage = clock.create(0,0,'atlas.astrono','clock')
 		clockImage.anchor.setTo(0.5,0.5)
-
+		
 		var clockBar = clock.create(-clockImage.width* 0.38,19,'atlas.astrono','bar')
 		clockBar.anchor.setTo(0,0.5)
 		clockBar.width = clockImage.width*0.76

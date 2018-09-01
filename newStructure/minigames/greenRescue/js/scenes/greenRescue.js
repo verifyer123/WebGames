@@ -174,7 +174,7 @@ var greenRescue = function(){
 	var tutorialState
 	var dificulty;
 	var tutorial
-	var checked, allClean,canPlant;
+	var checked, allClean,canPlant,canShovel;
 	var tweenIcon=new Array(9);
 	var colora1,colora2,colora3;
 	var colorb1,colora2,colora3;
@@ -212,8 +212,7 @@ var greenRescue = function(){
 		animations[4]="SODA";
 		animations[5]="TIRE";
 		animations[6]="TV";
-
-		transition=0
+		canShovel=false;
 		canPlant=false;
 		emitter="";
 		tutorial=true;
@@ -1168,6 +1167,7 @@ var greenRescue = function(){
 			if(tutorial){
 				tutorialLevel(tutorialState,obj.tag);
 			}
+			canShovel=true;
 			allClean=0;
 			platform1.alpha=0;
 			platform2.alpha=1;
@@ -1184,7 +1184,7 @@ var greenRescue = function(){
 	function makeHole(obj){
 		var counterToPlant=0;
 		hand.alpha=0;
-		if(estados[obj.tag]==3){
+		if(estados[obj.tag]==3 && canShovel){
 			sound.play("hole");
 			estados[obj.tag]=4;
 			hole[obj.tag].alpha=1;
@@ -1428,6 +1428,7 @@ var greenRescue = function(){
 
 		if(dificulty<9)dificulty++;
 		passingLevel=true;
+		canShovel=false;
 		var witchYogotar=game.rnd.integerInRange(0,1);
 		sound.play("cheers")
 		if(witchYogotar==0){
