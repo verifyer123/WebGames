@@ -1,131 +1,131 @@
 
 skeleton.png
-size: 1024,256
+size: 2048,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/breath_head_7
   rotate: false
-  xy: 2, 140
+  xy: 2, 2
   size: 194, 114
   orig: 194, 114
   offset: 0, 0
   index: -1
 normal/cachete_1
   rotate: false
-  xy: 895, 162
+  xy: 1233, 24
   size: 58, 54
   orig: 58, 54
   offset: 0, 0
   index: -1
 normal/cachete_2
   rotate: false
-  xy: 962, 199
+  xy: 1300, 61
   size: 56, 55
   orig: 56, 55
   offset: 0, 0
   index: -1
 normal/hand_1
   rotate: false
-  xy: 318, 141
+  xy: 551, 3
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 normal/hand_2
   rotate: false
-  xy: 106, 10
+  xy: 1440, 104
   size: 15, 12
   orig: 15, 12
   offset: 0, 0
   index: -1
 normal/head_1
   rotate: false
-  xy: 624, 156
+  xy: 861, 18
   size: 99, 98
   orig: 99, 98
   offset: 0, 0
   index: -1
 normal/head_2
   rotate: false
-  xy: 106, 24
+  xy: 450, 2
   size: 99, 114
   orig: 99, 114
   offset: 0, 0
   index: -1
 normal/head_3
-  rotate: false
-  xy: 2, 8
+  rotate: true
+  xy: 198, 14
   size: 102, 130
   orig: 102, 130
   offset: 0, 0
   index: -1
 normal/head_4
   rotate: false
-  xy: 207, 43
+  xy: 654, 21
   size: 103, 95
   orig: 103, 95
   offset: 0, 0
   index: -1
 normal/head_5
   rotate: false
-  xy: 725, 156
+  xy: 962, 18
   size: 99, 98
   orig: 99, 98
   offset: 0, 0
   index: -1
 normal/head_6
   rotate: false
-  xy: 421, 155
+  xy: 1063, 17
   size: 99, 99
   orig: 99, 99
   offset: 0, 0
   index: -1
 normal/head_7
   rotate: false
-  xy: 522, 156
+  xy: 759, 18
   size: 100, 98
   orig: 100, 98
   offset: 0, 0
   index: -1
 normal/head_8
   rotate: false
-  xy: 318, 155
+  xy: 551, 17
   size: 101, 99
   orig: 101, 99
   offset: 0, 0
   index: -1
 normal/leg_1
-  rotate: true
-  xy: 207, 2
+  rotate: false
+  xy: 1358, 69
   size: 39, 47
   orig: 39, 47
   offset: 0, 0
   index: -1
 normal/leg_2
-  rotate: true
-  xy: 256, 2
+  rotate: false
+  xy: 1399, 70
   size: 39, 46
   orig: 39, 46
   offset: 0, 0
   index: -1
 normal/shadow
   rotate: false
-  xy: 826, 218
+  xy: 1164, 80
   size: 134, 36
   orig: 134, 36
   offset: 0, 0
   index: -1
 normal/tale
   rotate: false
-  xy: 198, 140
+  xy: 330, 2
   size: 118, 114
   orig: 118, 114
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 826, 152
+  xy: 1164, 14
   size: 67, 64
   orig: 67, 64
   offset: 0, 0

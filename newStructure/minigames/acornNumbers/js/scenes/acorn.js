@@ -1,4 +1,6 @@
-
+Tarea: https://phaser.io/docs/2.6.2/Phaser.Easing.html en IN OUT INOUT
+            //https://phaser.io/sandbox/edit/2
+            //game.add.tween(sprite).to({y: 490}, 2000, Phaser.Easing.Bounce.InOut, true, 0);
 var soundsPath = "../../shared/minigames/sounds/"
 
 var acorn = function(){
@@ -137,7 +139,6 @@ var acorn = function(){
     var tutorialType;
     var isRunning;
     var pickAcornTutorial;
-    //var inputGroup;
     var counterTimeBackground;
     var mountainsBack;
     var backgroundGroup;
@@ -206,13 +207,13 @@ var acorn = function(){
 
     function stopGame(win){
 
-        sound.stop("acornSong");
         inputsEnabled = false;
         canSwipe = false;
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
         tweenScene.onComplete.add(function(){
 
+            sound.stop("acornSong");
             var resultScreen = sceneloader.getScene("result");
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
@@ -425,7 +426,7 @@ var acorn = function(){
         ardilla.setAnimation = function (animations, loop) {
             ardillaSpine.setAnimationByName(0, animation, loop);
             if(!loop){
-                ardillaSpine.addAnimationByName(0, "IDLE", true);
+                ardillaSpine.addAnimationByName(0, "idle", true);
             }
             for(var index = 0; index < animations.length; index++) {
                 var animation = animations[index];
@@ -645,7 +646,11 @@ var acorn = function(){
                 inputsEnabled = true;
                 currentDistance = 0;
                 gameGroup.x = 0;
-                ardilla.setAnimation(["idle"], true);
+                if(counterAcorn>0){
+                    ardilla.setAnimation(["idle_cachetes"], true);
+                }else{
+                   ardilla.setAnimation(["idle"], true); 
+                }
                 removeObjects();
                 startRound();
             }
@@ -830,21 +835,6 @@ var acorn = function(){
 
         createObjects(tutorialColocationX.length,true);
         createObjects(NUM_OBJECTS,false);
-
-        // inputGroup = game.add.group();
-        // for (var n = 0; n < 3; n++) {
-        //     var prefabButton = game.add.graphics(0, 0);
-        //     prefabButton.lineStyle(0);
-        //     prefabButton.beginFill(0xFFFFFF, 1);
-        //     prefabButton.drawRect(0, TOP_LANE_Y + LANE_HEIGHT * (n - 1) + 100, game.width, 100);
-        //     prefabButton.endFill();
-        //     prefabButton.inputEnabled = true;
-        //     prefabButton.input.useHandCursor = true;
-        //     //prefabButton.events.onInputDown.add(clickGround,{param1: n});
-        //     inputGroup.add(prefabButton);
-        // }
-        // //inputGroup.visible = false;
-        // sceneGroup.add(inputGroup);
 
     }
 
@@ -1214,8 +1204,6 @@ var acorn = function(){
             createGameObjects();
             generateQuestion();
             createWeapon();
-            //startRound();
-            //startTutorialRound();
 
             createHearts();
             createPointsBar();
