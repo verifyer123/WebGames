@@ -1,103 +1,110 @@
 
 Lizart.png
-size: 1024,256
+size: 2048,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 lengua
   rotate: false
-  xy: 2, 19
+  xy: 2, 2
   size: 128, 64
   orig: 128, 64
   offset: 0, 0
   index: -1
 normal/eye_1
   rotate: false
-  xy: 132, 2
+  xy: 1289, 155
   size: 80, 81
   orig: 80, 81
   offset: 0, 0
   index: -1
 normal/eye_2
   rotate: false
-  xy: 214, 28
+  xy: 1371, 180
   size: 56, 56
   orig: 56, 56
   offset: 0, 0
   index: -1
 normal/head
   rotate: false
-  xy: 527, 91
+  xy: 701, 74
   size: 168, 162
   orig: 168, 162
   offset: 0, 0
   index: -1
+normal/head_hit
+  rotate: false
+  xy: 176, 69
+  size: 172, 167
+  orig: 172, 167
+  offset: 0, 0
+  index: -1
 normal/head_mouth_open
   rotate: false
-  xy: 697, 92
+  xy: 871, 75
   size: 167, 161
   orig: 167, 161
   offset: 0, 0
   index: -1
 normal/head_sad
   rotate: false
-  xy: 2, 85
+  xy: 2, 68
   size: 172, 168
   orig: 172, 168
   offset: 0, 0
   index: -1
 normal/head_win
   rotate: false
-  xy: 176, 86
+  xy: 350, 69
   size: 172, 167
   orig: 172, 167
   offset: 0, 0
   index: -1
 normal/head_win2
   rotate: false
-  xy: 350, 91
+  xy: 524, 74
   size: 175, 162
   orig: 175, 162
   offset: 0, 0
   index: -1
 normal/leg1
   rotate: false
-  xy: 272, 47
+  xy: 1040, 92
   size: 30, 37
   orig: 30, 37
   offset: 0, 0
   index: -1
 normal/leg2
   rotate: false
-  xy: 978, 73
+  xy: 1072, 94
   size: 30, 35
   orig: 30, 35
   offset: 0, 0
   index: -1
 normal/leg3
   rotate: false
-  xy: 978, 110
+  xy: 1429, 200
   size: 30, 36
   orig: 30, 36
   offset: 0, 0
   index: -1
 normal/leg4
   rotate: false
-  xy: 304, 47
+  xy: 132, 29
   size: 30, 37
   orig: 30, 37
   offset: 0, 0
   index: -1
 normal/tale
   rotate: true
-  xy: 866, 55
+  xy: 1177, 145
   size: 91, 110
   orig: 91, 110
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 866, 148
+  xy: 1040, 131
   size: 135, 105
   orig: 135, 105
   offset: 0, 0

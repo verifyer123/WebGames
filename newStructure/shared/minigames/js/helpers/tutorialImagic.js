@@ -15,54 +15,47 @@ var tutorialHelper = function () {
 	var inTutorial
 
 	var noWebmTextType
-	var howkeyWeb = "how_to_play_Imagic"
 	var howkeyImagic = "how_to_play_Imagic"
-	var playKeyWeb = "button_play"
 	var playKeyImagic = "button_play"
 	var backKeyImagic = "background_tutorial_Imagic"
-	var backKeyWeb = "background_tutorial_Web"
 	var backKeyStars = "back_stars"
 	var langPlayText;
 
 	var spine
 	var spineTimeOut
-	//Configurations: IMAGIC, WEB_GAMES
 	var configuration;
 	var createTutorialGif;
 	var tutoPath;
 
-
 	function createTutorialGif(group,onClickFunction){
 
 		inTutorial = true
-
 		var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x0d0000)
+		rect.beginFill(0x0d1623)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
 		rect.alpha = 0.7
 		rect.endFill()
 		group.add(rect)
-		var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyWeb)
+
+		var plane = group.create(game.world.centerX, game.world.centerY+30,backKeyImagic)
 		plane.scale.setTo(1,1)
 		plane.anchor.setTo(0.5,0.5)
-		var howTo = group.create(game.world.centerX,90, howkeyWeb)
+		var howTo = group.create(game.world.centerX+10,90, howkeyImagic)
 		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		var button = group.create(game.world.centerX+120, game.world.centerY+330, playKeyWeb)//'atlas.tutorial','play_'+localization.getLanguage())
+		howTo.scale.setTo(1,1)
+		var button = group.create(game.world.centerX+120, game.world.centerY+270, playKeyImagic)
 		button.anchor.setTo(0.5,0.5)
 		button.scale.setTo(0.85)
-		var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
+		var tuto = group.create(game.world.centerX, game.world.centerY - 50,'tutorial_image')
 		tuto.anchor.setTo(0.5,0.5)
 
-
 		button.inputEnabled=true;
+		button.hitArea=new Phaser.Circle(0,0,button.width);
 		button.events.onInputDown.add(function(){
 			button.inputEnabled = false
 			clickPlay(group,onClickFunction)
-		});
-
+		})	
 		game.add.tween(button.scale).to({x:0.95,y:0.95},300,Phaser.Easing.linear,true).yoyo(true,-1).repeat(-1)
-
 
 		spine = game.add.spine(game.world.centerX-120, game.world.centerY+450,"tutorialGif")
 		spine.setSkinByName("normal")
@@ -70,13 +63,20 @@ var tutorialHelper = function () {
 		anim.onComplete = repeatSpine
 		group.add(spine)
 
-		var fontStyle = {font: "25px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle)
-		typeText.stroke = '#000000';
-		typeText.strokeThickness = 6;
+		var fontStyle = {font: "25px Aldrich-Regular", fill: "#ffffff", align: "center"}
+		var typeText = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+400, tutorialTypeText, fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 5);
+		spine.x+=10;
+		spine.y-=30;
+		typeText.x+=15
+		typeText.y-=15
 		typeText.anchor.setTo(0.5)
 		group.add(typeText)
 
+		var playText = new Phaser.Text(game,game.world.centerX+107, game.world.centerY+400, langPlayText, fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 5);
+		playText.x+=15
+		playText.y-=15
+		playText.anchor.setTo(0.5)
+		group.add(playText)
 
 		var coinsRect = new Phaser.Graphics(game)
 		coinsRect.beginFill(0xff0000)
@@ -90,42 +90,6 @@ var tutorialHelper = function () {
 		group.add(coinsSprite)
 
 		coinsSprite.scale.setTo(0,1)
-
-		var tween_1 = game.add.tween(coinsSprite.scale).to({x:1/4},2000/4,Phaser.Easing.Linear.none,false)
-		tween_1.onComplete.add(function(){onTweenText(coinText_1)})
-		var tween_2 = game.add.tween(coinsSprite.scale).to({x:1/2},2000/4,Phaser.Easing.Linear.none,false)
-		tween_2.onComplete.add(function(){onTweenText(coinText_2)})
-		var tween_3 = game.add.tween(coinsSprite.scale).to({x:8/9},(2000*(8/9) - (2000/2)),Phaser.Easing.Linear.none,false)
-		tween_3.onComplete.add(function(){onTweenText(coinText_3)})
-		var tween_4 = game.add.tween(coinsSprite.scale).to({x:1},2000*(1/9),Phaser.Easing.Linear.none,false)
-
-		tween_1.chain(tween_2)
-		tween_2.chain(tween_3)
-		tween_3.chain(tween_4)
-
-		tween_1.start()
-
-		coinText_1 = new Phaser.Text(game,game.world.centerX-120 , game.world.centerY+198, "1 pts", fontStyle)
-		coinText_1.stroke = '#000000';
-		coinText_1.strokeThickness = 5;
-		coinText_1.anchor.setTo(0.5)
-		coinText_1.scale.setTo(0.8)
-		group.add(coinText_1)
-
-		coinText_2 = new Phaser.Text(game,game.world.centerX , game.world.centerY+198, Math.floor(goalScore/2)+" pts", fontStyle)
-		coinText_2.stroke = '#000000';
-		coinText_2.strokeThickness = 5;
-		coinText_2.anchor.setTo(0.5)
-		coinText_2.scale.setTo(0.8)
-		group.add(coinText_2)
-
-		coinText_3 = new Phaser.Text(game,game.world.centerX+120 , game.world.centerY+198, goalScore+" pts", fontStyle)
-		coinText_3.stroke = '#000000';
-		coinText_3.strokeThickness = 5;
-		coinText_3.anchor.setTo(0.5)
-		coinText_3.scale.setTo(0.8)
-		group.add(coinText_3)
-
 
 	}
 
@@ -255,16 +219,15 @@ var tutorialHelper = function () {
 		}
 
 		currentLoader.spine(obj.name, obj.file)
-
-
-		currentLoader.image(backKeyWeb,sharePath+"images/tutorial/background_tutorial_Web.png")
+		currentLoader.image(backKeyImagic,sharePath+"images/tutorial/background_tutorial_Imagic.png");
+		currentLoader.image(backKeyStars,sharePath+"images/tutorial/back_stars.png");
 		if(language == "ES"){
-			currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Web.png')
-			currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_ES.png')
+			currentLoader.image(howkeyWeb,sharePath+'images/tutorial/how_ES_Imagic.png')
+			currentLoader.image(playKeyWeb,sharePath+'images/tutorial/play_Imagic.png')
 		}
 		else{
-			currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Web.png')
-			currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_EN.png')
+			currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Imagic.png')
+			currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
 		}
 
 		if(language == "ES"){

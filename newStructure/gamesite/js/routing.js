@@ -21,7 +21,7 @@ var routing = function () {
 			console.log(language, "language")
 			var src = "../minigames/" + game.url + "index.html?language=" + language
 
-			iMagicMain.startGame(src)
+			gamesMain.startGame(src)
 
 			$(".game-canvas p").text("")
 

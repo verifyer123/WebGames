@@ -1,11 +1,8 @@
-
-
 var soundsPath = "../../shared/minigames/sounds/"
-var iconsPath = "../../shared/minigames/images/icons/"
-var imagesPath = "../../shared/minigames/images/"
 
-var result_iMagic = function(){
-	
+var result = function(){
+	var iconsPath = "../../shared/minigames/images/icons/"
+	var imagesPath = "../../shared/minigames/images/"
 	localizationData = {
 		"EN":{
 			"youGot":"You earned ",
@@ -47,7 +44,7 @@ var result_iMagic = function(){
 				image: imagesPath + "result/atlas.png"
 			},
 			{
-				name: 'atlas.result',
+				name: 'atlas.resultScreenImagic',
 				json: imagesPath + "result/result_IMagic/atlasImagic.json",
 				image: imagesPath + "result/result_IMagic/atlasImagic.png"
 			},
@@ -78,34 +75,52 @@ var result_iMagic = function(){
 
 	var sceneGroup
 
-	var totalScore
+	var totalScore, totalTime
+	var shareButton, shareText, tryAgainText
 	var win
+	var lastRecord
+	var whiteFade
+	var iconsGroup
 	var buttonsActive
 	var currentPlayer
-	var gamesList
-	var goalScore
+	var haveCoupon
+	var gameData
+	var goalScore = 50
+	var gameNumbers = null
+	var scaleToUse
+	var gameIndex = 0
+	var newRecord
+	var whiteFade
+	var tile
+	var icons
 	var starGroup, buttonsGroup
 	var particlesGroup, particlesUsed
+	var coinsContainer
 	var coinsToStarsContainer
 	var playerTotalScoreContainer
 	var yogotar
 	var iconImage
 	var playerData
+	var configuration;
+	var timeGoal = null
+	var stars = 0
 	var player = new Object()
+
 
 	function setScore(didWin,score,index,scale) {
 
-		gamesList = parent.gameData
+		gameData = parent.gameData
 
 		player.name="Heber";
 		player.totalScore=10;
-		console.log(gamesList)
+		configuration=gameData.config.tutorial;
+		console.log(gameData)
 		currentPlayer = null
+		gameIndex = index
 		totalScore = score
-		goalScore = gamesList.objective
+		goalScore = gameData.objective
 		win = totalScore >= goalScore
 		console.log(win)
-		//console.log(parent.epicModel)
 		if(parent.epicModel){
 			currentPlayer = parent.epicModel.getPlayer()
 			mixpanel.people.set({ "MinigamesPlayed": currentPlayer.minigamesPlayed+1 });
@@ -120,42 +135,86 @@ var result_iMagic = function(){
 				currentPlayer.minigamesPlayed++
 		}
 
-		setMixpanel("MinigameAnswer")
+		scaleToUse = scale || 0.9
+//		setMixpanel("MinigameAnswer")
 		console.log('Set score')
+	}
+
+	function startsObtained(total){
+
+		if(total >= goalScore){
+			return 3
+		}
+		else if(total >= goalScore/2){
+			return 2
+		}
+		else if(total >= 1){
+			return 1
+		}
+		else{
+			return 0
+		}
+	}
+	function changeImage(index,group){
+		for (var i = 0;i< group.length; i ++){
+			group.children[i].alpha = 0
+			if( i == index){
+				group.children[i].alpha = 1
+			}
+
+			if(i == 2){
+				group.children[i].alpha = 1
+			}
+		}
 	}
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
 	}
 
+	function createAnswerCounter(totalAnswered, totalQuestions){
+		var containerGroup = new Phaser.Group(sceneGroup.game)
+
+		var background = containerGroup.create(0, 0, 'atlas.resultScreen', 'questioncounter')
+
+		background.anchor.setTo(0.5, 0.5)
+
+		var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#568f00", align: "center"}
+		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
+		trackerText.anchor.setTo(0.5, 0.5)
+		trackerText.x = background.width * 0.15
+		trackerText.y = background.height * 0.12
+		containerGroup.add(trackerText)
+
+		var goal = totalQuestions
+		var answeredQuestions = totalAnswered
+
+		trackerText.text = totalScore
+
+		return containerGroup
+	}
+
 	function setMixpanel(callName){
 
 		mixpanel.track(
 			callName,
-			{"minigame": gamesList.name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
-			 "answerTime":playerData.timeReady,"subject":gamesList.subject,"isMap":playerData.hasMap,"app":"epicWeb"}
+			{"minigame": gameData.name, "correct":win, "score":totalScore,"incorrectAnswers":playerData.lives,
+			 "answerTime":playerData.timeReady,"subject":gameData.subject,"isMap":playerData.hasMap,"app":"epicWeb"}
 		);
 	}
 
 	function shareEvent(){
 
-		setMixpanel("shareFacebook")
+//		setMixpanel("shareFacebook")
 
 		FB.ui({
 			method: 'share',
-			href: gamesList.url,
+			href: gameData.url,
 			mobile_iframe: true,
 			title: localization.getString(localizationData,"myScore") + totalScore
 		}, function(response){
 			//console.log(button)
 		});
-	}
-    
-    function createBackground(){
-        
-        var background = sceneGroup.create(0,0,'atlas.result','back_Imagic')
-        background.width = game.world.width
-        background.height = game.world.height
 	}
 
 	function inputButton(obj){
@@ -171,6 +230,7 @@ var result_iMagic = function(){
 			parent = obj
 		}
 
+		//changeImage(0,parent)
 		sound.play("click")
 
 		var origScale = parent.scale.x
@@ -181,13 +241,15 @@ var result_iMagic = function(){
 			if(parent.tag == 'share'){
 				shareEvent()
 			}else if(parent.tag == 'retry'){
-				setMixpanel("onRetry")
+//				setMixpanel("onRetry")
+				console.log(gameData)
 				var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
 				alphaTween.onComplete.add(function(){
-					sceneloader.show(gamesList.sceneName)
+					sceneloader.show(gameData.sceneName)
+
 				})
 			}else if(parent.tag == 'map'){
-				setMixpanel("onMap")
+//				setMixpanel("onMap")
 				var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
 				alphaTween.onComplete.add(function(){
 					window.open("../epicMap/", "_self")
@@ -196,61 +258,67 @@ var result_iMagic = function(){
 				game.destroy();
 			}
 		})
+
 	}
 
-	function createButtons(){
+	function createButtons(pivot){
 
 		buttonsGroup = game.add.group()
 		sceneGroup.add(buttonsGroup)
-        
-        var buttonNames = ['retry','home','share']
-
-        var buttonTexts = ['retry','home','share']
-
-        var buttonsLength = buttonNames.length
-
-        var pivotX = game.world.centerX - 125
-        var pivotY = game.world.centerY + 450
-
-        for(var i = 0;i<buttonsLength;i++){
-
-            var textToUse = localization.getString(localizationData,buttonNames[i])
-
-            var group = game.add.group()
-            var fontStyle = {font: "30px Aldrich-Regular",fontWeight: "bold", fill: "#ffffff", align: "center"}
-            group.alpha = 0
-            group.x = pivotX
-            group.y = pivotY-100
-
-
-            var button1 = group.create(0,0,'atlas.result',buttonNames[i] + 'Btn_Imagic')
-            button1.x-=27;
-            button1.y-=50;
-            button1.anchor.setTo(0.5,0.5)
-            button1.scale.setTo(0.8,0.8)
-
-            var retryText = new Phaser.Text(sceneGroup.game,group.x-27,group.y+20, localization.getString(localizationData,buttonNames[i]).toUpperCase() , fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 4);
-            retryText.anchor.setTo(0.5,0.5)
-            sceneGroup.add(retryText)
-
-            buttonsGroup.add(group)
-            group.tag = buttonNames[i]
 
 
 
-            button1.inputEnabled = true
-            button1.events.onInputDown.add(inputButton)
-            button1.active = true
+
+		var buttonNames = ['retry','home','share']
+
+		var buttonTexts = ['retry','home','share']
+
+		var buttonsLength = buttonNames.length
+
+		var pivotX = game.world.centerX - 125
+		var pivotY = pivot
+
+		for(var i = 0;i<buttonsLength;i++){
+
+			var textToUse = localization.getString(localizationData,buttonNames[i])
+
+			var group = game.add.group()
+			var fontStyle = {font: "30px Aldrich-Regular",fontWeight: "bold", fill: "#ffffff", align: "center"}
+			group.alpha = 0
+			group.x = pivotX
+			group.y = pivotY-100
 
 
-            if(textToUse.length > 8){
-                retryText.scale.setTo(0.65,0.7)
-                retryText.y+= 4
-            }
+			var button1 = group.create(0,0,'atlas.resultScreenImagic',buttonNames[i] + 'Btn_Imagic')
+			button1.x-=27;
+			button1.y-=50;
+			button1.anchor.setTo(0.5,0.5)
+			button1.scale.setTo(0.8,0.8)
 
-            pivotX +=150
-        }
-		
+			var retryText = new Phaser.Text(sceneGroup.game,group.x-27,group.y+20, localization.getString(localizationData,buttonNames[i]).toUpperCase() , fontStyle).setShadow(0, 0, 'rgba(255,255,255,1)', 4);
+			retryText.anchor.setTo(0.5,0.5)
+			sceneGroup.add(retryText)
+
+			buttonsGroup.add(group)
+			group.tag = buttonNames[i]
+
+
+
+			button1.inputEnabled = true
+			button1.hitArea=new Phaser.Circle(0,0,button1.width*1.2)
+			button1.events.onInputDown.add(inputButton)
+			button1.active = true
+
+
+			if(textToUse.length > 8){
+				retryText.scale.setTo(0.65,0.7)
+				retryText.y+= 4
+			}
+
+			pivotX +=150
+		}
+
+
 		console.log(parent.env)
 		if(parent.env && parent.env.isMap){
 			var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
@@ -260,129 +328,187 @@ var result_iMagic = function(){
 			homeBtn.inputEnabled = true
 			homeBtn.tag = 'map'
 		}
+
+
+
+
+
+	}
+
+	function checkPosObj(obj){
+
+		var posX = obj.x
+		var posY = obj.y
+
+		var samePos = false
+		for(var i = 0;i<gameIconsGroup.length;i++){
+			var obj = gameIconsGroup.children[i]
+			if(Math.abs(obj.x - posX) < 150 && Math.abs(obj.y - posY) < 150){
+				samePos = true
+			}
+		}
+		return samePos
+
+	}
+
+	function createBackground(){
+
+		var background = game.add.tileSprite(0,0,game.world.width, game.world.height,'atlas.resultScreenImagic','back_Imagic')
+		sceneGroup.add(background)
+
+
+
+
+
 	}
 
 	function createScene(){
-        
+
+		//console.log(icons[0].name + ' name')
+
+		if(game.device.desktop){
+			haveCoupon = false
+		}
+
+
+		console.log("Create scene results")
 		loadSounds()
 
 		sceneGroup = game.add.group()
+		sceneGroup.alpha = 0
 
 		var background = new Phaser.Graphics(game)
-		background.beginFill(0xffffff)
-		background.drawRect(0, 0, game.world.width, game.world.height)
-		background.endFill()
+		background.beginFill(0xffffff);
+		background.drawRect(0, 0, game.world.width, game.world.height);
+		background.endFill();
+		background.anchor.setTo(0,0)
 		sceneGroup.add(background)
 
 		win = totalScore >= goalScore
 
+		var scaleSpine = 0.55
+		var pivotButtons = game.world.centerY + 450
+
 		createBackground()
 
+		var background = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.resultScreenImagic','base_Imagic')
+		background.anchor.setTo(0.5,0.5)
+
+		//background.scale.setTo(1.2,1.2)
+
+		var topHeight = game.world.height * 0.8  
 		var env = parent ? (parent.env ? parent.env : {}) : {}
 		if(currentPlayer){
 			currentPlayer.powerCoins += totalScore
 
 			if(env.isMap && win){
-				currentPlayer.minigames[gamesList.id].completed = true
+				currentPlayer.minigames[gameData.id].completed = true
 			}
 			parent.epicModel.savePlayer(currentPlayer)
 		}
 
-        var base = sceneGroup.create(game.world.centerX, game.world.centerY,'atlas.result','base_Imagic')
-        base.anchor.setTo(0.5)
-        
-		yogotar = game.add.spine(base.x - 100, base.y - 130, "yogotaResults")
-		yogotar.scale.setTo(0.55)
-		yogotar.setAnimationByName(0, "idle", true)
-		if(currentPlayer && currentPlayer.yogotar){
-			var yogotarSkin = currentPlayer.yogotar
-			yogotar.setSkinByName(yogotarSkin.toLowerCase())
-		}else{
-			yogotar.setSkinByName('eagle');
-		}
+		yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotaResults");
+		yogotar.scale.setTo(scaleSpine,scaleSpine)
+		yogotar.setAnimationByName(0, "idle", true);
+//		if(currentPlayer && currentPlayer.yogotar){
+		var yogotarSkin = gameData.yogotar;
+		yogotar.setSkinByName(yogotarSkin.toLowerCase());
+//		}else{
+//			yogotar.setSkinByName('eagle');
+//		}
+
+		yogotar.y=yogotar.y-30;
+
+		//yogotar.setSkinByName('Eagle');
 		sceneGroup.add(yogotar)
 
-		
+		var pivotText = game.world.centerX - 170
 
-			var numberAdd = 0
-			var delay = 1000
-			playerTotalScoreContainer = game.add.group()
-			sceneGroup.add(playerTotalScoreContainer)
-			var valueChange = 40
-
-			coinsToStarsContainer = game.add.group()
-			coinsToStarsContainer.x = game.world.centerX
-			coinsToStarsContainer.y = game.world.centerY - 20
-			sceneGroup.add(coinsToStarsContainer)
-
-			var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-			var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
-            
-			var retryText = new Phaser.Text(sceneGroup.game, 100,5, '= 0' , fontStyle)
-            
-			var totalCoin = game.add.sprite(base.x, base.y + 100, "atlas.result", "total")
-            totalCoin.anchor.setTo(0.5)
-            
-			var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalCoin.centerX-30,totalCoin.y+70, player.totalScore , fontStyle)
-
-			retryText.anchor.setTo(0,0.5)
-			
-			playerAllScoreText.anchor.setTo(0,0.5)
-			coinsToStarsContainer.add(retryText)
-			coinsToStarsContainer.text = retryText
-			playerTotalScoreContainer.add(totalCoin)
-			playerTotalScoreContainer.add(playerAllScoreText)
-			playerTotalScoreContainer.text = playerAllScoreText
-
-			var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/5,0,'atlas.result','coinImagic')
-			coinContainer_coin.anchor.setTo(0.5,0.5)
-
-			coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-30,0,'atlas.result','coinImagic')
-			coinContainer_star.anchor.setTo(0.5,0.5)
-			coinContainer_star.scale.setTo(0.8,0.8)
-
-			coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4+10,0,'atlas.result','coinImagic')
-			coinContainer_star.anchor.setTo(0.5,0.5)
-			coinContainer_star.scale.setTo(0.8,0.8)
-
-			var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.result','coinImagic')
-			coinContainer_star.anchor.setTo(0.5,0.5)
-			coinContainer_star.scale.setTo(0.9,0.9)
+		var numberAdd = 0
+		var delay = 1000
+		playerTotalScoreContainer = game.add.group()
+		sceneGroup.add(playerTotalScoreContainer)
+		var valueChange = 40
 
 
-			for(var i = 0; i < totalScore;i++){
+		coinsToStarsContainer = game.add.group()
+		coinsToStarsContainer.x = game.world.centerX
+		coinsToStarsContainer.y = game.world.centerY - 20
+		coinsToStarsContainer.scale.setTo(1,1)
+		sceneGroup.add(coinsToStarsContainer)
 
-				game.time.events.add(delay,function(){
+		var imgCont = coinsToStarsContainer.create(0,0,'atlas.resultScreen','coin_stock')
+		imgCont.alpha=0;
+		imgCont.anchor.setTo(0.5,0.5)
 
-					numberAdd++
-					coinsToStarsContainer.text.setText(' = ' + numberAdd)
-					coinsToStarsContainer.scale.setTo(1,1)
+		var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
+		var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.10,5, '= 0' , fontStyle)
+		var totalScoreImage=game.add.sprite(game.world.centerX-170,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
+		var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.totalScore , fontStyle)
 
-					playerTotalScoreContainer.text.setText(numberAdd+player.totalScore);
-					playerTotalScoreContainer.scale.setTo(1,1)
-					var indexCheck = numberAdd - 1
-					if(indexCheck % 100 == 0){
-						coinContainer_coin.x+=8;
-						playerTotalScoreContainer.text.x-=3;
-						sound.play("point")
-					}
-					if(indexCheck % 25 == 0){
-						createPart('coinImagic',coinsToStarsContainer.text)
-					}
-				})
-				delay+= valueChange
-			}
-			if(totalScore > 99){
-				coinsToStarsContainer.text.scale.setTo(0.8,0.8)
-			}
+		retryText.anchor.setTo(0,0.5)
+		totalScoreImage.anchor.setTo(0,0.5)
+		playerAllScoreText.anchor.setTo(0,0.5)
+		coinsToStarsContainer.add(retryText)
+		coinsToStarsContainer.text = retryText
+		playerTotalScoreContainer.add(totalScoreImage)
+		playerTotalScoreContainer.add(playerAllScoreText)
+		playerTotalScoreContainer.text = playerAllScoreText
 
-			iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
-			iconImage.scale.setTo(0.7,0.7)
-			iconImage.anchor.setTo(0.5,0.5)
-		
+		var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/3.7,0,'atlas.resultScreenImagic','coinImagic')
+		coinContainer_coin.anchor.setTo(0.5,0.5)
+
+		coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-30,0,'atlas.resultScreenImagic','coinImagic')
+		coinContainer_star.anchor.setTo(0.5,0.5)
+		coinContainer_star.scale.setTo(0.8,0.8)
+
+		coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4+10,0,'atlas.resultScreenImagic','coinImagic')
+		coinContainer_star.anchor.setTo(0.5,0.5)
+		coinContainer_star.scale.setTo(0.8,0.8)
+
+		var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.resultScreenImagic','coinImagic')
+		coinContainer_star.anchor.setTo(0.5,0.5)
+		coinContainer_star.scale.setTo(0.9,0.9)
 
 
-		game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
+		for(var i = 0; i < totalScore;i++){
+
+			game.time.events.add(delay,function(){
+
+				numberAdd++
+				coinsToStarsContainer.text.setText(' = ' + numberAdd)
+				coinsToStarsContainer.scale.setTo(1,1)
+
+				playerTotalScoreContainer.text.setText(numberAdd+player.totalScore);
+				playerTotalScoreContainer.scale.setTo(1,1)
+				var indexCheck = numberAdd - 1
+				if(indexCheck % 100 == 0){
+					coinContainer_coin.x+=8;
+					playerTotalScoreContainer.text.x-=3;
+					sound.play("point")
+				}
+				if(indexCheck % 25 == 0){
+					createPart('coinImagic',coinsToStarsContainer.text)
+				}
+			})
+			delay+= valueChange
+		}
+		if(totalScore > 99){
+			coinsToStarsContainer.text.scale.setTo(0.8,0.8)
+		}
+
+		iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
+		iconImage.scale.setTo(0.7,0.7)
+		iconImage.anchor.setTo(0.5,0.5)
+
+
+
+
+
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
+
+
 
 		starGroup = game.add.group()
 		starGroup.x = game.world.centerX
@@ -392,61 +518,85 @@ var result_iMagic = function(){
 
 		starGroup.star = []
 
-		
+		infoGroup = game.add.group()
+		sceneGroup.add(infoGroup)
 
-       
 
-			var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0, player.name.toString(), fontStyleImagic)
-			playerNameText.anchor.setTo(0.5)
-            playerNameText.setShadow(0, 0, 'rgba(0,255,255,1)', 20)
-			playerNameText.x = base.centerX
-			playerNameText.y = base.y - base.height/2 + 70
-			if(player.name.length>10){
-				playerNameText.scale.setTo(0.6,0.6)
-				playerNameText.y = base.y - base.height/2 + 90
-			}
-			sceneGroup.add(playerNameText)
-		
-		createButtons()
+
+
+		var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 20);
+		playerNameText.anchor.setTo(0.5, 0.5)
+
+		playerNameText.x = background.centerX
+		playerNameText.y = background.y-background.height/2+70
+		if(player.name.length>10){
+			playerNameText.scale.setTo(0.6,0.6)
+			playerNameText.y = background.y-background.height/2+90
+		}
+		sceneGroup.add(playerNameText)
+
+		for(var i = 0; i < infoGroup.length;i++){
+			var obj = infoGroup.children[i]
+			obj.alpha = 0
+		}
+
+		createButtons(pivotButtons)
 		addParticles()
 
 		animateScene()
 		parent.env = {}
 
 	}
-    
-    function createBase(){
-        
-    }
 
 	function animateScene(){
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},500,"Linear",true).onComplete.add(function(){
+
 			addCoins()
+
 		})
+
 	}
 
 	function addCoins(){
 
-        var soundName = 'cheers'
-        var animName = "win"
 
-        yogotar.setAnimationByName(0,animName,true)
-        game.time.events.add(500,function(){
-            var delay = 0
 
-            for(var i = 0; i < buttonsGroup.length;i++){
-                var button = buttonsGroup.children[i]
-                appearObject(button,delay)
-                delay+= 200
-            }
-            sound.play("great")
-        });
-        game.time.events.add(750,function(){			
-            buttonsActive = true
-            sound.play(soundName)
-        })
+		var soundName = 'cheers'
+		var animName = "win"
+		yogotar.setAnimationByName(0,animName,true)
+		game.time.events.add(500,function(){
+			var delay = 0
+			for(var i = 0; i < infoGroup.length;i++){
+				var obj = infoGroup.children[i]
+				if(!obj.record){
+					appearObject(obj,delay)
+					delay+= 200
+				}
+			}
+			for(var i = 0; i < buttonsGroup.length;i++){
+				var button = buttonsGroup.children[i]
+				appearObject(button,delay)
+				delay+= 200
+			}
+			sound.play("great")
+		});
+		game.time.events.add(750,function(){			
+			buttonsActive = true
+			sound.play(soundName)
+		})
+	}
+
+	function popObject(obj,delay,alphaValue){
+
+		var alpha = alphaValue || 1
+		game.time.events.add(delay,function(){
+
+			sound.play("click")
+			obj.alpha = alpha
+			game.add.tween(obj.scale).from({x:0, y:0, angle:obj.angle + 360},250,Phaser.Easing.linear,true)
+		},this)
 	}
 
 	function appearObject(obj,delay){
@@ -463,15 +613,78 @@ var result_iMagic = function(){
 
 		buttonsActive = false
 		totalScore = totalScore || 0
+		totalTime = totalTime || 99.99
+		haveCoupon = false
 		game.stage.backgroundColor = "#ffffff"
+	}
+
+	function checkNumbers(number){
+
+		var equal = false
+		for(var i = 0; i < gameNumbers.length; i++){
+			if(number == gameNumbers[i]){
+				equal = true
+			}
+		}
+		if(number == gameIndex){
+			equal = true
+		}
+
+		return equal
+	}
+
+	function getNumbers(){
+
+		icons = amazing.getGames()
+		gameNumbers = []
+
+		for(var o = 0; o < 3;o++){
+
+			var number = gameIndex
+			gameNumbers[o] = number
+
+			while(checkNumbers(number)){
+				number = game.rnd.integerInRange(0, icons.length - 1)
+			}
+
+			gameNumbers[o] = number
+
+		}
+
+		//console.log(gameNumbers + ' numbers')
+
+		Phaser.ArrayUtils.shuffle(gameNumbers)
 	}
 
 	function preload(){
 
 		game.load.bitmapFont('gotham', imagesPath + 'bitfont/gotham.png', imagesPath + 'bitfont/gotham.fnt');
 		game.load.bitmapFont('luckiest', imagesPath + 'bitfont/font.png', imagesPath + 'bitfont/font.fnt');
+
 		game.load.spine('yogotaResults', imagesPath + "spines/yogotar.json?v2");
-		game.load.image('gameIcon', imagesPath + "icons/" + gamesList.sceneName + ".png")
+
+		var iconName = gameData.sceneName
+		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")
+		//console.log('End preload')
+	}
+
+	function createTextPart(text,obj){
+
+		var pointsText = lookParticle('text')
+
+		if(pointsText){
+
+			pointsText.x = obj.world.x
+			pointsText.y = obj.world.y - 60
+			pointsText.setText(text)
+			pointsText.scale.setTo(1,1)
+
+			game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+			game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+			deactivateParticle(pointsText,750)
+		}
+
 	}
 
 	function lookParticle(key){
@@ -521,8 +734,6 @@ var result_iMagic = function(){
 			particle.x = obj.world.x + offX
 			particle.y = obj.world.y
 			particle.scale.setTo(1,1)
-			//game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-			//game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
 			particle.start(true, 1500, null, number);
 
 			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){
@@ -530,25 +741,44 @@ var result_iMagic = function(){
 			})
 
 		}
+
+
 	}
 
 	function createParticles(tag,number){
 
 		for(var i = 0; i < number;i++){
 
-            var particle = game.add.emitter(0, 0, 100);
-            particle.makeParticles('atlas.result',tag);
-            particle.minParticleSpeed.setTo(-300, -100);
-            particle.maxParticleSpeed.setTo(400, -200);
-            particle.minParticleScale = 0.6;
-            particle.maxParticleScale = 1.5;
-            particle.gravity = 150;
-            particle.angularDrag = 30;
-            particlesGroup.add(particle)
+			var particle
+			if(tag == 'text'){
+				var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+				var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+				particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+				particlesGroup.add(particle)
+
+			}else{
+				var particle = game.add.emitter(0, 0, 100);
+				particle.makeParticles('atlas.resultScreenImagic',tag);
+				particle.minParticleSpeed.setTo(-300, -100);
+				particle.maxParticleSpeed.setTo(400, -200);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+
+				particlesGroup.add(particle)
+
+			}
+
 			particle.alpha = 0
 			particle.tag = tag
 			particle.used = false
+			//particle.anchor.setTo(0.5,0.5)
+			particle.scale.setTo(1,1)
 		}
+
+
 	}
 
 	function addParticles(){
@@ -559,7 +789,20 @@ var result_iMagic = function(){
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
 
-        createParticles('coinImagic',3)
+		createParticles('star',3)
+		createParticles('glitter',5)
+		createParticles('coinImagic',3)
+
+		createParticles('text',5)
+
+		whiteFade = new Phaser.Graphics(game)
+		whiteFade.beginFill(0xffffff);
+		whiteFade.drawRect(0, 0, game.world.width, game.world.height);
+		whiteFade.endFill();
+		whiteFade.alpha = 0
+		whiteFade.anchor.setTo(0,0)
+		sceneGroup.add(whiteFade)
+
 	}
 
 	function update(){
@@ -568,25 +811,24 @@ var result_iMagic = function(){
 
 	return {
 		assets: assets,
-		name: "result_iMagic",
+		name: "result",
 		create: function(){
-			
+
 			var wfconfig = {
 				active: function() {
-					console.log("font loaded")
+					console.log("font loaded");
 					createScene()
 				},
 				custom: {
 					families: [ "Monoton-Regular" ],
 					urls:["../../shared/minigames/css/custom_fonts.css"]
 				},
-			}
-			
-            WebFont.load(wfconfig)
+			};
+			WebFont.load(wfconfig);
 		},
 		preload: preload,
 		setScore: setScore,
 		init: initialize,
-		//update:update,
+		update:update,
 	}
 }()

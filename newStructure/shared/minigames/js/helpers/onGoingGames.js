@@ -13,7 +13,8 @@ var gameTypeEnum = {
 var onGoingGames={
 	
     config:{
-		tutorial:"withstars"
+		tutorial:"tutorial",
+		results:"result"
 	},
     
     minigames:[
@@ -24,7 +25,6 @@ var onGoingGames={
 			{name:'Ice Cream Numbers',url:'numberIce/',mapUrl:'numberIce', sceneName:'ice',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 			{name:'Salad Cards',url:'tapcards/',mapUrl:'tapcards', sceneName:'tapcards',subject:'language',review:false,objective:30,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Sky Language',url:'skyLanguage/',mapUrl:'skyLanguage', sceneName:'skyLanguage',subject:'language',review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
-			{name:'Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Rift Land',url:'riftLand/',mapUrl:'riftLand', sceneName:'rift',subject:'coding',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 			{name:'Puzzle Road',url:'puzzleRoad/',mapUrl:'puzzleRoad', sceneName:'puzzle',subject:'creativity',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Geo Journey',url:'geoJourney/',mapUrl:'geoJourney', sceneName:'geoJourney',subject:'geography',review:false,objective:20,demo:false,type:gameTypeEnum.GRAB},
@@ -44,7 +44,6 @@ var onGoingGames={
 			{name:'Wild Snaps',url:'wildSnaps/',mapUrl:'wildSnaps', sceneName:'wild',subject:'creativity',review:true,objective:15,demo:false,type:gameTypeEnum.TARGET},
 			{name:'Gemath',url:'geMath/',mapUrl:'geMath', sceneName:'gem',subject:'math',review:true,objective:15,demo:false,type:gameTypeEnum.TRACE},
 			{name:'Hackamole',url:'hackaMole/',mapUrl:'hackaMole', sceneName:'hack',subject:'coding',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
-			{name:'Lizart',url:'lizart/',mapUrl:'lizart', sceneName:'lizart',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
 			{name:'Snooze Crater',url:'snoozeCrater/',mapUrl:'snoozeCrater', sceneName:'snooze',subject:'sustainability',review:true,objective:10,demo:false,type:gameTypeEnum.GRAB},//29
 			{name:'Math Feed',url:'mathFeed/',mapUrl:'mathFeed', sceneName:'feed',subject:'math',review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//30
 			{name:'Galaxy Heroes',url:'galaxyHeroes/',mapUrl:'galaxyHeroes', sceneName:'galaxy',subject:'geography',review:true,objective:20,demo:false,type:gameTypeEnum.GRAB},//31

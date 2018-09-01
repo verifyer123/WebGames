@@ -220,7 +220,6 @@ var sushi = function(){
 		sprite.events.onDragStop.add(onDragStop, this)
 		sprite.inputEnabled = false
 		sprite.alive=false;
-		console.log(sprite)
     }
     
     function createPointsBar(){
@@ -395,7 +394,6 @@ var sushi = function(){
             game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 			notMissing=false;
         })
-        
         if(lives == 0){
 			//baseSong.stop();
             stopGame(false)
@@ -521,9 +519,9 @@ var sushi = function(){
     function sushiAnimation(lane) {
         var toX = 40
         for(var sushiIndex = 0; sushiIndex<sushisInGame[lane].length; sushiIndex++){
-			toX = game.rnd.integerInRange(-100,100)
-            var sushi = sushisInGame[lane][sushiIndex]
-			sushi.inputEnabled=false
+			toX = game.rnd.integerInRange(-100,100);
+            var sushi = sushisInGame[lane][sushiIndex];
+			sushi.container.inputEnabled=false;
             game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
@@ -563,6 +561,21 @@ var sushi = function(){
 	function removeSushi(sushi) {
 
     	for(var containerIndex = 0, num = sushi.sushiList.length; containerIndex < num; containerIndex++){
+			var container = sushi.sushiList[containerIndex]
+			sushi.remove(container)
+			pullGroup.add(container)
+			sushiList[sushi.name].push(container)
+		}
+		sushisInGame[sushi.lane].merging = false
+		pullGroup.add(sushi.bg)
+		sushiList.bg.push(sushi.bg)
+		sushi.alive=false;
+		sushi.destroy()
+		isCompleting=false;
+	}
+	function removeHandleSushi(sushi) {
+
+    	for(var containerIndex = 0, num = sushi.sushiList.length; containerIndex < 1; containerIndex++){
 			var container = sushi.sushiList[containerIndex]
 			sushi.remove(container)
 			pullGroup.add(container)
@@ -729,73 +742,73 @@ var sushi = function(){
 			//game.add.tween(option).to({x:toX,y:option.y},300,Phaser.Easing.Cubic.In,true);
 			
 			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed, Phaser.Easing.Cubic.In, true)
-			
 			option.tween.onComplete.add(function (thisOption) {
+				if(thisOption && option){
+					for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
+						var container = thisOption.sushiList[containerIndex]
+						container.inputEnabled = true
+					}
+					for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
+						if(option.y<sushisInGame[lineToCollide][checkPositions].y){
+							cont++;
+						}else{
+							break;
+						}
+						prevSushi = sushisInGame[lineToCollide][checkPositions]
+						prevSushi.index = cont
+					}
 
-                for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
-                    var container = thisOption.sushiList[containerIndex]
-                    container.inputEnabled = true
-                }
-                for(var checkPositions=0; checkPositions<sushisInGame[lineToCollide].length; checkPositions++){
-                    if(option.y<sushisInGame[lineToCollide][checkPositions].y){
-                        cont++;
-                    }else{
-                        break;
-                    }
-                    prevSushi = sushisInGame[lineToCollide][checkPositions]
-                    prevSushi.index = cont
-                }
-			
-                thisOption.lane = lineToCollide
-                thisOption.tween = null
-                thisOption.index = cont
-                sushisInGame[lineToCollide].splice(cont,0,option);
-                sushisInGame[lineToCollide].delaySushi = 100
-                if(tutorial){
-                    sushisInGame[lineToCollide].y=maxHeight
-                    if(sushisInGame[0][0]){
-                        xTutorial=sushisInGame[0][0];
-                        yTutorial=sushisInGame[0][0];
-                    }else
-                    if(sushisInGame[2][0]){
-                        xTutorial=sushisInGame[2][0];
-                        yTutorial=sushisInGame[2][0];
-                    }
-                }
-		       if(firstAnimation!=null && tutorial && xTutorial && !notFinished){
-                    notFinished=true;
-                    if(sushisInGame[0][0] && !nextAnimation){
-                        xTutorial=sushisInGame[0][0];
-                        yTutorial=sushisInGame[0][0];
-                    }else if(sushisInGame[lineToCollide][cont] && nextAnimation){
-                        xTutorial=sushisInGame[lineToCollide][cont];
-                        yTutorial=sushisInGame[lineToCollide][cont];
-                    }
-                    hand.x=xTutorial.worldPosition.x;
-                    hand.y=yTutorial.worldPosition.y-30;
+					thisOption.lane = lineToCollide
+					thisOption.tween = null
+					thisOption.index = cont
+					sushisInGame[lineToCollide].splice(cont,0,option);
+					sushisInGame[lineToCollide].delaySushi = 100
+					if(tutorial){
+						sushisInGame[lineToCollide].y=maxHeight
+						if(sushisInGame[0][0]){
+							xTutorial=sushisInGame[0][0];
+							yTutorial=sushisInGame[0][0];
+						}else
+						if(sushisInGame[2][0]){
+							xTutorial=sushisInGame[2][0];
+							yTutorial=sushisInGame[2][0];
+						}
+					}
+				   if(firstAnimation!=null && tutorial && xTutorial && !notFinished){
+						notFinished=true;
+						if(sushisInGame[0][0] && !nextAnimation){
+							xTutorial=sushisInGame[0][0];
+							yTutorial=sushisInGame[0][0];
+						}else if(sushisInGame[lineToCollide][cont] && nextAnimation){
+							xTutorial=sushisInGame[lineToCollide][cont];
+							yTutorial=sushisInGame[lineToCollide][cont];
+						}
+						hand.x=xTutorial.worldPosition.x;
+						hand.y=yTutorial.worldPosition.y-30;
 
-                    if(firstAnimation){
-                        firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
-                            notFinished=false;
-                            if(tutorial){	
-                                if(sushisInGame[0][0]){
-                                    xTutorial=sushisInGame[0][0];
-                                    yTutorial=sushisInGame[0][0];
-                                }else if(sushisInGame[lineToCollide][cont]){
-                                    xTutorial=sushisInGame[lineToCollide][cont];
-                                    yTutorial=sushisInGame[lineToCollide][cont];
-                                }
-                                hand.x=xTutorial.worldPosition.x;
-                                hand.y=yTutorial.worldPosition.y;
-                                hand.alpha=0;
-                                if(hand.x==xTutorial.worldPosition.x){
-                                    hand.alpha=1
-                                    firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
-                                }
-                            }
-                        });
-                    }
-			   }
+						if(firstAnimation){
+							firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).onComplete.add(function(){
+								notFinished=false;
+								if(tutorial){	
+									if(sushisInGame[0][0]){
+										xTutorial=sushisInGame[0][0];
+										yTutorial=sushisInGame[0][0];
+									}else if(sushisInGame[lineToCollide][cont]){
+										xTutorial=sushisInGame[lineToCollide][cont];
+										yTutorial=sushisInGame[lineToCollide][cont];
+									}
+									hand.x=xTutorial.worldPosition.x;
+									hand.y=yTutorial.worldPosition.y;
+									hand.alpha=0;
+									if(hand.x==xTutorial.worldPosition.x){
+										hand.alpha=1
+										firstAnimation=game.add.tween(hand).to({x:sushisInGame[1][0].worldPosition.x,y:sushisInGame[1][0].worldPosition.y},2000,Phaser.Easing.Cubic.Linear,true).loop(true)
+									}
+								}
+							});
+						}
+				   }
+			}
 		  })
 		checkingFrame=0;
 		sound.play("cut")
@@ -940,21 +953,20 @@ var sushi = function(){
 				}
 				
 				allBottom = allBottom && sushi.inBottom
-					
 			}
 			if(sushiLane.delaySushi > 0)
 				sushiLane.delaySushi -= speed
 			
-			if(checkingFrame==60){
+			if(checkingFrame==60 || (lastSushi && lastSushi.inBottom)){
 				checkingFrame=0;
 				if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging) && (!isCompleting)){
+					handleSushi.inputEnabled=false;
 					sushiAnimation(lineIndex)
 					sound.play("wrong")
 					notMissing=true;
 					wrongParticle.x = lastSushi.centerX
 					wrongParticle.y = lastSushi.centerY
 					wrongParticle.start(true, 1000, null, 5)
-					removeSushi(handleSushi);
 					missPoint()
 					octopus.setAnimation(["lose"]);
 					gameEnded = true

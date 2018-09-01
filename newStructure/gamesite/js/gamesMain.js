@@ -1,4 +1,4 @@
-var iMagicMain =  function(){
+var gamesMain =  function(){
 	var DEVICE_WIDTH = 540
 	var DEVICE_HEIGHT = 960
 

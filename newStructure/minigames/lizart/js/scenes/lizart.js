@@ -533,15 +533,19 @@ var lizart = function(){
 		back = game.add.tileSprite(0,0,game.world.width,game.world.height,"back");
 		sceneGroup.add(back);
 
+		
+		
 		lizard=game.add.spine(0,0,"lizard");
 		lizard.x=game.world.centerX;
-		lizard.y=game.world.height-90;
+		lizard.y=game.world.height-40;
 		lizard.setSkinByName("normal");
 		lizard.setAnimationByName(0,"idle",true);
 		setAnimationConfigurations(lizard)
-
+		
 		shadowLizar = sceneGroup.create(lizard.x-100,game.height-50,"shadowLizar");
-		sceneGroup.add(lizard);
+		sceneGroup.add(lizard)
+
+
 
 		for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
 			tintSpine(lizard,100,100,100,BODY_PARTS[tintRound].part);
@@ -577,7 +581,8 @@ var lizart = function(){
 
 		lizard.setMixByName("idle", "run", 0.2);
 		lizard.setMixByName("run", "eat", 0.2);
-//		lizard.setMixByName("idle", "lose", 0.2);
+		lizard.setMixByName("idle", "lose", 0.2);
+		//		lizard.setMixByName("lose", "losestill", 0.2);
 	}
 	function tintSpine(spine, colorR, colorG, colorB, slotName){
 		spine.skeleton.findSlot(slotName).r = colorR;
@@ -720,7 +725,7 @@ var lizart = function(){
 		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
 		game.add.tween(lizard).to({x:fruitItem.x-100},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
-			
+
 			lizard.setAnimationByName(0,"eat",false);
 
 			game.time.events.add(150,function(){
@@ -754,17 +759,17 @@ var lizart = function(){
 		}
 		if(tweenTiempo!=null)stopTimer();
 		missPoint()
-		lizard.setAnimationByName(0,"lose",true).onComplete=function(){
+		lizard.setAnimationByName(0,"lose",false).onComplete=function(){
 			if(lives<=0){
 				lizard.setAnimationByName(0,"losestill",true)
 			}else{
-			sound.play("wrong")
-			lizard.setAnimationByName(0,"lose",false)
-			game.time.events.add(300,function(){
-				TweenMax.to(lizard,1,{alpha:0,onComplete:endwrong});	
-			})	
+				sound.play("wrong")	
+				game.time.events.add(300,function(){
+					TweenMax.to(lizard,1,{alpha:0,onComplete:endwrong});	
+				})
+			}
 		}
-		}
+
 		canTakeFruit = false
 	}
 	function chooseFruit(fruitItem){
@@ -863,12 +868,11 @@ var lizart = function(){
 		gameActive = false	
 
 		sound.play("gameLose")
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Sinusoidal.In, true, 1500)
+		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 1000, Phaser.Easing.Sinusoidal.Out, true, 1500)
 		tweenScene.onComplete.add(function(){
-			bgm.stop()
+			bgm.stop();
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number, gameIndex)
-
 			//amazing.saveScore(pointsBar.number)
 			sceneloader.show("result")
 
