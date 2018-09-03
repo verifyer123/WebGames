@@ -860,6 +860,12 @@ var river = function(){
 			createBackground()
             
             initialize()
+
+            gameSong = game.add.audio('gameSong')
+            // game.sound.setDecodedCallback(gameSong, function(){
+            //     gameSong.loopFull(0.6)
+            // }, this);
+
             gameSong = sound.play("gameSong", {loop:true, volume:0.6})
             
             game.onPause.add(function(){
