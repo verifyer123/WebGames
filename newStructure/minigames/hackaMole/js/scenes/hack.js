@@ -715,6 +715,13 @@ var hack = function(){
 	}
 
 	function createSingleButton(){
+
+		var offset = -5
+		
+		if(game.device.desktop){
+			offset = 5
+		}
+
 		var group = game.add.group()
 		group.x = game.world.centerX
 		group.y = -200
@@ -727,7 +734,7 @@ var hack = function(){
 		
 		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, offset, "", fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
 		//group.add(pointsText)
 		buttonImage.addChild(pointsText)
@@ -736,7 +743,7 @@ var hack = function(){
 		
 		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth: 220}
 		
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, offset, "", fontStyle)
 		pointsText.scale.y = 0.7
 		pointsText.anchor.setTo(0.5,0.5)
 		//group.add(pointsText)
