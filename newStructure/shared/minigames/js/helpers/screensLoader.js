@@ -21,12 +21,13 @@ function loadScript(url, callback){
     script.src = url;
     document.getElementsByTagName("head")[0].appendChild(script);
 }
-loadScript("../../shared/minigames/js/helpers/iMagicGames.js", function(){
-	console.log("Games Loaded...");
-    language="EN";
-});
+//loadScript("../../shared/minigames/js/helpers/iMagicGames.js", function(){
+//	console.log("Games Loaded...");
+//    
+//});
 loadScript("../../shared/minigames/js/helpers/tutorialImagic.js", function(){
 	console.log("Tutorial Screen Loaded...");
+    language="EN";
 });
 
 loadScript("../../shared/minigames/js/scenes/result_iMagic.js", function(){
