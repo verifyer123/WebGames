@@ -144,8 +144,6 @@ var drzombie = function(){
 	var trashLevelZeroX;
 	var trashLevelZeroY;
 	var tagsToUse;
-	var firstPositionX;
-	var firstPositionY;
 	var lastPositionX;
 	var lastPositionY;
 	var counterTrashCleaning;
@@ -384,7 +382,10 @@ var drzombie = function(){
 		game.add.tween(oContainer).to({alpha:0},500,"Linear",true);
 		game.add.tween(clock).to({alpha:0},500,"Linear",true);
 		for(t=0; t<arrayTrash.length; t++){
-			deleteTrash(arrayTrash[t]);
+			game.add.tween(arrayTrash[t]).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
+				sceneGroup.remove(arrayTrash[t]);
+			});
+		// 	deleteTrash(arrayTrash[t]);
 		}
 		desappearOrgans();
 		
@@ -580,6 +581,8 @@ var drzombie = function(){
 		counterTrashCleaning++;
 		indexTrash = game.rnd.integerInRange(1,6);
 		var trashPrefab = game.add.sprite(organ.x, organ.y, 'atlas.zombie', 'toy_0'+indexTrash);
+		trashPrefab.firstPositionX = organ.x;
+		trashPrefab.firstPositionY = organ.y;
 		trashPrefab.anchor.setTo(0.5,0.5);
 		trashPrefab.scale.setTo(0.6,0.6);
 		trashPrefab.events.onDragStart.add(bringToTopTrash, this);
@@ -592,15 +595,13 @@ var drzombie = function(){
 
 	function bringToTopTrash(obj){
 		sceneGroup.bringToTop(obj);
-		firstPositionX = game.input.x;
-		firstPositionY = game.input.y;
 	}
 
 	function deleteTrash(obj){ 
 	lastPositionX = game.input.x;
 	lastPositionY = game.input.y;
-	var distX = Math.abs(lastPositionX - firstPositionX);
-	var distY = Math.abs(lastPositionY - firstPositionY);
+	var distX = Math.abs(lastPositionX - obj.firstPositionX);
+	var distY = Math.abs(lastPositionY - obj.firstPositionY);
 	if(distX > 50 || distY > 50){
 		game.add.tween(obj).to( { alpha: 0 }, 500, Phaser.Easing.Linear.In, true, 0, 0).onComplete.add(function(){
 			obj.release.active = true;
@@ -617,7 +618,7 @@ var drzombie = function(){
 			game.add.tween(hand).to( { x: organsContainers.children[indexAns].x, y: organsContainers.children[indexAns].y}, 2000, Phaser.Easing.Linear.InOut, true, 0, -1);
 		}
 	}else{
-		game.add.tween(obj).to( { x: firstPositionX, y: firstPositionY}, 300, Phaser.Easing.Linear.InOut, true, 0);
+		game.add.tween(obj).to( { x: obj.firstPositionX, y: obj.firstPositionY}, 300, Phaser.Easing.Linear.InOut, true, 0);
 	}
 	}
 
