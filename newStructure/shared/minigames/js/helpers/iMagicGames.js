@@ -38,5 +38,6 @@ var iMagicGames = {
 		{name:'Imagic Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',yogotar:"eagle",review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Lizart',url:'lizart/',mapUrl:'lizart', sceneName:'lizart',subject:'language',yogotar:"eagle",review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
 		{name:'Imagic Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',yogotar:"dazzle",subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
+		{name:'Imagic Hackamole',url:'hackaMole/',mapUrl:'hackaMole', sceneName:'hack',subject:'programming',review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},
 	]
 }
