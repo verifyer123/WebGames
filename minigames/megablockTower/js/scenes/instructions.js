@@ -102,7 +102,7 @@ var instructions = function(){
             })
         })
 
-        //amazing.setMixPanelTrack("megablockTower","enterGame")
+        amazing.setMixPanelTrack("megablockTower","enterGame")
         
     }
     
@@ -183,7 +183,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        //amazing.setMixPanelTrack("megablockTower","loadGame")
+        amazing.setMixPanelTrack("megablockTower","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

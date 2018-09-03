@@ -1,5 +1,5 @@
 window.minigame = window.minigame || {}
-
+initMixPanel(true)
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
@@ -44,10 +44,11 @@ function startGame(){
 
         game.plugins.add(Fabrique.Plugins.Spine);
 
-        amazing.savePlaycount();          
+                 
         amazing.getInfo()
         amazing.setMinigameId()
         amazing.setProfile()
+        amazing.savePlaycount(); 
         
         window.minigame.game = window.game
     	sceneloader.init(game)

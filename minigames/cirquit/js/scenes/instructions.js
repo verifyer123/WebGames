@@ -54,7 +54,7 @@ var instructions = function(){
             platform = 'tap'
         }
         
-        var instruction = circleGroup.create(0,0,'instruccion')
+        var instruction = circleGroup.create(0,0,'atlas.instructions','instruccion')
         instruction.anchor.setTo(0.5,0.5)
 
 		return circleGroup

@@ -49,6 +49,13 @@
 	font-style: normal;
 }
 
+@font-face {
+	font-family: 'SulphurPoint-Regular';
+	src: url('../fonts/SulphurPoint-Regular.otf');
+	font-weight: normal;
+	font-style: normal;
+}
+
 .custom-font{
 	font-family: "VAGRounded";
 	opacity: 0;

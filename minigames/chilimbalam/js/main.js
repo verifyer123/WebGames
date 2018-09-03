@@ -1,1 +1,70 @@
-var _0xc88a=["\x6D\x69\x6E\x69\x67\x61\x6D\x65","\x67\x61\x6D\x65","\x63\x6C\x69\x65\x6E\x74\x57\x69\x64\x74\x68","\x62\x6F\x64\x79","\x63\x6C\x69\x65\x6E\x74\x48\x65\x69\x67\x68\x74","\x76\x69\x73\x69\x62\x69\x6C\x69\x74\x79","\x73\x74\x79\x6C\x65","\x68\x69\x64\x64\x65\x6E","\x70\x72\x65\x6C\x6F\x61\x64\x65\x72\x49\x6E\x74\x72\x6F","\x67\x65\x74\x53\x63\x65\x6E\x65","\x74\x6F\x74\x61\x6C\x4C\x6F\x61\x64\x65\x64","\x74\x6F\x74\x61\x6C\x46\x69\x6C\x65\x73","\x75\x70\x64\x61\x74\x65\x4C\x6F\x61\x64\x69\x6E\x67\x42\x61\x72","\x69\x6E\x73\x74\x72\x75\x63\x74\x69\x6F\x6E\x73","\x73\x68\x6F\x77","\x70\x72\x65\x6C\x6F\x61\x64","\x76\x69\x73\x69\x62\x6C\x65","\x72\x6F\x75\x6E\x64","\x73\x63\x61\x6C\x65\x4D\x6F\x64\x65","\x73\x63\x61\x6C\x65","\x45\x58\x41\x43\x54\x5F\x46\x49\x54","\x53\x63\x61\x6C\x65\x4D\x61\x6E\x61\x67\x65\x72","\x73\x65\x74\x47\x61\x6D\x65\x53\x69\x7A\x65","\x63\x68\x65\x63\x6B\x42\x72\x6F\x77\x73\x65\x72","\x62\x61\x63\x6B\x67\x72\x6F\x75\x6E\x64\x43\x6F\x6C\x6F\x72","\x73\x74\x61\x67\x65","\x23\x66\x66\x66\x66\x66\x66","\x61\x64\x76\x61\x6E\x63\x65\x64\x54\x69\x6D\x69\x6E\x67","\x74\x69\x6D\x65","\x64\x69\x73\x61\x62\x6C\x65\x56\x69\x73\x69\x62\x69\x6C\x69\x74\x79\x43\x68\x61\x6E\x67\x65","\x50\x6C\x75\x67\x69\x6E\x73","\x61\x64\x64","\x70\x6C\x75\x67\x69\x6E\x73","\x73\x61\x76\x65\x50\x6C\x61\x79\x63\x6F\x75\x6E\x74","\x67\x65\x74\x49\x6E\x66\x6F","\x73\x65\x74\x4D\x69\x6E\x69\x67\x61\x6D\x65\x49\x64","\x73\x65\x74\x50\x72\x6F\x66\x69\x6C\x65","\x69\x6E\x69\x74","\x6F\x72\x69\x65\x6E\x74\x61\x74\x69\x6F\x6E"];window[_0xc88a[0]]= window[_0xc88a[0]]|| {};function startGame(){window[_0xc88a[1]]=  new Phaser.Game(document[_0xc88a[3]][_0xc88a[2]],document[_0xc88a[3]][_0xc88a[4]],Phaser.CANVAS,null,{init:_0x2808x9,create:_0x2808xf},false,true);document[_0xc88a[3]][_0xc88a[6]][_0xc88a[5]]= _0xc88a[7];function _0x2808x2(_0x2808x3){function _0x2808x4(){function _0x2808x5(_0x2808x6){var _0x2808x7=sceneloader[_0xc88a[9]](_0xc88a[8]);_0x2808x7[_0xc88a[12]](_0x2808x6[_0xc88a[10]],_0x2808x6[_0xc88a[11]])}function _0x2808x8(){sceneloader[_0xc88a[14]](_0xc88a[13])}sceneloader[_0xc88a[15]](_0x2808x3,{onLoadFile:_0x2808x5,onComplete:_0x2808x8});sceneloader[_0xc88a[14]](_0xc88a[8])}document[_0xc88a[3]][_0xc88a[6]][_0xc88a[5]]= _0xc88a[16];sceneloader[_0xc88a[15]]([preloaderIntro],{onComplete:_0x2808x4})}function _0x2808x9(){var _0x2808xa=540;var _0x2808xb=960;var _0x2808xc=document[_0xc88a[3]][_0xc88a[2]]/ document[_0xc88a[3]][_0xc88a[4]];var _0x2808xd=Math[_0xc88a[17]](_0x2808xb);var _0x2808xe=Math[_0xc88a[17]](_0x2808xb* _0x2808xc);game[_0xc88a[19]][_0xc88a[18]]= Phaser[_0xc88a[21]][_0xc88a[20]];game[_0xc88a[19]][_0xc88a[22]](_0x2808xe,_0x2808xd);amazing[_0xc88a[23]](game);game[_0xc88a[25]][_0xc88a[24]]= _0xc88a[26];game[_0xc88a[28]][_0xc88a[27]]= true;game[_0xc88a[25]][_0xc88a[29]]= true;game[_0xc88a[32]][_0xc88a[31]](Fabrique[_0xc88a[30]].Spine);amazing[_0xc88a[33]]();amazing[_0xc88a[34]]();amazing[_0xc88a[35]]();amazing[_0xc88a[36]]();window[_0xc88a[0]][_0xc88a[1]]= window[_0xc88a[1]];sceneloader[_0xc88a[37]](game);sound[_0xc88a[37]](game)}function _0x2808xf(){_0x2808x2([instructions,chilimbalam,result])}}minigame[_0xc88a[38]][_0xc88a[37]](startGame)
+window.minigame = window.minigame || {}
+initMixPanel(true)
+function startGame(){
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
+    document.body.style.visibility = "hidden"
+
+	function preloadScenes(sceneList){
+
+    	function onCompletePreloading(){
+
+			function onLoadFile(event){
+	    		var loaderScene = sceneloader.getScene("preloaderIntro")
+	    		loaderScene.updateLoadingBar(event.totalLoaded, event.totalFiles)
+	    	}
+
+	    	function onCompleteSceneLoading(){
+				sceneloader.show("instructions")
+	    	}
+
+	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
+            sceneloader.show("preloaderIntro")
+    	}
+
+        document.body.style.visibility = "visible"
+    	sceneloader.preload([preloaderIntro], {onComplete: onCompletePreloading})
+	}
+	
+    function init(){
+
+        var fullWidth = 540
+        var fullHeight = 960
+
+        var ratio = document.body.clientWidth / document.body.clientHeight
+        var gameHeight = Math.round(fullHeight)
+        var gameWidth = Math.round(fullHeight * ratio)
+
+        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+        game.scale.setGameSize(gameWidth, gameHeight)
+		amazing.checkBrowser(game)
+
+        game.stage.backgroundColor = "#ffffff"
+        game.time.advancedTiming = true
+        game.stage.disableVisibilityChange = true;        
+        
+        game.plugins.add(Fabrique.Plugins.Spine);
+        //game.add.plugin(PhaserSpine.SpinePlugin);
+
+        amazing.getInfo()
+        amazing.setMinigameId()
+        amazing.setProfile()
+        amazing.savePlaycount();
+        
+        
+        window.minigame.game = window.game
+        
+    	sceneloader.init(game)
+    	sound.init(game)
+    }
+
+    function create(){
+
+    	preloadScenes([
+            instructions,
+            chilimbalam,
+            result,
+    	])
+    }
+}
+
+minigame.orientation.init(startGame)

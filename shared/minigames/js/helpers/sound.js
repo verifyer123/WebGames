@@ -45,6 +45,14 @@ var sound = function(){
 		}
 	}
 
+	function setVolumeAudios(volume,soundStringArray){
+		for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
+			var currentSoundData = soundStringArray[indexSound]
+			//console.log(decodedSounds[currentSoundData.name])
+			decodedSounds[currentSoundData.name].volume = volume
+		}
+	}
+
 	function play(soundId, isLoop){
 		
 		if(amazing.getMinigameId()){
@@ -86,6 +94,7 @@ var sound = function(){
 	
 	return {
 		setSong: setSong,
+		setVolumeAudios:setVolumeAudios,
 		decode: decode,
 		init: init,
 		play: play,

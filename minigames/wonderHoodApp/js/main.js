@@ -1,7 +1,7 @@
 window.minigame = window.minigame || {}
 var completeLoading = false
 var completeAnimation = false
-
+initMixPanel(true)
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, false, true);
     document.body.style.visibility = "hidden"
