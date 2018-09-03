@@ -68,7 +68,12 @@ function startGame(){
     	preloadScenes([
             uni,
             result,
-    	])
+    	])    
+            var games = yogomeGames.getObjectGames("custom")
+            var game = games["ImagicUniDream"]
+			console.log(game)
+			window.gameData=game;
+			console.log(language, "language")
     }
 }
 

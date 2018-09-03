@@ -111,13 +111,14 @@ var result = function(){
 
 		gameData = parent.gameData
 
-		player.name="Heber";
-		player.totalScore=10;
+		player.name=document.player;
+		player.totalScore=document.coins;
 		configuration=gameData.config.tutorial;
 		console.log(gameData)
 		currentPlayer = null
 		gameIndex = index
 		totalScore = score
+        document.callback(totalScore)
 		goalScore = gameData.objective
 		win = totalScore >= goalScore
 		console.log(win)
@@ -497,7 +498,7 @@ var result = function(){
 		if(totalScore > 99){
 			coinsToStarsContainer.text.scale.setTo(0.8,0.8)
 		}
-
+        
 		iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
 		iconImage.scale.setTo(0.7,0.7)
 		iconImage.anchor.setTo(0.5,0.5)
