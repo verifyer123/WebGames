@@ -30,6 +30,10 @@ var river = function(){
             {
 				name:'tutorial_image',
 				file:"images/river/tutorial_image_%input.png"
+            },
+            {
+				name:'row',
+				file:"images/river/row.png"
 			}
 		],
 		sounds: [
@@ -249,7 +253,7 @@ var river = function(){
         
         for(var i = 0; i < 3; i ++){
             
-            var row = game.add.tileSprite(0, game.world.centerY * pivotY, game.world.width, 330, "atlas.river", "row")
+            var row = game.add.tileSprite(0, game.world.centerY * pivotY, game.world.width, 330, "row")
             row.scale.setTo(1, 0.85)
             row.inputEnabled = true
             row.events.onInputDown.add(function(line){
@@ -262,8 +266,8 @@ var river = function(){
         rowsGroup.tag = 1
         rowsGroup.lastRow = -1
         
-        rowsGroup.children[1].tilePosition.x += 200
-        rowsGroup.children[1].tilePosition.x += 100
+        rowsGroup.children[0].tilePosition.x += 200
+        rowsGroup.children[2].tilePosition.x += 100
         rowsGroup.tile = tile
     }
 
@@ -868,9 +872,9 @@ var river = function(){
 			            
             createTrash()
             createFish()
-            createTrashMeter()
             createPolution()
             createNao()
+            createTrashMeter()
             
             createPointsBar()
 			createHearts()
