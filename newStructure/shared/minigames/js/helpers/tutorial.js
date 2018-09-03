@@ -152,7 +152,7 @@ var tutorialHelper = function () {
 
 
 	function loadType(gameData, currentLoader){
-
+        
 		//return
 		document.addEventListener("contextmenu", function(e){
 			e.preventDefault();
@@ -163,7 +163,8 @@ var tutorialHelper = function () {
 
 		goalScore = gameData.objective
 		var type = gameData.type
-		var language = localization.getLanguage()
+//		var language = localization.getLanguage()
+		var language = "ES"
 
 		switch(type){
 			case gameTypeEnum.CHOOSE:
