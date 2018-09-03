@@ -121,7 +121,7 @@ var hack = function(){
 	var machineGroup
 	var background
 	var badTopo
-    var coin
+	var coin
 	
 
 	function loadSounds(){
@@ -224,6 +224,10 @@ var hack = function(){
         })
         
         if(lives == 0){
+			for(var i = 0; i < usedButtons.length;i++){
+				var button = usedButtons.children[i]
+				button.drag.inputEnabled = false
+			}
             stopGame()
         }
     }
@@ -261,7 +265,7 @@ var hack = function(){
 		while(checkOverlap(badTopo,yogotarGroup)){
 			holeIndex++
 			badTopo.x = holesGroup.children[holeIndex].x
-			badTopo.y = holesGroup.children[holeIndex].y
+			badTopo.y = holesGroup.children[holeIndex].y - 35
 		}
 		sound.play("flesh")
 	}
@@ -324,15 +328,14 @@ var hack = function(){
 		sound.play("wrong")
 		sound.play("gameLose")
 		
-        gameActive = false
-        medievalSong.stop()
+		gameActive = false
 
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2000)
 		tweenScene.onComplete.add(function(){
             
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
+			medievalSong.stop()
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
@@ -448,11 +451,11 @@ var hack = function(){
 			delay+=100	
 		}	
 		
-		tutorialHand.alpha = 1
+		//tutorialHand.alpha = 1
 		tutorialHand.x = game.world.centerX - 200
 		tutorialHand.y = game.world.height - 150
-		
-		var handTween = game.add.tween(tutorialHand).to({x:buttonCont.x + 50,y:buttonCont.y + 25},1000,"Linear",true, delay)
+
+		var handTween = game.add.tween(tutorialHand).to({x:buttonCont.x + 50,y:buttonCont.y + 25},1000,"Linear",false, delay)
         handTween.onComplete.add(function(){
             tutorialHand.btns[0].drag.inputEnabled = true
 			game.add.tween(tutorialHand).to({alpha:0},250,"Linear",true,250).onComplete.add(function(){
@@ -464,6 +467,7 @@ var hack = function(){
                 }
             })
 		})
+		game.add.tween(tutorialHand).to({alpha:1},300,"Linear",true, delay + 400).chain(handTween)
 	}
 	
 	function stopTutorial(){
@@ -486,10 +490,19 @@ var hack = function(){
 	
 	function addObject(tag){
 		
-		var index = getEmtpy(0)
+		var index = getEmtpy(0 , tag)
 			
-		if(index == -1)
+		if(index == -1){
+			if(tag == "carrot"){
+				console.log("this")
+				var carrot = holesGroup.children[0].carrot
+				carrot.alpha = 1
+				carrot.active = true
+				popObject(carrot,0)
+			}	
 			return
+		}
+			
 		// while(holesGroup.children[index].carrot.active || holesGroup.children[index].hit.active || checkOverlap(holesGroup.children[index].carrot,yogotarGroup.yogoPos)){
 		// 	index = game.rnd.integerInRange(0,holesGroup.length - 1)
 		// }
@@ -511,19 +524,19 @@ var hack = function(){
 			hole.hit.number = game.rnd.integerInRange(2,9)
 			hole.hit.text.setText(hole.hit.number)
 			popObject(hole.hit,0)
-			}
-		
+		}
 	}
 
-	function getEmtpy(top){
-
+	function getEmtpy(top, tag){
+		
 		if(top == holesGroup.length - 1)
 			return -1
 
 		var index = game.rnd.integerInRange(0,holesGroup.length - 1)
 		var holes = holesGroup.children[index]
+		var activeElement = tag == "carrot" ? holes.carrot.active : holes.hit.active
 
-		if(holes.carrot.active || holes.hit.active || checkOverlap(holes.carrot, yogotarGroup.yogoPos)){
+		if(activeElement || checkOverlap(holes.carrot, yogotarGroup.yogoPos)){
 			return getEmtpy(top + 1)
 		}
 		else{
@@ -638,7 +651,15 @@ var hack = function(){
 		
 		var backContainer = sceneGroup.create(game.world.centerX, game.world.height,'atlas.hack','baseContainer')
 		backContainer.anchor.setTo(0.5,1)
-		sceneGroup.cont = backContainer
+
+		var rect = game.add.graphics()
+		rect.beginFill(0xffffff, 0)
+		rect.drawRect(0, 0, 180, 90)
+		rect.endFill()
+		rect.x = game.world.centerX - 90
+		rect.y = game.world.height - 105
+		sceneGroup.add(rect)
+		sceneGroup.cont = rect
 		
 		var gameName = sceneGroup.create(backContainer.x, game.world.height - 140,'atlas.hack','gameName')
 		gameName.anchor.setTo(0.5,0.5)
@@ -704,7 +725,7 @@ var hack = function(){
 		buttonImage.anchor.setTo(0.5,0.5)
 		buttonImage.scale.setTo(1.2,1.2)
 		
-		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth: 220}
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
@@ -712,7 +733,7 @@ var hack = function(){
 		
 		group.text = pointsText
 		
-		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "left", wordWrap: true, wordWrapWidth: 220}
+		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth: 220}
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.scale.y = 0.7
@@ -974,6 +995,7 @@ var hack = function(){
 		}
 		
 		if(checkOverlap(yogotarGroup,badTopo)){
+			badTopo.alpha = 0
 			missPoint()
 		}
 	}
