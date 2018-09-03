@@ -1101,7 +1101,8 @@ var astrono = function(){
 			game.onResume.add(function(){
 				game.sound.mute = false
 			}, this);
-
+			astronoSong.loopFull(0.5);
+			
 			initialize()
 
 			createPointsBar()
