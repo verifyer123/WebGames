@@ -70,6 +70,7 @@ function startGame(){
             result,
     	])     
         var games = yogomeGames.getObjectGames("custom");
+        var language = "EN"
         var game = games["ImagicUniDream"];
         console.log(game);
         window.gameData=game;

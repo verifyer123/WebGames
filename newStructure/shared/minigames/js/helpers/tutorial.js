@@ -35,7 +35,7 @@ var tutorialHelper = function () {
 	function createTutorialGif(group,onClickFunction){
 
 		inTutorial = true
-
+        
 		var rect = new Phaser.Graphics(game)
 		rect.beginFill(0x0d0000)
 		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
