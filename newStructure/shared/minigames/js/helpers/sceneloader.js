@@ -57,6 +57,7 @@ var sceneloader = function(){
 		for(var indexScene = 0; indexScene < scenes.length; indexScene++){
 
 			var currentScene = scenes[indexScene]
+            
 			if(typeof parent.gameData === "object"){
 				tutorialHelper.loadType(parent.gameData,currentLoader)
 			}

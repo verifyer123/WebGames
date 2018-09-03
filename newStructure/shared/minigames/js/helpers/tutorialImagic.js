@@ -124,13 +124,14 @@ var tutorialHelper = function () {
 		configuration=gameData.config.tutorial;
 		var path = sharePath+"tutorial_gifs/"
 		var videoName
-
+        
 		goalScore = gameData.objective
-		var type = gameData.type
+//		var type = gameData.type
+		var type = "Test"
 		var language = "ES"
 
 		switch(type){
-			case gameTypeEnum.CHOOSE:
+			case "Test":
 				videoName = "choose"
 				if(language=="ES"){
 					tutorialTypeText = "ESCOGER"
