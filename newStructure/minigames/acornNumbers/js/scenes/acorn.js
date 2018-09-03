@@ -982,7 +982,11 @@ var acorn = function(){
 
                 particleCorrect.start(true, 1000, null, 3);
                 tweenTint(block, 0xffffff, 0x46FF46, 500);
-                ardilla.setAnimation(["win"]);
+                if(counterAcorn>0){
+                    ardilla.setAnimation(["win_cachetes"]);
+                }else{
+                    ardilla.setAnimation(["win"]);
+                }
                 sound.play("win");
 
                 // runnerMode = true
@@ -1012,8 +1016,14 @@ var acorn = function(){
                 missPoint();
                 if (lives === 0)
                     ardilla.setAnimation(["sad"]);
-                else
-                    ardilla.setAnimation(["sad","idle"]);
+                else{
+                    if(counterAcorn>0){
+                        ardilla.setAnimation(["sad_cachetes","idle_cachetes"]);
+                    }else{
+                        ardilla.setAnimation(["sad","idle"]); 
+                    }
+                    
+                }
                 // tween.onComplete.add(function () {
                 //     // runnerMode = true
                 // })
