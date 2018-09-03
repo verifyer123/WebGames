@@ -199,29 +199,17 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">arcadebutton.png</key>
+            <key type="filename">arcadebutton1.png</key>
+            <key type="filename">arcadebutton2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>45,28,89,55</rect>
+                <rect>52,52,103,103</rect>
                 <key>scale9Paddings</key>
-                <rect>45,28,89,55</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">background.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>136,241,271,481</rect>
-                <key>scale9Paddings</key>
-                <rect>136,241,271,481</rect>
+                <rect>52,52,103,103</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -298,9 +286,9 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>136,70,271,139</rect>
+                <rect>135,69,271,137</rect>
                 <key>scale9Paddings</key>
-                <rect>136,70,271,139</rect>
+                <rect>135,69,271,137</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -390,16 +378,16 @@
             <filename>star.png</filename>
             <filename>starPart.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>arcadebutton.png</filename>
-            <filename>background.png</filename>
             <filename>circle.png</filename>
             <filename>circlePart.png</filename>
             <filename>cirquit.png</filename>
             <filename>crossPart.png</filename>
-            <filename>dashboard.png</filename>
             <filename>ringPart.png</filename>
             <filename>smoke.png</filename>
             <filename>cirquitName.png</filename>
+            <filename>arcadebutton1.png</filename>
+            <filename>arcadebutton2.png</filename>
+            <filename>dashboard.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

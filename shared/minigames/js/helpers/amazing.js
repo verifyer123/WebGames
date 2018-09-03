@@ -143,6 +143,10 @@ amazing.getGames = function(){
         {name:'Snoopy En Busca Del Sabor',iconName:'snoopyEnBuscaDelSabor',url:'http://amazingapp.mx/juegos/snoopyEnBuscaDelSabor/',coupon : false,mixName:'snoopyEnBuscaDelSabor',sceneName:'snoopyEnBuscaDelSabor',demo:true,id:100014},//37
         {name:'Burger Crush',iconName:'burguerCrush',url:'http://amazingapp.mx/juegos/burgerCrush/',coupon : false,mixName:'burgercrush',sceneName:'burguerCrush',demo:false,id:71},//38
         {name:'Club Puebla',iconName:'puebla',url:'http://amazingapp.mx/juegos/clubPuebla/',coupon : false,mixName:'clubPuebla',sceneName:'puebla',demo:true,id:100016},//39
+        {name:'Cirquit Netshoes',iconName:'cirquitNetshoes',url:'http://amazingapp.mx/juegos/cirquitNetshoes/',coupon : false,mixName:'cirquitNetshoes',sceneName:'cirquit',demo:false,id:1000017},//40
+        {name:'Tap Taco',iconName:'tapTaco',url:'http://amazingapp.mx/juegos/tapTaco/',coupon : false,mixName:'tapTaco',sceneName:'tapTaco',demo:true,id:1000018},//40
+        {name:'Speed Up',iconName:'speedUp',url:'http://amazingapp.mx/juegos/speedUp/',coupon : false,mixName:'speedUp',sceneName:'speedUp',demo:true,id:1000019},//41
+        
         //
     ]
 

@@ -1,4 +1,5 @@
 var soundsPath = "../../shared/minigames/sounds/"
+
 var megablockTower = function(){
 
     assets = {
