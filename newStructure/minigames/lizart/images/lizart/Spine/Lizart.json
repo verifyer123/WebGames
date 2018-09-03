@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "GNUiIqTBFhK9byn+boZBh8ZmFLs", "spine": "3.2.01", "width": 298.24, "height": 235.37, "images": "" },
+"skeleton": { "hash": "y1K2hTh1Ljeerjm5xYGvKK+uOxE", "spine": "3.2.01", "width": 298.24, "height": 235.37, "images": "" },
 "bones": [
 	{ "name": "root", "shearY": 0.08 },
 	{ "name": "torso", "parent": "root", "x": 0.09, "y": 58.99 },
@@ -10,7 +10,7 @@
 	{ "name": "leg2", "parent": "torso", "length": 34.88, "rotation": -85.68, "x": 6.3, "y": -22.74, "inheritScale": false },
 	{ "name": "leg3", "parent": "torso", "length": 27.07, "rotation": -88.61, "x": 46.8, "y": -22.45, "inheritScale": false },
 	{ "name": "leg4", "parent": "torso", "length": 25.91, "rotation": -74.55, "x": 73.17, "y": -21.75, "inheritScale": false },
-	{ "name": "lengua", "parent": "head", "rotation": -101.24, "x": -6.51, "y": -13.4 },
+	{ "name": "lengua", "parent": "head", "rotation": -47.98, "x": -6.51, "y": -13.4 },
 	{ "name": "tale", "parent": "torso", "length": 45.25, "rotation": 161.02, "x": -40.09, "y": -5.07, "inheritScale": false }
 ],
 "slots": [
@@ -471,17 +471,16 @@
 			},
 			"lengua": {
 				"rotate": [
-					{ "time": 0, "angle": 0 },
-					{ "time": 0.1333, "angle": -9.52, "curve": "stepped" },
-					{ "time": 0.2, "angle": -9.52, "curve": "stepped" },
-					{ "time": 0.7333, "angle": -9.52 }
+					{ "time": 0, "angle": 394.25 },
+					{ "time": 0.1333, "angle": 301.99, "curve": "stepped" },
+					{ "time": 0.7333, "angle": 301.99 }
 				],
 				"translate": [
 					{ "time": 0, "x": 0, "y": 0 },
-					{ "time": 0.1333, "x": -1.13, "y": 5.58 },
-					{ "time": 0.1666, "x": -1.91, "y": 5.46 },
-					{ "time": 0.2, "x": -19.86, "y": 11.81 },
-					{ "time": 0.2333, "x": 0.7, "y": 3.23, "curve": "stepped" },
+					{ "time": 0.1333, "x": -4.33, "y": 3.61 },
+					{ "time": 0.1666, "x": -3.12, "y": 3.14 },
+					{ "time": 0.2, "x": -16.59, "y": 8.31 },
+					{ "time": 0.2333, "x": -1, "y": 1.9 },
 					{ "time": 0.7333, "x": 0.7, "y": 3.23 }
 				],
 				"scale": [
