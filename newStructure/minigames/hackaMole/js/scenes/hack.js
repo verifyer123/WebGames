@@ -729,7 +729,8 @@ var hack = function(){
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.anchor.setTo(0.5,0.5)
-		group.add(pointsText)
+		//group.add(pointsText)
+		buttonImage.addChild(pointsText)
 		
 		group.text = pointsText
 		
@@ -738,7 +739,8 @@ var hack = function(){
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, 5, "", fontStyle)
 		pointsText.scale.y = 0.7
 		pointsText.anchor.setTo(0.5,0.5)
-		group.add(pointsText)
+		//group.add(pointsText)
+		buttonImage.addChild(pointsText)
 		
 		group.text2 = pointsText
 		
