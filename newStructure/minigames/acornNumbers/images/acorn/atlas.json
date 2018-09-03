@@ -2,7 +2,7 @@
 
 {
 	"filename": "acorn",
-	"frame": {"x":522,"y":101,"w":85,"h":88},
+	"frame": {"x":420,"y":133,"w":85,"h":88},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":85,"h":88},
@@ -11,11 +11,20 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":436,"y":1,"w":140,"h":55},
+	"frame": {"x":103,"y":219,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
 	"sourceSize": {"w":140,"h":55},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "moon",
+	"frame": {"x":420,"y":223,"w":57,"h":64},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":0,"w":57,"h":64},
+	"sourceSize": {"w":64,"h":64},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -29,7 +38,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":420,"y":133,"w":100,"h":93},
+	"frame": {"x":1,"y":219,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -38,7 +47,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":522,"y":191,"w":64,"h":64},
+	"frame": {"x":436,"y":1,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -55,6 +64,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "sun",
+	"frame": {"x":436,"y":67,"w":64,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
+	"sourceSize": {"w":64,"h":64},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "tabla",
 	"frame": {"x":1,"y":1,"w":294,"h":216},
 	"rotated": false,
@@ -65,7 +83,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":436,"y":58,"w":165,"h":41},
+	"frame": {"x":245,"y":238,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -77,8 +95,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":608,"h":256},
+	"size": {"w":506,"h":313},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:a3e6ab3b8d0ff4037d2fa5f931b1de84:b1b90611592e6becfc666c34e07827ab:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:aac389f40c90fc13c908e0e77b718c87:76e8a2c9bd9fa5702c2e3a06257be2fb:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

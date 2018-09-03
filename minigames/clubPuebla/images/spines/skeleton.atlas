@@ -1,0 +1,160 @@
+
+skeleton.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+arm1
+  rotate: true
+  xy: 234, 32
+  size: 27, 43
+  orig: 27, 43
+  offset: 0, 0
+  index: -1
+arm_b1
+  rotate: true
+  xy: 447, 169
+  size: 43, 62
+  orig: 43, 62
+  offset: 0, 0
+  index: -1
+arm_b2
+  rotate: false
+  xy: 427, 9
+  size: 32, 61
+  orig: 32, 61
+  offset: 0, 0
+  index: -1
+foot1
+  rotate: false
+  xy: 103, 3
+  size: 44, 23
+  orig: 44, 23
+  offset: 0, 0
+  index: -1
+hand_a1
+  rotate: true
+  xy: 461, 26
+  size: 44, 27
+  orig: 44, 27
+  offset: 0, 0
+  index: -1
+hand_a2
+  rotate: true
+  xy: 190, 25
+  size: 34, 42
+  orig: 34, 42
+  offset: 0, 0
+  index: -1
+head_a1
+  rotate: false
+  xy: 249, 161
+  size: 97, 89
+  orig: 97, 89
+  offset: 0, 0
+  index: -1
+head_a2
+  rotate: false
+  xy: 348, 161
+  size: 97, 89
+  orig: 97, 89
+  offset: 0, 0
+  index: -1
+head_b1
+  rotate: false
+  xy: 2, 64
+  size: 97, 90
+  orig: 97, 90
+  offset: 0, 0
+  index: -1
+head_b2
+  rotate: false
+  xy: 101, 65
+  size: 97, 89
+  orig: 97, 89
+  offset: 0, 0
+  index: -1
+head_c1
+  rotate: true
+  xy: 200, 61
+  size: 97, 89
+  orig: 97, 89
+  offset: 0, 0
+  index: -1
+head_c2
+  rotate: false
+  xy: 150, 160
+  size: 97, 90
+  orig: 97, 90
+  offset: 0, 0
+  index: -1
+head_d1
+  rotate: false
+  xy: 291, 72
+  size: 97, 87
+  orig: 97, 87
+  offset: 0, 0
+  index: -1
+head_d2
+  rotate: false
+  xy: 390, 72
+  size: 97, 87
+  orig: 97, 87
+  offset: 0, 0
+  index: -1
+leg_a1
+  rotate: false
+  xy: 388, 8
+  size: 37, 62
+  orig: 37, 62
+  offset: 0, 0
+  index: -1
+leg_a2
+  rotate: true
+  xy: 447, 214
+  size: 36, 63
+  orig: 36, 63
+  offset: 0, 0
+  index: -1
+leg_b1
+  rotate: false
+  xy: 103, 28
+  size: 85, 35
+  orig: 85, 35
+  offset: 0, 0
+  index: -1
+leg_b2
+  rotate: false
+  xy: 149, 2
+  size: 34, 24
+  orig: 34, 24
+  offset: 0, 0
+  index: -1
+shin1
+  rotate: true
+  xy: 185, 5
+  size: 18, 32
+  orig: 18, 32
+  offset: 0, 0
+  index: -1
+swoosh
+  rotate: false
+  xy: 2, 156
+  size: 146, 94
+  orig: 146, 94
+  offset: 0, 0
+  index: -1
+torso1
+  rotate: true
+  xy: 291, 2
+  size: 68, 95
+  orig: 68, 95
+  offset: 0, 0
+  index: -1
+torso2
+  rotate: false
+  xy: 2, 10
+  size: 99, 52
+  orig: 99, 52
+  offset: 0, 0
+  index: -1

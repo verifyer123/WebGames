@@ -5,107 +5,135 @@ format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm1
-  rotate: false
-  xy: 544, 213
+  rotate: true
+  xy: 585, 256
   size: 34, 66
   orig: 34, 66
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 580, 229
+  xy: 899, 323
   size: 38, 50
   orig: 38, 50
   offset: 0, 0
   index: -1
 normal/ball
   rotate: false
-  xy: 2, 237
+  xy: 2, 248
   size: 262, 262
   orig: 262, 262
   offset: 0, 0
   index: -1
 normal/dm1
   rotate: true
-  xy: 455, 198
+  xy: 769, 292
   size: 81, 87
   orig: 81, 87
   offset: 0, 0
   index: -1
 normal/dm2
   rotate: false
-  xy: 266, 330
+  xy: 266, 341
   size: 170, 169
   orig: 170, 169
   offset: 0, 0
   index: -1
 normal/dm3
   rotate: true
-  xy: 2, 2
+  xy: 2, 13
   size: 233, 251
   orig: 233, 251
   offset: 0, 0
   index: -1
 normal/dm4
   rotate: false
-  xy: 455, 281
+  xy: 585, 292
   size: 182, 81
   orig: 182, 81
   offset: 0, 0
   index: -1
+normal/espiral
+  rotate: false
+  xy: 255, 2
+  size: 50, 25
+  orig: 50, 25
+  offset: 0, 0
+  index: -1
+normal/estrella1
+  rotate: true
+  xy: 438, 359
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+normal/estrella2
+  rotate: false
+  xy: 1005, 496
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+normal/estrella3
+  rotate: true
+  xy: 438, 344
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
 normal/head
   rotate: false
-  xy: 266, 194
+  xy: 266, 205
   size: 187, 134
   orig: 187, 134
   offset: 0, 0
   index: -1
 normal/head1
   rotate: false
-  xy: 438, 364
+  xy: 438, 375
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/head2
   rotate: false
-  xy: 627, 364
+  xy: 627, 375
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/head3
   rotate: false
-  xy: 816, 364
+  xy: 816, 375
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/head4
   rotate: false
-  xy: 255, 57
+  xy: 255, 68
   size: 187, 135
   orig: 187, 135
   offset: 0, 0
   index: -1
 normal/leg
   rotate: false
-  xy: 723, 305
+  xy: 858, 316
   size: 39, 57
   orig: 39, 57
   offset: 0, 0
   index: -1
 normal/leg1_b
   rotate: true
-  xy: 255, 18
+  xy: 255, 29
   size: 37, 73
   orig: 37, 73
   offset: 0, 0
   index: -1
 normal/torso
-  rotate: true
-  xy: 639, 286
-  size: 76, 82
-  orig: 76, 82
+  rotate: false
+  xy: 455, 236
+  size: 128, 137
+  orig: 128, 137
   offset: 0, 0
   index: -1

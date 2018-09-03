@@ -488,6 +488,58 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">dryLeaves.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>74,29,148,58</rect>
+                <key>scale9Paddings</key>
+                <rect>74,29,148,58</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">dryLeavesParticles.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,19,44,38</rect>
+                <key>scale9Paddings</key>
+                <rect>22,19,44,38</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">dryLeavesParticles2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,24,33,49</rect>
+                <key>scale9Paddings</key>
+                <rect>16,24,33,49</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">escudo.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,47,91,93</rect>
+                <key>scale9Paddings</key>
+                <rect>45,47,91,93</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">globo1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -582,6 +634,7 @@
             <key type="filename">pasto_central.png</key>
             <key type="filename">pasto_derecho.png</key>
             <key type="filename">pasto_izquierdo.png</key>
+            <key type="filename">tierra.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -630,6 +683,19 @@
                 <rect>14,11,27,22</rect>
                 <key>scale9Paddings</key>
                 <rect>14,11,27,22</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">punchResort.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>39,11,77,22</rect>
+                <key>scale9Paddings</key>
+                <rect>39,11,77,22</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -788,6 +854,12 @@
             <filename>chorro2.png</filename>
             <filename>chorro3.png</filename>
             <filename>chorro4.png</filename>
+            <filename>escudo.png</filename>
+            <filename>tierra.png</filename>
+            <filename>punchResort.png</filename>
+            <filename>dryLeaves.png</filename>
+            <filename>dryLeavesParticles.png</filename>
+            <filename>dryLeavesParticles2.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

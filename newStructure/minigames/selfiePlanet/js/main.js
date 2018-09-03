@@ -62,7 +62,7 @@ function startGame(){
     	sceneloader.init(game)
     	sound.init(game)
     }
-
+    
     function create(){
 
     	preloadScenes([

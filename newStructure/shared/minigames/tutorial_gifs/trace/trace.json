@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "yo+vSwRGE1tbx4o0awTZyjtKFr8", "spine": "3.2.01", "width": 236, "height": 193, "images": "" },
+"skeleton": { "hash": "AwBi8po2VldepIB0FQCgRyLUsDU", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "cog", "parent": "root", "y": 52.38 },
@@ -17,7 +17,6 @@
 	}
 ],
 "slots": [
-	{ "name": "background", "bone": "root", "attachment": "background" },
 	{ "name": "arrows", "bone": "cog", "attachment": "arrow_full" },
 	{ "name": "hand", "bone": "hand", "attachment": "hand_normal" }
 ],
@@ -35,9 +34,6 @@
 			"arrow_8": { "name": "normal6/arrow_8", "x": 0.29, "y": 63.3, "width": 117, "height": 108 },
 			"arrow_9": { "name": "normal6/arrow_9", "x": 0.29, "y": 68.32, "width": 117, "height": 118 },
 			"arrow_full": { "name": "normal6/arrow_full", "x": 0.29, "y": 70.2, "width": 117, "height": 122 }
-		},
-		"background": {
-			"background": { "name": "normal6/background", "y": 128.32, "width": 236, "height": 193 }
 		},
 		"hand": {
 			"hand_normal": { "name": "normal6/hand_normal", "x": 29.82, "y": -4.72, "rotation": -109.2, "width": 49, "height": 72 },
@@ -72,16 +68,6 @@
 					{ "time": 1.5333, "name": "arrow_9" },
 					{ "time": 1.5666, "name": "arrow_full" },
 					{ "time": 2.2666, "name": null }
-				]
-			},
-			"background": {
-				"color": [
-					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 2.2666, "color": "ffffffff" }
-				],
-				"attachment": [
-					{ "time": 0, "name": "background" },
-					{ "time": 2.2666, "name": "background" }
 				]
 			},
 			"hand": {

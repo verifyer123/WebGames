@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "jaiiX/M2ol0OwqZYbsLMfzny0q8", "spine": "3.2.01", "width": 1033.01, "height": 629.41, "images": "" },
+"skeleton": { "hash": "LeTRj0+unrEAdfM92dIHkjaZ5m8", "spine": "3.2.01", "width": 1033.24, "height": 629.87, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "torso", "parent": "root", "length": 103.82, "rotation": 90.04, "y": 124.1 },
@@ -53,7 +53,7 @@
 			"arm": { "name": "normal/arm", "x": 36.01, "y": -0.49, "scaleX": -1, "rotation": 3.13, "width": 79, "height": 46 }
 		},
 		"banda": {
-			"banda": { "name": "normal/banda", "x": 162.28, "y": -4.5, "rotation": -90.73, "width": 295, "height": 99 }
+			"banda": { "name": "normal/banda", "x": 162.28, "y": -4.5, "rotation": -90.73, "width": 294, "height": 99 }
 		},
 		"bubble": {
 			"bubble": { "name": "normal/bubble", "x": 8.34, "y": 0.41, "scaleX": 0.59, "scaleY": 0.59, "rotation": -90, "width": 39, "height": 27 }
@@ -65,7 +65,7 @@
 			"bubble": { "name": "normal/bubble", "x": 13.03, "y": 0.11, "rotation": -90, "width": 39, "height": 27 }
 		},
 		"cazuela": {
-			"cazuela": { "name": "normal/cazuela", "x": 72.97, "y": -2.99, "rotation": -90, "width": 215, "height": 151 }
+			"cazuela": { "name": "normal/cazuela", "x": 72.97, "y": -2.99, "rotation": -90, "width": 216, "height": 151 }
 		},
 		"empty": {
 			"empty": { "name": "normal/empty", "x": 52.34, "y": 19.98, "rotation": 1.34, "width": 201, "height": 113 }
@@ -118,7 +118,7 @@
 			"pupil": { "name": "normal/pupil", "x": 0.76, "y": 0.4, "rotation": -90, "width": 24, "height": 24 }
 		},
 		"table": {
-			"table": { "name": "normal/table", "x": 15.77, "y": 6.27, "width": 1033, "height": 267 }
+			"table": { "name": "normal/table", "x": 15.77, "y": 6.27, "rotation": 0.05, "width": 1033, "height": 267 }
 		},
 		"tailL": {
 			"tail": { "name": "normal/tail", "x": 6.31, "y": -77.23, "rotation": -22.03, "width": 151, "height": 233 }
@@ -127,7 +127,7 @@
 			"tail": { "name": "normal/tail", "x": 12.23, "y": 78.63, "scaleX": -1, "rotation": -155.71, "width": 151, "height": 233 }
 		},
 		"torso": {
-			"torso": { "name": "normal/torso", "x": 53.54, "y": -3.51, "rotation": -90.05, "width": 206, "height": 172 }
+			"torso": { "name": "normal/torso", "x": 33.66, "y": -3.51, "rotation": -90.05, "width": 206, "height": 171 }
 		}
 	}
 },

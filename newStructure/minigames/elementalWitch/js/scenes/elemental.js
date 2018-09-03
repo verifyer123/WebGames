@@ -97,7 +97,7 @@ var elemental = function(){
                 file: "images/spines/witch/LOSESTILL.png",
                 width: 260,
                 height: 273,
-                frames: 24
+                frames: 20
             },
         ],
         spines:[
@@ -129,6 +129,8 @@ var elemental = function(){
 	var index
 	var coinsGroup
     var heartsGroup
+	var maskSelected;
+	var idleAnimation;
     var battleSong
     var coin
 	var enemysInLine
@@ -151,6 +153,7 @@ var elemental = function(){
         lives = 3
         level = 1
 		index = 0;
+		maskSelected=game.rnd.integerInRange(0,3);
 		enemysInLine=1
 		goalMask=0;
         speed = 100
@@ -420,7 +423,7 @@ var elemental = function(){
         witch.anchor.setTo(0.5)
         witch.animations.add('IDLE', null, 24, true)
         witch.animations.add('ATTACK', null, 24)
-        witch.animations.add('LOSESTILL', null, 24)
+        witch.animations.add('LOSESTILL', null, 24,true)
         witch.animations.add('HIT', null, 24)
         witch.animations.add('LOSE', null, 24)
         witch.canAttack = false
@@ -545,7 +548,9 @@ var elemental = function(){
             gem.isShot = true
             witch.canAttack = false
             witchAnim('ATTACK')
-            game.time.events.add(700, witchAnim, this, "IDLE")
+            idleAnimation=game.time.events.add(700,function(){
+				if(lives>0)witchAnim("IDLE")
+			})
 			for(var checkMask=0; checkMask<enemiesGroup.length; checkMask++){
 				if(enemiesGroup.children[checkMask].exists && enemiesGroup.children[checkMask].element==gem.element && !enemiesGroup.children[checkMask].touch){
 					var mask=enemiesGroup.children[checkMask];
@@ -592,10 +597,11 @@ var elemental = function(){
         
 		
         if(!mask.touch && gameActive && gem.isShot){
-            
+           
     
             if(gem.element === mask.element){
 				mask.touch = true
+				gem.isShot=false;
 				mask.body.velocity.y = 0
 				mask.healtPoints--
                 setDamage(mask)
@@ -652,7 +658,7 @@ var elemental = function(){
             gemsGroup.setAll("inputEnabled", false)
             mask.touch = true
             mask.body.velocity.y = 0
-            
+            witch.canAttack = false
             game.add.tween(mask).to({x:game.world.centerX, y: -200}, 500, Phaser.Easing.linear, true).onComplete.add(function(){
                 mask.kill()
             })
@@ -665,11 +671,11 @@ var elemental = function(){
                if(goalMask==0)game.time.events.add(1000, initGame)
             }
             else if(lives == 1){
+				
                 gemsGroup.setAll("inputEnabled", false)
-                witchAnim('LOSE')
+				if(idleAnimation)idleAnimation.clearEvents=true;
+				game.time.events.add(100, witchAnim, this, "LOSESTILL");
 				missPoint(witch)
-                game.time.events.add(900, witchAnim, this, "LOSESTILL")
-//                game.time.events.add(1000, missPoint, this, witch)
             }
         }
     }
@@ -721,17 +727,18 @@ var elemental = function(){
         
         var pivotX = 0.45
         var show
+
         
-        for(var i = 0; i < 4; i++){
-            
-            var mask = enemiesGroup.getFirstExists(false)
+        for(var i = 0; i < 1; i++){
+           // enemiesGroup.getFirstExists(false)
+            var mask = enemiesGroup.children[maskSelected]
             
             if(mask){
                 
                 mask.anim.setAnimationByName(0, "idle", true)
                 mask.healtPoints = level
                 mask.touch = false
-                mask.reset(game.world.centerX * pivotX, game.world.height + 150)
+                mask.reset(game.world.centerX, game.world.height + 150)
                 show = game.add.tween(mask).to({y: game.world.height - 250}, game.rnd.integerInRange(800, 1300), Phaser.Easing.linear, true)
                 
                 pivotX += 0.35
@@ -765,11 +772,11 @@ var elemental = function(){
         gemsGroup.setAll("inputEnabled", false)
         witch.canAttack = true
         
-        if(pos < 4){
-            hand.x = gemsGroup.children[pos].x
-            hand.y = gemsGroup.children[pos].y
+        if(pos < 1){
+            hand.x = gemsGroup.children[maskSelected].x
+            hand.y = gemsGroup.children[maskSelected].y
             game.add.tween(hand).to({alpha: 1}, 200, Phaser.Easing.linear, true)
-            gemsGroup.children[pos].inputEnabled = true
+            gemsGroup.children[maskSelected].inputEnabled = true
         }
         else{
             witch.canAttack = false

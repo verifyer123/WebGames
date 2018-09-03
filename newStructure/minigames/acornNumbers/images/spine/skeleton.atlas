@@ -1,83 +1,132 @@
 
 skeleton.png
-size: 1024,128
+size: 2048,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal/arms
-  rotate: false
-  xy: 746, 19
-  size: 15, 11
-  orig: 15, 11
-  offset: 0, 0
-  index: -1
-normal/cabeza
-  rotate: false
-  xy: 370, 17
-  size: 99, 99
-  orig: 99, 99
-  offset: 0, 0
-  index: -1
-normal/cola
+normal/breath_head_7
   rotate: false
   xy: 2, 2
-  size: 118, 114
-  orig: 118, 114
+  size: 194, 114
+  orig: 194, 114
   offset: 0, 0
   index: -1
-normal/head1
-  rotate: true
-  xy: 254, 16
-  size: 100, 114
-  orig: 100, 114
+normal/cachete_1
+  rotate: false
+  xy: 1233, 24
+  size: 58, 54
+  orig: 58, 54
   offset: 0, 0
   index: -1
-normal/head2
+normal/cachete_2
+  rotate: false
+  xy: 1300, 61
+  size: 56, 55
+  orig: 56, 55
+  offset: 0, 0
+  index: -1
+normal/hand_1
+  rotate: false
+  xy: 551, 3
+  size: 15, 12
+  orig: 15, 12
+  offset: 0, 0
+  index: -1
+normal/hand_2
+  rotate: false
+  xy: 1440, 104
+  size: 15, 12
+  orig: 15, 12
+  offset: 0, 0
+  index: -1
+normal/head_1
+  rotate: false
+  xy: 861, 18
+  size: 99, 98
+  orig: 99, 98
+  offset: 0, 0
+  index: -1
+normal/head_2
+  rotate: false
+  xy: 450, 2
+  size: 99, 114
+  orig: 99, 114
+  offset: 0, 0
+  index: -1
+normal/head_3
   rotate: true
-  xy: 122, 14
+  xy: 198, 14
   size: 102, 130
   orig: 102, 130
   offset: 0, 0
   index: -1
-normal/head3
+normal/head_4
   rotate: false
-  xy: 471, 17
-  size: 99, 99
-  orig: 99, 99
-  offset: 0, 0
-  index: -1
-normal/head4
-  rotate: false
-  xy: 572, 21
+  xy: 654, 21
   size: 103, 95
   orig: 103, 95
   offset: 0, 0
   index: -1
-normal/leg1
+normal/head_5
   rotate: false
-  xy: 746, 32
+  xy: 962, 18
+  size: 99, 98
+  orig: 99, 98
+  offset: 0, 0
+  index: -1
+normal/head_6
+  rotate: false
+  xy: 1063, 17
+  size: 99, 99
+  orig: 99, 99
+  offset: 0, 0
+  index: -1
+normal/head_7
+  rotate: false
+  xy: 759, 18
+  size: 100, 98
+  orig: 100, 98
+  offset: 0, 0
+  index: -1
+normal/head_8
+  rotate: false
+  xy: 551, 17
+  size: 101, 99
+  orig: 101, 99
+  offset: 0, 0
+  index: -1
+normal/leg_1
+  rotate: false
+  xy: 1358, 69
+  size: 39, 47
+  orig: 39, 47
+  offset: 0, 0
+  index: -1
+normal/leg_2
+  rotate: false
+  xy: 1399, 70
   size: 39, 46
   orig: 39, 46
   offset: 0, 0
   index: -1
-normal/leg2
-  rotate: true
-  xy: 814, 77
-  size: 39, 46
-  orig: 39, 46
+normal/shadow
+  rotate: false
+  xy: 1164, 80
+  size: 134, 36
+  orig: 134, 36
   offset: 0, 0
   index: -1
-normal/sombra
+normal/tale
   rotate: false
-  xy: 677, 80
-  size: 135, 36
-  orig: 135, 36
+  xy: 330, 2
+  size: 118, 114
+  orig: 118, 114
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 677, 15
-  size: 67, 63
-  orig: 67, 63
+  xy: 1164, 14
+  size: 67, 64
+  orig: 67, 64
   offset: 0, 0
   index: -1

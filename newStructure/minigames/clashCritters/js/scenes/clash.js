@@ -55,8 +55,6 @@ var clash = function(){
                 file: soundsPath + "whoosh.mp3"},
             {   name: "bah",
                 file: soundsPath + "bah.mp3"},
-            {   name: "fart",
-                file: soundsPath + "splash.mp3"},
             {   name: "explosion",
                 file: soundsPath + "fireExplosion.mp3"},
             {   name: "clashSong",
@@ -137,9 +135,8 @@ var clash = function(){
     var tutoGroup
     var clashSong
     var pullGroup = null
-    var clock
     var timeValue
-    var inputsEnabled
+    var gameActive
     var pointsBar
     var monsterCounter
     var dinoCounter
@@ -147,7 +144,6 @@ var clash = function(){
     var dino
     var clashGroup
     var indicator
-    var killedMonsters
     var coin
     var hand
 
@@ -158,16 +154,15 @@ var clash = function(){
     function initialize(){
 
         game.stage.backgroundColor = "#ffffff"
-        //gameActive = true
+
         lives = NUM_LIFES
         timeValue = 7
         monsterCounter = 0
-        killedMonsters = 0
         dinoCounter = 0
 
         sceneGroup.alpha = 0
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-        inputsEnabled = false
+        gameActive = false
 
         loadSounds()
     }
@@ -279,7 +274,7 @@ var clash = function(){
 
         dino.statusAnimation = dino.hpBar.health < 3 ? "tired" : "idle"
         dino.setAnimation(["hit", dino.statusAnimation])
-        dino.hit.start(true, 1000, null, 5)
+        dino.hit.start(true, 2000, null, 5)
         
         if(dino.hpBar.health > 0)
             game.time.events.add(1000, startRound)
@@ -314,8 +309,8 @@ var clash = function(){
     }
 
     function monsterAttack(){
-        inputsEnabled = false
 
+        gameActive = false
         if (monster.hpBar.health > 0){
             monster.setAnimation(["ATTACK", monster.statusAnimation])
 
@@ -335,16 +330,14 @@ var clash = function(){
     
     function killMonster() {
         monster.setAnimation(["HIT", monster.statusAnimation])
-        killedMonsters++
 
         game.time.events.add(400, function () {
             monster.setAlive(false)
-            sound.play("fart")
             var dissapear = game.add.tween(monster).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true)
             dissapear.onComplete.add(function () {
                 sound.play("cut")
 
-                monster.x = game.world.width + 100
+                monster.x = game.world.width + 120
                 monster.alpha = 1
                 monster.setAlive(true)
                 monster.statusAnimation = "IDLE"
@@ -353,7 +346,7 @@ var clash = function(){
                 monsterCounter = monsterCounter + 1 < MONSTERS.length ? monsterCounter + 1 : 0
                 monster.setSkinByName(MONSTERS[monsterCounter].skin)
                 monster.hpBar.resetHealth()
-                var newMonster = game.add.tween(monster).to({x:game.world.width - 140}, 800, Phaser.Easing.Cubic.Out, true)
+                var newMonster = game.add.tween(monster).to({x:game.world.width - 150}, 800, Phaser.Easing.Cubic.Out, true, 1300)
                 newMonster.onComplete.add(startRound)
                 monster.name.setText(MONSTERS[monsterCounter].name)
 
@@ -384,13 +377,11 @@ var clash = function(){
         monster.hpBar.removeHealth(healthToRemove)
         monster.statusAnimation = monster.hpBar.health < 3 ? "TIRED" : "IDLE"
         monster.setAnimation(["HIT", monster.statusAnimation])
-        monster.hit.start(true, 1000, null, 5)
+        monster.hit.start(true, 2000, null, 5)
 
-        // game.time.events.add(1200, monsterAttack)
         if(monster.hpBar.health > 0)
             game.time.events.add(1000, startRound)
         else
-            // killMonster()
             game.time.events.add(1500, killMonster)
     }
 
@@ -445,31 +436,31 @@ var clash = function(){
     }
 
     function checkAnswer(circle) {
-        var option = circle.parent
 
-        if(inputsEnabled){
-            circle.inputEnabled = false
-            inputsEnabled = false
+        if(gameActive){
+           
+            gameActive = false
+            var option = circle.parent
             indicator.timer.stop()
-            if(hand)
+            if(hand){
                 hand.destroy()
+                turnBtns(true)
+            }
+                
 
-            var buttonEffect = game.add.tween(option.scale).to({x: 1.2, y: 1.2}, 300, Phaser.Easing.Cubic.Out, true)
-            buttonEffect.onComplete.add(function () {
-                game.add.tween(option.scale).to({x: 1, y: 1}, 150, Phaser.Easing.Cubic.In, true)
-            })
-            tweenTint(circle, 0xffffff, 0x9B9B9B, 300)
-
+            game.add.tween(option.scale).to({x: 1.2, y: 1.2}, 200, Phaser.Easing.Cubic.Out, true, 0, 0, true)
+            
             var indicatorEffect = game.add.tween(indicator.scale).to({x: 1, y: 1}, 500, Phaser.Easing.Cubic.Out, true)
             indicatorEffect.onComplete.add(function () {
                 game.add.tween(indicator.scale).to({x: 0.6, y: 0.6}, 500, null, true, 1000)
             })
 
             if (option.number === clashGroup.answer) {
+                tintBtns(circle)
                 var particleCorrect = clashGroup.correctParticle
                 particleCorrect.x = option.x
                 particleCorrect.y = option.y
-                particleCorrect.start(true, 3000, null, 6)
+                particleCorrect.start(true, 2000, null, 6)
 
                 var soundName
                 sound.play("right")
@@ -501,9 +492,18 @@ var clash = function(){
                 particleWrong.y = option.y
                 sound.play("wrong")
                 showCorrect()
-                particleWrong.start(true, 3000, null, 6)
+                particleWrong.start(true, 2000, null, 6)
                 game.time.events.add(500, monsterAttack)
             }
+        }
+    }
+    
+    function tintBtns(circle){
+        var group = circle.parent
+        for(var i = 0; i < clashGroup.options.length; i++){
+            var cir = clashGroup.options[i].circle
+            if(cir != circle)
+                tweenTint(cir, 0xffffff, 0x9B9B9B, 300)
         }
     }
     
@@ -582,7 +582,7 @@ var clash = function(){
 
         monster = createSpine("monsters", MONSTERS[monsterCounter].skin, "IDLE")
         monster.x = game.world.width - 140
-        monster.y = monster.height - 10
+        monster.y = monster.height + 50
         monster.scale.setTo(0.8, 0.8)
         sceneGroup.add(monster)
         grass.x = monster.x
@@ -598,14 +598,14 @@ var clash = function(){
 
         var fontStyle = {font: "38px VAGRounded", fontWeight: "bold", fill: "#350A00", align: "center"}
         var monsterName = new Phaser.Text(game, 0, 5, MONSTERS[monsterCounter].name, fontStyle)
-        monsterName.x = monster.x - 350
+        monsterName.x = monster.x - 340
         monsterName.y = monster.y - monster.height + 30
         monsterName.anchor.setTo(0,0.5)
         sceneGroup.add(monsterName)
         monster.name = monsterName
 
         var hpBar1 = createHpbar()
-        hpBar1.x = monster.x - 250
+        hpBar1.x = monster.x - 240
         hpBar1.y = monsterName.y + 38
         sceneGroup.add(hpBar1)
         monster.hpBar = hpBar1
@@ -629,7 +629,7 @@ var clash = function(){
         dino.hit.forEach(function(particle) {particle.tint = MONSTERS[monsterCounter].colorProyectile})
 
         var dinoName = new Phaser.Text(game, 0, 5, DINOS[dinoCounter].name, fontStyle)
-        dinoName.x = dino.x + 320
+        dinoName.x = dino.x + 350
         dinoName.y = dino.y - 100
         dinoName.anchor.setTo(1,0.5)
         sceneGroup.add(dinoName)
@@ -644,15 +644,16 @@ var clash = function(){
     }
 
     function createPart(key){
-        var particle = game.add.emitter(0, 0, 100);
 
+        var particle = game.add.emitter(0, 0, 100);
         particle.makeParticles('atlas.clash',key);
         particle.minParticleSpeed.setTo(-200, -50);
         particle.maxParticleSpeed.setTo(200, -100);
-        particle.minParticleScale = 0.8;
-        particle.maxParticleScale = 1.2;
+        particle.minParticleScale = 0.6;
+        particle.maxParticleScale = 1;
         particle.gravity = 150;
         particle.angularDrag = 30;
+        particle.setAlpha(1, 0, 2500, Phaser.Easing.Cubic.In)
 
         return particle
 
@@ -663,20 +664,19 @@ var clash = function(){
         //objectsGroup.timer.pause()
         //timer.pause()
         sound.play("bah")
-        clashSong.stop()
+        
         dino.setAlive(false)
-        var dissapear = game.add.tween(dino).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
-        // clock.tween.stop()
-        inputsEnabled = false
+        game.add.tween(dino).to({alpha:0}, 800, Phaser.Easing.Cubic.Out, true, 600)
+        gameActive = false
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1800)
         tweenScene.onComplete.add(function(){
 
-            var numPoints = killedMonsters * 5
             var resultScreen = sceneloader.getScene("result")
-            resultScreen.setScore(true, numPoints)
+            resultScreen.setScore(true, pointsBar.number)
 
             //amazing.saveScore(pointsBar.number)
+            clashSong.stop()
             sceneloader.show("result")
             sound.play("gameLose")
         })
@@ -715,17 +715,11 @@ var clash = function(){
         game.add.tween(clashGroup.operator).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
         game.add.tween(clashGroup.number2).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true)
     }
-    
-    function enableCircle(option) {
-        option.circle.inputEnabled = true
-    }
 
     function startIndicator(delay) {
         var timeTween = timeValue * 1000
         indicator.timer = game.add.tween(indicator).to({x:-190}, timeTween, null, true, delay)
         indicator.timer.onComplete.add(monsterAttack)
-
-        // inputsEnabled = true
     }
 
     function generateQuestion() {
@@ -785,17 +779,17 @@ var clash = function(){
             var delayOption = delayBetween * optionIndex + initialDelay
 
             game.add.tween(option.scale).to({x:1, y:1}, 800, Phaser.Easing.Cubic.Out, true, delayOption)
-            var optionTween = game.add.tween(option).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true, delayOption)
-            optionTween.onStart.add(function () {
+            game.add.tween(option).to({alpha:1}, 800, Phaser.Easing.Cubic.Out, true, delayOption).onStart.add(function () {
                 sound.play("pop")
             })
-            optionTween.onComplete.add(enableCircle)
         }
+        
+        delayOption = initialDelay + delayBetween * (NUM_OPTIONS + 1)
+        startIndicator(delayOption)
 
-        startIndicator(initialDelay + delayBetween * (NUM_OPTIONS + 1))
-
-        inputsEnabled = true
-        game.time.events.add(initialDelay + delayBetween * (NUM_OPTIONS + 1), iceStatus)
+        game.time.events.add(delayOption,function(){
+            gameActive = true
+        })
     }
     
     function createClashUI() {
@@ -832,7 +826,8 @@ var clash = function(){
             var optionCircle = option.create(0, 0, 'atlas.clash', 'option')
             optionCircle.anchor.setTo(0.5, 0.5)
             optionCircle.inputEnabled = true
-            optionCircle.events.onInputDown.add(checkAnswer)
+            optionCircle.hitArea = new Phaser.Circle(0,0,optionCircle.width * 1.1)
+            optionCircle.events.onInputDown.add(checkAnswer, this)
             option.circle = optionCircle
 
             var numberText = new Phaser.Text(game, 0, 0, "0", fontStyle)
@@ -995,11 +990,11 @@ var clash = function(){
     
     function initTutorial(){
         
-        hideQuestion()
+        //hideQuestion()
+        turnBtns(false)
         indicator.tweenRestart.start()
         game.time.events.add(1000, function(){
             generateQuestion()
-            inputsEnabled = false
         
             for (var i = 0; i < NUM_OPTIONS; i++){
                 
@@ -1007,8 +1002,16 @@ var clash = function(){
                     break
                 }
             }
-            game.time.events.add(4000, posHand, this, clashGroup.options[i])
+            game.time.events.add(1800, posHand, this, clashGroup.options[i])
         })
+    }
+
+    function turnBtns(state){
+
+        for(var i = 0; i < clashGroup.options.length; i++){
+
+            clashGroup.options[i].circle.inputEnabled = state
+        }
     }
     
     function posHand(obj){
@@ -1016,34 +1019,10 @@ var clash = function(){
         hand.x = obj.circle.worldPosition.x
         hand.y = obj.circle.worldPosition.y
         indicator.timer.stop()
+
         game.add.tween(hand).to({alpha:1}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
-            inputsEnabled = true
-            for (var i = 0; i < clashGroup.options.length; i++){
-                clashGroup.options[i].circle.inputEnabled = false
-            }
             obj.circle.inputEnabled = true
         })
-    }
-    
-    function iceStatus(){
-    
-        /*for(var i = 0; i < clashGroup.options.length; i++){
-            
-            var pic = clashGroup.options[i]
-            var pos = i + 1 >= clashGroup.options.length ? 0 : i + 1
-            var next = clashGroup.options[pos]
-               
-            game.add.tween(pic).to({x: next.x}, 1000, Phaser.Easing.Cubic.Out, true)
-        }*/
-        
-        for(var i = 0; i < clashGroup.options.length; i++){
-            
-            var pic = clashGroup.options[i]
-            if (pic.number !== clashGroup.answer) {
-                pic.number--
-                pic.text.setText(pic.number)
-            }        
-        }
     }
 
     return {

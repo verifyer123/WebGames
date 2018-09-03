@@ -2,6 +2,10 @@
 	font-family: 'VAGRounded';
 	src: url('../fonts/VAGRoundedStd-Bold.otf');
 }
+@font-face{
+	font-family: 'Monoton-Regular';
+	src: url('../fonts/Monoton-Regular.ttf');
+}
 
 /*@font-face {*/
 	/*font-family: 'WAG';*/
@@ -30,3 +34,10 @@
 	height: 0%;
 	width: 0%;
 }
+.monoton-font{
+	font-family: "Monoton-Regular";
+	opacity: 0;
+	height: 0%;
+	width: 0%;
+}
+

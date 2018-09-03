@@ -111,6 +111,13 @@ var oona = function(){
     var levelZeroIndex;
     var correctAnswer = [0,1,2,3,4,5];
     var roundTime;
+    var pointeX;
+    var pointeY;
+    var posLastHandX;
+    var posLastHandY;
+    var actualObject;
+    var releaseMoveHand;
+    var releaseButtonOk;
     
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -125,6 +132,8 @@ var oona = function(){
         levelZero = true;
         levelZeroIndex = 0;
         roundTime = 15000;
+        releaseMoveHand = true;
+        releaseButtonOk = false;
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -142,11 +151,11 @@ var oona = function(){
     function stopGame(win){
         
         gameActive = false;
-        onnaSong.stop()
-
+        
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
         tweenScene.onComplete.add(function(){
 
+            onnaSong.stop();
             var resultScreen = sceneloader.getScene("result");
             resultScreen.setScore(true, pointsBar.number, gameIndex);
             sceneloader.show("result");
@@ -169,6 +178,14 @@ var oona = function(){
     }
 
     function update() {
+        if(levelZero && actualObject!=null && releaseMoveHand && !releaseButtonOk){
+            releaseMoveHand = false;
+            hand.x = actualObject.world.x;
+            hand.y = actualObject.world.y;
+            tweenSwipe = game.add.tween(hand).to( { x: posLastHandX, y: posLastHandY }, 800, Phaser.Easing.Linear.InOut, true, 0).onComplete.add(function(){
+                releaseMoveHand = true;
+            });
+        }
     }
 
     function createPointsBar(){
@@ -357,6 +374,7 @@ var oona = function(){
 
     function addClickButtonOK(){
         okBtnImg.inputEnabled = true;
+        okBtnImg.hitArea=new Phaser.Circle(0,0,okBtnImg.width*2);
         okBtnImg.events.onInputDown.add(function(){
         
             game.add.tween(okBtn.scale).to({x:0.5, y:0.5}, 100, Phaser.Easing.linear, true).onComplete.add(function() 
@@ -412,12 +430,12 @@ var oona = function(){
 
     function changeHand(index){
         if(levelZero){
-            if(tweenSwipe!= null){
-                tweenSwipe.stop();
-            }
+            actualObject = null;
             hand.x = buttosGroup.x + buttonWidthWithSpace*correctAnswer[index];
             hand.y = buttosGroup.y;
-            tweenSwipe = game.add.tween(hand).to( { y: hand.y + 100 }, 500, Phaser.Easing.Linear.InOut, true, 0, -1, true, 0);
+            posLastHandX = buttosGroup.x + buttonWidthWithSpace*correctAnswer[index];
+            posLastHandY = buttosGroup.y + 120;
+            tweenSwipe = game.add.tween(hand).to( {x: posLastHandX, y: posLastHandY }, 800, Phaser.Easing.Linear.InOut, true, 0, -1);
 
             for(rev=0; rev<buttosGroup.length; rev++){
                 if(buttosGroup.children[rev].number == correctAnswer[levelZeroIndex]){
@@ -494,30 +512,41 @@ var oona = function(){
     }
 
     function fixLocation(item) {
-        if(buttosGroup.length>0 && (item.y >=80 && item.y<=200)){
+        pointeX = item.x;
+        pointeY = item.y;
+        if(buttosGroup.length>0 && (item.y >=80 && item.y<=200) && (item.x >=-80 && item.x<=440)){
             sound.play("drag");
             buttosGroup.remove(item);
             answerGroup.add(item);
+            pointeX-= answerGroup.x/2 - item.width;
+            pointeY-= answerGroup.y/2 - item.height;
             colocationAnswer(item);
             item.parentColocation = "answer";
             if(levelZero && levelZeroIndex<totalRecipeElements-1){
                 levelZeroIndex++;
                 changeHand(levelZeroIndex);
             }else if(levelZero && levelZeroIndex==totalRecipeElements-1){
-                tweenSwipe.stop();
                 answerGroup.children[answerGroup.length-1].inputEnabled = false;
                 hand.x = okBtn.x;
                 hand.y = okBtn.y;
+                releaseButtonOk = true;
+                game.tweens.removeFrom(hand);
                 addClickButtonOK();
                 okBtnImg.events.onInputUp.add(cook);
             }
-        }else if(item.parentColocation =="answer" && (item.y >=-200 && item.y<=-40)){
+        }else if(item.parentColocation =="answer" && (item.y >=-200 && item.y<=-40) && (item.x >=-80 && item.x<=440)){
             answerGroup.remove(item);
             buttosGroup.add(item);
+            pointeX-= buttosGroup.x/2 - item.width;
+            pointeY+= buttosGroup.y/2 - item.height/2;
+            var indexChange = item.newPos;
             colocationOriginal(item);
             item.parentColocation = "original";
             for(var g=0; g<answerGroup.length; g++){
                 answerGroup.children[g].x = buttonWidthWithSpace*g;
+                if(answerGroup.children[g].newPos>=indexChange){
+                    answerGroup.children[g].newPos -= 1;
+                }
             }
         }else if(item.parentColocation == "original"){
             colocationOriginal(item);
@@ -533,21 +562,29 @@ var oona = function(){
         }else if(item.parentColocation == "original"){
             sceneGroup.bringToTop(buttosGroup);
         }
+        actualObject = item;
     }
 
     function colocationOriginal(itemCol){
-        itemCol.x = itemCol.originPosX;
-        itemCol.y = itemCol.originPosY;
+        itemCol.x = pointeX;
+        itemCol.y = pointeY;
+        game.add.tween(itemCol).to({x: itemCol.originPosX, y: itemCol.originPosY}, 200, Phaser.Easing.linear, true);
+        //itemCol.x = itemCol.originPosX;
+        //itemCol.y = itemCol.originPosY;
         itemCol.newPos = -1;
     }
 
     function colocationAnswer(itemCol){
+        itemCol.x = pointeX;
+        itemCol.y = pointeY;
         if(itemCol.parentColocation =="answer"){
-            itemCol.x = buttonWidthWithSpace*(itemCol.newPos);
-            itemCol.y = 0;
+            game.add.tween(itemCol).to({x: buttonWidthWithSpace*(itemCol.newPos), y: 0}, 200, Phaser.Easing.linear, true);
+            //itemCol.x = buttonWidthWithSpace*(itemCol.newPos);
+            //itemCol.y = 0;
         }else{
-            itemCol.x = buttonWidthWithSpace*(answerGroup.length-1);
-            itemCol.y = 0;
+            game.add.tween(itemCol).to({x: buttonWidthWithSpace*(answerGroup.length-1), y: 0}, 200, Phaser.Easing.linear, true);
+            //itemCol.x = buttonWidthWithSpace*(answerGroup.length-1);
+            //itemCol.y = 0;
             itemCol.newPos = answerGroup.length-1;
         }
     }
@@ -578,7 +615,7 @@ var oona = function(){
         var result = false;
        
         for (var i = 0; i < totalRecipeElements; i++){
-            if(answerGroup.length>0 && answerGroup.length<=totalRecipeElements && answerGroup.children[i].number == correctAnswer[i]){
+            if(answerGroup.length>0 && answerGroup.length==totalRecipeElements && answerGroup.children[i].number == correctAnswer[i]){
                 animateOona(animations[correctAnswer[i]], timer);
                 colorTools(timer, i, 0x00ff00);
                 timer += 1000;
@@ -586,28 +623,62 @@ var oona = function(){
             else {
                 result = true;
                 animateOona(animations[6], timer);
-                if(answerGroup.length>totalRecipeElements){
-                    for (var it = 0; it < totalRecipeElements; it++){
-                        if(answerGroup.children[it].number != correctAnswer[it]){
-                            colorTools(timer, it, 0xF63A3A);
-                        }else if(answerGroup.children[it].number == correctAnswer[it]){
-                            colorTools(timer, it, 0x00ff00);
-                        }
-                    }
-                    for(var t=totalRecipeElements; t<answerGroup.length; t++){
-                        colorTools(timer, t, 0xF63A3A);
-                    }
-                }else{
-                    colorTools(timer, i, 0xF63A3A);
-                }
-                timer += 1000;
+                // if(answerGroup.length>totalRecipeElements){
+                //     for (var it = 0; it < totalRecipeElements; it++){
+                //         if(answerGroup.children[it].number != correctAnswer[it]){
+                //             colorTools(timer, it, 0xF63A3A);
+                //         }else if(answerGroup.children[it].number == correctAnswer[it]){
+                //             colorTools(timer, it, 0x00ff00);
+                //         }
+                //     }
+                //     for(var t=totalRecipeElements; t<answerGroup.length; t++){
+                //         colorTools(timer, t, 0xF63A3A);
+                //     }
+                // }else if(answerGroup.length<=totalRecipeElements){
+                //     for (var re = 0; re < answerGroup.length; re++){
+                //         if(answerGroup.children[re].number != correctAnswer[re]){
+                //             colorTools(timer, re, 0xF63A3A);
+                //         }else if(answerGroup.children[re].number == correctAnswer[re]){
+                //             colorTools(timer, re, 0x00ff00);
+                //         }
+                //     }
+                // }else{
+                //     colorTools(timer, i, 0xF63A3A);
+                // }
+                timer += 1600;
                 break;
             }
+        }
+        if(result){
+            checkResult();
         }
         
         game.time.events.add(timer,function(){
             endRound(result);
         },this);
+    }
+
+    function checkResult(){
+        if(answerGroup.length>totalRecipeElements){
+            for (var it = 0; it < totalRecipeElements; it++){
+                if(answerGroup.children[it].number != correctAnswer[it]){
+                    colorTools(1000, it, 0xF63A3A);
+                }else if(answerGroup.children[it].number == correctAnswer[it]){
+                    colorTools(1000, it, 0x00ff00);
+                }
+            }
+            for(var t=totalRecipeElements; t<answerGroup.length; t++){
+                colorTools(1000, t, 0xF63A3A);
+            }
+        }else if(answerGroup.length<=totalRecipeElements){
+            for (var re = 0; re < answerGroup.length; re++){
+                if(answerGroup.children[re].number != correctAnswer[re]){
+                    colorTools(1000, re, 0xF63A3A);
+                }else if(answerGroup.children[re].number == correctAnswer[re]){
+                    colorTools(1000, re, 0x00ff00);
+                }
+            }
+        }
     }
 
     function endRound(wasLost){
@@ -716,11 +787,11 @@ var oona = function(){
                     tweenTime = game.add.tween(timeGroup.time.scale).to({x: 0}, roundTime, Phaser.Easing.linear, true);
                 
                     tweenTime.onComplete.add(function(){
-                        oonaAvatar.setAnimationByName(0, 'lose', false);
-                        oonaAvatar.addAnimationByName(0, 'idle', true);
-                        okBtnImg.events.onInputUp.removeAll();
-                        okBtnImg.inputEnabled = false;
-                        endRound(true);
+                    oonaAvatar.setAnimationByName(0, 'lose', false);
+                    oonaAvatar.addAnimationByName(0, 'idle', true);
+                    okBtnImg.events.onInputUp.removeAll();
+                    okBtnImg.inputEnabled = false;
+                    endRound(true);
                     });
                 }
             }, this);
@@ -754,7 +825,6 @@ var oona = function(){
                 onnaSong.loopFull(0.6);
             }, this);
 
-            sceneGroup.stage.backgroundColor = "#000000";
             createBackground(); 
 
             initialize();

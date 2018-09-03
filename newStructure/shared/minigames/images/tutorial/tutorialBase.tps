@@ -213,20 +213,34 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">how_EN.png</key>
+            <key type="filename">how_EN_Imagic.png</key>
+            <key type="filename">how_ES_Imagic.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>123,32,246,63</rect>
+                <rect>135,27,271,53</rect>
                 <key>scale9Paddings</key>
-                <rect>123,32,246,63</rect>
+                <rect>135,27,271,53</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">how_ES.png</key>
+            <key type="filename">how_EN_Web.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>123,32,246,64</rect>
+                <key>scale9Paddings</key>
+                <rect>123,32,246,64</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">how_ES_Web.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -253,15 +267,45 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">play_Imagic.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,32,65,65</rect>
+                <key>scale9Paddings</key>
+                <rect>32,32,65,65</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">../../../../../../../../Downloads/how_to_play/back_stars.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
-            <filename>how_EN.png</filename>
-            <filename>how_ES.png</filename>
             <filename>play_EN.png</filename>
             <filename>play_ES.png</filename>
             <filename>background_tutorial_Web.png</filename>
             <filename>background_tutorial_Imagic.png</filename>
+            <filename>how_ES_Imagic.png</filename>
+            <filename>how_EN_Imagic.png</filename>
+            <filename>how_EN_Web.png</filename>
+            <filename>how_ES_Web.png</filename>
+            <filename>play_Imagic.png</filename>
+            <filename>../../../../../../../../Downloads/how_to_play/back_stars.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

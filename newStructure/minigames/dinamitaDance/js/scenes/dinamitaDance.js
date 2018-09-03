@@ -125,6 +125,7 @@ var dinamitaDance = function(){
     var timeToWait;                 //Tiempo para esperar la animacion de inicio del ejercicio
     var colocationX;                //Arreglo para colocacion en X
     var colocationY;                //Arreglo para colocacion en Y
+    var actualAnim;
     
     function loadSounds(){
         sound.decode(assets.sounds);
@@ -172,14 +173,12 @@ var dinamitaDance = function(){
 
     function stopGame(win){
 
-        //sound.stop("wormwood");
-
         gameActive = false;
-        danceSong.stop();
 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000);
         tweenScene.onComplete.add(function(){
 
+            danceSong.stop();
             var resultScreen = sceneloader.getScene("result");
             //resultScreen.setScore(true, pointsBar.number, gameIndex);
             resultScreen.setScore(true, pointsBar.number);
@@ -494,6 +493,7 @@ var dinamitaDance = function(){
         
         dinamita = game.add.spine(game.world.centerX, game.world.centerY*1.2, "dinamita");
         dinamita.setAnimationByName(0, "idle", true);
+        actualAnim = "idle";
         dinamita.setSkinByName("normal");
         sceneGroup.add(dinamita);
 
@@ -504,6 +504,7 @@ var dinamitaDance = function(){
     }
 
     function changeHand(index){
+        actualObject = null;
         hand.x = allButtonsGroup.x + allButtonsGroup.getAt(index).x;
         hand.y = allButtonsGroup.y + allButtonsGroup.getAt(index).y;
     }
@@ -512,31 +513,49 @@ var dinamitaDance = function(){
         
         switch(dance){
             case 0:
+                dinamita.setMixByName(actualAnim, "idle_head", 0.2);
                 dinamita.setAnimationByName(0, "idle_head", true);
+                actualAnim = "idle_head";
             break;
             case 1:
+                dinamita.setMixByName(actualAnim, "idle_arm", 0.2);
                 dinamita.setAnimationByName(0, "idle_arm", true);
+                actualAnim = "idle_arm";
             break;
             case 2:
+                dinamita.setMixByName(actualAnim, "idle_hands", 0.2);
                 dinamita.setAnimationByName(0, "idle_hands", true);
+                actualAnim = "idle_hands";
             break;
             case 3:
+                dinamita.setMixByName(actualAnim, "idle_foot", 0.2);
                 dinamita.setAnimationByName(0, "idle_foot", true);
+                actualAnim = "idle_foot";
             break;
             case 4:
+                dinamita.setMixByName(actualAnim, "idle_torso", 0.2);
                 dinamita.setAnimationByName(0, "idle_torso", true);
+                actualAnim = "idle_torso";
             break;
             case 5:
+                dinamita.setMixByName(actualAnim, "idle_legs", 0.2);
                 dinamita.setAnimationByName(0, "idle_legs", true);
+                actualAnim = "idle_legs";
             break;
             case 6:
+                dinamita.setMixByName(actualAnim, "idle", 0.2);
                 dinamita.setAnimationByName(0, "idle", true);
+                actualAnim = "idle";
             break;
             case 7:
+                dinamita.setMixByName(actualAnim, "win", 0.2);
                 dinamita.setAnimationByName(0, "win", true);
+                actualAnim = "win";
             break;
             case 8:
+                dinamita.setMixByName(actualAnim, "lose", 0.2);
                 dinamita.setAnimationByName(0, "lose", true);
+                actualAnim = "lose";
             break;
         }
     }

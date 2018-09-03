@@ -29,7 +29,11 @@ var river = function(){
         images: [
             {
 				name:'tutorial_image',
-				file:"images/river/tutorial_image.png"
+				file:"images/river/tutorial_image_%input.png"
+            },
+            {
+				name:'row',
+				file:"images/river/row.png"
 			}
 		],
 		sounds: [
@@ -213,7 +217,7 @@ var river = function(){
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
+            gameSong.stop()
 			//amazing.saveScore(pointsBar.number) 			
             sceneloader.show("result")
 		})
@@ -249,7 +253,7 @@ var river = function(){
         
         for(var i = 0; i < 3; i ++){
             
-            var row = game.add.tileSprite(0, game.world.centerY * pivotY, game.world.width, 330, "atlas.river", "row")
+            var row = game.add.tileSprite(0, game.world.centerY * pivotY, game.world.width, 330, "row")
             row.scale.setTo(1, 0.85)
             row.inputEnabled = true
             row.events.onInputDown.add(function(line){
@@ -262,8 +266,8 @@ var river = function(){
         rowsGroup.tag = 1
         rowsGroup.lastRow = -1
         
-        rowsGroup.children[1].tilePosition.x += 200
-        rowsGroup.children[1].tilePosition.x += 100
+        rowsGroup.children[0].tilePosition.x += 200
+        rowsGroup.children[2].tilePosition.x += 100
         rowsGroup.tile = tile
     }
 
@@ -294,7 +298,7 @@ var river = function(){
             if(lastObj && lastObj.x <= game.world.width - 310)
                 throwObstacle()
             
-            game.physics.arcade.overlap(nao.box, fishGroup, hitFish, null, this)
+            game.physics.arcade.overlap(nao.box2, fishGroup, hitFish, null, this)
             game.physics.arcade.overlap(nao.box, trashGroup, hitTrash, null, this)
         }
     }
@@ -385,13 +389,22 @@ var river = function(){
         sceneGroup.add(nao)
         
         var box = game.add.graphics(300, -200)
-        box.beginFill(0x0000ff, 0)
+        box.beginFill(0x0000ff,0)
         box.drawRect(0, 0, 100, 200)
         box.endFill()
         game.physics.arcade.enable(box)
         box.body.syncBounds = true
         nao.addChild(box) 
         nao.box = box
+
+        var box2 = game.add.graphics(100, -200)
+        box2.beginFill(0x0000ff,0)
+        box2.drawRect(0, 0, 300, 200)
+        box2.endFill()
+        game.physics.arcade.enable(box2)
+        box2.body.syncBounds = true
+        nao.addChild(box2) 
+        nao.box2 = box2
     }
     
     function createTrash(){
@@ -448,7 +461,7 @@ var river = function(){
         
         for(var i = 5; i < fishGroup.length; i++){
             var obj = fishGroup.children[i]
-            obj.body.setSize(obj.width * 0.5, obj.height * 0.5, 60, 20)
+            obj.body.setSize(obj.width * 0.5, obj.height * 0.5, 60, 50)
         }
     }
     
@@ -521,11 +534,11 @@ var river = function(){
             nao.setAnimationByName(0, "attack", false)
             nao.addAnimationByName(0, "run", true)
             
-            //game.time.events.add(200,function(){
+            game.time.events.add(200,function(){
                 addCoin(trash)
                 killObj(trash)
                 growUpBarMeter()
-            //})
+            })
         }
     }
     
@@ -730,6 +743,7 @@ var river = function(){
         
         if(playTuto){
             nao.canMove = false
+            playTuto = false
             sound.play("swipe")
             game.add.tween(nao).to({y:row.centerY + 40}, 250, Phaser.Easing.Cubic.Out, true).onComplete.add(function(){
                 nao.canMove = true
@@ -739,14 +753,17 @@ var river = function(){
                             hand.obj.kill()
                             hand.obj = null
                             game.add.tween(hand).to({alpha: 0}, 200, Phaser.Easing.linear, true)
-                            playTuto = false
                             throwTrashTuto()
                         })
                     }
                     else{
                         game.add.tween(hand).to({alpha: 0}, 200, Phaser.Easing.linear, true)
+                        playTuto = true
                         hitTrashTuto(hand.obj)
                     }
+                }
+                else{
+                    playTuto = true
                 }
             })
         }
@@ -763,15 +780,16 @@ var river = function(){
             rowsGroup.forEach(function(line){
                 game.add.tween(line.tilePosition).to({x: line.tilePosition.x - 500}, 2500, Phaser.Easing.linear, true)
             }, this)
-            game.add.tween(hand.rocko).to({x: -200}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(hand.rocko).to({x: -250}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
                 hand.rocko.kill()
                 hand.rocko = null
             })
             nao.setAnimationByName(0, "run", true)
-            game.add.tween(obj).to({x: nao.box.x}, 2500, Phaser.Easing.linear, true).onComplete.add(function(){
+            game.add.tween(obj).to({x: nao.box.x}, 1900, Phaser.Easing.linear, true, 600).onComplete.add(function(){
                 posHand(obj, 2)
                 nao.setAnimationByName(0, "idle", true)
                 rowsGroup.tag = 2
+                playTuto = true
             })
         }
     }
@@ -824,10 +842,10 @@ var river = function(){
             game.time.events.add(2500, initGame)
         }
     }
-	
+
 	return {
 		
-		assets: assets,
+        assets: assets,
 		name: "river",
 		update: update,
         preload:preload,
@@ -854,9 +872,9 @@ var river = function(){
 			            
             createTrash()
             createFish()
-            createTrashMeter()
             createPolution()
             createNao()
+            createTrashMeter()
             
             createPointsBar()
 			createHearts()
@@ -864,8 +882,7 @@ var river = function(){
             createParticles()
             buttons.getButton(gameSong,sceneGroup)
             
-            //createTutorial()
-            initTuto()
+            createTutorial()
 		}
 	}
 }()

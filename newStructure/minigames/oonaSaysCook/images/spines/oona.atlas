@@ -5,8 +5,8 @@ format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm
-  rotate: true
-  xy: 875, 405
+  rotate: false
+  xy: 1104, 734
   size: 79, 46
   orig: 79, 46
   offset: 0, 0
@@ -14,13 +14,13 @@ normal/arm
 normal/banda
   rotate: false
   xy: 604, 653
-  size: 295, 99
-  orig: 295, 99
+  size: 294, 99
+  orig: 294, 99
   offset: 0, 0
   index: -1
 normal/bubble
   rotate: true
-  xy: 2015, 982
+  xy: 2016, 982
   size: 39, 27
   orig: 39, 27
   offset: 0, 0
@@ -28,8 +28,8 @@ normal/bubble
 normal/cazuela
   rotate: false
   xy: 1518, 870
-  size: 215, 151
-  orig: 215, 151
+  size: 216, 151
+  orig: 216, 151
   offset: 0, 0
   index: -1
 normal/empty
@@ -41,21 +41,21 @@ normal/empty
   index: -1
 normal/eye_a
   rotate: false
-  xy: 901, 653
+  xy: 900, 653
   size: 140, 99
   orig: 140, 99
   offset: 0, 0
   index: -1
 normal/eye_b
   rotate: false
-  xy: 1865, 900
+  xy: 1866, 900
   size: 115, 49
   orig: 115, 49
   offset: 0, 0
   index: -1
 normal/eye_c
   rotate: false
-  xy: 1735, 881
+  xy: 1736, 881
   size: 128, 68
   orig: 128, 68
   offset: 0, 0
@@ -76,7 +76,7 @@ normal/handL_a
   index: -1
 normal/handL_b
   rotate: true
-  xy: 625, 290
+  xy: 625, 291
   size: 187, 92
   orig: 187, 92
   offset: 0, 0
@@ -90,7 +90,7 @@ normal/handL_c
   index: -1
 normal/handL_d
   rotate: true
-  xy: 719, 329
+  xy: 719, 330
   size: 148, 92
   orig: 148, 92
   offset: 0, 0
@@ -153,7 +153,7 @@ normal/horno
   index: -1
 normal/liquid
   rotate: false
-  xy: 1735, 951
+  xy: 1736, 951
   size: 278, 70
   orig: 278, 70
   offset: 0, 0
@@ -167,7 +167,7 @@ normal/luz_f
   index: -1
 normal/pupil
   rotate: false
-  xy: 1037, 756
+  xy: 1983, 925
   size: 24, 24
   orig: 24, 24
   offset: 0, 0
@@ -181,14 +181,14 @@ normal/secuencia/flama_00000
   index: -1
 normal/secuencia/flama_00001
   rotate: true
-  xy: 1735, 819
+  xy: 130, 2
   size: 60, 90
   orig: 60, 90
   offset: 0, 0
   index: -1
 normal/secuencia/flama_00002
-  rotate: true
-  xy: 130, 2
+  rotate: false
+  xy: 813, 394
   size: 60, 90
   orig: 60, 90
   offset: 0, 0
@@ -201,22 +201,22 @@ normal/secuencia/flama_00003
   offset: 0, 0
   index: -1
 normal/secuencia/flama_00004
-  rotate: false
-  xy: 813, 394
+  rotate: true
+  xy: 719, 268
   size: 60, 90
   orig: 60, 90
   offset: 0, 0
   index: -1
 normal/secuencia/flama_00005
-  rotate: true
-  xy: 719, 267
+  rotate: false
+  xy: 813, 302
   size: 60, 90
   orig: 60, 90
   offset: 0, 0
   index: -1
 normal/secuencia/flama_00006
   rotate: false
-  xy: 813, 302
+  xy: 1042, 690
   size: 60, 90
   orig: 60, 90
   offset: 0, 0
@@ -237,8 +237,8 @@ normal/tail
   index: -1
 normal/torso
   rotate: false
-  xy: 604, 479
-  size: 206, 172
-  orig: 206, 172
+  xy: 604, 480
+  size: 206, 171
+  orig: 206, 171
   offset: 0, 0
   index: -1

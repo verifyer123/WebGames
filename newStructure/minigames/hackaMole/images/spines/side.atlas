@@ -1,0 +1,146 @@
+
+side.png
+size: 512,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/cachete1_side
+  rotate: false
+  xy: 101, 3
+  size: 37, 35
+  orig: 37, 35
+  offset: 0, 0
+  index: -1
+normal/cachete2_side
+  rotate: false
+  xy: 440, 68
+  size: 30, 31
+  orig: 30, 31
+  offset: 0, 0
+  index: -1
+normal/espiral
+  rotate: false
+  xy: 440, 101
+  size: 50, 25
+  orig: 50, 25
+  offset: 0, 0
+  index: -1
+normal/estrella1
+  rotate: false
+  xy: 492, 111
+  size: 14, 15
+  orig: 14, 15
+  offset: 0, 0
+  index: -1
+normal/estrella2
+  rotate: false
+  xy: 195, 5
+  size: 14, 14
+  orig: 14, 14
+  offset: 0, 0
+  index: -1
+normal/estrella3
+  rotate: false
+  xy: 238, 46
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+normal/hand1_side
+  rotate: false
+  xy: 2, 8
+  size: 66, 30
+  orig: 66, 30
+  offset: 0, 0
+  index: -1
+normal/hand2_side
+  rotate: false
+  xy: 180, 44
+  size: 56, 17
+  orig: 56, 17
+  offset: 0, 0
+  index: -1
+normal/head1_side
+  rotate: false
+  xy: 320, 68
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+normal/head2_side
+  rotate: false
+  xy: 380, 68
+  size: 58, 58
+  orig: 58, 58
+  offset: 0, 0
+  index: -1
+normal/luz
+  rotate: false
+  xy: 170, 12
+  size: 23, 26
+  orig: 23, 26
+  offset: 0, 0
+  index: -1
+normal/nose_side
+  rotate: true
+  xy: 70, 2
+  size: 36, 29
+  orig: 36, 29
+  offset: 0, 0
+  index: -1
+normal/torso_side
+  rotate: false
+  xy: 249, 71
+  size: 69, 55
+  orig: 69, 55
+  offset: 0, 0
+  index: -1
+normal/trozo1
+  rotate: false
+  xy: 195, 21
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+normal/trozo2
+  rotate: false
+  xy: 225, 18
+  size: 21, 24
+  orig: 21, 24
+  offset: 0, 0
+  index: -1
+normal/trozo3
+  rotate: false
+  xy: 140, 12
+  size: 28, 26
+  orig: 28, 26
+  offset: 0, 0
+  index: -1
+normal/trozo4
+  rotate: true
+  xy: 472, 76
+  size: 23, 38
+  orig: 23, 38
+  offset: 0, 0
+  index: -1
+normal2/head1_side
+  rotate: false
+  xy: 2, 40
+  size: 87, 86
+  orig: 87, 86
+  offset: 0, 0
+  index: -1
+normal2/head2_side
+  rotate: false
+  xy: 91, 40
+  size: 87, 86
+  orig: 87, 86
+  offset: 0, 0
+  index: -1
+normal2/torso_side
+  rotate: false
+  xy: 180, 63
+  size: 67, 63
+  orig: 67, 63
+  offset: 0, 0
+  index: -1

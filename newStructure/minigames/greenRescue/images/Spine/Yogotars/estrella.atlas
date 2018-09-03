@@ -1,0 +1,97 @@
+
+estrella.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/arm1
+  rotate: false
+  xy: 107, 50
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+normal1/arm2
+  rotate: true
+  xy: 166, 94
+  size: 17, 24
+  orig: 17, 24
+  offset: 0, 0
+  index: -1
+normal1/circle
+  rotate: false
+  xy: 2, 90
+  size: 162, 162
+  orig: 162, 162
+  offset: 0, 0
+  index: -1
+normal1/colita
+  rotate: true
+  xy: 2, 31
+  size: 57, 103
+  orig: 57, 103
+  offset: 0, 0
+  index: -1
+normal1/eyes1
+  rotate: false
+  xy: 166, 113
+  size: 78, 28
+  orig: 78, 28
+  offset: 0, 0
+  index: -1
+normal1/eyes2
+  rotate: false
+  xy: 2, 2
+  size: 71, 27
+  orig: 71, 27
+  offset: 0, 0
+  index: -1
+normal1/forearm2
+  rotate: false
+  xy: 284, 146
+  size: 23, 19
+  orig: 23, 19
+  offset: 0, 0
+  index: -1
+normal1/hand1
+  rotate: false
+  xy: 351, 214
+  size: 34, 38
+  orig: 34, 38
+  offset: 0, 0
+  index: -1
+normal1/hand2
+  rotate: false
+  xy: 75, 10
+  size: 15, 19
+  orig: 15, 19
+  offset: 0, 0
+  index: -1
+normal1/head
+  rotate: false
+  xy: 166, 143
+  size: 116, 109
+  orig: 116, 109
+  offset: 0, 0
+  index: -1
+normal1/mouth1
+  rotate: false
+  xy: 246, 128
+  size: 23, 13
+  orig: 23, 13
+  offset: 0, 0
+  index: -1
+normal1/mouth2
+  rotate: false
+  xy: 107, 41
+  size: 12, 7
+  orig: 12, 7
+  offset: 0, 0
+  index: -1
+normal1/torso
+  rotate: false
+  xy: 284, 167
+  size: 65, 85
+  orig: 65, 85
+  offset: 0, 0
+  index: -1

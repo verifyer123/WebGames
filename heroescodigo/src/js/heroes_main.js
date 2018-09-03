@@ -38,20 +38,20 @@ var choiceGames = [
             TweenMax.fromTo(banner,0.2,{rotationX:0},{rotationX:90,onComplete:changeImage});
             TweenMax.fromTo(banner,0.2,{rotationX:90},{rotationX:0,delay:0.2});
             function changeImage(){
-              banner.find("img").attr("src","https://yogome.github.io/WebGames/newStructure/minigames/" +optimized[num].mapUrl+ "/images/fbpost.png");
+              banner.find("img").attr("src","https://yogome.github.io/WebGames/newStructure/minigames/" +optimized[num].url+ "/images/fbpost.png");
                 banner.css("background-image","url(images/bgbanner"+optimized[num].subject+".png)");  
             }   
     }
     
 for(var i = 0; i<= choiceGames.length-1;i++){
   $("#carrousel").append(
-    `<div class="btnOptimized`+i+` orderSelect`+i+` container-gameSelect" data-order="`+optimized[choiceGames[i]].mapUrl+`">
+    `<div class="btnOptimized`+i+` orderSelect`+i+` container-gameSelect" data-order="`+optimized[choiceGames[i]].url+`">
     
     <div id="name-select`+ i +`" class="name-select">`+optimized[choiceGames[i]].name+`<p>`+optimized[[choiceGames[i]]].subject+`</p></div>
 <div  class="bgGame`+i+` bg-selectgGame"></div>
     </div>`);
         $(".btnOptimized" + i).attr("number",choiceGames[i]);
-        $(".bgGame" + i).css( "background-image","url(https://yogome.github.io/WebGames/newStructure/minigames/"+optimized[[choiceGames[i]]].mapUrl+"/images/fbpost.png)");
+        $(".bgGame" + i).css( "background-image","url(https://yogome.github.io/WebGames/newStructure/minigames/"+optimized[[choiceGames[i]]].url+"/images/fbpost.png)");
 
         $("#name-select" + i).css("background-image","url(images/selectgame"+optimized[[choiceGames[i]]].subject+".png)");
 
@@ -62,6 +62,7 @@ for(var i = 0; i<= choiceGames.length-1;i++){
             //previewSong.src ="../songs/" + songs[optimized[place].song] + ".mp3";
             levelDifficulty(optimized[place].age);
             updateRadar(optimized[place].type, optimized[place].age);
+            window.myRadar.update();
             for(var i = 0; i<= choiceGames.length-1;i++){
                 $(".container-gameSelect").removeClass("game-active"); 
             }
@@ -79,7 +80,7 @@ for(var i = 0; i<= choiceGames.length-1;i++){
         gradientStroke.addColorStop(1, "rgba(244, 144, 128, 0.6)");
     
         var gradientFill = ctx.createLinearGradient(500, 0, 100, 0);
-        gradientFill.addColorStop(0.3, "rgba(252, 238, 0.3)");
+        gradientFill.addColorStop(0, "rgba(252, 238, 0, 0.6)");
         gradientFill.addColorStop(1, "rgba(102, 198, 63,0.3)");
 
 		var color = Chart.helpers.color;
@@ -151,12 +152,6 @@ for(var i = 0; i<= choiceGames.length-1;i++){
 			}
 		};
 
-		window.onload = function() {
-			window.myRadar = new Chart(document.getElementById('canvas'), config);
-            window.myRadar.update();
-		};
-
-    
 
         function updateRadar(typeRadar,age){
             console.log("type: " + typeRadar)
@@ -211,7 +206,7 @@ for(var i = 0; i<= choiceGames.length-1;i++){
                             }
                         }
             });
-            window.myRadar.update();
+            
         }
        /*EASTER EGGS*/
     var codeCheats = 0;
@@ -269,10 +264,14 @@ for(var i = 0; i<= choiceGames.length-1;i++){
     });
 
     //INIT
+    window.onload = function() {
+			window.myRadar = new Chart(document.getElementById('canvas'), config);
+            window.myRadar.update();
+    };
     $("#playGameButton").click(function(){
          window.open(minigameHref,"_blank");
     });
-    $("#bannerGame").append("<img src='https://yogome.github.io/WebGames/newStructure/minigames/" +optimized[choiceGames[0]].mapUrl+ "/images/fbpost.png' />");
+    $("#bannerGame").append("<img src='https://yogome.github.io/WebGames/newStructure/minigames/" +optimized[choiceGames[0]].url+ "/images/fbpost.png' />");
     $("#bannerGame").css("background-image","url(images/bgbanner"+optimized[choiceGames[0]].subject+".png)");
     minigameHref ="https://play.yogome.com/playweb/gamesite/#/minigames/" + optimized[choiceGames[0]].name.replace(/\s/g, "") + "?language=EN";
     levelDifficulty(optimized[choiceGames[0]].age);

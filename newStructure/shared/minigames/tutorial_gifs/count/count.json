@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "avuJQu7GzDJpaoZXM8FjZYz5Lpk", "spine": "3.2.01", "width": 236, "height": 193, "images": "" },
+"skeleton": { "hash": "CuKgvhaKbiKSH3iBmEU9y5TZRTE", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "cog", "parent": "root", "x": 0.44, "y": 32.29 },
@@ -14,7 +14,6 @@
 	{ "name": "thumb", "parent": "mstr_hand_l", "length": 42.65, "rotation": 140.13, "x": -12.45, "y": 15.12 }
 ],
 "slots": [
-	{ "name": "box", "bone": "cog", "attachment": "box" },
 	{ "name": "fist_r_closed", "bone": "mstr_hand_r", "attachment": "fist_r_closed" },
 	{ "name": "littlefinger", "bone": "finger_little", "attachment": "littlefinger_raised" },
 	{ "name": "palm", "bone": "mstr_hand_l", "attachment": "palm" },
@@ -28,9 +27,6 @@
 "skins": {
 	"default": {},
 	"normal": {
-		"box": {
-			"box": { "name": "normal1/box", "x": -0.05, "y": 95.94, "width": 236, "height": 193 }
-		},
 		"fist_r_closed": {
 			"fist_r_closed": { "name": "normal1/fist_r_closed", "x": 3.68, "y": 35.67, "width": 73, "height": 74 }
 		},
@@ -72,18 +68,6 @@
 "animations": {
 	"idle": {
 		"slots": {
-			"box": {
-				"color": [
-					{ "time": 0, "color": "ffffffff", "curve": "stepped" },
-					{ "time": 2.6666, "color": "ffffffff" }
-				],
-				"attachment": [
-					{ "time": 0, "name": "box" },
-					{ "time": 0.3333, "name": "box" },
-					{ "time": 2, "name": "box" },
-					{ "time": 2.6666, "name": "box" }
-				]
-			},
 			"fist_r_closed": {
 				"color": [
 					{ "time": 0, "color": "ffffffff", "curve": "stepped" },

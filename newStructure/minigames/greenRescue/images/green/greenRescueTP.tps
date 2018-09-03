@@ -212,6 +212,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">BOARD2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9Paddings</key>
+                <rect>47,47,94,94</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">BROOM.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -446,6 +459,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">hole.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,12,32,23</rect>
+                <key>scale9Paddings</key>
+                <rect>16,12,32,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">introscreen.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -524,19 +550,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">../../../../../../../../Downloads/BOARD2.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>47,47,94,94</rect>
-                <key>scale9Paddings</key>
-                <rect>47,47,94,94</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -558,14 +571,15 @@
             <filename>star.png</filename>
             <filename>SUN.png</filename>
             <filename>xpcoins.png</filename>
-            <filename>BROOM.png</filename>
             <filename>ICON_BROOM.png</filename>
             <filename>TRASH_CAN.png</filename>
             <filename>desktop.png</filename>
             <filename>MOON.png</filename>
             <filename>movil.png</filename>
-            <filename>../../../../../../../../Downloads/BOARD2.png</filename>
             <filename>STARS.png</filename>
+            <filename>BROOM.png</filename>
+            <filename>BOARD2.png</filename>
+            <filename>hole.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

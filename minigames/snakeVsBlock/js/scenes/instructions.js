@@ -70,7 +70,7 @@ var instructions = function(){
             })
         })
 
-        //amazing.setMixPanelTrack("pinDots","enterGame")
+        amazing.setMixPanelTrack("snakeVsBlock","enterGame")
         
     }
     
@@ -151,7 +151,7 @@ var instructions = function(){
 
 	function initialize(){
 
-        //amazing.setMixPanelTrack("pinDots","loadGame")
+        amazing.setMixPanelTrack("snakeVsBlock","loadGame")
         
 		game.stage.backgroundColor = "#ffffff"
 	}

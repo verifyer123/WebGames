@@ -207,6 +207,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">moon.png</key>
+            <key type="filename">star.png</key>
+            <key type="filename">sun.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">respuesta.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -230,19 +245,6 @@
                 <rect>25,23,50,47</rect>
                 <key>scale9Paddings</key>
                 <rect>25,23,50,47</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">star.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -296,6 +298,8 @@
             <filename>tabla.png</filename>
             <filename>life_box.png</filename>
             <filename>xpcoins.png</filename>
+            <filename>sun.png</filename>
+            <filename>moon.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
