@@ -547,11 +547,9 @@ var uni = function(){
 	}
 
 	function onClickPlay(rect) {
-
 		tutoGroup.y = -game.world.height
 		gameActive = true
 		showDream()
-
 	}
 
 	function createTutorial(){
@@ -729,7 +727,6 @@ var uni = function(){
 		var countDonk=0;
 		animalsCreated=0;
 		var exitSpeed=3000;
-		sound.play("combo")
 		buttonImg.loadTexture("atlas.uni","ok_02");
 		game.time.events.add(200,function(){
 			buttonImg.loadTexture("atlas.uni","rdyButton");
@@ -755,6 +752,7 @@ var uni = function(){
 		}
 
 		if(goalUni==countUni && goalDonk==countDonk && !timer){
+			sound.play("combo")
 			rightReaction();
 		}else if(!gameStoped){
 			missPoint();

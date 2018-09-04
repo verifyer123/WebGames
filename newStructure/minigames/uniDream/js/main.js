@@ -49,15 +49,23 @@ function startGame(){
             var regex = /language=(..)/i
             var result = regex.exec(params)
             if(result){
-                language = result[result.index].toUpperCase()    
+                language = result[result.index].toUpperCase()
             }else{
                 language = "EN"
             }
             
         }
 
-        localization.setLanguage(language)
-
+        localization.setLanguage(language);
+		
+		var games = yogomeGames.getObjectGames("custom");
+        var language = "EN"
+        var gameName = games["ImagicUniDream"];
+        console.log(gameName);
+        window.gameData=gameName;
+		
+		
+        console.log(language, "language")
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
@@ -69,12 +77,7 @@ function startGame(){
             uni,
             result,
     	])     
-        var games = yogomeGames.getObjectGames("custom");
-        var language = "EN"
-        var game = games["ImagicUniDream"];
-        console.log(game);
-        window.gameData=game;
-        console.log(language, "language")
+		
     }
 }
 

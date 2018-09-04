@@ -126,91 +126,44 @@ var tutorialHelper = function () {
 		var videoName
         
 		goalScore = gameData.objective
-//		var type = gameData.type
-		var type = "Test"
-		var language = "ES"
+		var type = gameData.type
 
 		switch(type){
-			case "Test":
+			case gameTypeEnum.CHOOSE:
 				videoName = "choose"
-				if(language=="ES"){
-					tutorialTypeText = "ESCOGER"
-				}
-				else{
-					tutorialTypeText = "CHOOSE"
-				}
+				tutorialTypeText = "ESCOGER"
 				break
 				case gameTypeEnum.COUNT:
 				videoName = "count"
-				if(language=="ES"){
-					tutorialTypeText = "CONTAR"
-				}
-				else{
-					tutorialTypeText = "COUNT"
-				}
+				tutorialTypeText = "CONTAR"
 				break
 				case gameTypeEnum.GRAB:
 				videoName = "grab"
-				if(language=="ES"){
-					tutorialTypeText = "RECOLECTAR"
-				}
-				else{
-					tutorialTypeText = "GRAB"
-				}
+				tutorialTypeText = "RECOLECTAR"
 				break
 				case gameTypeEnum.MATCH:
 				videoName = "match"
-				if(language=="ES"){
-					tutorialTypeText = "ARMAR"
-				}
-				else{
-					tutorialTypeText = "MATCH"
-				}
+				tutorialTypeText = "ARMAR"
 				break
 				case gameTypeEnum.SEQUENCE:
 				videoName = "sequence"
-				if(language=="ES"){
-					tutorialTypeText = "SECUENCIA"
-				}
-				else{
-					tutorialTypeText = "SEQUENCE"
-				}
+				tutorialTypeText = "SECUENCIA"
 				break
 				case gameTypeEnum.TARGET:
-				videoName = "target"
-				if(language=="ES"){
-					tutorialTypeText = "DIRECCIONAR"
-				}
-				else{
-					tutorialTypeText = "TARGET"
-				}
+				videoName = "target" 
+				tutorialTypeText = "DIRECCIONAR"
 				break
 				case gameTypeEnum.TRACE:
 				videoName = "trace"
-				if(language=="ES"){
-					tutorialTypeText = "TRAZAR"
-				}
-				else{
-					tutorialTypeText = "TRACE"
-				}
+				tutorialTypeText = "TRAZAR"
 				break
 				case gameTypeEnum.TAP:
 				videoName = "tap"
-				if(language=="ES"){
-					tutorialTypeText = "TAP"
-				}
-				else{
-					tutorialTypeText = "TAP"
-				}
+				tutorialTypeText = "TAP"
 				break
 				case gameTypeEnum.DRAG:
 				videoName = "drag and drop"
-				if(language=="ES"){
-					tutorialTypeText = "DRAG AND DROP"
-				}
-				else{
-					tutorialTypeText = "ARASTRAR"
-				}
+				tutorialTypeText = "DRAG AND DROP"
 				break
 		}
 
@@ -222,20 +175,11 @@ var tutorialHelper = function () {
 		currentLoader.spine(obj.name, obj.file)
 		currentLoader.image(backKeyImagic,sharePath+"images/tutorial/background_tutorial_Imagic.png");
 		currentLoader.image(backKeyStars,sharePath+"images/tutorial/back_stars.png");
-		if(language == "ES"){
-			currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_ES_Imagic.png')
-			currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
-		}
-		else{
-			currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_EN_Imagic.png')
-			currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
-		}
+		currentLoader.image(howkeyImagic,sharePath+'images/tutorial/how_ES_Imagic.png')
+		currentLoader.image(playKeyImagic,sharePath+'images/tutorial/play_Imagic.png')
 
-		if(language == "ES"){
-			langPlayText="JUGAR";
-		}else{
-			langPlayText="PLAY";
-		}
+
+		langPlayText="JUGAR";
 
 	}
 
