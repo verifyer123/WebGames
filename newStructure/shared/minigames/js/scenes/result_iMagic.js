@@ -101,7 +101,6 @@ var result = function(){
 	var yogotar
 	var iconImage
 	var playerData
-	var configuration;
 	var timeGoal = null
 	var stars = 0
 	var player = new Object()
@@ -113,7 +112,6 @@ var result = function(){
 
 		player.name=document.player;
 		player.totalScore=document.coins;
-		configuration=gameData.config.tutorial;
 		console.log(gameData)
 		currentPlayer = null
 		gameIndex = index
