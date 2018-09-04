@@ -115,8 +115,9 @@ var result = function(){
         }else{
             gameData = window.gameData;
         }
-		player.name=playerData.playerName;
-		player.totalScore=playerData.playerCoins;
+		player.name=playerData.player;
+		player.totalScore=playerData.coins;
+       
 		comunicationScript.finalMessage(playerData)
         
         
