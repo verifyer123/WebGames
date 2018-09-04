@@ -59,6 +59,9 @@ var sceneloader = function(){
 			var currentScene = scenes[indexScene]
 			if(typeof parent.gameData === "object"){
 				tutorialHelper.loadType(parent.gameData,currentLoader)
+			}else if(typeof window.gameData === "object"){
+				language="ES";
+				tutorialHelper.loadType(window.gameData,currentLoader)
 			}
 
 			if(currentScene.assets !== "undefined"){

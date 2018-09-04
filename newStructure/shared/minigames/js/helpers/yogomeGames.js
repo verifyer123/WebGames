@@ -53,6 +53,19 @@ var yogomeGames = function () {
 					game.mapUrl = urlSet + urlMap + gameId
 				}
 				allGames = allGames.concat(games)
+			}else if(window[configName]){
+				var configFile = window[configName]
+				var games = configFile.minigames
+				for (var gIndex = 0; gIndex < games.length; gIndex++) {
+					var game = games[gIndex]
+					var gameId = game.name.replace(/\s/g, "")
+					game.id = gameId
+					game.config = configFile.config
+					game.url = urlSet + game.url
+					game.mapUrl = urlMap + game.mapUrl
+					game.mapUrl = urlSet + urlMap + gameId
+				}
+				allGames = allGames.concat(games)
 			}
 		}
 
