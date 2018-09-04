@@ -32,10 +32,6 @@ function loadScripts(){
 		var tutorialLoader="tutorialImagic";
 		var resultsLoader="result_iMagic";
 	}
-	
-	loadScript("../../shared/minigames/js/helpers/iMagicGames.js", function(){
-		console.log("Games Loaded...");
-	});
 	loadScript("../../shared/minigames/js/helpers/"+tutorialLoader+".js", function(){
 		console.log("Tutorial Screen Loaded...");
 		language="EN";

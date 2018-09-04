@@ -56,7 +56,7 @@ function startGame(){
             
         }
 
-        localization.setLanguage(language)
+        localization.setLanguage(language);
 		
 		var games = yogomeGames.getObjectGames("custom");
         var language = "EN"
