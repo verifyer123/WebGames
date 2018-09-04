@@ -1,6 +1,3 @@
-Tarea: https://phaser.io/docs/2.6.2/Phaser.Easing.html en IN OUT INOUT
-            //https://phaser.io/sandbox/edit/2
-            //game.add.tween(sprite).to({y: 490}, 2000, Phaser.Easing.Bounce.InOut, true, 0);
 var soundsPath = "../../shared/minigames/sounds/"
 
 var acorn = function(){
