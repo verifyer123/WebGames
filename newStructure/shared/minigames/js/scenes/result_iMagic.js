@@ -117,7 +117,7 @@ var result = function(){
         }
 		player.name=playerData.player;
 		player.totalScore=playerData.coins;
-       
+        playerData.coins=score;
 		comunicationScript.finalMessage(playerData)
         
         
