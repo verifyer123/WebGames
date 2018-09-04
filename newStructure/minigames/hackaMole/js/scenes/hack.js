@@ -26,7 +26,7 @@ var hack = function(){
 	}
     
 
-	assets = {
+	var assets = {
         atlases: [
             {   
                 name: "atlas.hack",
@@ -136,7 +136,7 @@ var hack = function(){
 		pivotDrag = game.world.height - 200
 		pivotButtons = game.world.centerX - 220
 		pivotInit = pivotButtons
-		arrowsList = ['↑','↓','←','→']
+		arrowsList = ['arrow_4','arrow_3','arrow_2','arrow_1']
 		directionList = ['up','down','left','right']
 		moveSpace = 150
 		lastTile = []
@@ -388,14 +388,16 @@ var hack = function(){
 		
 		var textToUse = direction
 		
-		obj.text.setText('')
-		obj.text2.setText('')
+		//obj.text.setText('')
+		//obj.text2.setText('')
 				
-		if(directionList[indexToUse] != 'down' && directionList[indexToUse]!='up'){
-			obj.text.setText(textToUse)
-		}else{
-			obj.text2.setText(textToUse)
-		}
+		//if(directionList[indexToUse] != 'down' && directionList[indexToUse]!='up'){
+			
+			obj.children[0].children[0].loadTexture('atlas.hack',textToUse);
+			//obj.text.setText(textToUse)
+		//}else{
+			//obj.text2.setText(textToUse)
+		//}
 											   
 		
 		obj.tag = directionList[indexToUse]
@@ -716,56 +718,61 @@ var hack = function(){
 
 	function createSingleButton(){
 
-		var offset = -5
+		//var offset = -5;
 		
-		if(game.device.desktop){
-			offset = 5
-		}
+		//if(game.device.desktop){
+			//offset = 5;
+		//}
 
-		var group = game.add.group()
-		group.x = game.world.centerX
-		group.y = -200
-		group.alpha = 0
-		buttonsGroup.add(group)
+		var group = game.add.group();
+		group.x = game.world.centerX;
+		group.y = -200;
+		group.alpha = 0;
+		buttonsGroup.add(group);
 		
-		var buttonImage = group.create(0,0,'atlas.hack','dragobject')
-		buttonImage.anchor.setTo(0.5,0.5)
-		buttonImage.scale.setTo(1.2,1.2)
+		var buttonImage = group.create(0,0,'atlas.hack','dragobject');
+		buttonImage.anchor.setTo(0.5,0.5);
+		buttonImage.scale.setTo(1.2,1.2);
+
+		var arrow = game.add.sprite(0,0,'atlas.hack','arrow_1');
+		arrow.anchor.setTo(0.5,0.5);
+		arrow.scale.setTo(0.8,0.8);
+		buttonImage.addChild(arrow);
 		
-		var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth: 220}
+		/*var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 220}
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, offset, "", fontStyle)
-		pointsText.anchor.setTo(0.5,0.5)
+		pointsText.anchor.setTo(0.5,0.5);
 		//group.add(pointsText)
-		buttonImage.addChild(pointsText)
+		buttonImage.addChild(pointsText);
 		
-		group.text = pointsText
+		group.text = pointsText;
 		
-		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth: 220}
+		var fontStyle = {font: "60px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 220}
 		
 		var pointsText = new Phaser.Text(sceneGroup.game, 0, offset * 0.5, "", fontStyle)
-		pointsText.scale.y = 0.7
-		pointsText.anchor.setTo(0.5,0.5)
+		pointsText.scale.y = 0.7;
+		pointsText.anchor.setTo(0.5,0.5);
 		//group.add(pointsText)
-		buttonImage.addChild(pointsText)
+		buttonImage.addChild(pointsText);
 		
-		group.text2 = pointsText
+		group.text2 = pointsText;*/
 		
-		var dragImage = sceneGroup.create(83,-200,'atlas.hack','dragobject')
-		dragImage.anchor.setTo(0.5,0.5)
-		dragImage.alpha = 0
-		group.drag = dragImage
+		var dragImage = sceneGroup.create(83,-200,'atlas.hack','dragobject');
+		dragImage.anchor.setTo(0.5,0.5);
+		dragImage.alpha = 0;
+		group.drag = dragImage;
 		
-		dragImage.active = true
-		dragImage.inputEnabled = true
-		dragImage.input.enableDrag(true)
+		dragImage.active = true;
+		dragImage.inputEnabled = true;
+		dragImage.input.enableDrag(true);
 		dragImage.events.onDragStart.add(onDragStart, this);
 		dragImage.events.onDragStop.add(onDragStop, this);
-		dragImage.tween = null
-		dragImage.button = group
+		dragImage.tween = null;
+		dragImage.button = group;
 		
-		group.active = false
-		group.tag = null
+		group.active = false;
+		group.tag = null;
 	}
 	
 	function checkButtons(){
@@ -1277,30 +1284,30 @@ var hack = function(){
 		update: update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
-			//parent._QUANTRIX.Mixpanel.startMinigame()
 
-			sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
+			sceneGroup = game.add.group(); 
+			yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 			
-			addMusic()
-			createBackground()
+			addMusic();
+			createBackground();
 			
-            initialize()
+            initialize();
 			
-			createHoles()
-			createObjects()
-            createInterface()
-			createButtons()
+			createHoles();
+			createObjects();
+            createInterface();
+			createButtons();
 			            
-			createPointsBar()
-			createHearts()
-            createCoin()
-			createParticles()
+			createPointsBar();
+			createHearts();
+            createCoin();
+			createParticles();
 			
-			buttons.getButton(medievalSong,sceneGroup)
+			buttons.getButton(medievalSong,sceneGroup);
 			
-            createOverlay()
+            createOverlay();
             this.game.canvas.oncontextmenu = function (e) { e.preventDefault(); }
-            animateScene()
+            animateScene();
             
 		},
 	}
