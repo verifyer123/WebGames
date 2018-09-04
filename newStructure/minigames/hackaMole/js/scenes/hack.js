@@ -392,10 +392,8 @@ var hack = function(){
 		//obj.text2.setText('')
 				
 		//if(directionList[indexToUse] != 'down' && directionList[indexToUse]!='up'){
-			var arrow = game.add.sprite(0,0,'atlas.hack',textToUse);
-			arrow.anchor.setTo(0.5,0.5);
-			arrow.scale.setTo(0.8,0.8);
-			obj.children[0].addChild(arrow);
+			
+			obj.children[0].children[0].loadTexture('atlas.hack',textToUse);
 			//obj.text.setText(textToUse)
 		//}else{
 			//obj.text2.setText(textToUse)
@@ -735,6 +733,11 @@ var hack = function(){
 		var buttonImage = group.create(0,0,'atlas.hack','dragobject');
 		buttonImage.anchor.setTo(0.5,0.5);
 		buttonImage.scale.setTo(1.2,1.2);
+
+		var arrow = game.add.sprite(0,0,'atlas.hack','arrow_1');
+		arrow.anchor.setTo(0.5,0.5);
+		arrow.scale.setTo(0.8,0.8);
+		buttonImage.addChild(arrow);
 		
 		/*var fontStyle = {font: "55px VAGRounded", fontWeight: "bold", fill: "#000000", align: "center", boundsAlignH: "center", boundsAlignV: "middle", wordWrap: true, wordWrapWidth: 220}
 		
