@@ -238,7 +238,7 @@ var lizart = function(){
 	var ALL_FRUITS=6;
 	var wasCorrect;
 	var heartsIcon;
-	var lizard;
+	var lizard, tongue;
 	var dificultyTimer
 	var colorChoosed;
 	var score;
@@ -542,9 +542,15 @@ var lizart = function(){
 		lizard.setAnimationByName(0,"idle",true);
 		setAnimationConfigurations(lizard)
 		
+		tongue=game.add.spine(0,0,"tongue");
+		tongue.x=lizard.x+100;
+		tongue.y=lizard.y;
+		tongue.setSkinByName("normal");
+		tongue.setAnimationByName(0,"eat",true);
+		
 		shadowLizar = sceneGroup.create(lizard.x-100,game.height-50,"shadowLizar");
 		sceneGroup.add(lizard)
-
+		sceneGroup.add(tongue)
 
 
 		for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){

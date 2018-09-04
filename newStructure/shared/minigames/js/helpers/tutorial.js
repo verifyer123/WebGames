@@ -163,8 +163,7 @@ var tutorialHelper = function () {
 
 		goalScore = gameData.objective
 		var type = gameData.type
-//		var language = localization.getLanguage()
-		var language = "ES"
+		var language = localization.getLanguage()
 
 		switch(type){
 			case gameTypeEnum.CHOOSE:
