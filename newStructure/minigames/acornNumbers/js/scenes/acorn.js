@@ -1011,8 +1011,13 @@ var acorn = function(){
                 particleWrong.start(true, 1000, null, 3);
                 tweenTint(block, 0xffffff, 0xff5151, 500);
                 missPoint();
-                if (lives === 0)
-                    ardilla.setAnimation(["sad"]);
+                if (lives === 0){
+                    if(counterAcorn>0){
+                        ardilla.setAnimation(["sad_cachetes"]);
+                    }else{
+                        ardilla.setAnimation(["sad"]);
+                    }
+                }
                 else{
                     if(counterAcorn>0){
                         ardilla.setAnimation(["sad_cachetes","idle_cachetes"]);
