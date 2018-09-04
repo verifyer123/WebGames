@@ -152,6 +152,8 @@ var greenRescue = function(){
 	var gameIndex = 124
 	var indexGame
 	var overlayGroup
+	var platformGroup, UIGroup, thrashGroup;
+	var cloudsGroup,starsGroup,clouds1,clouds2,clouds3,clouds4,stars;
 	var coinsGroup=null
 	var morning,night, danced
 	var velocidadNubes=4
@@ -177,8 +179,8 @@ var greenRescue = function(){
 	var checked, allClean,canPlant,canShovel;
 	var tweenIcon=new Array(9);
 	var colora1,colora2,colora3;
-	var colorb1,colora2,colora3;
-	var bmd, gradient
+	var colorb1,colorb2,colorb3;
+	var bmd, gradient,gradient2
 	var nao, estrella, justice;
 	var hand
 	var tutorialTween
@@ -391,27 +393,19 @@ var greenRescue = function(){
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
-
-			//amazing.saveScore(pointsBar.number) 			
+			resultScreen.setScore(true, pointsBar.number,gameIndex)	
 			sceneloader.show("result")
 		})
 	}
-
-
 	function preload(){
 		epicparticles.loadEmitter(game.load, "pickedEnergy")
 	}
 
 	function createOverlay(){
-
 		overlayGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(overlayGroup)
-
 		tutorialHelper.createTutorialGif(overlayGroup,onClickPlay)
 	}
-
 	function onClickPlay(){
 		sunAct=true
 		startGame=true
@@ -425,7 +419,6 @@ var greenRescue = function(){
 	}
 
 	function releaseButton(obj){
-
 		obj.parent.children[1].alpha = 1
 	}
 
@@ -471,14 +464,6 @@ var greenRescue = function(){
 		boomParticle = createPart("smoke");
 		sceneGroup.add(boomParticle);
 
-
-		//		//Coins
-		//		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
-		//		coins.anchor.setTo(0.5)
-		//		coins.scale.setTo(0.5)
-		//		coins.animations.add('coin');
-		//		coins.animations.play('coin', 24, true);
-		//		coins.alpha=0
 
 		//Colocamos el escenario
 
@@ -653,8 +638,6 @@ var greenRescue = function(){
 		var treeScale=0.5
 
 		for(var translate=0;translate<9;translate++){
-
-
 			if(translate==3){
 				standarX=120;
 				standarY=100;
@@ -668,7 +651,6 @@ var greenRescue = function(){
 				acomodateY=80;
 				general=0
 			}
-
 			if(translate==0 || translate==1 || translate==2 || translate==5 || translate==8){
 				treeScale=0.7
 			}else if(translate==3 || translate==4 || translate==7){
@@ -1127,7 +1109,7 @@ var greenRescue = function(){
 
 	function managerObjects(obj){
 		if(objectOverlaping){
-			if(activeObj=="bro" && estados[objectOverlaping.tag]==1 && broom.alpha==1){
+			if(activeObj=="bro" && ((estados[objectOverlaping.tag]==1 && broom.alpha==1) || )   ){
 				clean(objectOverlaping);
 			}
 			if(activeObj=="sho" && estados[objectOverlaping.tag]==3 && shovel.alpha==1){
@@ -1269,7 +1251,6 @@ var greenRescue = function(){
 
 			})
 
-
 			checked++
 		}
 		if(checked==dificulty){
@@ -1310,28 +1291,6 @@ var greenRescue = function(){
 		}
 	}
 
-	//	function Coin(objectBorn,objectDestiny,time){
-	//
-	//
-	//		//objectBorn= Objeto de donde nacen
-	//		coins.x=objectBorn.centerX
-	//		coins.y=objectBorn.centerY
-	//
-	//		emitter = epicparticles.newEmitter("pickedEnergy")
-	//		emitter.duration=0.2;
-	//		emitter.x = coins.x
-	//		emitter.y = coins.y
-	//		platformGroup.add(emitter)
-	//		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
-	//		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-	//			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
-	//			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
-	//				coins.x=objectBorn.centerX
-	//				coins.y=objectBorn.centerY
-	//				addPoint(1)
-	//			})
-	//		})
-	//	}
 
 	function getCoins(player){
 		var coin=coinsGroup.getFirstDead();

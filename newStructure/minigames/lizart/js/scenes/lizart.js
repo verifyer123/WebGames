@@ -542,11 +542,13 @@ var lizart = function(){
 		lizard.setAnimationByName(0,"idle",true);
 		setAnimationConfigurations(lizard)
 		
+		
 		tongue=game.add.spine(0,0,"tongue");
 		tongue.x=lizard.x+100;
-		tongue.y=lizard.y;
+		tongue.y=lizard.y-120;
+		tongue.alpha=0;
 		tongue.setSkinByName("normal");
-		tongue.setAnimationByName(0,"eat",true);
+		
 		
 		shadowLizar = sceneGroup.create(lizard.x-100,game.height-50,"shadowLizar");
 		sceneGroup.add(lizard)
@@ -556,7 +558,7 @@ var lizart = function(){
 		for(var tintRound=0; tintRound<BODY_PARTS.length; tintRound++){
 			tintSpine(lizard,100,100,100,BODY_PARTS[tintRound].part);
 		}
-
+		tintSpine(tongue,205,50,50,"lengua");
 		UIGroup= game.add.group();
 		sceneGroup.add(UIGroup);
 
@@ -566,7 +568,6 @@ var lizart = function(){
 			fruits[i] = fruitsGroup.create(-500,0,"fruit" + i);
 			fruits[i].id = i;
 			fruits[i].anchor.setTo(0.5,0.5);
-			//			fruits[i].color = colors[i];
 			fruits[i].inputEnabled = true
 			fruits[i].events.onInputDown.add(chooseFruit,this);
 		}
@@ -715,6 +716,10 @@ var lizart = function(){
 		}
 
 	}
+	function update(){
+		tongue.x=lizard.x+80;
+		tongue.y=lizard.y-150;
+	}
 	function correctFruit(fruitItem,color){
 		globo.destroy();
 		textGlobo.destroy();
@@ -731,10 +736,15 @@ var lizart = function(){
 		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
 		game.add.tween(lizard).to({x:fruitItem.x-100},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
-
+			tongue.alpha=1;
 			lizard.setAnimationByName(0,"eat",false);
-
+			tongue.setAnimationByName(0,"lengua",false).onComplete=function(){
+				debugger
+				tongue.alpha=0;
+			};
+			
 			game.time.events.add(150,function(){
+				
 				for(var dissapearAll=0; dissapearAll<ALL_FRUITS+1; dissapearAll++){
 					if(fruits[dissapearAll]!=fruitItem)game.add.tween(fruits[dissapearAll]).to({alpha:0},250,Phaser.Easing.Cubic.In,true)
 				}
@@ -931,6 +941,7 @@ var lizart = function(){
 	return {
 		assets: assets,
 		name: "lizart",
+		update: update,
 		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create:createScene,
 		show: function(event){

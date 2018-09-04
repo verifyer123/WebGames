@@ -1,55 +1,13 @@
 
 lengua.png
-size: 512,512
+size: 128,64
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-normal/head
+normal/lengua
   rotate: true
-  xy: 176, 171
-  size: 168, 162
-  orig: 168, 162
-  offset: 0, 0
-  index: -1
-normal/head_hit
-  rotate: false
-  xy: 2, 171
-  size: 172, 167
-  orig: 172, 167
-  offset: 0, 0
-  index: -1
-normal/head_mouth_open
-  rotate: true
-  xy: 179, 2
-  size: 167, 161
-  orig: 167, 161
-  offset: 0, 0
-  index: -1
-normal/head_sad
-  rotate: false
-  xy: 2, 340
-  size: 172, 168
-  orig: 172, 168
-  offset: 0, 0
-  index: -1
-normal/head_win
-  rotate: false
-  xy: 176, 341
-  size: 172, 167
-  orig: 172, 167
-  offset: 0, 0
-  index: -1
-normal/head_win2
-  rotate: false
-  xy: 2, 7
-  size: 175, 162
-  orig: 175, 162
-  offset: 0, 0
-  index: -1
-normal/torso
-  rotate: false
-  xy: 350, 403
-  size: 135, 105
-  orig: 135, 105
+  xy: 2, 2
+  size: 33, 97
+  orig: 33, 97
   offset: 0, 0
   index: -1
