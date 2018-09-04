@@ -4,8 +4,6 @@ var playerData;
 	window.parent.postMessage('loaded','*');
 	window.addEventListener('message', function(event) {
 		if (event.origin=="http://localhost:4200" && event.data.player) {
-			// hacer cosas con los datos 
-			alert("Datos recibidos. Timestamp: " + event.data.timestamp);
             playerData={
                 playerName:event.data.player,
                 playerCoins:event.data.coins,
@@ -15,4 +13,16 @@ var playerData;
 			return;
 		}
 	});
+    
+    function sendData(){
+        return playerData
+    }
+    
+    function finalMessage(data){
+        window.parent.postMessage(data,'*');
+    }
+    return{
+        finalMessage:finalMessage,
+        sendData:sendData
+    }
 }()

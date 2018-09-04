@@ -107,17 +107,23 @@ var result = function(){
 
 
 	function setScore(didWin,score,index,scale) {
-
-		gameData = parent.gameData;
-
-		player.name=document.player;
-		player.totalScore=document.coins;
-		console.log(gameData)
+        
+        
+        var playerData=comunicationScript.sendData();
+		if(parent.gameData){
+            gameData = parent.gameData;
+        }else{
+            gameData = window.gameData;
+        }
+		player.name=playerData.playerName;
+		player.totalScore=playerData.playerCoins;
+		comunicationScript.finalMessage(playerData)
+        
+        
 		currentPlayer = null
 		gameIndex = index
 		totalScore = score
-        document.callback(totalScore)
-		goalScore = gameData.objective
+		
 		win = totalScore >= goalScore
 		console.log(win)
 		if(parent.epicModel){
