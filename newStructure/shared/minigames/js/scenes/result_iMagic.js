@@ -108,7 +108,7 @@ var result = function(){
 
 	function setScore(didWin,score,index,scale) {
 
-		gameData = parent.gameData
+		gameData = parent.gameData;
 
 		player.name=document.player;
 		player.totalScore=document.coins;
