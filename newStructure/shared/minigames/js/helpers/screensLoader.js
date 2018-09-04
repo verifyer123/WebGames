@@ -32,6 +32,9 @@ function loadScripts(){
 		var tutorialLoader="tutorialImagic";
 		var resultsLoader="result_iMagic";
 	}
+    loadScript("../../shared/minigames/js/helpers/comunicationScript.js", function(){
+        console.log("Comunication Loaded...");
+    });
 	loadScript("../../shared/minigames/js/helpers/"+tutorialLoader+".js", function(){
 		console.log("Tutorial Screen Loaded...");
 		language="EN";
@@ -47,4 +50,8 @@ function loadScripts(){
 		});
 	});
 }
+
 loadScripts()
+
+
+

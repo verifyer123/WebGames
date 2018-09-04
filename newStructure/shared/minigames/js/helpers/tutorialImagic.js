@@ -101,7 +101,7 @@ var tutorialHelper = function () {
 	}
 
 	function clickPlay(group,onClickFunction){
-		sound.play("pop")
+		sound.play("pop");
 		game.add.tween(group).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			onClickFunction()
 			group.destroy()

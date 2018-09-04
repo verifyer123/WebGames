@@ -101,25 +101,30 @@ var result = function(){
 	var yogotar
 	var iconImage
 	var playerData
-	var configuration;
 	var timeGoal = null
 	var stars = 0
 	var player = new Object()
 
 
 	function setScore(didWin,score,index,scale) {
-
-		gameData = parent.gameData
-
-		player.name=document.player;
-		player.totalScore=document.coins;
-		configuration=gameData.config.tutorial;
-		console.log(gameData)
+        
+        
+        var playerData=comunicationScript.sendData();
+		if(parent.gameData){
+            gameData = parent.gameData;
+        }else{
+            gameData = window.gameData;
+        }
+		player.name=playerData.player;
+		player.totalScore=playerData.coins;
+        playerData.coins=score;
+		comunicationScript.finalMessage(playerData)
+        
+        
 		currentPlayer = null
 		gameIndex = index
 		totalScore = score
-        document.callback(totalScore)
-		goalScore = gameData.objective
+		
 		win = totalScore >= goalScore
 		console.log(win)
 		if(parent.epicModel){
