@@ -112,13 +112,16 @@ var result = function(){
         var playerData=comunicationScript.sendData();
 		if(parent.gameData){
             gameData = parent.gameData;
+			player.name="Masciosare Extraño";
+			player.totalScore=999;
         }else{
             gameData = window.gameData;
+			player.name=playerData.player;
+			player.totalScore=playerData.coins;
+			playerData.coins=score;
+			comunicationScript.finalMessage(playerData)
         }
-		player.name=playerData.player;
-		player.totalScore=playerData.coins;
-        playerData.coins=score;
-		comunicationScript.finalMessage(playerData)
+
         
         
 		currentPlayer = null
