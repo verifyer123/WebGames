@@ -717,8 +717,8 @@ var lizart = function(){
 
 	}
 	function update(){
-		tongue.x=lizard.x+80;
-		tongue.y=lizard.y-150;
+		tongue.x=lizard.x+10;
+		tongue.y=lizard.y-20;
 	}
 	function correctFruit(fruitItem,color){
 		globo.destroy();
@@ -733,24 +733,23 @@ var lizart = function(){
 		tutorial=false;
 		lizard.setAnimationByName(0,"run",true);
 		sound.play("tongue")
-		game.add.tween(shadowLizar).to({x:fruitItem.x-200},500,Phaser.Easing.linear,true)
-		game.add.tween(lizard).to({x:fruitItem.x-100},500,Phaser.Easing.linear,true).onComplete.add(function(){
+		game.add.tween(shadowLizar).to({x:fruitItem.x-220},500,Phaser.Easing.linear,true)
+		game.add.tween(lizard).to({x:fruitItem.x-120},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
 			tongue.alpha=1;
+			
 			lizard.setAnimationByName(0,"eat",false);
-			tongue.setAnimationByName(0,"lengua",false).onComplete=function(){
-				debugger
+			tongue.setAnimationByName(0,"eat_lengua",false).onComplete=function(){
 				tongue.alpha=0;
 			};
-			
 			game.time.events.add(150,function(){
-				
+//				
 				for(var dissapearAll=0; dissapearAll<ALL_FRUITS+1; dissapearAll++){
 					if(fruits[dissapearAll]!=fruitItem)game.add.tween(fruits[dissapearAll]).to({alpha:0},250,Phaser.Easing.Cubic.In,true)
 				}
-				TweenMax.to(fruitItem,0.8,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
-				game.add.tween(fruitItem.scale).to({x:0,y:0},390,Phaser.Easing.Cubic.In,true)
-				game.add.tween(fruitItem).to({x:lizard.x+100,y:lizard.y+50},350,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				TweenMax.to(fruitItem,0.5,{y:game.height - fruitItem.height,ease:Bounce.easeOut});
+				game.add.tween(fruitItem.scale).to({x:0,y:0},200,Phaser.Easing.Cubic.In,true)
+				game.add.tween(fruitItem).to({x:lizard.x+100,y:lizard.y+50},200,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					for(var movefruits=0; movefruits<ALL_FRUITS+1; movefruits++){
 						fruits[movefruits].y=-500;
 					}

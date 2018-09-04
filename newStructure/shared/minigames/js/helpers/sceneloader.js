@@ -81,7 +81,6 @@ var sceneloader = function(){
 						currentLoader.spine(currentSpine.name, currentSpine.file)
 					}
 				}
-
 				if(typeof assets.images == "object"){
 					for(var indexImage = 0; indexImage < assets.images.length; indexImage++){
 						var currentImage = assets.images[indexImage]
