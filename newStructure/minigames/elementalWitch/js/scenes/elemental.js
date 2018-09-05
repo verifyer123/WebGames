@@ -620,17 +620,16 @@ var elemental = function(){
 
 			case 0:
 				sound.play("right")
-				console.log(goalMask)
-				if(goalMask==0){
+				if(goalMask<=0){
 					witch.canAttack = false	
 				}else{
 					witch.canAttack = true
 				}
 				getCoins(mask)
-				goalMask--
+				goalMask--;
+				console.log(goalMask)
 				mask.anim.setAnimationByName(0, "lose", false).onComplete = function(){
 					mask.kill()
-
 					if(goalMask<=0 && lives>0)game.time.events.add(500, initGame)
 				}
 				break
@@ -676,7 +675,6 @@ var elemental = function(){
 				if(goalMask==0)game.time.events.add(1000, initGame)
 			}
 			else if(lives == 1){
-
 				gemsGroup.setAll("inputEnabled", false)
 				if(idleAnimation)idleAnimation.clearEvents=true;
 				game.time.events.add(100, witchAnim, this, "LOSESTILL");
@@ -700,11 +698,11 @@ var elemental = function(){
 		var mask = enemiesGroup.getRandom()
 		Phaser.ArrayUtils.shuffle(enemiesGroup.children)
 		Phaser.ArrayUtils.shuffle(positionList)
-		console.log(positionList)
 		if(pointsBar.number%5==0 && pointsBar.number!=0 && pointsBar.number!=1 && enemysInLine<3){
 			enemysInLine++;
 		}
 		goalMask=enemysInLine;
+		console.log(enemysInLine)
 		for(var enemysToRelease=0; enemysToRelease<enemysInLine; enemysToRelease++){
 			mask=enemiesGroup.children[enemysToRelease].reset();
 			if(enemysInLine==2){

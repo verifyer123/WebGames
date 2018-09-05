@@ -330,7 +330,7 @@ var lizart = function(){
 		168
 	]
 	var colorG = [
-		212,
+		206,
 		0,
 		82,
 		57,
@@ -340,7 +340,7 @@ var lizart = function(){
 
 	]
 	var colorB= [
-		7,
+		0,
 		0,
 		175,
 		22,
