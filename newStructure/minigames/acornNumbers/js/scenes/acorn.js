@@ -1006,7 +1006,7 @@ var acorn = function(){
                 game.add.tween(block.scale).to({x: 1, y: 1}, 300, Phaser.Easing.Cubic.In, true)
             })
 
-            if (block.number === boardGroup.answer) {
+            if (block.number == boardGroup.answer) {
                 particleCorrect.x = block.x + blocksGroup.x;
                 particleCorrect.y = block.y;
 
