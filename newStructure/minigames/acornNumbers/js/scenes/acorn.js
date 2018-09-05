@@ -476,26 +476,34 @@ var acorn = function(){
     function tweenTint(obj, startColor, endColor, time, delay, callback) {
         // check if is valid object
         time = time || 250
-        delay = delay || 0
+        //delay = delay || 0
 
-        if (obj) {
-            // create a step object
-            var colorBlend = { step: 0 };
-            // create a tween to increment that step from 0 to 100.
-            var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
-            // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
-            colorTween.onUpdateCallback(function () {
-                obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);
-            })
-            // set object to the starting colour
-            obj.tint = startColor;
-            // if you passed a callback, add it to the tween on complete
-            if (callback) {
-                colorTween.onComplete.add(callback, this);
-            }
-            // finally, start the tween
-            colorTween.start();
-        }
+        // if (obj) {
+        //     // create a step object
+        //     var colorBlend = { step: 0 };
+        //     // create a tween to increment that step from 0 to 100.
+        //     var colorTween = game.add.tween(colorBlend).to({ step: 100 }, time, Phaser.Easing.Linear.None, delay);
+        //     // add an anonomous function with lexical scope to change the tint, calling Phaser.Colour.interpolateColor
+        //     colorTween.onUpdateCallback(function () {
+        //         obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step);
+        //     })
+        //     // set object to the starting colour
+        //     obj.tint = startColor;
+        //     // if you passed a callback, add it to the tween on complete
+        //     if (callback) {
+        //         colorTween.onComplete.add(callback, this);
+        //     }
+        //     // finally, start the tween
+        //     colorTween.start();
+        // }
+
+        var colorBlend = {step: 0};
+
+        game.add.tween(colorBlend).to({step: 100}, time, Phaser.Easing.Default, false)
+        .onUpdateCallback(() => {
+            obj.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, colorBlend.step, 1);
+        })
+        .start();
     }
 
     function swipeInGame(){
