@@ -823,6 +823,9 @@ var acorn = function(){
             mouseIsDown = true;
             startY = game.input.y;
         }
+        if(startY < 55){
+            mouseIsDown = false;
+        }
     }
 
     function mouseUp() {
