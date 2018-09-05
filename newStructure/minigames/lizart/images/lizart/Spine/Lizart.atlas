@@ -62,30 +62,37 @@ normal/head_win2
   index: -1
 normal/leg1
   rotate: false
-  xy: 1040, 109
+  xy: 84, 46
   size: 30, 37
   orig: 30, 37
   offset: 0, 0
   index: -1
 normal/leg2
   rotate: false
-  xy: 1347, 218
+  xy: 1177, 125
   size: 30, 35
   orig: 30, 35
   offset: 0, 0
   index: -1
 normal/leg3
   rotate: true
-  xy: 1289, 165
+  xy: 1139, 116
   size: 30, 36
   orig: 30, 36
   offset: 0, 0
   index: -1
 normal/leg4
-  rotate: false
-  xy: 84, 46
+  rotate: true
+  xy: 1289, 165
   size: 30, 37
   orig: 30, 37
+  offset: 0, 0
+  index: -1
+normal/lengua
+  rotate: true
+  xy: 1040, 113
+  size: 33, 97
+  orig: 33, 97
   offset: 0, 0
   index: -1
 normal/tale
