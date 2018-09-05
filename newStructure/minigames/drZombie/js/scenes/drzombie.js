@@ -565,7 +565,7 @@ var drzombie = function(){
 			game.time.events.add(delay,function(){
 				gameActive = true;
 				activateInputTrash();
-				activateOrgans(true);
+				activateOrgans(false);
 			},this);
 		}
 	}
