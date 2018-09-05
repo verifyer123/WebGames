@@ -232,6 +232,11 @@ var acorn = function(){
         tutoGroup.y = -game.world.height;
 
         tweenHand = game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        tweenHand.onComplete.add(function(){
+            for(var b = 0; b < blocksGroup.length; b++){
+                blocksGroup.children[b].events.onInputDown.add(checkAnswer);
+            }
+        });
         bringElementsToTop();
         changeDay();
         gameState = createDelegate(gamePlayTutorial);
@@ -1095,7 +1100,7 @@ var acorn = function(){
             block.number = 0;
             block.inputEnabled = true;
 
-            block.events.onInputDown.add(checkAnswer);
+            //block.events.onInputDown.add(checkAnswer);
             blocksGroup.blocks.push(block);
         }
     }
