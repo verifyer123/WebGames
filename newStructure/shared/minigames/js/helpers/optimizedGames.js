@@ -43,6 +43,8 @@ var optimizedGames={
 		{name:'Optimized Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
 		{name:'Optimized Hackamole',url:'hackaMole/',mapUrl:'hackaMole', sceneName:'hack',subject:'programming',review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},
 		{name:'Optimized Space Words',url:'spaceWords/',mapUrl:'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
+		{name:'Optimized Magic Spell',url:'magicSpell/',mapUrl:'magicSpell', sceneName:'magicSpell',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.GRAB},
+		{name:'Optimized Symfunny',url:'symfunny/',mapUrl:'symfunny', sceneName:'symfunny',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},
 	]
 	
 }

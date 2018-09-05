@@ -61,7 +61,9 @@ function startGame(){
 			var gameName = games["ImagicDrZombie"];
 			console.log(gameName);
 			window.gameData=gameName;
-			
+			if(window.gameData.config.tutorial=="tutorialImagic"){
+				localization.setLanguage("ES")
+			}
 		}else{
 			if(parent.gameData.config.tutorial=="tutorialImagic"){
 				localization.setLanguage("ES")

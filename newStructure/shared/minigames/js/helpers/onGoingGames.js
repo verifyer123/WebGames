@@ -112,7 +112,6 @@ var onGoingGames={
 			{name:'Garbage Mole',url:'garbageMole/',mapUrl:'garbageMole', sceneName:'mole',subject:'sustainability', review:true,objective:5,demo:false,type:gameTypeEnum.GRAB},//103
 			{name:'Milky Saloon',url:'milkySaloon/',mapUrl:'milkySaloon', sceneName:'milky',subject:'coding', review:false,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//105
 			{name:'Calendrigon',url:'calendrigon/',mapUrl:'calendrigon', sceneName:'calendrigon',subject:'math', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//106
-		   {name:'Symfunny',url:'symfunny/',mapUrl:'symfunny', sceneName:'symfunny',subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},//107
 			{name:'Shot Put',url:'shotPut/',mapUrl:'shotPut', sceneName:'shotPut',subject:'sciencie', review:false,objective:10,demo:false,type:gameTypeEnum.MATCH},//108
 			{name:'Dino Dig',url:'dinoDigger/',mapUrl:'dinoDigger', sceneName:'dino',subject:'sciencie', review:false,objective:35,demo:false,type:gameTypeEnum.CHOOSE},//109
 		   {name:'Animal Route',url:'animalRoute/',mapUrl:'animalRoute', sceneName:'animalRoute',subject:'sciencie', review:false,objective:10,demo:false,type:gameTypeEnum.CHOOSE},//110
@@ -191,7 +190,6 @@ var onGoingGames={
 		   {name:'Motion Slip',url:'motionSlip/',mapUrl:'motionSlip', sceneName:'motionSlip',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//187
 		   {name:'Syncphony',url:'syncphony/',mapUrl:'syncphony', sceneName:'syncphony',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//188
 		   {name:'Orbiturn',url:'orbiturn/',mapUrl:'orbiturn', sceneName:'orbiturn',subject:'math', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//189
-		   {name:'Magic Spell',url:'magicSpell/',mapUrl:'magicSpell', sceneName:'magicSpell',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.GRAB},//190
 		   {name:'Grammart',url:'grammart/',mapUrl:'grammart', sceneName:'grammart',subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.CHOOSE},//191
 		   {name:'Robotic Figures',url:'roboticFigures/',mapUrl:'roboticFigures', sceneName:'roboticFigures',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//192
 		   {name:'Nestling Quest',url:'nestlingQuest/',mapUrl:'nestlingQuest', sceneName:'nestlingQuest',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//193
