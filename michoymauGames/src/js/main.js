@@ -20,8 +20,8 @@ $(document).on('ready', function() {
         
         $("#btnOptimized" + i).click(function(){
             var place = $(this).attr("number")
-            var texto = minigame[place].url//minigame[place].name.replace(/\s/g, "")
-           window.location = "../../newStructure/minigames/michoymau/dist/" + texto //"https://yogome.github.io/WebGames/newStructure/gamesite/#/minigames/" + texto
+            var texto = minigame[place].name.replace(/\s/g, "")
+           window.location = "../../newStructure/gamesite/#/minigames/" + texto
         });   
     }
     
@@ -31,14 +31,4 @@ $(document).on('ready', function() {
         slidesToShow: 2,
         slidesToScroll: 1
       }); 
-    
-  
-    /*$("#onGoingGames").slick({
-        dots: false,
-        infinite: false,
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        vertical:true
-      });    */
-    
 });
