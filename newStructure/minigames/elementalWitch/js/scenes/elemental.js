@@ -260,11 +260,11 @@ var elemental = function(){
 		sound.play("gameLose")
 
 		gameActive = false
-		battleSong.stop()
+		
 		game.time.events.add(100, witchAnim, this, "LOSESTILL");
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 1000, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
-
+			battleSong.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)
 
@@ -626,10 +626,9 @@ var elemental = function(){
 					witch.canAttack = true
 				}
 				getCoins(mask)
-				goalMask--;
-				console.log(goalMask)
 				mask.anim.setAnimationByName(0, "lose", false).onComplete = function(){
 					mask.kill()
+					goalMask--;
 					if(goalMask<=0 && lives>0)game.time.events.add(500, initGame)
 				}
 				break
@@ -671,13 +670,13 @@ var elemental = function(){
 				witchAnim("HIT")
 				missPoint(witch)
 				goalMask--;
-				game.time.events.add(600, witchAnim, this, "IDLE")
+				game.time.events.add(300, witchAnim, this, "IDLE")
 				if(goalMask==0)game.time.events.add(1000, initGame)
 			}
 			else if(lives == 1){
 				gemsGroup.setAll("inputEnabled", false)
 				if(idleAnimation)idleAnimation.clearEvents=true;
-				game.time.events.add(100, witchAnim, this, "LOSESTILL");
+				game.time.events.add(500, witchAnim, this, "LOSESTILL");
 				missPoint(witch)
 			}
 		}
@@ -702,7 +701,6 @@ var elemental = function(){
 			enemysInLine++;
 		}
 		goalMask=enemysInLine;
-		console.log(enemysInLine)
 		for(var enemysToRelease=0; enemysToRelease<enemysInLine; enemysToRelease++){
 			mask=enemiesGroup.children[enemysToRelease].reset();
 			if(enemysInLine==2){
