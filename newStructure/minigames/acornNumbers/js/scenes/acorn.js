@@ -104,9 +104,11 @@ var acorn = function(){
     var heartsGroup = null;
     var pointsBar;
     var coin;
+    var coinsGroup=null;
     var particleCorrect;
     var particleWrong;
     var hand;
+    var index;
 
     var pullGroup = null;
     var clock;
@@ -188,6 +190,7 @@ var acorn = function(){
         }
         mouseIsDown = false;
         spaceIsDown = false;
+        index = 0;
 
         sceneGroup.alpha = 0;
         game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true);
@@ -282,29 +285,58 @@ var acorn = function(){
 
     }
 
-    function addCoin(objx,objy){
-       coin.x = objx;
-       coin.y = objy;
-       var time = 300;
+    function getCoins(objX,objY){
+        var coin=coinsGroup.getFirstDead();
 
-       game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true);
-       
-       game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-          game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-              game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
-                  addPoint(1);
-              });
-          });
-       });
+        if(coin==undefined){
+            game["coin"+index] = game.add.sprite(0, 0, "coin");
+            game["coin"+index].anchor.setTo(0.5);
+            game["coin"+index].scale.setTo(0.8);
+            game["coin"+index].animations.add('coin');
+            game["coin"+index].animations.play('coin', 24, true);
+            game["coin"+index].alpha = 0;
+            coinsGroup.add(game["coin"+index]);
+            coin=game["coin"+index];
+            index++;
+            addCoin(coin,objX,objY);
+        }else{
+            addCoin(coin,objX,objY);
+        }
+    }
+
+    function addCoin(coin,oX,oY){
+
+        if(coin.motion)
+            coin.motion.stop();
+
+        coin.reset(oX,oY);
+
+        game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
+
+        coin.motion = game.add.tween(coin).to({y:coin.y - 100}, 200, Phaser.Easing.Cubic.InOut,true);
+        coin.motion.onComplete.add(function(){
+            coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true);
+            coin.motion.onComplete.add(function(){
+                coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true);
+                coin.motion.onComplete.add(function(){
+                    addPoint(1);
+                    coin.kill();
+                })
+            })
+        })
     }
 
     function createCoin(){
-      coin = game.add.sprite(0, 0, "coin");
-      coin.anchor.setTo(0.5);
-      coin.scale.setTo(0.8);
-      coin.animations.add('coin');
-      coin.animations.play('coin', 24, true);
-      coin.alpha = 0;
+        coin = game.add.sprite(0, 0, "coin");
+        coin.anchor.setTo(0.5);
+        coin.scale.setTo(0.8);
+        coin.animations.add('coin');
+        coin.animations.play('coin', 24, true);
+        coin.alpha = 0;
+
+        coinsGroup= new Phaser.Group(game);
+        sceneGroup.add(coinsGroup);
+        coinsGroup.add(coin);
    }
 
     function addNumberPart(obj,number){
@@ -626,7 +658,8 @@ var acorn = function(){
                             break;
                         case "addPoint":
                             grabObject(object);
-                            addCoin(ardilla.centerX,ardilla.centerY); //addPoint(1)
+                            //addCoin(ardilla.centerX,ardilla.centerY); //addPoint(1)
+                            getCoins(ardilla.centerX,ardilla.centerY);
                             counterAcorn++;
                             if(counterAcorn == 1){
                                 ardilla.setAnimation(["run_cachetes"]);
@@ -989,7 +1022,8 @@ var acorn = function(){
                 // runnerMode = true
                 inputsEnabled = false;
                 tween.start();
-                addCoin(block.centerX + blocksGroup.centerX, block.centerY); //addPoint(1)
+                //addCoin(block.centerX + blocksGroup.centerX, block.centerY); //addPoint(1)
+                getCoins(block.centerX + blocksGroup.centerX, block.centerY);
                 tween.onComplete.add(function () {
                     if(counterAcorn>0){
                         ardilla.setAnimation(["run_cachetes"]);
