@@ -13,7 +13,8 @@ var playcountToken = null
 var urlShare
 
 var url
-
+var currentTime
+var inGame = false
 
 amazing.saveScore = function(score){
     console.log("Saving Score win...")
@@ -152,6 +153,56 @@ amazing.getGames = function(){
     return games
 }
 
+amazing.startTimer = function(_time){
+    inGame = true
+    currentTime = _time
+
+    var params = {
+        type: "startTimer"
+    }
+    parent.postMessage(JSON.stringify(params), "*")
+
+    window.addEventListener("message", function(event){
+        //console.log(event)
+
+        if(event.data && event.data != ""){
+            var parsedData = {}
+            try {
+                var parsedData = JSON.parse(event.data)
+                //origin = event.origin
+            }catch(e){
+                console.warn("Data is not JSON in message listener")
+            }
+            switch(parsedData.type){
+            case "backEvent":
+                var games = amazing.getGames()
+                var name
+                for(var i = 0; i < games.length; i++ ){
+                    
+                    if(minigameId == games[i].id){
+                        name = games[i].mixName
+                        break
+                    }
+                }
+                amazing.endTimer(game.time.now,name)
+            }
+        }
+    })
+}
+
+amazing.endTimer = function(_time,minigameName){
+	console.log("endTimer")
+    if(!inGame){
+        return
+    }
+    inGame = false
+    currentTime = (_time - currentTime)/1000
+
+    mixpanel.track(
+        "gameTime",
+        {"gameName": minigameName,"gameTime":currentTime,"name":userName,"email":userMail,"gender":gender,"birthday":birthday,"interests":interests}
+    );
+}
 
 amazing.getId = function(id){
 
@@ -167,51 +218,6 @@ amazing.getId = function(id){
     }
     minigameId = id
     playcountToken = localStorage.getItem("playcountToken")
-
-    
-    
-
-    /*if(playcountToken==null){
-
-        $.ajax({
-            type: "GET",
-            url: url+"/services/users/getToken",
-            contentType: 'application/json',
-            dataType: "json",
-            success: function (response) {
-                localStorage.setItem("playcountToken",response.token)
-                playcountToken = response.token
-                $.ajax({
-                    type: "GET",
-                    url: url+"/services/users/playcount?minigameId="+minigameId+"&token="+playcountToken,
-                    //data: JSON.stringify(data),
-                    contentType: 'application/json',
-                    dataType: "json",
-                    success: function (response) {
-                        localStorage.setItem("playcountToken",response.token)
-                        playcountToken = response.token
-                    },
-
-                });
-            },
-
-        });
-
-    }
-    else{
-        $.ajax({
-            type: "GET",
-            url: url+"/services/users/playcount?minigameId="+minigameId+"&token="+playcountToken,
-            contentType: 'application/json',
-            dataType: "json",
-            success: function (response) {
-                localStorage.setItem("playcountToken",response.token)
-                playcountToken = response.token
-            },
-
-        });
-    }*/
-
 
     if(!gameFromApp){
 
@@ -252,6 +258,7 @@ amazing.getId = function(id){
         });
     }
 
+    amazing.startTimer(game.time.now)
     return gameIndex 
 }
 
@@ -314,12 +321,6 @@ amazing.setProfile = function(){
             switch(parsedData.type){
             case "dataStore":
                 dataStore = parsedData
-                //console.log(" jsdgkfajs ",dataStore)
-                /*if(dataStore!= null){
-                    if(dataStore[0]==null){
-                        dataStore = 
-                    }
-                }*/
             }
             //console.log('entra case')
         }
@@ -428,15 +429,6 @@ amazing.getProfile = function(){
     //if(gameFromApp){
         var userData = dataStore
 
-        //console.log("Data ",userData)
-        /*if(userData != "" && userData != "undefined" && userData){
-            userData = JSON.parse(userData)
-        }
-        else{
-            userData = null
-        }*/
-        //console.log("1Data ",userData)
-
         if(userData!=null){
             //userData = JSON.parse(userData)
             //console.log("2Data ",userData.allProducts)
@@ -527,7 +519,6 @@ amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
         );
     }
 
-
     var params = {
        type: "analyticsMessage",
        data: {
@@ -541,6 +532,20 @@ amazing.setMixPanelTrack= function(minigameName,event,didWin,score){
 
 amazing.getPoll = function(){
     return poll
+}
+
+function backEvent(){
+	console.log("back event")
+	var games = amazing.getGames()
+	var name
+	for(var i = 0; i < games.length; i++ ){
+        
+        if(minigameId == games[i].id){
+            name = games[i].mixName
+            break
+        }
+    }
+	amazing.endTimer(game.time.now,name)
 }
 
 //amazing.setApp()
