@@ -43,6 +43,8 @@ var tapTaco = function(){
                 file: soundsPath + "laserPull.mp3"},
             {   name: "powerUp2",
                 file: soundsPath + "swordSmash.mp3"},
+            {   name: "shield",
+                file: soundsPath + "shield.mp3"},
         ],
         
     }
@@ -158,7 +160,6 @@ var tapTaco = function(){
         inSpecial = false
         markArray = []
         currentMarkId = 0
-
     }
     
 
@@ -693,6 +694,9 @@ var tapTaco = function(){
             taquero.setAnimationByName(0,"dazed",true)
             console.log("Hitted")
             setTimeout(restoreHit,TIME_RESTORE_HIT)
+        }
+        else{
+        	sound.play("shield")
         }
     }
 
