@@ -301,7 +301,7 @@ var greenRescue = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-
+		
 		if(lives == 0){
 			stopGame(false)
 		}
@@ -383,13 +383,15 @@ var greenRescue = function(){
 		sound.play("gameLose")
 
 		gameActive = false
-		if(sunAct){
-			morning.stop()
-		}else{
-			night.stop()
-		}
+
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
+			if(sunAct){
+				morning.stop()
+			}else{
+				night.stop()
+			}
+			danced.stop();
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, pointsBar.number,gameIndex)	
 			sceneloader.show("result")

@@ -544,8 +544,6 @@ var lizart = function(){
 		
 		
 		tongue=game.add.spine(0,0,"tongue");
-		tongue.x=lizard.x+100;
-		tongue.y=lizard.y-120;
 		tongue.alpha=0;
 		tongue.setSkinByName("normal");
 		
@@ -717,8 +715,8 @@ var lizart = function(){
 
 	}
 	function update(){
-		tongue.x=lizard.x+10;
-		tongue.y=lizard.y-20;
+		tongue.x=lizard.x;
+		tongue.y=lizard.y;
 	}
 	function correctFruit(fruitItem,color){
 		globo.destroy();
@@ -737,13 +735,10 @@ var lizart = function(){
 		game.add.tween(lizard).to({x:fruitItem.x-120},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
 			tongue.alpha=1;
-			
 			lizard.setAnimationByName(0,"eat",false);
-			tongue.setAnimationByName(0,"eat_lengua",false).onComplete=function(){
-				tongue.alpha=0;
-			};
+			tongue.setAnimationByName(0,"eat_lengua",false);
 			game.time.events.add(150,function(){
-//				
+				
 				for(var dissapearAll=0; dissapearAll<ALL_FRUITS+1; dissapearAll++){
 					if(fruits[dissapearAll]!=fruitItem)game.add.tween(fruits[dissapearAll]).to({alpha:0},250,Phaser.Easing.Cubic.In,true)
 				}
