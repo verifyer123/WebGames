@@ -168,6 +168,7 @@ var greenRescue = function(){
 	var readyToWater=new Array(9);
 	var animations=new Array(7);
 	var animatedSprinklers=new Array(9)
+	var roundTime
 	var broomIcon, shovelIcon, sprinklerIcon, sproutIcon, board
 	var shovel,broom, sprinkler, sprout, shovelProxy, sprinklerProxy, sproutProxy
 	var hole=[]
@@ -215,6 +216,7 @@ var greenRescue = function(){
 		animations[6]="TV";
 		canShovel=false;
 		canPlant=false;
+		roundTime=50000;
 		emitter="";
 		tutorial=true;
 		tutorialState=0;
@@ -445,8 +447,6 @@ var greenRescue = function(){
 		cloudsGroup=game.add.group();
 		sceneGroup.add(cloudsGroup);
 
-
-
 		platformGroup=game.add.group();
 		sceneGroup.add(platformGroup)
 
@@ -505,10 +505,10 @@ var greenRescue = function(){
 
 
 
-		clouds1=game.add.sprite(0,game.rnd.integerInRange(0,game.world.height),"atlas.green","CLOUD");
-		clouds2=game.add.sprite(0,game.rnd.integerInRange(0,game.world.height),"atlas.green","CLOUD");
-		clouds3=game.add.sprite(0,game.rnd.integerInRange(0,game.world.height),"atlas.green","CLOUD");
-		clouds4=game.add.sprite(0,game.rnd.integerInRange(0,game.world.height),"atlas.green","CLOUD");
+		clouds1=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
+		clouds2=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
+		clouds3=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
+		clouds4=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
 
 		clouds1.anchor.setTo(0.5)
 		clouds2.anchor.setTo(0.5)
@@ -789,16 +789,20 @@ var greenRescue = function(){
 		tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
 		tweenTiempo.onComplete.add(function(){
 			missPoint()
+			passingLevel=true;
 			broom.inputEnabled=false;
 			shovel.inputEnabled=false;
 			sprout.inputEnabled=false;
 			sprinkler.inputEnabled=false;
-
+			if(activeObj=="bro"){
+				game.add.tween(nao).to({y:game.world.height},300,Phaser.Easing.linear,true);
+			}
 			game.sound.setDecodedCallback(danced, function(){
 				danced.loopFull(0.6)
 			}, this);
 			stopTimer()
 			game.time.events.add(2500,function(){
+				passingLevel=false;
 				reset()
 			});
 			canPlant=false
@@ -907,10 +911,10 @@ var greenRescue = function(){
 			cloudsGroup.position.x-=velocidadNubes;
 			if(cloudsGroup.x<-game.world.width*2.4){
 				cloudsGroup.position.x=+100
-				clouds1.position.y=game.rnd.integerInRange(0,game.world.height);
-				clouds2.position.y=game.rnd.integerInRange(0,game.world.height);
-				clouds3.position.y=game.rnd.integerInRange(0,game.world.height);
-				clouds4.position.y=game.rnd.integerInRange(0,game.world.height);
+				clouds1.position.y=game.rnd.integerInRange(0,game.world.centerY-150);
+				clouds2.position.y=game.rnd.integerInRange(0,game.world.centerY-150);
+				clouds3.position.y=game.rnd.integerInRange(0,game.world.centerY-150);
+				clouds4.position.y=game.rnd.integerInRange(0,game.world.centerY-150);
 
 				clouds1.position.x=game.rnd.integerInRange(game.world.width+100,game.world.width*1.4);
 				clouds2.position.x=game.rnd.integerInRange(game.world.width+100,game.world.width*1.4);
@@ -956,10 +960,11 @@ var greenRescue = function(){
 			}
 
 			for(var hide=0; hide<estados.length;hide++){
-				if(estados[hide-2]>2 && estados[hide-2]<7  && estados[hide]==6 && (hide!=2 && hide!=5 && hide!=7)){
+				if(estados[hide-2]>2 && estados[hide-2]<7 && estados[hide]==6 && (hide!=2 && hide!=5 && hide!=8)){
 					game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
 				}
 			}
+			
 			checkMouse();
 			broomProxy.position.x=broom.x;
 			broomProxy.position.y=broom.y;
@@ -1033,7 +1038,6 @@ var greenRescue = function(){
 		backgroundGroup.add(nao)
 		backgroundGroup.add(estrella)
 		backgroundGroup.add(justice)
-		
 	}
 
 	function onChangeObj(obj){
@@ -1094,11 +1098,14 @@ var greenRescue = function(){
 		}
 		if(!tutorial){
 			positionTimer();
-			startTimer(50000);
+			startTimer(roundTime);
 			broom.inputEnabled=true;
 			shovel.inputEnabled=true;
 			sprout.inputEnabled=true;
 			sprinkler.inputEnabled=true;
+			game.add.tween(nao).to({y:board.y-100},300,Phaser.Easing.linear,true).onComplete.add(function(){
+				nao.setAnimationByName(0,"idle",true);
+			})
 		}else{
 			tutorialLevel(tutorialState, tutoTrash);
 		}
@@ -1106,7 +1113,7 @@ var greenRescue = function(){
 
 
 	function managerObjects(obj){
-		if(objectOverlaping){
+		if(objectOverlaping && !passingLevel){
 			if(activeObj=="bro" && ((estados[objectOverlaping.tag]==1 && broom.alpha==1) || (!game.device.desktop && estados[objectOverlaping.tag]==1))){
 				clean(objectOverlaping);
 			}
@@ -1120,7 +1127,7 @@ var greenRescue = function(){
 				water(objectOverlaping);
 			}
 		}
-		if(!game.device.desktop){
+		if(!game.device.desktop && !passingLevel){
 			if(activeObj=="bro" && (estados[obj.tag]==1)){
 				clean(obj);
 			}
@@ -1400,6 +1407,7 @@ var greenRescue = function(){
 
 		if(dificulty<9)dificulty++;
 		passingLevel=true;
+		if(roundTime>2000)roundTime-=1500;
 		canShovel=false;
 		var witchYogotar=game.rnd.integerInRange(0,1);
 		sound.play("cheers")
