@@ -55,13 +55,19 @@ function startGame(){
             }
         }
         localization.setLanguage(language)
-		var games = yogomeGames.getObjectGames("custom");
-        var gameName = games["ImagicDrZombie"];
-        console.log(gameName);
-        window.gameData=gameName;
-		if(window.gameData || parent.gameData.config.tutorial=="tutorialImagic"){
-			localization.setLanguage("ES")
+		
+		if(!parent.gameData){
+			var games = yogomeGames.getObjectGames("custom");
+			var gameName = games["ImagicDrZombie"];
+			console.log(gameName);
+			window.gameData=gameName;
+			
+		}else{
+			if(parent.gameData.config.tutorial=="tutorialImagic"){
+				localization.setLanguage("ES")
+			}
 		}
+		
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
