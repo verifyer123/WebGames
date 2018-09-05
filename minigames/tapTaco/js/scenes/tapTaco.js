@@ -28,7 +28,23 @@ var tapTaco = function(){
             {   name: "gameLose",
                 file: soundsPath + "gameLose.mp3"},
             {   name: "falling",
-                file: soundsPath + "falling.mp3"},  
+                file: soundsPath + "falling.mp3"},
+            {   name: "cut",
+                file: soundsPath + "shootBall.mp3"},  
+            {   name: "explode",
+                file: soundsPath + "explode.mp3"},
+            {   name: "cheers",
+                file: soundsPath + "cheers.mp3"},
+            {   name: "fireExplosion",
+                file: soundsPath + "fireExplosion.mp3"},
+            {   name: "knockOut1",
+                file: soundsPath + "knockOut1.mp3"},
+            {   name: "powerUp",
+                file: soundsPath + "laserPull.mp3"},
+            {   name: "powerUp2",
+                file: soundsPath + "swordSmash.mp3"},
+            {   name: "shield",
+                file: soundsPath + "shield.mp3"},
         ],
         
     }
@@ -144,7 +160,6 @@ var tapTaco = function(){
         inSpecial = false
         markArray = []
         currentMarkId = 0
-
     }
     
 
@@ -202,7 +217,8 @@ var tapTaco = function(){
                 
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1500)
         tweenScene.onComplete.add(function(){
-            
+            game.onResume.removeAll()
+            game.onPause.removeAll()
             var resultScreen = sceneloader.getScene("result")
             resultScreen.setScore(true, pointsBar.number,gameIndex)
         
@@ -453,6 +469,7 @@ var tapTaco = function(){
                         coin.tapped = true
                         coin.startX = coin.x
                         coin.startY = coin.y
+                        souund.play("pop")
                     }
                     else{
                         if(coin.y < COIN_Y_DISSAPEAR){
@@ -508,7 +525,9 @@ var tapTaco = function(){
 	        	currentTimeAttack = timeToAttack + game.rnd.integerInRange(-RANGE_TIME_ATTACK, RANGE_TIME_ATTACK) + game.time.now
 	        	monster.setAnimationByName(0,"anticipation",false)
 	        	setTimeout(function(){
-	        		enemyAttack()
+	        		if(!inSpecial){
+	        			enemyAttack()
+	        		}
 	        	},TIME_ANTICIPATION)
 	        }
 	    }
@@ -575,6 +594,9 @@ var tapTaco = function(){
         canTap = false
 
         lifeAmount-=1
+
+        sound.play("cut")
+
         if(!monsterInAttack){
 	        monster.setAnimationByName(0,"hit",false)
 	        monster.addAnimationByName(0,"idle",true)
@@ -613,6 +635,9 @@ var tapTaco = function(){
         if(hitted){
             return
         }
+
+        sound.play("powerUp")
+        sound.play("powerUp2")
         inSpecial = true
         taquero.inAnim = false
         timeSpecial = game.time.now + SPECIAL_DAMAGE_TIME
@@ -621,6 +646,9 @@ var tapTaco = function(){
         anim.onComplete = function(){
         	inSpecial = false
         	specialTime = 0
+        	if(lifeAmount<=0){
+        		endRound()
+        	}
         }
         taquero.addAnimationByName(0,"idle",true)
     }
@@ -661,17 +689,22 @@ var tapTaco = function(){
     	monster.addAnimationByName(0,"idle",true)
         if(!inDefense){
             //player hit and cannot attack
+            sound.play("knockOut1")
             taquero.inAnim = false
             hitted = true
             taquero.setAnimationByName(0,"dazed",true)
             console.log("Hitted")
             setTimeout(restoreHit,TIME_RESTORE_HIT)
         }
+        else{
+        	sound.play("shield")
+        }
     }
 
     function restoreHit(){
         hitted = false
         console.log("can tap again")
+        taquero.inAnim = false
         taquero.setAnimationByName(0,"idle",true)
 
     }
@@ -705,7 +738,7 @@ var tapTaco = function(){
         barLiveMask.x = barLive.x
         bossTextLive.setText(lifeAmount)
         bossTextLive2.setText(lifeAmount)
-        if(lifeAmount<=0){
+        if(lifeAmount<=0 && !inSpecial){
             //monsterDie
             //dropCoins
             endRound()
@@ -717,6 +750,7 @@ var tapTaco = function(){
         if(specialTime < SPECIAL_MAX_TIME){
             specialTime += game.time.elapsed
             if(specialTime >= SPECIAL_MAX_TIME){
+            	console.log("special charged")
                 specialTime = SPECIAL_MAX_TIME
                 specialButton.inputEnabled = true
                 specialButton.loadTexture("atlas.game","special_off")
@@ -727,9 +761,12 @@ var tapTaco = function(){
             specialArc.lineStyle(8,0x00c251)
             specialArc.arc(0, 0, 50, 0, Math.PI*2*porcentage, false);
         }
+
     }
 
     function endRound(){
+    	sound.play("cheers")
+    	sound.play("fireExplosion")
     	monster.visible = false
     	explosionAnim.loadTexture("atlas.game","boss_smoke1")
     	explosionAnim.visible = true
@@ -737,6 +774,7 @@ var tapTaco = function(){
     	explosionAnim.idFrame = 1
     	inBoss = false
     	taquero.setAnimationByName(0,"win",true)
+
     	taquero.inAnim = false
     }
 
@@ -902,6 +940,7 @@ var tapTaco = function(){
         if(coinTarget.tapped){
             return
         }
+        souund.play("pop")
         coinTarget.tapped = true
         coinTarget.startX = coinTarget.x
         coinTarget.startY = coinTarget.y
@@ -1225,6 +1264,13 @@ var tapTaco = function(){
         specialButton.anchor.setTo(0.5)
         specialButton.inputEnabled = false
         specialButton.events.onInputDown.add(function(target){
+        	if(hitted){
+        		return
+        	}
+        	if(!inBoss){
+        		return
+        	}
+
             if(specialTime>=SPECIAL_MAX_TIME){
                 target.loadTexture("atlas.game","special_on")
                 target.inputEnabled = false
