@@ -469,6 +469,7 @@ var tapTaco = function(){
                         coin.tapped = true
                         coin.startX = coin.x
                         coin.startY = coin.y
+                        souund.play("pop")
                     }
                     else{
                         if(coin.y < COIN_Y_DISSAPEAR){
@@ -749,6 +750,7 @@ var tapTaco = function(){
         if(specialTime < SPECIAL_MAX_TIME){
             specialTime += game.time.elapsed
             if(specialTime >= SPECIAL_MAX_TIME){
+            	console.log("special charged")
                 specialTime = SPECIAL_MAX_TIME
                 specialButton.inputEnabled = true
                 specialButton.loadTexture("atlas.game","special_off")
@@ -759,6 +761,7 @@ var tapTaco = function(){
             specialArc.lineStyle(8,0x00c251)
             specialArc.arc(0, 0, 50, 0, Math.PI*2*porcentage, false);
         }
+
     }
 
     function endRound(){
@@ -937,6 +940,7 @@ var tapTaco = function(){
         if(coinTarget.tapped){
             return
         }
+        souund.play("pop")
         coinTarget.tapped = true
         coinTarget.startX = coinTarget.x
         coinTarget.startY = coinTarget.y
@@ -1260,6 +1264,13 @@ var tapTaco = function(){
         specialButton.anchor.setTo(0.5)
         specialButton.inputEnabled = false
         specialButton.events.onInputDown.add(function(target){
+        	if(hitted){
+        		return
+        	}
+        	if(!inBoss){
+        		return
+        	}
+
             if(specialTime>=SPECIAL_MAX_TIME){
                 target.loadTexture("atlas.game","special_on")
                 target.inputEnabled = false
