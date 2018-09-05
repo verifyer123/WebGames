@@ -26,21 +26,21 @@ function startGame(){
 	}
 
     function init(){
-
+		
         var fullWidth = 540
         var fullHeight = 960
-
+		
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
-
+		
         game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
         game.scale.setGameSize(gameWidth, gameHeight); game.input.maxPointers = 1
-
+		
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
         game.stage.disableVisibilityChange = true;        
-
+		
         game.plugins.add(Fabrique.Plugins.Spine);
         
         var language = "EN"
@@ -53,14 +53,19 @@ function startGame(){
             }else{
                 language = "EN"
             }
-            
         }
-
         localization.setLanguage(language)
-
+		var games = yogomeGames.getObjectGames("custom");
+        var gameName = games["ImagicDrZombie"];
+        console.log(gameName);
+        window.gameData=gameName;
+		if(window.gameData || parent.gameData.config.tutorial=="tutorialImagic"){
+			localization.setLanguage("ES")
+		}
         window.minigame.game = window.game
     	sceneloader.init(game)
     	sound.init(game)
+
     }
 
     function create(){

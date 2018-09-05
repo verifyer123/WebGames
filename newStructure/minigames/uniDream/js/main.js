@@ -58,10 +58,13 @@ function startGame(){
         localization.setLanguage(language);
 		
 		var games = yogomeGames.getObjectGames("custom");
-        var language = "EN"
         var gameName = games["ImagicUniDream"];
         console.log(gameName);
         window.gameData=gameName;
+		
+		if(window.gameData || parent.gameData.config.tutorial=="tutorialImagic"){
+			localization.setLanguage("ES")
+		}
 		
 		
         console.log(language, "language")

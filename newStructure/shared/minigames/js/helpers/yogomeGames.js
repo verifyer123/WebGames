@@ -125,17 +125,6 @@ var yogomeGames = function () {
 
 		gameLives = lives || 1
 
-//		mixpanel.track(
-//			callName,
-//			{
-//				"minigame": parent.gameData.name,
-//				"subject": parent.gameData.subject,
-//				"app": "epicWeb",
-//				"isMap": hasMap,
-//				"email": email,
-//				"user_id": playerId
-//			}
-//		);
 	}
 
 	return{
