@@ -1,0 +1,27 @@
+
+cliente5.png
+size: 128,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+clientes/normal5/arm1
+  rotate: false
+  xy: 74, 44
+  size: 34, 15
+  orig: 34, 15
+  offset: 0, 0
+  index: -1
+clientes/normal5/head
+  rotate: false
+  xy: 41, 22
+  size: 31, 37
+  orig: 31, 37
+  offset: 0, 0
+  index: -1
+clientes/normal5/torso
+  rotate: false
+  xy: 2, 2
+  size: 37, 57
+  orig: 37, 57
+  offset: 0, 0
+  index: -1
