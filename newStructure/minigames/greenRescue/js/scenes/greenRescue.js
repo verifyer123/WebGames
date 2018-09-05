@@ -827,6 +827,7 @@ var greenRescue = function(){
 		obj.input.priorityID = 0;
 		activeObj=obj.tag;
 		UIGroup.bringToTop(obj)
+		console.log(obj.tag)
 		if(obj.tag=="bro"){
 			game.add.tween(nao).to({y:board.y-100},300,Phaser.Easing.linear,true).onComplete.add(function(){
 				nao.setAnimationByName(0,"idle",true);
@@ -1103,9 +1104,11 @@ var greenRescue = function(){
 			shovel.inputEnabled=true;
 			sprout.inputEnabled=true;
 			sprinkler.inputEnabled=true;
-			game.add.tween(nao).to({y:board.y-100},300,Phaser.Easing.linear,true).onComplete.add(function(){
-				nao.setAnimationByName(0,"idle",true);
-			})
+			if(activeObj=="bro"){
+				game.add.tween(nao).to({y:board.y-100},300,Phaser.Easing.linear,true).onComplete.add(function(){
+					nao.setAnimationByName(0,"idle",true);
+				})
+			}
 		}else{
 			tutorialLevel(tutorialState, tutoTrash);
 		}
