@@ -262,6 +262,7 @@ var galacticPool = function(){
 			game.add.tween(planets[resetPlanets].spines).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
 			game.add.tween(planets[resetPlanets].text).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
 			game.add.tween(targets[resetPlanets]).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+			targets[resetPlanets].inUse=false;
 		}
 		if(pointsBar.number>40 && dificulty<2){
 			dificulty++;
@@ -293,7 +294,6 @@ var galacticPool = function(){
 	}
 	function dragging(obj){
 		if(dificulty>=2){
-
 			canCollide=false;
 			obj.body.setZeroVelocity();
 			obj.body.data.shapes[0].sensor= true;
@@ -314,7 +314,7 @@ var galacticPool = function(){
 	function stopDragging(obj){
 		sound.play("pop")
 		for(var overTargets=0; overTargets<planets.length; overTargets++){
-			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled){
+			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled && !targets[overTargets].inUse){
 				checkIfCorrect(obj,targets[overTargets]);
 			}
 		}
@@ -396,8 +396,10 @@ var galacticPool = function(){
 	}
 	function checkIfCorrect(planet,target){
 		goal++;
+		planetsGroup.sendToBack(planet.spines)
 		if(planet.tag==target.tag){
 			getCoins(planet);
+			target.inUse=true;
 			correctParticle.x = planet.centerX;
 			correctParticle.y = planet.centerY;
 			correctParticle.start(true, 1200, null, 10)
@@ -424,6 +426,7 @@ var galacticPool = function(){
 			missPoint();
 			for(var checkRightPlace=0; checkRightPlace<planets.length; checkRightPlace++){
 				if(planet.tag==targets[checkRightPlace].tag){
+					targets[checkRightPlace].inUse=true;
 					game.add.tween(planet.body).to({x:positionX[checkRightPlace],y:positionY[checkRightPlace]},100,Phaser.Easing.Cubic.In,true);
 					planet.text.alpha=1;
 					planet.inputEnabled=false;
@@ -768,6 +771,7 @@ var galacticPool = function(){
 			targets[planetsTargets].anchor.setTo(0.5,0.5);
 			targets[planetsTargets].tag=planetsNames[planetsTargets].word;
 			targets[planetsTargets].alpha=0;
+			targets[planetsTargets].inUse=false;
 			if(planetsTargets==8){
 				planets[planetsTargets].body.x=game.world.centerX
 				planets[planetsTargets].body.y=game.world.height-100
