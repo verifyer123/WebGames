@@ -69,7 +69,7 @@ var tapTaco = function(){
 
     var ANIMATIONS_SEQUENCE = [1,2,3,1,4,2,3]
 
-    var SPECIAL_DAMAGE = 2
+    var SPECIAL_DAMAGE = 4
     var SPECIAL_DAMAGE_TIME = 200
 
 
@@ -170,9 +170,9 @@ var tapTaco = function(){
         game.stage.disableVisibilityChange = false;
                 
         if(amazing.getMinigameId()){
-            marioSong = sound.setSong(soundsPath + 'songs/timberman.mp3',0.3)
+            marioSong = sound.setSong(soundsPath + 'songs/la_fiesta.mp3',0.3)
         }else{
-            game.load.audio('arcadeSong', soundsPath + 'songs/timberman.mp3');
+            game.load.audio('arcadeSong', soundsPath + 'songs/la_fiesta.mp3');
         }
 
         game.load.spine('monster', "images/spines/monsters/monsters.json");
@@ -418,7 +418,7 @@ var tapTaco = function(){
     		return
     	}
 
-        /*if(game.input.activePointer.isDown || spaceBar.isDown){
+       	/*if(game.input.activePointer.isDown || spaceBar.isDown){
             if(canTap){
                 tap()
             }
@@ -737,11 +737,13 @@ var tapTaco = function(){
     	explosionAnim.idFrame = 1
     	inBoss = false
     	taquero.setAnimationByName(0,"win",true)
+    	taquero.inAnim = false
     }
 
     function setRound(){
     	inBoss = true
     	taquero.setAnimationByName(0,"idle",true)
+    	taquero.inAnim = false
         lifeAmount = INITIAL_LIFE + (DELTA_LIFE*currentLevel)
         timeAmount = INITIAL_TIME - (DELTA_TIME*currentLevel)
         timeToAttack = INITIAL_TIME_ATTACK - (DELTA_TIME_ATTACK*currentLevel)
@@ -1191,6 +1193,7 @@ var tapTaco = function(){
 
         var attack = sceneGroup.create(game.world.centerX,game.world.height-110,"atlas.game","attack_off")
         attack.anchor.setTo(0.5)
+        attack.scale.setTo(1.3)
         attack.inputEnabled = true
         attack.events.onInputDown.add(function(target){
             target.loadTexture("atlas.game","attack_on")
