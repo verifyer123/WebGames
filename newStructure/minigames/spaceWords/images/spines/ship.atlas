@@ -6,42 +6,49 @@ filter: Linear,Linear
 repeat: none
 normal/arm1
   rotate: true
-  xy: 1520, 191
+  xy: 1103, 2
   size: 48, 59
   orig: 48, 59
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: true
-  xy: 1155, 128
+  xy: 1223, 120
   size: 36, 53
   orig: 36, 53
   offset: 0, 0
   index: -1
+normal/circle1
+  rotate: false
+  xy: 1284, 211
+  size: 133, 28
+  orig: 133, 28
+  offset: 0, 0
+  index: -1
 normal/foot1
   rotate: false
-  xy: 1453, 195
+  xy: 1036, 5
   size: 65, 44
   orig: 65, 44
   offset: 0, 0
   index: -1
 normal/foot2
   rotate: false
-  xy: 1635, 199
+  xy: 1163, 116
   size: 58, 40
   orig: 58, 40
   offset: 0, 0
   index: -1
 normal/hand1
   rotate: false
-  xy: 1220, 167
+  xy: 1101, 52
   size: 54, 72
   orig: 54, 72
   offset: 0, 0
   index: -1
 normal/hand2
-  rotate: true
-  xy: 1393, 186
+  rotate: false
+  xy: 1157, 56
   size: 53, 58
   orig: 53, 58
   offset: 0, 0
@@ -69,56 +76,63 @@ normal/head_e
   index: -1
 normal/leg1
   rotate: false
-  xy: 1155, 166
+  xy: 1036, 51
   size: 63, 73
   orig: 63, 73
   offset: 0, 0
   index: -1
 normal/leg2
-  rotate: false
-  xy: 1276, 174
+  rotate: true
+  xy: 1284, 152
   size: 57, 65
   orig: 57, 65
   offset: 0, 0
   index: -1
+normal/light
+  rotate: true
+  xy: 779, 138
+  size: 101, 257
+  orig: 101, 257
+  offset: 0, 0
+  index: -1
 normal/parachute
   rotate: true
-  xy: 779, 17
+  xy: 1163, 158
   size: 81, 119
   orig: 81, 119
   offset: 0, 0
   index: -1
 normal/propeller1
   rotate: false
-  xy: 1581, 187
+  xy: 1164, 2
   size: 52, 52
   orig: 52, 52
   offset: 0, 0
   index: -1
 normal/propeller2
   rotate: false
-  xy: 1335, 182
+  xy: 1351, 152
   size: 56, 57
   orig: 56, 57
   offset: 0, 0
   index: -1
 normal/ship
   rotate: false
-  xy: 1030, 126
+  xy: 1038, 126
   size: 123, 113
   orig: 123, 113
   offset: 0, 0
   index: -1
 normal/ship_lose
-  rotate: false
-  xy: 779, 100
+  rotate: true
+  xy: 779, 3
   size: 133, 139
   orig: 133, 139
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 914, 107
+  xy: 920, 4
   size: 114, 132
   orig: 114, 132
   offset: 0, 0

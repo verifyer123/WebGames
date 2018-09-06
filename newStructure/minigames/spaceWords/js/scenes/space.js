@@ -112,6 +112,11 @@ var space = function(){
     var gameTime
     var answer
     var starsTile
+    var capY;
+    var pivot = 0.6;
+    var tutorial;
+    var incorrectAnsTutorial;
+    var actualAnim;
     
     var WORDS = [
         ['Alberca',['Pool','Watermelon']],
@@ -153,13 +158,14 @@ var space = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#ffffff"
-        lives = 3
-        gameActive = false
-        timeAttack = false
-        gameTime = 10000
+        game.stage.backgroundColor = "#ffffff";
+        lives = 3;
+        gameActive = false;
+        timeAttack = false;
+        gameTime = 10000;
+        tutorial = true;
         
-        loadSounds()
+        loadSounds();
 	}
 
     function popObject(obj,delay){
@@ -257,10 +263,14 @@ var space = function(){
         if(lives == 0){
             
             game.add.tween(eagle).to({x: game.world.centerX, y:game.world.centerY - 200}, 400, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
-                eagle.setAnimationByName(0, "lose_parachute", true)
+                eagle.setMixByName(actualAnim, "lose_parachute", 0.2);
+                eagle.setAnimationByName(0, "lose_parachute", true);
+                actualAnim = "lose_parachute";
                 game.add.tween(eagle).to({y:game.world.height - 100}, 4000, Phaser.Easing.Cubic.in, true).onComplete.add(function(){
-                    eagle.addAnimationByName(0, "lose", true)
-                    stopGame()
+                    eagle.setMixByName(actualAnim, "lose", 0.2);
+                    eagle.addAnimationByName(0, "lose", true);
+                    actualAnim = "lose";
+                    stopGame();
                 })
             })
         }
@@ -406,10 +416,10 @@ var space = function(){
        coin.animations.play('coin', 24, true);
        coin.alpha = 0
         
-        hand = game.add.sprite(0, 0, "hand")
-        hand.animations.add('hand')
-        hand.animations.play('hand', 24, true)
-        hand.alpha = 0
+        hand = game.add.sprite(0, 0, "hand");
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha = 0;
 
     }
 
@@ -490,54 +500,55 @@ var space = function(){
     
     function createCapsules(){
         
-        capsulesGroup = game.add.group()
-        sceneGroup.add(capsulesGroup)
+        capsulesGroup = game.add.group();
+        sceneGroup.add(capsulesGroup);
         
-        var pivot = 0.6
+        pivot = 0.6;
+        capY = game.world.height - 120;
         
         for(var i = 0; i < 2; i++){
             
-            var capsule = game.add.group()
-            capsule.x = game.world.centerX * pivot
-            capsule.y = game.world.height - 120
-            capsule.alpha = 0
-            capsulesGroup.add(capsule)
+            var capsule = game.add.group();
+            capsule.x = game.world.centerX * pivot;
+            capsule.y = capY;//game.world.height - 120
+            capsule.alpha = 0;
+            capsulesGroup.add(capsule);
             
-            var supGroup = game.add.group()
-            capsule.add(supGroup)
-            capsule.cards = supGroup
+            var supGroup = game.add.group();
+            capsule.add(supGroup);
+            capsule.cards = supGroup;
             
             for(var j = 0; j < 3; j++){
                 
-                var card = supGroup.create(0, 0, "atlas.space", "card" + j)
-                card.anchor.setTo(0.5)
+                var card = supGroup.create(0, 0, "atlas.space", "card" + j);
+                card.anchor.setTo(0.5);
                 
                 if(j == 0){
-                    card.inputEnabled = true
-                    card.events.onInputUp.add(pressBtn, this)
+                    card.inputEnabled = true;
+                    card.events.onInputUp.add(pressBtn, this);
                 }
             }
             
-            var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+            var fontStyle = {font: "40px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"};
         
-            var text = new Phaser.Text(sceneGroup.game, card.x, card.y + 5, "Threehouse", fontStyle)
-            text.anchor.setTo(0.5)
-            capsule.add(text)
-            capsule.text = text
+            var text = new Phaser.Text(sceneGroup.game, card.x, card.y + 5, "Threehouse", fontStyle);
+            text.anchor.setTo(0.5);
+            capsule.add(text);
+            capsule.text = text;
         
-            pivot += 0.8
+            pivot += 0.8;
         }
         
-        var pivotX = 0
+        var pivotX = 0;
         
         while(pivotX < game.world.width){
             
-            var pink = sceneGroup.create(pivotX, game.world.height + 10, "atlas.space", 'bubblesFront')
-            pink.anchor.setTo(0, 1)
-            pivotX += pink.width
-            pink.rise = 0.8
-            pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true)
-            waves.push(pink)
+            var pink = sceneGroup.create(pivotX, game.world.height + 10, "atlas.space", 'bubblesFront');
+            pink.anchor.setTo(0, 1);
+            pivotX += pink.width;
+            pink.rise = 0.8;
+            pink.wave = game.add.tween(pink.scale).to( {y:1.2}, 2000, Phaser.Easing.Sinusoidal.InOut, true, 0,-1, true);
+            waves.push(pink);
         }
     }
     
@@ -552,13 +563,15 @@ var space = function(){
     
     function createEagle(){
         
-        eagle = game.add.spine(180, 320, "eagle")
-        eagle.initX = eagle.x
-        eagle.initY = eagle.y
-        eagle.scale.setTo(2.5)
-        eagle.setAnimationByName(0, "idle", true)
-        eagle.setSkinByName('ship')
-        sceneGroup.add(eagle)
+        //eagle = game.add.spine(180, 320, "eagle")
+        eagle = game.add.spine(180, 420, "eagle");
+        eagle.initX = eagle.x;
+        eagle.initY = eagle.y;
+        eagle.scale.setTo(2.5);
+        eagle.setAnimationByName(0, "idle", true);
+        actualAnim = "idle";
+        eagle.setSkinByName('ship');
+        sceneGroup.add(eagle);
     }
     
     function createSplash(){
@@ -580,46 +593,98 @@ var space = function(){
         
         if(gameActive){
             
-            var cap = card.parent.parent
+            var cap = card.parent.parent;
             
-            gameActive = false
-            game.add.tween(card.scale).to({x:1.3, y:1.3}, 100, Phaser.Easing.linear, true, 0, 0, true)
+            gameActive = false;
+            game.add.tween(card.scale).to({x:1.3, y:1.3}, 100, Phaser.Easing.linear, true, 0, 0, true);
             if(timeAttack)
-                stopTimer()
+                stopTimer();
             
-            var ans = cap.text.text == answer ? true : false
-            eagle.landing.stop(true)
-            game.add.tween(eagle).to({x:cap.x + 50, y: cap.y - 100}, 1000, Phaser.Easing.Cubic.InOut, true).onComplete.add(win,this,null,ans)
+            var ans = cap.text.text == answer ? true : false;
+            eagle.landing.stop(true);
+            //game.add.tween(eagle).to({x:cap.x + 50, y: cap.y - 100}, 1000, Phaser.Easing.Cubic.InOut, true).onComplete.add(win,this,null,ans)
+            game.add.tween(eagle).to({x:cap.x + 50}, 1000, Phaser.Easing.Cubic.InOut, true).onComplete.add(win,this,null,ans);
         }
     }
     
     function win(h,y, ans){
+        var notClock = false;
+        if(h!=null && y!=null){
+            eagle.setMixByName(actualAnim, "idle_light", 0.2);
+            eagle.setAnimationByName(0, "idle_light", false);
+            actualAnim = "idle_light";
+            notClock = true;
+        }
         
-        var x
+        var forUp;
+        var forDown;
+        var x;
         for(var i = 0; i < capsulesGroup.length; i++){
             
-            var cap = capsulesGroup.children[i]
+            var cap = capsulesGroup.children[i];
             if(cap.text.text == answer){
-                changeImage(1, cap.cards)
+                changeImage(1, cap.cards);
+                if(notClock){
+                    if(ans){
+                        forUp = cap;
+                    }else{
+                        forDown = cap;
+                    }
+                }else{
+                    game.add.tween(cap).to({y:cap.y + 150},1400,Phaser.Easing.Linear.InOut, true);
+                }
             }
             else{
-                changeImage(2, cap.cards)
-                x = capsulesGroup.getIndex(cap)
+                changeImage(2, cap.cards);
+                if(notClock){
+                    if(ans){
+                        forDown = cap;
+                    }else{
+                        forUp = cap;
+                    }
+                    x = capsulesGroup.getIndex(cap);
+                }else{
+                    game.add.tween(cap).to({y:cap.y + 150},1400,Phaser.Easing.Linear.InOut, true);
+                }
             }
         }
-        
+        if(notClock){
+            animationElection(forUp,forDown);
+        }
+        if(tutorial){
+            tutorial = false;
+            incorrectAnsTutorial.inputEnabled = true;
+            incorrectAnsTutorial.tint = 0xFFFFFF;
+            game.add.tween(hand).to( { alpha: 0 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        }
+
+        game.time.events.add(Phaser.Timer.SECOND * 1.5, function(){
         if(ans){
-            addCoin(eagle)
-            eagle.setAnimationByName(0, "win", true)
+            addCoin(eagle);
+            eagle.setMixByName(actualAnim, "win", 0.2);
+            eagle.setAnimationByName(0, "win", true);
+            actualAnim = "win";
         }
         else{
-            missPoint(eagle)
-            splashPink(splashGroup.children[x], 0)
-            eagle.setAnimationByName(0, "hit", true)
-            eagle.addAnimationByName(0, "idle", true)
+            missPoint(eagle);
+            if(notClock){
+                splashPink(splashGroup.children[x], 0);
+            }
+            eagle.setMixByName(actualAnim, "hit", 0.2);
+            eagle.setAnimationByName(0, "hit", true);
+            eagle.addAnimationByName(0, "idle", true);
+            actualAnim = "idle";
         }
        
-        game.time.events.add(2000, restartLvl)
+        game.time.events.add(2000, restartLvl);
+
+        }, this);
+    }
+
+    function animationElection(up,down){
+        game.add.tween(up).to({x:up.x + 60, y:up.y - 350},1400,Phaser.Easing.Linear.InOut, true);
+        game.add.tween(up.scale).to({x:0, y:0},1400,Phaser.Easing.Linear.InOut, true);
+        game.add.tween(down).to({y:down.y + 150},1400,Phaser.Easing.Linear.InOut, true);
     }
     
     function restartLvl(){
@@ -653,13 +718,19 @@ var space = function(){
         var pop = game.add.tween(boardGroup.board.scale).to({x:1.3, y:1.3}, 500, Phaser.Easing.Elastic.InOut, true, delay)
         pop.chain(game.add.tween(boardGroup.text).to({alpha:1}, 300, Phaser.Easing.Cubic.In, false))
         pop.onComplete.add(startLanding)
-        
+
+        pivot = 0.6;
         for(var i = 0; i < capsulesGroup.length; i++){
             
             var cap = capsulesGroup.children[i]
             var ang = game.rnd.integerInRange(25, 65) * 10 * side[game.rnd.integerInRange(0, 1)]
             var alt = game.rnd.integerInRange(10, 60) * 10
-            
+        
+            cap.x = game.world.centerX * pivot;
+            pivot+=0.8;
+            cap.y = capY;
+            cap.scale.setTo(1,1);
+
             cap.text.setText(question[1][options[i]])
             cap.alpha = 1
             changeImage(0, cap.cards)
@@ -701,9 +772,28 @@ var space = function(){
         if(timeAttack)
             startTimer(gameTime)
 
-        eagle.hover = game.add.tween(eagle).to({x: game.world.width - 70}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 500, -1, true)
+        if(tutorial){
+            console.log("Entre");
+            for(var i = 0; i < capsulesGroup.length; i++){
+                var cap = capsulesGroup.children[i];
+                if(cap.text.text == answer){
+                    hand.x = cap.x;
+                    hand.y = cap.y;
+                }
+                else{
+                    incorrectAnsTutorial = cap.children[0].children[0];
+                    incorrectAnsTutorial.inputEnabled = false;
+                    incorrectAnsTutorial.tint = 0x909090;
+                }
+            }
+            game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        }
+
+        //eagle.hover = game.add.tween(eagle).to({x: game.world.width - 70}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 500, -1, true)
+        eagle.hover = game.add.tween(eagle).to({x: eagle.x + 250}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 500, -1, true)
       
-        eagle.landing = game.add.tween(eagle).to({y: game.world.height - 210}, gameTime, Phaser.Easing.linear, true, 500)
+        //eagle.landing = game.add.tween(eagle).to({y: game.world.height - 210}, gameTime, Phaser.Easing.linear, true, 500)
+        eagle.landing = game.add.tween(eagle).to({y: eagle.y + 10}, gameTime, Phaser.Easing.linear, true, 500)
         eagle.landing.onComplete.add(function(){
             eagle.hover.stop()
         })
