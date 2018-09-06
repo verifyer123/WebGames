@@ -116,6 +116,7 @@ var space = function(){
     var pivot = 0.6;
     var tutorial;
     var incorrectAnsTutorial;
+    var actualAnim;
     
     var WORDS = [
         ['Alberca',['Pool','Watermelon']],
@@ -262,10 +263,14 @@ var space = function(){
         if(lives == 0){
             
             game.add.tween(eagle).to({x: game.world.centerX, y:game.world.centerY - 200}, 400, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
-                eagle.setAnimationByName(0, "lose_parachute", true)
+                eagle.setMixByName(actualAnim, "lose_parachute", 0.2);
+                eagle.setAnimationByName(0, "lose_parachute", true);
+                actualAnim = "lose_parachute";
                 game.add.tween(eagle).to({y:game.world.height - 100}, 4000, Phaser.Easing.Cubic.in, true).onComplete.add(function(){
-                    eagle.addAnimationByName(0, "lose", true)
-                    stopGame()
+                    eagle.setMixByName(actualAnim, "lose", 0.2);
+                    eagle.addAnimationByName(0, "lose", true);
+                    actualAnim = "lose";
+                    stopGame();
                 })
             })
         }
@@ -559,13 +564,14 @@ var space = function(){
     function createEagle(){
         
         //eagle = game.add.spine(180, 320, "eagle")
-        eagle = game.add.spine(180, 420, "eagle")
-        eagle.initX = eagle.x
-        eagle.initY = eagle.y
-        eagle.scale.setTo(2.5)
-        eagle.setAnimationByName(0, "idle", true)
-        eagle.setSkinByName('ship')
-        sceneGroup.add(eagle)
+        eagle = game.add.spine(180, 420, "eagle");
+        eagle.initX = eagle.x;
+        eagle.initY = eagle.y;
+        eagle.scale.setTo(2.5);
+        eagle.setAnimationByName(0, "idle", true);
+        actualAnim = "idle";
+        eagle.setSkinByName('ship');
+        sceneGroup.add(eagle);
     }
     
     function createSplash(){
@@ -604,7 +610,9 @@ var space = function(){
     function win(h,y, ans){
         var notClock = false;
         if(h!=null && y!=null){
+            eagle.setMixByName(actualAnim, "idle_light", 0.2);
             eagle.setAnimationByName(0, "idle_light", false);
+            actualAnim = "idle_light";
             notClock = true;
         }
         
@@ -653,15 +661,19 @@ var space = function(){
         game.time.events.add(Phaser.Timer.SECOND * 1.5, function(){
         if(ans){
             addCoin(eagle);
+            eagle.setMixByName(actualAnim, "win", 0.2);
             eagle.setAnimationByName(0, "win", true);
+            actualAnim = "win";
         }
         else{
             missPoint(eagle);
             if(notClock){
                 splashPink(splashGroup.children[x], 0);
             }
+            eagle.setMixByName(actualAnim, "hit", 0.2);
             eagle.setAnimationByName(0, "hit", true);
             eagle.addAnimationByName(0, "idle", true);
+            actualAnim = "idle";
         }
        
         game.time.events.add(2000, restartLvl);
