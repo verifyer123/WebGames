@@ -114,6 +114,8 @@ var space = function(){
     var starsTile
     var capY;
     var pivot = 0.6;
+    var tutorial;
+    var incorrectAnsTutorial;
     
     var WORDS = [
         ['Alberca',['Pool','Watermelon']],
@@ -155,13 +157,14 @@ var space = function(){
 
 	function initialize(){
 
-        game.stage.backgroundColor = "#ffffff"
-        lives = 3
-        gameActive = false
-        timeAttack = false
-        gameTime = 10000
+        game.stage.backgroundColor = "#ffffff";
+        lives = 3;
+        gameActive = false;
+        timeAttack = false;
+        gameTime = 10000;
+        tutorial = true;
         
-        loadSounds()
+        loadSounds();
 	}
 
     function popObject(obj,delay){
@@ -408,10 +411,10 @@ var space = function(){
        coin.animations.play('coin', 24, true);
        coin.alpha = 0
         
-        hand = game.add.sprite(0, 0, "hand")
-        hand.animations.add('hand')
-        hand.animations.play('hand', 24, true)
-        hand.alpha = 0
+        hand = game.add.sprite(0, 0, "hand");
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha = 0;
 
     }
 
@@ -640,6 +643,12 @@ var space = function(){
         if(notClock){
             animationElection(forUp,forDown);
         }
+        if(tutorial){
+            tutorial = false;
+            incorrectAnsTutorial.inputEnabled = true;
+            incorrectAnsTutorial.tint = 0xFFFFFF;
+            game.add.tween(hand).to( { alpha: 0 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        }
 
         game.time.events.add(Phaser.Timer.SECOND * 1.5, function(){
         if(ans){
@@ -750,6 +759,23 @@ var space = function(){
         
         if(timeAttack)
             startTimer(gameTime)
+
+        if(tutorial){
+            console.log("Entre");
+            for(var i = 0; i < capsulesGroup.length; i++){
+                var cap = capsulesGroup.children[i];
+                if(cap.text.text == answer){
+                    hand.x = cap.x;
+                    hand.y = cap.y;
+                }
+                else{
+                    incorrectAnsTutorial = cap.children[0].children[0];
+                    incorrectAnsTutorial.inputEnabled = false;
+                    incorrectAnsTutorial.tint = 0x909090;
+                }
+            }
+            game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+        }
 
         //eagle.hover = game.add.tween(eagle).to({x: game.world.width - 70}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 500, -1, true)
         eagle.hover = game.add.tween(eagle).to({x: eagle.x + 250}, 1000, Phaser.Easing.Sinusoidal.InOut, true, 500, -1, true)
