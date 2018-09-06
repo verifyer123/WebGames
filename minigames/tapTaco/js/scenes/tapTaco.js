@@ -469,7 +469,7 @@ var tapTaco = function(){
                         coin.tapped = true
                         coin.startX = coin.x
                         coin.startY = coin.y
-                        souund.play("pop")
+                        sound.play("pop")
                     }
                     else{
                         if(coin.y < COIN_Y_DISSAPEAR){
