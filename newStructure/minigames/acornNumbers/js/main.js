@@ -30,7 +30,7 @@ function startGame(){
         var fullWidth = 540
         var fullHeight = 960
 		
-		var actualGame="acornNumbers";
+		var actualGame="AcornNumbers";
 		
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
