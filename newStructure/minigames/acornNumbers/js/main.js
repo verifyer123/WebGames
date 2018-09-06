@@ -29,7 +29,9 @@ function startGame(){
 
         var fullWidth = 540
         var fullHeight = 960
-
+		
+		var actualGame="acornNumbers";
+		
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
         var gameWidth = Math.round(fullHeight * ratio)
@@ -53,10 +55,23 @@ function startGame(){
             }else{
                 language = "EN"
             }
-            
         }
 
         localization.setLanguage(language)
+		
+		if(!parent.gameData){
+			var games = yogomeGames.getObjectGames("custom");
+			var gameName = games["Imagic"+actualGame];
+			console.log(gameName);
+			window.gameData=gameName;
+			if(window.gameData.config.tutorial=="tutorialImagic"){
+				localization.setLanguage("ES")
+			}
+		}else{
+			if(parent.gameData.config.tutorial=="tutorialImagic"){
+				localization.setLanguage("ES")
+			}
+		}
 
         window.minigame.game = window.game
     	sceneloader.init(game)
