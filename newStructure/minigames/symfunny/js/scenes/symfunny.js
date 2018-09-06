@@ -81,6 +81,26 @@ var symfunny = function(){
 				name:'normal4',
 				file:'images/spines/normal4/normal4.json'
 			},
+			{
+				name:'oof',
+				file:'images/spines/oof/oof.json'
+			},
+		],
+		spritesheets: [
+			{   
+				name: "coin",
+				file: "images/spines/coinS.png",
+				width: 122,
+				height: 123,
+				frames: 12
+			},
+			{
+				name:"hand",
+				file:"images/spines/hand.png",
+				width:115,
+				height:111,
+				frames:23
+			},
 		]
 	}
 
@@ -91,11 +111,17 @@ var symfunny = function(){
 	var gameActive = true
 	var shoot
 	var particlesGroup, particlesUsed
+	var hand
 	var gameIndex = 107
 	var indexGame
+	var particleWrong, particleCorrect
 	var overlayGroup
+	var coinsGroup, coin
+	var id
 	var spaceSong
-	var orchestaGroup
+	var tutorial
+	var tutorialNext
+	var orchestaGroup, tutorialGroup
 	var buttonsGroup
 	var orchesta = 
 		[
@@ -118,7 +144,10 @@ var symfunny = function(){
 		lives = 3
 		cap = 3
 		pivot = 0
+		id=0
 		lvl = 0
+		tutorialNext=0;
+		tutorial=true;
 
 		correctAnswer = [cap]
 
@@ -189,6 +218,26 @@ var symfunny = function(){
 		}
 
 	}
+	function tutorialLevel(instrument){
+		if(correctAnswer[pivot] === instrument.value){
+			oof.setAnimationByName(0,"good",false).onComplete=function(){
+				oof.setAnimationByName(0,"idle",true)
+			}
+			orchestaGroup.children[instrument.value].setAnimationByName(0, "play", false)
+			pivot++
+			sound.play(orchesta[instrument.value].name)
+			if(pivot === cap){
+				crescendo(true)
+			}
+			tutorialNext++;
+			if(tutorialNext<cap){
+				game.add.tween(hand).to({x:orchestaGroup.children[correctAnswer[tutorialNext]].x+30,y:orchestaGroup.children[correctAnswer[tutorialNext]].y-100},300,Phaser.Easing.Cubic.Out,true);
+			}else{
+				hand.alpha=0;
+				tutorial=false;
+			}
+		}
+	}
 
 	function missPoint(){
 
@@ -209,7 +258,7 @@ var symfunny = function(){
 		addNumberPart(heartsGroup.text,'-1',true)
 
 	}
-
+	
 	function addPoint(number){
 
 		sound.play("magic")
@@ -311,6 +360,66 @@ var symfunny = function(){
 		initGame()
 	}
 
+	function initHand(){
+		hand=game.add.sprite(0,0, "hand")
+		hand.anchor.setTo(0.5,0.5);
+		hand.scale.setTo(0.6,0.6);
+		hand.animations.add('hand');
+		hand.animations.play('hand', 24, true);
+		hand.alpha=0;
+		tutorialGroup.add(hand)
+	}
+	function initCoin(){
+		
+		coin = game.add.sprite(0, 0, "coin")
+		coinsGroup.add(coin)
+		coin.anchor.setTo(0.6,0.6)
+		coin.scale.setTo(0.5,0.5)
+		coin.animations.add('coin')
+		coin.animations.play('coin', 24, true)
+		coin.alpha = 0
+		coin.kill()
+	}
+	function getCoins(player){
+		var coin=coinsGroup.getFirstDead();
+		if(coin==undefined){
+			game["coinS"+id] = game.add.sprite(0, 0, "coin")
+			game["coinS"+id].anchor.setTo(0.5,0.5)
+			game["coinS"+id].scale.setTo(0.6,0.6)
+			game["coinS"+id].animations.add('coin')
+			game["coinS"+id].animations.play('coin', 24, true)
+			game["coinS"+id].alpha = 0
+			coinsGroup.add(game["coinS"+id])
+			coin=game["coinS"+id];
+			id++;
+			addCoin(coin,player)
+		}else{
+			addCoin(coin,player)
+		}
+	}
+	function addCoin(coin,obj){
+
+		if(coin.motion)
+			coin.motion.stop()
+
+		coin.reset(obj.centerX,obj.centerY);
+
+		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
+
+		coin.motion = game.add.tween(coin).to({y:coin.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
+		coin.motion.onComplete.add(function(){
+			coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+			coin.motion.onComplete.add(function(){
+				coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+				coin.motion.onComplete.add(function(){
+					addPoint(1);
+					coin.kill();
+					createTextPart('+1',pointsBar.text)
+				})
+			})
+		})
+	}
+
 	function releaseButton(obj){
 
 		obj.parent.children[1].alpha = 1
@@ -330,6 +439,7 @@ var symfunny = function(){
 		curtain.anchor.setTo(0.5, 0)
 		curtain.width = game.world.width
 		curtain.height = game.world.height * 0.45
+		
 	}
 
 	function createTextPart(text,obj){
@@ -429,7 +539,6 @@ var symfunny = function(){
 			particle.alpha = 0
 			particle.tag = tag
 			particle.used = false
-			//particle.anchor.setTo(0.5,0.5)
 			particle.scale.setTo(1,1)
 		}
 
@@ -508,35 +617,47 @@ var symfunny = function(){
 		//orchestaGroup.scale.setTo(0.5)
 		sceneGroup.add(orchestaGroup)
 
+		oof=game.add.spine(game.world.centerX,game.world.height+10,"oof");
+		oof.setSkinByName("normal");
+		oof.setAnimationByName(0,"idle",true);
+		sceneGroup.add(oof)
+
 		harp = game.add.spine(- 200, 0, "normal3")
 		//harp.scale.setTo(0.7)
-		harp.setAnimationByName(0, "IDLE", true)
+		harp.setAnimationByName(0, "idle", true)
 		harp.setSkinByName("normal")
 		orchestaGroup.add(harp)
 
 		piano = game.add.spine(0, 200, "normal4")
 		//piano.scale.setTo(0.7)
-		piano.setAnimationByName(0, "IDLE", true)
+		piano.setAnimationByName(0, "idle", true)
 		piano.setSkinByName("normal")
 		orchestaGroup.add(piano)
 
 		tuba = game.add.spine(200, 0, "normal")
 		//tuba.scale.setTo(0.7)
-		tuba.setAnimationByName(0, "IDLE", true)
+		tuba.setAnimationByName(0, "idle", true)
 		tuba.setSkinByName("normal")
 		orchestaGroup.add(tuba)
 
 		violin = game.add.spine(- 200, 400, "normal2")
 		//violin.scale.setTo(0.7)
-		violin.setAnimationByName(0, "IDLE", true)
+		violin.setAnimationByName(0, "idle", true)
 		violin.setSkinByName("normal")
 		orchestaGroup.add(violin)
 
 		flute = game.add.spine(200, 400, "normal1")
 		//flute.scale.setTo(0.7)
-		flute.setAnimationByName(0, "IDLE", true)
+		flute.setAnimationByName(0, "idle", true)
 		flute.setSkinByName("normal")
 		orchestaGroup.add(flute)
+		
+		lightsOff = new Phaser.Graphics(game)
+		lightsOff.beginFill(0x333333)
+		lightsOff.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+		lightsOff.alpha = 0.4
+		lightsOff.endFill()
+		sceneGroup.add(lightsOff)
 
 	}
 
@@ -581,11 +702,12 @@ var symfunny = function(){
 	}
 
 	function inputButton(instument){
-
-		if(pivot < cap && gameActive){
-
+		if(pivot < cap && gameActive && !tutorial){
 			if(correctAnswer[pivot] === instument.value){
-				orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY", false)
+				oof.setAnimationByName(0,"good",false).onComplete=function(){
+					oof.setAnimationByName(0,"idle",true)
+				}
+				orchestaGroup.children[instument.value].setAnimationByName(0, "play", false)
 				pivot++
 				sound.play(orchesta[instument.value].name)
 				if(pivot === cap)
@@ -593,12 +715,17 @@ var symfunny = function(){
 			}
 			else{
 				sound.play('error')
-				orchestaGroup.children[instument.value].setAnimationByName(0, "PLAY_WRONG", false)
+				oof.setAnimationByName(0,"lose",false).onComplete=function(){
+					oof.setAnimationByName(0,"idle",true)
+				}
+				orchestaGroup.children[instument.value].setAnimationByName(0, "play_wrong", false)
 				crescendo(false)
 			}
+		}else if(pivot < cap && gameActive && tutorial){
+			tutorialLevel(instument);
 		}
 
-		orchestaGroup.children[instument.value].addAnimationByName(0, "IDLE", true)
+		orchestaGroup.children[instument.value].addAnimationByName(0, "idle", true)
 	}
 
 	function crescendo(good){
@@ -614,13 +741,20 @@ var symfunny = function(){
 			game.time.events.add(1000,function(){
 				sound.play('song')
 				for(var a = 0; a < orchestaGroup.length; a++){
-					orchestaGroup.children[a].setAnimationByName(0, "PLAY", false)
-					orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
+					orchestaGroup.children[a].setAnimationByName(0, "win", false)
+					orchestaGroup.children[a].addAnimationByName(0, "idle", true)
 				}
+				oof.setAnimationByName(0,"win",false).onComplete=function(){
+					oof.setAnimationByName(0,"idle",true)
+				}
+				particleCorrect.x = oof.x
+				particleCorrect.y = oof.y
+				getCoins(oof)
+				particleCorrect.start(true, 1000, null, 5)
 			},this)
 
 			game.time.events.add(2500,function(){
-				addPoint(1)
+				
 				initGame()
 			},this)
 		}
@@ -629,9 +763,12 @@ var symfunny = function(){
 			game.time.events.add(1000,function(){
 				sound.play('gameLose')
 				for(var a = 0; a < orchestaGroup.length; a++){
-					orchestaGroup.children[a].setAnimationByName(0, "PLAY_WRONG", false)
-					orchestaGroup.children[a].addAnimationByName(0, "IDLE", true)
+					orchestaGroup.children[a].setAnimationByName(0, "lose", false)
+					orchestaGroup.children[a].addAnimationByName(0, "idle", true)
 				}
+				particleWrong.x = oof.x
+				particleWrong.y = oof.y
+				particleWrong.start(true, 1000, null, 5)
 			},this)
 
 			game.time.events.add(2500,function(){
@@ -649,17 +786,20 @@ var symfunny = function(){
 		for(var i = 0; i < cap; i++){
 			correctAnswer[i] = game.rnd.integerInRange(0, 4)
 		}
-
+		if(tutorial){
+			hand.x=orchestaGroup.children[correctAnswer[0]].x+30;
+			hand.y=orchestaGroup.children[correctAnswer[0]].y-100;
+		}
 		if(lives !== 0){
 			game.time.events.add(500,function(){
 				var time = playDemo()
 
 				game.time.events.add(time,function(){
 					gameActive = true
+					if(tutorial)hand.alpha=1;
 				},this)
 			},this)
 		}
-
 	}
 
 	function getRand(){
@@ -692,8 +832,8 @@ var symfunny = function(){
 				sound.play(orchesta[r].name)
 				game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},150,Phaser.Easing.linear,true)
 			})
-			orchestaGroup.children[r].setAnimationByName(0, "PLAY", false)
-			orchestaGroup.children[r].addAnimationByName(0, "IDLE", true)
+			orchestaGroup.children[r].setAnimationByName(0, "play", false)
+			orchestaGroup.children[r].addAnimationByName(0, "idle", true)
 		},this)
 	}
 
@@ -701,7 +841,7 @@ var symfunny = function(){
 		particleCorrect = createPart('star')
 		sceneGroup.add(particleCorrect)
 
-		particleWrong = createPart('wrong')
+		particleWrong = createPart('smoke')
 		sceneGroup.add(particleWrong)
 	}
 
@@ -716,6 +856,7 @@ var symfunny = function(){
 
 			createBackground()
 			addParticles()
+			
 
 			/*spaceSong = game.add.audio('spaceSong')
             game.sound.setDecodedCallback(spaceSong, function(){
@@ -737,8 +878,22 @@ var symfunny = function(){
 			initOrchesta()
 			initBtn()
 			createParticles()
-
-			//buttons.getButton(spaceSong,sceneGroup)
+			
+			
+			tutorialGroup = game.add.group()
+			tutorialGroup.x=game.world.centerX;
+			tutorialGroup.y=game.world.centerY;
+			sceneGroup.add(tutorialGroup)
+			
+			coinsGroup = game.add.group()
+			coinsGroup.x=0;
+			coinsGroup.y=0;
+			sceneGroup.add(coinsGroup)
+			
+			initHand()
+			initCoin()
+			
+			
 			createOverlay()
 
 			animateScene()

@@ -1,160 +1,188 @@
 
 normal1.png
-size: 1024,256
+size: 2048,128
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal1/body
-  rotate: false
-  xy: 2, 86
+  rotate: true
+  xy: 2, 11
   size: 115, 168
   orig: 115, 168
   offset: 0, 0
   index: -1
 normal1/eye_l
   rotate: true
-  xy: 470, 88
+  xy: 1409, 102
   size: 24, 33
   orig: 24, 33
   offset: 0, 0
   index: -1
 normal1/eye_r
   rotate: true
-  xy: 355, 60
+  xy: 1444, 102
   size: 24, 33
   orig: 24, 33
   offset: 0, 0
   index: -1
 normal1/eyebrow_l
-  rotate: false
-  xy: 198, 3
+  rotate: true
+  xy: 1084, 18
   size: 25, 14
   orig: 25, 14
   offset: 0, 0
   index: -1
 normal1/eyebrow_r
   rotate: false
-  xy: 544, 119
+  xy: 1167, 65
   size: 26, 14
   orig: 26, 14
   offset: 0, 0
   index: -1
 normal1/foot_l
-  rotate: false
-  xy: 609, 172
-  size: 49, 30
-  orig: 49, 30
+  rotate: true
+  xy: 1005, 2
+  size: 49, 31
+  orig: 49, 31
   offset: 0, 0
   index: -1
 normal1/foot_r
   rotate: false
-  xy: 799, 224
-  size: 49, 30
-  orig: 49, 30
+  xy: 1359, 96
+  size: 48, 30
+  orig: 48, 30
   offset: 0, 0
   index: -1
 normal1/leg_l_0
   rotate: true
-  xy: 2, 49
-  size: 35, 140
-  orig: 35, 140
+  xy: 966, 114
+  size: 12, 133
+  orig: 12, 133
   offset: 0, 0
   index: -1
 normal1/leg_l_1
-  rotate: false
-  xy: 470, 114
+  rotate: true
+  xy: 682, 91
   size: 35, 140
   orig: 35, 140
   offset: 0, 0
   index: -1
 normal1/leg_l_2
   rotate: true
-  xy: 2, 12
+  xy: 682, 54
   size: 35, 140
   orig: 35, 140
   offset: 0, 0
   index: -1
 normal1/leg_l_3
   rotate: true
-  xy: 144, 49
+  xy: 824, 91
   size: 35, 140
   orig: 35, 140
   offset: 0, 0
   index: -1
 normal1/leg_l_4
-  rotate: false
-  xy: 507, 114
+  rotate: true
+  xy: 824, 54
   size: 35, 140
   orig: 35, 140
   offset: 0, 0
   index: -1
 normal1/mouth
   rotate: false
-  xy: 730, 205
+  xy: 868, 3
   size: 67, 49
   orig: 67, 49
   offset: 0, 0
   index: -1
+normal1/mouth_2
+  rotate: false
+  xy: 799, 2
+  size: 67, 50
+  orig: 67, 50
+  offset: 0, 0
+  index: -1
+normal1/mouth_3
+  rotate: false
+  xy: 966, 53
+  size: 70, 59
+  orig: 70, 59
+  offset: 0, 0
+  index: -1
 normal1/nota_loose
   rotate: false
-  xy: 544, 135
+  xy: 1038, 45
   size: 63, 67
   orig: 63, 67
   offset: 0, 0
   index: -1
 normal1/nota_loose2
   rotate: true
-  xy: 286, 56
+  xy: 1221, 98
   size: 28, 67
   orig: 28, 67
   offset: 0, 0
   index: -1
 normal1/nota_ok_2
-  rotate: true
-  xy: 661, 192
+  rotate: false
+  xy: 1103, 59
   size: 62, 67
   orig: 62, 67
   offset: 0, 0
   index: -1
 normal1/note_ok_1
   rotate: true
-  xy: 198, 19
+  xy: 1290, 98
   size: 28, 67
   orig: 28, 67
   offset: 0, 0
   index: -1
 normal1/shadow
   rotate: false
-  xy: 544, 204
+  xy: 682, 2
   size: 115, 50
   orig: 115, 50
   offset: 0, 0
   index: -1
 normal1/special_1
-  rotate: false
-  xy: 119, 86
+  rotate: true
+  xy: 172, 11
   size: 115, 168
   orig: 115, 168
   offset: 0, 0
   index: -1
 normal1/special_2
-  rotate: false
-  xy: 236, 86
+  rotate: true
+  xy: 342, 11
   size: 115, 168
   orig: 115, 168
   offset: 0, 0
   index: -1
 normal1/special_3
-  rotate: false
-  xy: 353, 86
+  rotate: true
+  xy: 512, 11
   size: 115, 168
   orig: 115, 168
   offset: 0, 0
   index: -1
 normal1/tongue
   rotate: false
-  xy: 144, 2
+  xy: 1167, 81
   size: 52, 45
   orig: 52, 45
+  offset: 0, 0
+  index: -1
+normal1/tongue_2
+  rotate: true
+  xy: 937, 2
+  size: 49, 66
+  orig: 49, 66
+  offset: 0, 0
+  index: -1
+normal1/tongue_3
+  rotate: false
+  xy: 1038, 6
+  size: 44, 37
+  orig: 44, 37
   offset: 0, 0
   index: -1
