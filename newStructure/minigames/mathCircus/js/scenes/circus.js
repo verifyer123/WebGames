@@ -245,7 +245,7 @@ var circus = function(){
         if(pointsBar.number % 3 == 0){
             if(numLimit < 9){
                 numLimit++;
-                timeToUse-=100;
+                timeToUse-=300;
             }
         }
     }
@@ -537,13 +537,15 @@ var circus = function(){
 		
 		var index =  game.rnd.integerInRange(0,2);
         buttonsGroup.children[index].number = result;
-        if(levelZero){
-            hand.x = buttonsGroup.children[index].x;
-            hand.y = buttonsGroup.children[index].y;
-            buttonsGroup.children[index].children[0].inputEnabled = true;
-            buttonsGroup.children[index].children[0].tint = 0xffffff;
-            game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
-        }
+        game.time.events.add(600, function(){
+            if(levelZero){
+                hand.x = buttonsGroup.children[index].x;
+                hand.y = buttonsGroup.children[index].y;
+                buttonsGroup.children[index].children[0].inputEnabled = true;
+                buttonsGroup.children[index].children[0].tint = 0xffffff;
+                game.add.tween(hand).to( { alpha: 1 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
+            }
+        }, this);
         
 		for(var i = 0; i < buttonsGroup.length;i++){
 			
@@ -617,7 +619,7 @@ var circus = function(){
             sound.play("cheers");
             particleCorrect.x = yogotar.x;
             particleCorrect.y = yogotar.y - yogotar.height/2;
-            particleCorrect.start(true, 1000, null, 5);
+            particleCorrect.start(true, 1400, null, 5);
 			speed = 0;
 			yogotar.setAnimationByName(0,"win",false).onComplete = function(){
                 speed = 5;
@@ -628,7 +630,7 @@ var circus = function(){
             sound.play("cheersOver");
 			particleWrong.x = yogotar.x;
             particleWrong.y = yogotar.y - yogotar.height/2;
-            particleWrong.start(true, 1000, null, 5);
+            particleWrong.start(true, 1400, null, 5);
             speed = 0;
             if(!levelZero){
                 missPoint();

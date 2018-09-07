@@ -648,7 +648,7 @@ var dinamitaDance = function(){
             if(choise === bodyPart){
                 particleCorrect.x = dinamita.x;
                 particleCorrect.y = dinamita.y;
-                particleCorrect.start(true, 1000, null, 5);
+                particleCorrect.start(true, 1400, null, 5);
                 addCoin(dinamita);
                 counterChangeSequence++;
                 checkIfAddSequence();
@@ -661,7 +661,7 @@ var dinamitaDance = function(){
                 win = false;
                 particleWrong.x = dinamita.x;
                 particleWrong.y = dinamita.y;
-                particleWrong.start(true, 1000, null, 5);
+                particleWrong.start(true, 1400, null, 5);
                 missPoint();
             }
 
@@ -808,7 +808,7 @@ var dinamitaDance = function(){
                 gameActive = false;
                 particleCorrect.x = dinamita.x;
                 particleCorrect.y = dinamita.y;
-                particleCorrect.start(true, 1000, null, 5);
+                particleCorrect.start(true, 1400, null, 5);
                 saturdayFeverNight(7);
                 sound.play('magic');
                 tutoPivot++;
