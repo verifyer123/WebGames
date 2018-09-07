@@ -58,15 +58,15 @@ var symfunny = function(){
 			{	name: "song",
 			 file: "sounds/" + "song.mp3"},
 			{	name: "bad_note0",
-			 file: "sounds/" + "song.mp3"},
+			 file: soundsPath + "detunedInstruments/harpDetuned.mp3"},
 			{	name: "bad_note1",
-			 file: "sounds/" + "song.mp3"},
+			 file: soundsPath + "detunedInstruments/pianoDetuned.mp3"},
 			{	name: "bad_note2",
-			 file: "sounds/" + "song.mp3"},
+			 file: soundsPath + "detunedInstruments/tubaDetuned.mp3"},
 			{	name: "bad_note3",
-			 file: "sounds/" + "song.mp3"},
+			 file: soundsPath + "detunedInstruments/violinDetuned.mp3"},
 			{	name: "bad_note4",
-			 file: "sounds/" + "song.mp3"},
+			 file: soundsPath + "detunedInstruments/fluteDetuned.mp3"},
 			{	name: "spaceSong",
 			 file: soundsPath + "songs/childrenbit.mp3"},
 		],
@@ -129,6 +129,7 @@ var symfunny = function(){
 	var coinsGroup, coin
 	var id
 	var spaceSong
+	var finalLight=[]
 	var tutorial
 	var tutorialNext
 	var orchestaGroup, tutorialGroup
@@ -342,6 +343,7 @@ var symfunny = function(){
 		sound.play("gameLose")
 
 		gameActive = false
+		
 		//spaceSong.stop()
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
@@ -621,16 +623,28 @@ var symfunny = function(){
 
 	function initOrchesta(){
 
+
+		
 		orchestaGroup = game.add.group()
 		orchestaGroup.x =  game.world.centerX
 		orchestaGroup.y = game.world.centerY
 		//orchestaGroup.scale.setTo(0.5)
 		sceneGroup.add(orchestaGroup)
+		
+				
+		lightGroup=game.add.group()
+		lightGroup.x =  game.world.centerX
+		lightGroup.y = game.world.centerY
+		sceneGroup.add(lightGroup)
+		
+		courtainGroup = game.add.group()
+		sceneGroup.add(courtainGroup)
+		
 
 		oof=game.add.spine(game.world.centerX,game.world.height+10,"oof");
 		oof.setSkinByName("normal");
 		oof.setAnimationByName(0,"idle",true);
-		sceneGroup.add(oof)
+		courtainGroup.add(oof)
 
 		harp = game.add.spine(- 200, 0, "normal3")
 		//harp.scale.setTo(0.7)
@@ -663,29 +677,53 @@ var symfunny = function(){
 		orchestaGroup.add(flute)
 		
 		
-		console.log(piano)
-		console.log(flute)
+		lighting()
+		
+		
+		courtain1 =  courtainGroup.create(-200,0,"atlas.symfunny","courtain");
+		courtain1.anchor.setTo(0.5,0);
+		
+		courtain2 = courtainGroup.create(game.world.width+200,0,"atlas.symfunny","courtain");
+		courtain2.anchor.setTo(0.5,0);
+		
+		
+	}
+	
+	function lighting(){
+		
 		
 		lightsOff = new Phaser.Graphics(game)
 		lightsOff.beginFill(0x000000)
-		lightsOff.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-		lightsOff.alpha =0.5
+		lightsOff.drawRect(-game.world.centerX,-game.world.centerY,game.world.width * 2, game.world.height * 2)
+		lightsOff.alpha =0
 		lightsOff.endFill()
-		sceneGroup.add(lightsOff)
+		lightGroup.add(lightsOff)
 		
-		var poly = new Phaser.Polygon([ new Phaser.Point(200, 0), new Phaser.Point(350, 0), new Phaser.Point(375, 500), new Phaser.Point(150, 500) ]);
-
-    	var graphics = game.add.graphics(0, 0);
-			
-    	graphics.beginFill(0xffffff);
-    	graphics.alpha=0.5;
-		graphics.drawPolygon(poly.points);
-		sceneGroup.add(graphics)
+		light=game.add.sprite(0,0,"atlas.symfunny","limelight");
+		light.scale.setTo(1,2.2)
+		light.anchor.setTo(0.5,0.95);
+		light.alpha=0;
 		
-		graphics.blendMode=PIXI.blendModes.ADD;
+		for(var fillFinalLights=0; fillFinalLights<orchestaGroup.length; fillFinalLights++){
+		
+		if(fillFinalLights==0 || fillFinalLights==2){
+			finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_back");
+		}
+		if(fillFinalLights==1)finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_middle");
+		if(fillFinalLights==3 || fillFinalLights==4)finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_side");
+			finalLight[fillFinalLights].scale.setTo(1,2.2)
+			finalLight[fillFinalLights].anchor.setTo(0.5,0.95);
+			if(fillFinalLights==4)finalLight[fillFinalLights].scale.setTo(-1,2.2)
+			finalLight[fillFinalLights].alpha=0;
+			lightGroup.add(finalLight[fillFinalLights])
+			finalLight[fillFinalLights].x=orchestaGroup.children[fillFinalLights].x
+			finalLight[fillFinalLights].y=orchestaGroup.children[fillFinalLights].y
+		}
 		
 		
-		console.log(lightsOff.mask)
+		lightGroup.add(light)
+		
+		light.blendMode=PIXI.blendModes.LUMINOSITY;
 	}
 	
 
@@ -727,6 +765,7 @@ var symfunny = function(){
 		//flute
 		buttonsGroup.children[4].x = 200
 		buttonsGroup.children[4].y = 200
+		
 	}
 
 	function inputButton(instument){
@@ -781,10 +820,22 @@ var symfunny = function(){
 				getCoins(oof)
 				particleCorrect.start(true, 1000, null, 5)
 			},this)
-
+			
+			for(var illuminateAll=0; illuminateAll<orchestaGroup.length; illuminateAll++){
+				game.add.tween(finalLight[illuminateAll]).to({alpha:1},600,Phaser.Easing.Cubic.Out,true);
+			}
 			game.time.events.add(2500,function(){
 				
-				initGame()
+				game.add.tween(courtain1.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true);
+				game.add.tween(courtain2.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
+					for(var offAll=0; offAll<orchestaGroup.length; offAll++){
+						finalLight[offAll].alpha=0;
+					}
+					game.add.tween(courtain1.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600);
+					game.add.tween(courtain2.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600).onComplete.add(function(){
+						initGame();
+					})
+				});
 			},this)
 		}
 		else{
@@ -802,7 +853,13 @@ var symfunny = function(){
 
 			game.time.events.add(2500,function(){
 				missPoint()
-				initGame()
+				game.add.tween(courtain1.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true);
+				game.add.tween(courtain2.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
+					game.add.tween(courtain1.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600);
+					game.add.tween(courtain2.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600).onComplete.add(function(){
+					initGame()
+					})
+				})
 			},this)
 		}
 	}
@@ -825,6 +882,8 @@ var symfunny = function(){
 
 				game.time.events.add(time,function(){
 					gameActive = true
+					game.add.tween(lightsOff).to({alpha:0},400,Phaser.Easing.linear,true);
+					game.add.tween(light).to({alpha:0},400,Phaser.Easing.linear,true);
 					if(tutorial)hand.alpha=1;
 				},this)
 			},this)
@@ -854,13 +913,16 @@ var symfunny = function(){
 	}
 
 	function play(delay, r){
-
+		
 		game.time.events.add(delay,function(){
 
 			game.add.tween(orchestaGroup.children[r].scale).to({x:1.5, y:1.5},300,Phaser.Easing.linear,true).onComplete.add(function(){
 				sound.play(orchesta[r].name)
 				game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},150,Phaser.Easing.linear,true)
 			})
+			game.add.tween(lightsOff).to({alpha:0.5},400,Phaser.Easing.linear,true);
+			game.add.tween(light).to({x:orchestaGroup.children[r].x,y:orchestaGroup.children[r].y},400,Phaser.Easing.linear,true);
+			game.add.tween(light).to({alpha:0.8},400,Phaser.Easing.linear,true);
 			orchestaGroup.children[r].setAnimationByName(0, "win", false)
 			orchestaGroup.children[r].addAnimationByName(0, "idle", true)
 		},this)
@@ -901,10 +963,11 @@ var symfunny = function(){
 			}, this);
 
 			initialize()
-
+			
+			initOrchesta()
 			createPointsBar()
 			createHearts()
-			initOrchesta()
+			
 			initBtn()
 			createParticles()
 			

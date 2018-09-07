@@ -741,8 +741,9 @@ var sushi = function(){
 			
 			//game.add.tween(option).to({x:toX,y:option.y},300,Phaser.Easing.Cubic.In,true);
 			
-			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed, Phaser.Easing.Cubic.In, true)
-			option.tween.onComplete.add(function (thisOption) {
+			option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed*30, Phaser.Easing.Cubic.In, true)
+//			option.tween.onComplete.add(function (thisOption) {
+		var thisOption=option
 				if(thisOption && option){
 					for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){
 						var container = thisOption.sushiList[containerIndex]
@@ -809,7 +810,7 @@ var sushi = function(){
 						}
 				   }
 			}
-		  })
+//		  })
 		checkingFrame=0;
 		sound.play("cut")
 	}
