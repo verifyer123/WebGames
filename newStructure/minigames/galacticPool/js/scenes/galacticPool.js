@@ -60,7 +60,7 @@ var galacticPool = function(){
 
 			{
 				name:'tutorial_image',
-				file:"%lang",
+				file:"%lang_%input",
 			},
 			{
 				name:'tile_back',
@@ -303,6 +303,14 @@ var galacticPool = function(){
 		}
 		obj.body.x=game.input.x;
 		obj.body.y=game.input.y;
+		
+		if(tutorial){
+			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS-1; alphaPlanets++){
+				if(planets[alphaPlanets].spines!=obj.spines){
+					planets[alphaPlanets].spines.alpha=0.2;
+				}
+			}
+		}
 	}
 	//Si en algun momento se le quiere meter una nueva dificultad usar esta funcion y modificar a gusto.
 	function changePlanetToRock(obj,howManyRocks){
@@ -316,6 +324,11 @@ var galacticPool = function(){
 		for(var overTargets=0; overTargets<planets.length; overTargets++){
 			if(checkOverlap(obj,targets[overTargets]) && obj.inputEnabled && !targets[overTargets].inUse){
 				checkIfCorrect(obj,targets[overTargets]);
+			}
+		}
+		if(tutorial){
+			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS-1; alphaPlanets++){
+				planets[alphaPlanets].spines.alpha=1;
 			}
 		}
 	}
@@ -867,8 +880,9 @@ var galacticPool = function(){
 			{SKIN:"mercury",word:localization.getString(localizationData,"planet2"),size:0.6},
 			{SKIN:"sun",word:localization.getString(localizationData,"planet1"),size:0.8}
 		];
-		wall=physicPlanets.create(game.world.centerX,-350,"atlas.galacticPool","fondo");
-		wall.scale.setTo(3,1)
+		wall=game.add.sprite(game.world.centerX,-350,"atlas.galacticPool","fondo");
+		wall.scale.setTo(game.world.width,1)
+		physicPlanets.add(wall)
 		wall.alpha=0;
 		wall.body.setCollisionGroup(allPlanets);
 		wall.body.kinematic=true;
@@ -1063,7 +1077,6 @@ var galacticPool = function(){
 		for(var i = 0;i<particlesGroup.length;i++){
 
 			var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
 			if(!particle.used && particle.tag == key){
 
 				particle.used = true

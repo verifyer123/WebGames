@@ -2,75 +2,91 @@ window.minigame = window.minigame || {}
 
 function startGame(){
 	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
-    document.body.style.visibility = "hidden"
+	document.body.style.visibility = "hidden"
 
 	function preloadScenes(sceneList){
 
-    	function onCompletePreloading(){
+		function onCompletePreloading(){
 
 			function onLoadFile(event){
-	    		var loaderScene = sceneloader.getScene("preloaderIntro")
-	    		loaderScene.updateLoadingBar(event.totalLoaded, event.totalFiles)
-	    	}
+				var loaderScene = sceneloader.getScene("preloaderIntro")
+				loaderScene.updateLoadingBar(event.totalLoaded, event.totalFiles)
+			}
 
-	    	function onCompleteSceneLoading(){
+			function onCompleteSceneLoading(){
 				sceneloader.show("galacticPool")
-	    	}
+			}
 
-	      	sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
-            sceneloader.show("preloaderIntro")
-    	}
+			sceneloader.preload(sceneList, {onLoadFile: onLoadFile, onComplete: onCompleteSceneLoading})
+			sceneloader.show("preloaderIntro")
+		}
 
-        document.body.style.visibility = "visible"
-    	sceneloader.preload([preloaderIntro], {onComplete: onCompletePreloading})
+		document.body.style.visibility = "visible"
+		sceneloader.preload([preloaderIntro], {onComplete: onCompletePreloading})
 	}
 
-    function init(){
+	function init(){
 
-        var fullWidth = 540
-        var fullHeight = 960
+		var fullWidth = 540
+		var fullHeight = 960
+		
+		var actualGame="GalacticPool"
 
-        var ratio = document.body.clientWidth / document.body.clientHeight
-        var gameHeight = Math.round(fullHeight)
-        var gameWidth = Math.round(fullHeight * ratio)
+		var ratio = document.body.clientWidth / document.body.clientHeight
+		var gameHeight = Math.round(fullHeight)
+		var gameWidth = Math.round(fullHeight * ratio)
 
-        game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
-        game.scale.setGameSize(gameWidth, gameHeight)
+		game.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT
+		game.scale.setGameSize(gameWidth, gameHeight)
 
-        game.stage.backgroundColor = "#ffffff"
-        game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;        
+		game.stage.backgroundColor = "#ffffff"
+		game.time.advancedTiming = true
+		game.stage.disableVisibilityChange = true;        
 
-        game.plugins.add(PhaserSpine.SpinePlugin);
-        
-        var language = "EN"
-        if(window.location.search){
-            var params = window.location.search.trim(1)
-            var regex = /language=(..)/i
-            var result = regex.exec(params)
-            if(result){
-                language = result[result.index].toUpperCase()    
-            }else{
-                language = "EN"
-            }
-            
-        }
+		game.plugins.add(PhaserSpine.SpinePlugin);
 
-        localization.setLanguage(language)
+		var language = "EN"
+		if(window.location.search){
+			var params = window.location.search.trim(1)
+			var regex = /language=(..)/i
+			var result = regex.exec(params)
+			if(result){
+				language = result[result.index].toUpperCase()    
+			}else{
+				language = "EN"
+			}
 
-        window.minigame.game = window.game
-    	sceneloader.init(game)
-    	sound.init(game)
-        epicparticles.init(game)
-    }
+		}
 
-    function create(){
+		localization.setLanguage(language)
 
-    	preloadScenes([
-            galacticPool,
-            result,
-    	])
-    }
+		if(!parent.gameData){
+			var games = yogomeGames.getObjectGames("custom");
+			var gameName = games["Imagic"+actualGame];
+			console.log(gameName);
+			window.gameData=gameName;
+			if(window.gameData.config.tutorial=="tutorialImagic"){
+				localization.setLanguage("ES")
+			}
+		}else{
+			if(parent.gameData.config.tutorial=="tutorialImagic"){
+				localization.setLanguage("ES")
+			}
+		}
+
+		window.minigame.game = window.game
+		sceneloader.init(game)
+		sound.init(game)
+		epicparticles.init(game)
+	}
+
+	function create(){
+
+		preloadScenes([
+			galacticPool,
+			result,
+		])
+	}
 }
 
 minigame.orientation.init(startGame)

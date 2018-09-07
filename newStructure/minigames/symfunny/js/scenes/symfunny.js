@@ -652,14 +652,31 @@ var symfunny = function(){
 		flute.setSkinByName("normal")
 		orchestaGroup.add(flute)
 		
+		
+		
+		
 		lightsOff = new Phaser.Graphics(game)
-		lightsOff.beginFill(0x333333)
+		lightsOff.beginFill(0x000000)
 		lightsOff.drawRect(0,0,game.world.width * 2, game.world.height * 2)
-		lightsOff.alpha = 0.4
+		lightsOff.alpha =0.5
 		lightsOff.endFill()
 		sceneGroup.add(lightsOff)
+		
+		var poly = new Phaser.Polygon([ new Phaser.Point(200, 0), new Phaser.Point(350, 0), new Phaser.Point(375, 500), new Phaser.Point(150, 500) ]);
 
+    	var graphics = game.add.graphics(0, 0);
+			
+    	graphics.beginFill(0xffffff);
+    	graphics.alpha=0.5;
+		graphics.drawPolygon(poly.points);
+		sceneGroup.add(graphics)
+		
+		graphics.blendMode=PIXI.blendModes.ADD;
+		
+		
+		console.log(lightsOff.mask)
 	}
+	
 
 	function initBtn(){
 

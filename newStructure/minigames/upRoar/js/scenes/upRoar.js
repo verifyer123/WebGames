@@ -248,13 +248,11 @@ var upRoar = function(){
 	}
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
-		//sound.play("dog");
 		tutorialLevel();
     }
     function createTutorial(){
         
         tutoGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
     }

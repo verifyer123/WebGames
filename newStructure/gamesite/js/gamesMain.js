@@ -19,9 +19,6 @@ var gamesMain =  function(){
 	function loadGame(src){
 
 		currentSrc = src
-		// $(".game-canvas p").style.visibility = "hidden"
-		// $("#sectionInfo").css("visibility", "hidden")
-		//';ljxz  window.open(url, "_self")
 		if (gameFrame) {
 			gameContainer.removeChild(gameFrame);
 			gameFrame = null
@@ -29,29 +26,18 @@ var gamesMain =  function(){
 
 		gameFrame = document.createElement("iframe")
 		console.log(src)
-		gameFrame.src = src //+ "&rand=" + Math.round(Math.random() * 10000000);
+		gameFrame.src = src 
 		gameFrame.style.borderStyle = "none"
 		gameFrame.style.position = "absolute"
 		gameFrame.style.top = "0"
 		gameFrame.style.zIndex = "3"
-		// gameFrame.scrolling = "yes"
 		gameFrame.width = "100%"
 		gameFrame.height = "100%"
 		gameContainer.appendChild(gameFrame);
 
 	}
 
-//	$( window ).on( "orientationchange", function( event ) {
-//		window.setTimeout(function () {
-//			initSkin()
-//			loadGame(currentSrc)
-//		}, 500)
-//
-//	});
-
-
 	gameContainer = document.getElementById("game-container")
-	// epicModel.loadPlayer(loadGame)
 
 	return{
 		startGame:loadGame,

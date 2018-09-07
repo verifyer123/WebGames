@@ -827,7 +827,6 @@ var greenRescue = function(){
 		obj.input.priorityID = 0;
 		activeObj=obj.tag;
 		UIGroup.bringToTop(obj)
-		console.log(obj.tag)
 		if(obj.tag=="bro"){
 			game.add.tween(nao).to({y:board.y-100},300,Phaser.Easing.linear,true).onComplete.add(function(){
 				nao.setAnimationByName(0,"idle",true);
@@ -1349,7 +1348,6 @@ var greenRescue = function(){
 
 		if(coin.motion)
 			coin.motion.stop()
-
 		coin.reset(obj.centerX,obj.centerY);
 
 		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
@@ -1408,9 +1406,10 @@ var greenRescue = function(){
 
 	function nextLevel(){
 
+		if(roundTime>2000)roundTime-=3000;
 		if(dificulty<9)dificulty++;
+		
 		passingLevel=true;
-		if(roundTime>2000)roundTime-=1500;
 		canShovel=false;
 		var witchYogotar=game.rnd.integerInRange(0,1);
 		sound.play("cheers")
