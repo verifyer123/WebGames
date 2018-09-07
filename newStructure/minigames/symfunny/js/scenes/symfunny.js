@@ -57,6 +57,16 @@ var symfunny = function(){
 			 file: "sounds/" + "flute.mp3"},
 			{	name: "song",
 			 file: "sounds/" + "song.mp3"},
+			{	name: "bad_note0",
+			 file: "sounds/" + "song.mp3"},
+			{	name: "bad_note1",
+			 file: "sounds/" + "song.mp3"},
+			{	name: "bad_note2",
+			 file: "sounds/" + "song.mp3"},
+			{	name: "bad_note3",
+			 file: "sounds/" + "song.mp3"},
+			{	name: "bad_note4",
+			 file: "sounds/" + "song.mp3"},
 			{	name: "spaceSong",
 			 file: soundsPath + "songs/childrenbit.mp3"},
 		],
@@ -223,7 +233,7 @@ var symfunny = function(){
 			oof.setAnimationByName(0,"good",false).onComplete=function(){
 				oof.setAnimationByName(0,"idle",true)
 			}
-			orchestaGroup.children[instrument.value].setAnimationByName(0, "play", false)
+			orchestaGroup.children[instrument.value].setAnimationByName(0, "win", false)
 			pivot++
 			sound.play(orchesta[instrument.value].name)
 			if(pivot === cap){
@@ -653,7 +663,8 @@ var symfunny = function(){
 		orchestaGroup.add(flute)
 		
 		
-		
+		console.log(piano)
+		console.log(flute)
 		
 		lightsOff = new Phaser.Graphics(game)
 		lightsOff.beginFill(0x000000)
@@ -724,7 +735,7 @@ var symfunny = function(){
 				oof.setAnimationByName(0,"good",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
 				}
-				orchestaGroup.children[instument.value].setAnimationByName(0, "play", false)
+				orchestaGroup.children[instument.value].setAnimationByName(0, "win", false)
 				pivot++
 				sound.play(orchesta[instument.value].name)
 				if(pivot === cap)
@@ -735,7 +746,8 @@ var symfunny = function(){
 				oof.setAnimationByName(0,"lose",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
 				}
-				orchestaGroup.children[instument.value].setAnimationByName(0, "play_wrong", false)
+				orchestaGroup.children[instument.value].setAnimationByName(0, "lose", false)
+				sound.play("bad_note"+instument.value)
 				crescendo(false)
 			}
 		}else if(pivot < cap && gameActive && tutorial){
@@ -849,7 +861,7 @@ var symfunny = function(){
 				sound.play(orchesta[r].name)
 				game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},150,Phaser.Easing.linear,true)
 			})
-			orchestaGroup.children[r].setAnimationByName(0, "play", false)
+			orchestaGroup.children[r].setAnimationByName(0, "win", false)
 			orchestaGroup.children[r].addAnimationByName(0, "idle", true)
 		},this)
 	}
