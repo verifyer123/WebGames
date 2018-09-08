@@ -14,7 +14,8 @@ var onGoingGames={
 	
     config:{
 		tutorial:"tutorial",
-		results:"result"
+		results:"result",
+		platform:"epic"
 	},
     
     minigames:[
