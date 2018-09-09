@@ -127,6 +127,7 @@ var sushi = function(){
 	var isCompleting
 	var diferentSushi=[];
     var speed
+	var creatingSushi;
 	var yogotars
 	var xTutorial, yTutorial
 	var correctParticle, wrongParticle
@@ -146,6 +147,7 @@ var sushi = function(){
         gameActive = false
         lives = NUM_LIFES
         numPoints = 0
+		creatingSushi=false;
 		isCompleting=false;
 		notFinished=false
 		notMissing=false;
@@ -521,7 +523,8 @@ var sushi = function(){
         for(var sushiIndex = 0; sushiIndex<sushisInGame[lane].length; sushiIndex++){
 			toX = game.rnd.integerInRange(-100,100);
             var sushi = sushisInGame[lane][sushiIndex];
-			sushi.container.inputEnabled=false;
+			sushi.container.input.draggable=false;
+			sushi.containerinputEnabled=false;
             game.add.tween(sushi).to({x:sushi.x + toX, y: game.world.height+300}, 900, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
 				if(lives>0){
 					destroySushi(lane);
@@ -960,7 +963,7 @@ var sushi = function(){
 			
 			if(checkingFrame==60 || (lastSushi && lastSushi.inBottom)){
 				checkingFrame=0;
-				if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging) && (!isCompleting)){
+				if((allBottom)&&(lastSushi)&&(lastSushi.inBottom)&&(lastSushi.y <= 330)&&(!sushiLane.merging) && (!isCompleting) && (!creatingSushi) && sushisInGame[lineIndex].length>5){
 					handleSushi.inputEnabled=false;
 					sushiAnimation(lineIndex)
 					sound.play("wrong")
@@ -989,6 +992,10 @@ var sushi = function(){
 				if(sushisInGame[chosenLane].delaySushi <= 0) {
 					var randomNum = game.rnd.integerInRange(0, SUSHIS.length - 1)
 					addSushi(SUSHIS[randomNum], chosenLane)
+					creatingSushi=true;
+					game.time.events.add(100,function(){
+						creatingSushi=false;
+					});
 					break
 				}
 			}

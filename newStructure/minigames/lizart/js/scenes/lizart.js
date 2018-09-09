@@ -557,10 +557,13 @@ var lizart = function(){
 			tintSpine(lizard,100,100,100,BODY_PARTS[tintRound].part);
 		}
 		tintSpine(tongue,205,50,50,"lengua");
-		UIGroup= game.add.group();
-		sceneGroup.add(UIGroup);
+		
 
 		fruitsGroup= game.add.group();
+		sceneGroup.add(fruitsGroup);
+		
+		UIGroup= game.add.group();
+		sceneGroup.add(UIGroup);
 
 		for(var i = 0;i<=ALL_FRUITS;i++){
 			fruits[i] = fruitsGroup.create(-500,0,"fruit" + i);
@@ -752,7 +755,6 @@ var lizart = function(){
 						tintSpine(lizard,colorR[color],colorG[color],colorB[color],BODY_PARTS[tintRound].part);
 					}
 					winLizar();
-					sound.play("magic");
 				});
 			})
 		});
@@ -773,7 +775,6 @@ var lizart = function(){
 			if(lives<=0){
 				lizard.setAnimationByName(0,"losestill",true)
 			}else{
-				sound.play("wrong")	
 				game.time.events.add(300,function(){
 					TweenMax.to(lizard,1,{alpha:0,onComplete:endwrong});	
 				})
