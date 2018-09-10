@@ -6,7 +6,7 @@
         <key>texturePackerVersion</key>
         <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Users/rockdrizt/Documents/WebGames/newStructure/minigames/symfunny/images/symfunny/symfunnyatlas.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/symfunny/images/symfunny/symfunnyatlas.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -212,6 +212,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">courtain.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>128,240,256,480</rect>
+                <key>scale9Paddings</key>
+                <rect>128,240,256,480</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">desktop.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -261,6 +274,58 @@
                 <rect>35,14,70,28</rect>
                 <key>scale9Paddings</key>
                 <rect>35,14,70,28</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">light_back.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,155,93,309</rect>
+                <key>scale9Paddings</key>
+                <rect>47,155,93,309</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">light_middle.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>38,113,76,225</rect>
+                <key>scale9Paddings</key>
+                <rect>38,113,76,225</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">light_side.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>47,200,93,400</rect>
+                <key>scale9Paddings</key>
+                <rect>47,200,93,400</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">limelight.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,114,97,228</rect>
+                <key>scale9Paddings</key>
+                <rect>48,114,97,228</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -386,6 +451,11 @@
             <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
             <filename>gametuto.jpg</filename>
+            <filename>courtain.png</filename>
+            <filename>light_back.png</filename>
+            <filename>light_middle.png</filename>
+            <filename>light_side.png</filename>
+            <filename>limelight.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
