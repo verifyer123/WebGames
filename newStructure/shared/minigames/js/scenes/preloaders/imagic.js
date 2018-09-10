@@ -59,7 +59,7 @@ var preloaderIntro = function(){
 			loadingGroup.bottomBar = loadingBottom
 			loadingGroup.topBar = loadingTop
 
-			loadingGroup.x = game.world.centerX - loadingGroup.width *0.41
+			loadingGroup.x = game.world.centerX - loadingGroup.width *0.5
 			loadingGroup.y = (game.world.centerY + 180) - loadingGroup.height * 2
 
 			loadingBar = loadingGroup

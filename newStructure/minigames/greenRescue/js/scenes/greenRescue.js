@@ -667,14 +667,12 @@ var greenRescue = function(){
 			trash[translate].scale.setTo(1,1)
 			trash[translate].alpha=0
 			trash[translate].setSkinByName("normal");
-			//trash[translate].setAnimationByName(0,"START_BAG",false)
 			platformGroup.add(trash[translate])
 
 			tree[translate]=game.add.spine(game.world.centerX-standarX+acomodateX*general,game.world.centerY+standarY-acomodateY*general,"trees")
 			tree[translate].scale.setTo(treeScale,treeScale)
 			tree[translate].alpha=0
 			tree[translate].setSkinByName("normal");
-			//tree[translate].setAnimationByName(0,"SHOOT",false)
 			platformGroup.add(tree[translate])
 
 			hole[translate]=game.add.sprite(game.world.centerX-standarX+5+acomodateX*general,game.world.centerY-10+standarY-acomodateY*general,"atlas.green","hole")
@@ -747,19 +745,15 @@ var greenRescue = function(){
 		if(tutorialState==0){
 			hand.x=broomIcon.x+30;
 			hand.y=broomIcon.y+10;
-			//tutorialTween=game.add.tween(hand).to({x:hole[position].x+30,y:hole[position].y-70},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
 		}else if(tutorialState==1){
 			hand.x=shovelIcon.x+30;
 			hand.y=shovelIcon.y+10;
-			//tutorialTween=game.add.tween(hand).to({x:hole[position].x+30,y:hole[position].y-70},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
 		}else if(tutorialState==2){
 			hand.x=sproutIcon.x+30;
 			hand.y=sproutIcon.y+10;
-			//tutorialTween=game.add.tween(hand).to({x:hole[position].x+30,y:hole[position].y-70},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
 		}else if(tutorialState==3 || tutorialState==4){
 			hand.x=sprinklerIcon.x+30;
 			hand.y=sprinklerIcon.y+10;
-			//tutorialTween=game.add.tween(hand).to({x:tree[position].x+40,y:tree[position].y-130},1000,Phaser.Easing.Cubic.InOut,true).loop(true);
 		}
 	}
 	function positionTimer(){
@@ -827,6 +821,27 @@ var greenRescue = function(){
 			})
 		}else{
 			game.add.tween(nao).to({y:game.world.height},300,Phaser.Easing.linear,true)
+		}
+		if(obj.tag=="bro"){
+			broomIcon.tint=0x555555;
+			shovelIcon.tint=0xffffff;
+			sproutIcon.tint=0xffffff;
+			sprinklerIcon.tint=0xffffff;
+		}else if(obj.tag=="sho"){
+			shovelIcon.tint=0x555555;
+			broomIcon.tint=0xffffff;
+			sproutIcon.tint=0xffffff;
+			sprinklerIcon.tint=0xffffff; 
+		}else if(obj.tag=="sprout"){
+			sproutIcon.tint=0x555555;
+			broomIcon.tint=0xffffff;
+			shovelIcon.tint=0xffffff;
+			sprinklerIcon.tint=0xffffff;  
+		}else if(obj.tag=="sprin"){
+			sprinklerIcon.tint=0x555555;
+			broomIcon.tint=0xffffff;
+			shovelIcon.tint=0xffffff;
+			sproutIcon.tint=0xffffff;   
 		}
 		if((tutorialState==0 && obj.tag=="bro") || (tutorialState==1 && obj.tag=="sho") || (tutorialState==2 && obj.tag=="sprout") || ((tutorialState==3 || tutorialState==4) && obj.tag=="sprin")){
 			hand.x=hole[tutoTrash].x+30;
@@ -1055,9 +1070,7 @@ var greenRescue = function(){
 		if(obj=="sho"){
 			shovel.x=shovelIcon.x;
 			shovel.y=shovelIcon.y;
-			
 			shovel.alpha=0;
-
 		}else if(obj=="sprin"){
 			sprinkler.x=sprinklerIcon.x;
 			sprinkler.y=sprinklerIcon.y;
