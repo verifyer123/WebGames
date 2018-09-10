@@ -16,7 +16,8 @@ var gameTypeEnum = {
 var iMagicGames = {
 	config:{
 		tutorial:"tutorialImagic",
-		results:"result_iMagic"
+		results:"result_iMagic",
+		platform:"imagic"
 	},
 
 	minigames:[
