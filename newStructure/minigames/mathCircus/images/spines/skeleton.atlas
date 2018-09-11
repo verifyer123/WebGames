@@ -1,19 +1,19 @@
 
 skeleton.png
-size: 1024,512
+size: 2048,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal/arm1
   rotate: true
-  xy: 585, 256
+  xy: 1787, 393
   size: 34, 66
   orig: 34, 66
   offset: 0, 0
   index: -1
 normal/arm2
   rotate: false
-  xy: 899, 323
+  xy: 657, 203
   size: 38, 50
   orig: 38, 50
   offset: 0, 0
@@ -25,114 +25,142 @@ normal/ball
   orig: 262, 262
   offset: 0, 0
   index: -1
+normal/ball_2
+  rotate: false
+  xy: 501, 255
+  size: 200, 20
+  orig: 200, 20
+  offset: 0, 0
+  index: -1
+normal/colita_1
+  rotate: false
+  xy: 474, 100
+  size: 95, 153
+  orig: 95, 153
+  offset: 0, 0
+  index: -1
+normal/colita_2
+  rotate: false
+  xy: 571, 103
+  size: 84, 150
+  orig: 84, 150
+  offset: 0, 0
+  index: -1
 normal/dm1
-  rotate: true
-  xy: 769, 292
+  rotate: false
+  xy: 474, 11
   size: 81, 87
   orig: 81, 87
   offset: 0, 0
   index: -1
 normal/dm2
   rotate: false
-  xy: 266, 341
+  xy: 1485, 341
   size: 170, 169
   orig: 170, 169
   offset: 0, 0
   index: -1
 normal/dm3
-  rotate: true
-  xy: 2, 13
+  rotate: false
+  xy: 266, 259
   size: 233, 251
   orig: 233, 251
   offset: 0, 0
   index: -1
 normal/dm4
   rotate: false
-  xy: 585, 292
+  xy: 1787, 429
   size: 182, 81
   orig: 182, 81
   offset: 0, 0
   index: -1
 normal/espiral
   rotate: false
-  xy: 255, 2
+  xy: 1657, 346
   size: 50, 25
   orig: 50, 25
   offset: 0, 0
   index: -1
 normal/estrella1
-  rotate: true
-  xy: 438, 359
+  rotate: false
+  xy: 703, 260
   size: 14, 15
   orig: 14, 15
   offset: 0, 0
   index: -1
 normal/estrella2
   rotate: false
-  xy: 1005, 496
+  xy: 1485, 286
   size: 14, 14
   orig: 14, 14
   offset: 0, 0
   index: -1
 normal/estrella3
-  rotate: true
-  xy: 438, 344
+  rotate: false
+  xy: 1560, 324
   size: 13, 15
   orig: 13, 15
   offset: 0, 0
   index: -1
 normal/head
-  rotate: false
-  xy: 266, 205
-  size: 187, 134
-  orig: 187, 134
+  rotate: true
+  xy: 239, 2
+  size: 244, 233
+  orig: 244, 233
   offset: 0, 0
   index: -1
 normal/head1
   rotate: false
-  xy: 438, 375
-  size: 187, 135
-  orig: 187, 135
+  xy: 501, 277
+  size: 244, 233
+  orig: 244, 233
   offset: 0, 0
   index: -1
 normal/head2
   rotate: false
-  xy: 627, 375
-  size: 187, 135
-  orig: 187, 135
+  xy: 993, 279
+  size: 244, 231
+  orig: 244, 231
   offset: 0, 0
   index: -1
 normal/head3
   rotate: false
-  xy: 816, 375
-  size: 187, 135
-  orig: 187, 135
+  xy: 1239, 279
+  size: 244, 231
+  orig: 244, 231
   offset: 0, 0
   index: -1
 normal/head4
+  rotate: true
+  xy: 2, 2
+  size: 244, 235
+  orig: 244, 235
+  offset: 0, 0
+  index: -1
+normal/head5
   rotate: false
-  xy: 255, 68
-  size: 187, 135
-  orig: 187, 135
+  xy: 747, 277
+  size: 244, 233
+  orig: 244, 233
   offset: 0, 0
   index: -1
 normal/leg
   rotate: false
-  xy: 858, 316
+  xy: 1971, 453
   size: 39, 57
   orig: 39, 57
   offset: 0, 0
   index: -1
 normal/leg1_b
   rotate: true
-  xy: 255, 29
+  xy: 1485, 302
   size: 37, 73
   orig: 37, 73
   offset: 0, 0
   index: -1
 normal/torso
   rotate: false
-  xy: 455, 236
+  xy: 1657, 373
   size: 128, 137
   orig: 128, 137
   offset: 0, 0
