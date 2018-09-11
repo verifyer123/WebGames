@@ -622,8 +622,6 @@ var symfunny = function(){
 	}
 
 	function initOrchesta(){
-
-
 		
 		orchestaGroup = game.add.group()
 		orchestaGroup.x =  game.world.centerX

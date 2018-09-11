@@ -11,7 +11,7 @@
 },
 {
 	"filename": "cargando",
-	"frame": {"x":603,"y":265,"w":221,"h":32},
+	"frame": {"x":603,"y":269,"w":221,"h":32},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":18,"y":0,"w":221,"h":32},
@@ -29,11 +29,11 @@
 },
 {
 	"filename": "loading_top",
-	"frame": {"x":603,"y":222,"w":238,"h":41},
+	"frame": {"x":603,"y":222,"w":242,"h":45},
 	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":238,"h":41},
-	"sourceSize": {"w":238,"h":41},
+	"trimmed": true,
+	"spriteSourceSize": {"x":8,"y":10,"w":242,"h":45},
+	"sourceSize": {"w":256,"h":64},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "stars",
-	"frame": {"x":603,"y":299,"w":220,"h":231},
+	"frame": {"x":603,"y":303,"w":220,"h":231},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":14,"y":9,"w":220,"h":231},
@@ -61,6 +61,6 @@
 	"format": "RGBA8888",
 	"size": {"w":860,"h":962},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:fe95dfe97676e40747c2cf160898b8a0:7883b4da49e03e78a7f54839f4c15aff:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5cea0ad8045fb0148362864794607dce:121ec1107bce804f7c81bdbe2ae5e092:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

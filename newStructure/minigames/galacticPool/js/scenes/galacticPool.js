@@ -307,7 +307,7 @@ var galacticPool = function(){
 		obj.body.y=game.input.y;
 		
 		if(tutorial){
-			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS-1; alphaPlanets++){
+			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS; alphaPlanets++){
 				if(planets[alphaPlanets].spines!=obj.spines){
 					planets[alphaPlanets].spines.alpha=0.2;
 				}
@@ -329,7 +329,7 @@ var galacticPool = function(){
 			}
 		}
 		if(tutorial){
-			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS-1; alphaPlanets++){
+			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS; alphaPlanets++){
 				planets[alphaPlanets].spines.alpha=1;
 			}
 		}

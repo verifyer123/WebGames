@@ -1,14 +1,14 @@
 {
-"skeleton": { "hash": "MyNN1D+IMNJzMd5PqOCE2PF4d28", "spine": "3.2.01", "width": 80.41, "height": 80.41, "images": "" },
+"skeleton": { "hash": "7PgVA3vbGJX1QnzjBOnK4maK3lQ", "spine": "3.2.01", "width": 126.05, "height": 82.95, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "planeta", "parent": "root" },
 	{ "name": "luz_p", "parent": "planeta", "x": 13.09, "y": 14.79, "inheritScale": false },
-	{ "name": "resp", "parent": "planeta", "inheritScale": false },
+	{ "name": "resp", "parent": "planeta", "shearY": -0.25, "inheritScale": false },
 	{ "name": "rayos", "parent": "resp", "inheritScale": false }
 ],
 "slots": [
-	{ "name": "resp_p", "bone": "resp", "attachment": "resp_sol" },
+	{ "name": "resp_p", "bone": "resp", "attachment": "resp" },
 	{ "name": "rayos_sol", "bone": "rayos", "attachment": "rayos_sol" },
 	{ "name": "planeta", "bone": "planeta", "attachment": "planeta" },
 	{ "name": "luz_p", "bone": "luz_p", "color": "fefff7e1", "attachment": "normal/luz_p" },
@@ -25,10 +25,10 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -0.39, "y": 0.34, "scaleX": 0.713, "scaleY": 0.713, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/earth", "width": 63, "height": 63 }
+			"planeta": { "name": "normal/earth", "width": 63, "height": 62 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_earth", "scaleX": 1.1, "scaleY": 1.1, "rotation": -0.21, "width": 71, "height": 71 }
+			"resp": { "name": "normal/resp_earth", "scaleX": 1.1, "scaleY": 1.1, "rotation": -0.21, "width": 79, "height": 79 }
 		}
 	},
 	"jupiter": {
@@ -36,10 +36,10 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -2.22, "y": 0.34, "scaleX": 0.778, "scaleY": 0.778, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/jupiter", "width": 63, "height": 62 }
+			"planeta": { "name": "normal/jupiter", "width": 63, "height": 63 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_jupiter", "width": 72, "height": 73 }
+			"resp": { "name": "normal/resp_jupiter", "width": 79, "height": 79 }
 		}
 	},
 	"mars": {
@@ -47,10 +47,10 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -2.22, "y": -2.39, "scaleX": 0.834, "scaleY": 0.834, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/mars", "width": 63, "height": 63 }
+			"planeta": { "name": "normal/mars", "width": 63, "height": 62 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_mars", "rotation": -0.21, "width": 72, "height": 72 }
+			"resp": { "name": "normal/resp_mars", "rotation": -0.21, "width": 79, "height": 79 }
 		}
 	},
 	"mercury": {
@@ -58,10 +58,10 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -0.39, "y": 0.34, "scaleX": 0.713, "scaleY": 0.713, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/mercury", "scaleX": 1.1, "scaleY": 1.1, "width": 68, "height": 68 }
+			"planeta": { "name": "normal/mercury", "scaleX": 1.1, "scaleY": 1.1, "width": 68, "height": 69 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_mercury", "scaleX": 1.2, "scaleY": 1.2, "width": 67, "height": 67 }
+			"resp": { "name": "normal/resp_mercury", "scaleX": 1.2, "scaleY": 1.2, "width": 75, "height": 75 }
 		}
 	},
 	"neptune": {
@@ -69,15 +69,25 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -1.22, "y": 1.36, "scaleX": 0.738, "scaleY": 0.738, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/neptuno", "width": 63, "height": 62 }
+			"planeta": { "name": "normal/neptuno", "width": 63, "height": 63 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_neptuno", "scaleX": 1.1, "scaleY": 1.1, "width": 71, "height": 71 }
+			"resp": { "name": "normal/resp_neptuno", "scaleX": 1.1, "scaleY": 1.1, "width": 79, "height": 79 }
 		}
 	},
 	"saturn": {
 		"aureola": {
-			"aureola_a": { "name": "normal/auroela_saturn", "rotation": -0.41, "width": 112, "height": 61 }
+			"aureola_saturn_2": { "name": "normal/aureola_saturn_2", "x": -0.96, "y": -5.31, "scaleX": 1.095, "scaleY": 1.095, "width": 113, "height": 61 },
+			"aureola_a": {
+				"name": "normal/auroela_saturn",
+				"x": -0.51,
+				"y": -5.63,
+				"scaleX": 1.096,
+				"scaleY": 1.096,
+				"rotation": -0.41,
+				"width": 112,
+				"height": 61
+			}
 		},
 		"luz_p": {
 			"luz_p": { "name": "normal/Luz_P", "x": -1.22, "y": 0.44, "scaleX": 0.766, "scaleY": 0.766, "width": 30, "height": 30 }
@@ -86,7 +96,7 @@
 			"planeta": { "name": "normal/saturn", "width": 63, "height": 62 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_saturn", "scaleX": 1.1, "scaleY": 1.1, "rotation": -0.21, "width": 72, "height": 72 }
+			"resp": { "name": "normal/resp_saturn", "scaleX": 1.1, "scaleY": 1.1, "rotation": -0.21, "width": 114, "height": 75 }
 		}
 	},
 	"sun": {
@@ -94,27 +104,27 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -5.8, "y": -5.04, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/centro_sol", "width": 98, "height": 97 }
+			"planeta": { "name": "normal/centro_sol", "width": 98, "height": 98 }
 		},
 		"rayos_sol": {
-			"rayos_sol": { "name": "normal/rayos_sol", "rotation": 0.14, "width": 133, "height": 134 }
+			"rayos_sol": { "name": "normal/rayos_sol", "rotation": 0.14, "width": 143, "height": 147 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_p", "rotation": -0.3, "width": 103, "height": 104 }
+			"resp": { "name": "normal/resp_p", "rotation": -0.3, "width": 103, "height": 104 }
 		}
 	},
 	"uranus": {
 		"aureola": {
-			"aureola_a": { "name": "normal/aureola_urano", "width": 101, "height": 54 }
+			"aureola_a": { "name": "normal/aureola_urano", "width": 101, "height": 53 }
 		},
 		"luz_p": {
 			"luz_p": { "name": "normal/Luz_P", "x": 0.6, "y": 2.27, "scaleX": 0.707, "scaleY": 0.707, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/urano", "width": 62, "height": 62 }
+			"planeta": { "name": "normal/urano", "width": 62, "height": 63 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_urano", "scaleX": 1.1, "scaleY": 1.1, "rotation": -0.21, "width": 71, "height": 71 }
+			"resp": { "name": "normal/resp_urano", "scaleX": 1.1, "scaleY": 1.1, "rotation": -0.21, "width": 110, "height": 72 }
 		}
 	},
 	"venus": {
@@ -122,16 +132,25 @@
 			"luz_p": { "name": "normal/Luz_P", "x": -5.8, "y": -5.04, "width": 30, "height": 30 }
 		},
 		"planeta": {
-			"planeta": { "name": "normal/venus", "width": 63, "height": 62 }
+			"planeta": { "name": "normal/venus", "width": 63, "height": 63 }
 		},
 		"resp_p": {
-			"resp_sol": { "name": "normal/resp_venus", "rotation": -0.21, "width": 72, "height": 72 }
+			"resp": { "name": "normal/resp_venus", "rotation": -0.21, "width": 79, "height": 79 }
 		}
 	}
 },
 "animations": {
 	"idle": {
 		"slots": {
+			"aureola": {
+				"color": [
+					{ "time": 2.6666, "color": "ffffffff" }
+				],
+				"attachment": [
+					{ "time": 0, "name": "aureola_a" },
+					{ "time": 2.6666, "name": "aureola_a" }
+				]
+			},
 			"luz_p": {
 				"color": [
 					{ "time": 0, "color": "fefff7e1", "curve": "stepped" },
@@ -140,7 +159,7 @@
 				"attachment": [
 					{ "time": 0, "name": "normal/luz_p" },
 					{ "time": 1.1333, "name": "normal/luz_p" },
-					{ "time": 2.6666, "name": "luz_p" }
+					{ "time": 2.6666, "name": "normal/luz_p" }
 				]
 			},
 			"planeta": {
@@ -169,8 +188,8 @@
 					{ "time": 2.6666, "color": "ffffffff" }
 				],
 				"attachment": [
-					{ "time": 0, "name": "resp_sol" },
-					{ "time": 2.6666, "name": "resp_sol" }
+					{ "time": 0, "name": "resp" },
+					{ "time": 2.6666, "name": "resp" }
 				]
 			}
 		},
@@ -212,48 +231,52 @@
 			},
 			"resp": {
 				"rotate": [
-					{ "time": 0, "angle": 0 }
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 2.6666, "angle": 0 }
 				],
 				"translate": [
-					{ "time": 0, "x": 0, "y": 0 }
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.6666, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{
 						"time": 0,
-						"x": 1,
-						"y": 1,
-						"curve": [ 0.25, 0, 0.683, 1.55 ]
+						"x": 0.843,
+						"y": 0.843,
+						"curve": [ 0.269, -0.8, 0.759, 0.81 ]
 					},
 					{
 						"time": 1.3333,
-						"x": 1.138,
-						"y": 1.138,
-						"curve": [ 0.25, 0, 0.683, 1.55 ]
+						"x": 0.959,
+						"y": 0.959,
+						"curve": [ 0.269, -0.8, 0.759, 0.81 ]
 					},
-					{ "time": 2.6666, "x": 1, "y": 1 }
+					{ "time": 2.6666, "x": 0.843, "y": 0.843 }
 				]
 			},
 			"planeta": {
 				"rotate": [
-					{ "time": 0, "angle": 0 }
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 2.6666, "angle": 0 }
 				],
 				"translate": [
-					{ "time": 0, "x": 0, "y": 0 }
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 2.6666, "x": 0, "y": 0 }
 				],
 				"scale": [
 					{
 						"time": 0,
-						"x": 1,
-						"y": 1,
+						"x": 0.841,
+						"y": 0.841,
 						"curve": [ 0.479, -0.58, 0.75, 1 ]
 					},
 					{
 						"time": 1.3333,
-						"x": 1.101,
-						"y": 1.101,
+						"x": 0.956,
+						"y": 0.956,
 						"curve": [ 0.479, -0.58, 0.75, 1 ]
 					},
-					{ "time": 2.6666, "x": 1, "y": 1 }
+					{ "time": 2.6666, "x": 0.841, "y": 0.841 }
 				]
 			},
 			"rayos": {

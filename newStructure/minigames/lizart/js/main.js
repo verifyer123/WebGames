@@ -29,6 +29,7 @@ function startGame(){
 
         var fullWidth = 540
         var fullHeight = 960
+		var actualGame = "Lizart"
 
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
@@ -60,7 +61,7 @@ function startGame(){
 		
 		if(!parent.gameData){
 			var games = yogomeGames.getObjectGames("custom");
-			var gameName = games["ImagicLizart"];
+			var gameName = games["Imagic"+actualGame];
 			console.log(gameName);
 			window.gameData=gameName;
 			if(window.gameData.config.tutorial=="tutorialImagic"){

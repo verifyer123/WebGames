@@ -984,7 +984,7 @@ var magicSpell = function(){
 			rune.inputEnabled = true
 			hand.x = rune.centerX
 			hand.y = rune.centerY
-			hand.swipe = game.add.tween(hand).to({x:slot.x+10, y:slot.y}, 1000, Phaser.Easing.Cubic.InOut, false)
+			hand.swipe = game.add.tween(hand).to({x:slot.x+20, y:slot.y}, 1000, Phaser.Easing.Cubic.InOut, false)
 			hand.fadeOut = game.add.tween(hand).to({alpha:0}, 250, Phaser.Easing.Cubic.InOut, false)
 			hand.fadeOut.onComplete.add(hand.setPos)
 			game.add.tween(hand).to({alpha:1}, 250, Phaser.Easing.Cubic.InOut, true).chain(hand.swipe)

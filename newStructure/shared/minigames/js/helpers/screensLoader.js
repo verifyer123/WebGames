@@ -29,10 +29,11 @@ function loadScripts(){
 		var tutorialLoader=parent.gameData.config.tutorial;
 		var resultsLoader=parent.gameData.config.results;
 		var preloader=parent.gameData.config.platform;
+		
 	}else{
 		var tutorialLoader="tutorialImagic";
 		var resultsLoader="result_iMagic";
-		var preLoader="imagic";
+		var preloader="imagic";
 	}
 	
 	loadScript("../../shared/minigames/js/scenes/preloaders/"+preloader+".js", function(){

@@ -260,7 +260,7 @@ var lizart = function(){
 	var fruitsDificulty;
 	var bgm = null;
 	var colorSelect = null;
-	var colorsArray =[
+	var colorsArrayEN =[
 		"Yellow",
 		"Red",
 		"Blue",
@@ -268,35 +268,44 @@ var lizart = function(){
 		"Orange",
 		"Green",
 		"Purple"
-	]
+	];
+	var colorsArrayES =[
+		"Amarillo",
+		"Rojo",
+		"Azul",
+		"Café",
+		"Naranja",
+		"Verde",
+		"Morado"
+	];
 	var positionStates=[]
 	var allPositions;
 	var POSITION_LIST_1=[
-		{x:130,y:350},
-		{x:200,y:230},
-		{x:550,y:450},
+		{x:300,y:420},
+		{x:200,y:250},
+		{x:660,y:450},
 		{x:350,y:250},
-		{x:270,y:390},
+		{x:500,y:390},
 		{x:500,y:230},
-		{x:620,y:200}
+		{x:640,y:200}
 	];
 	var POSITION_LIST_2=[
-		{x:510,y:430},
-		{x:240,y:350},
+		{x:530,y:430},
+		{x:230,y:250},
 		{x:400,y:400},
-		{x:100,y:290},
-		{x:350,y:230},
+		{x:670,y:420},
+		{x:380,y:230},
 		{x:550,y:230},
-		{x:100,y:450}
+		{x:240,y:450}
 	];
 	var POSITION_LIST_3=[
 		{x:300,y:430},
 		{x:340,y:270},
 		{x:440,y:420},
-		{x:600,y:250},
-		{x:150,y:230},
-		{x:130,y:400},
-		{x:450,y:200}
+		{x:630,y:250},
+		{x:200,y:230},
+		{x:600,y:430},
+		{x:480,y:200}
 	];
 	var pasing=[];
 	var hand, coin, timeBar, clock; 
@@ -483,7 +492,7 @@ var lizart = function(){
 	function createBallon(ColorSelect){
 
 		globo = sceneGroup.create(game.width-50,game.height-200,"globo");
-		globo.x = game.world.centerX
+		globo.x = game.world.centerX+100
 		globo.anchor.setTo(0,1);
 		textGlobo = game.add.text(0, 0, ColorSelect, styleClock,sceneGroup);
 		textGlobo.x = globo.x + globo.width/2;
@@ -492,8 +501,13 @@ var lizart = function(){
 		TweenMax.fromTo(globo.scale,0.5,{x:0,y:0},{x:1,y:1});
 		TweenMax.fromTo(textGlobo.scale,0.5,{x:0,y:0},{x:1,y:1,delay:0.5});
 		if(tutorial){
-			hand.alpha=1
-			fruits[INDEX_NUMBER[good]].inputEnabled=true;
+			game.time.events.add(1000,function(){
+				fruits[INDEX_NUMBER[good]].inputEnabled = true;
+				fruits[INDEX_NUMBER[good]].input.pixelPerfectClick = true;
+				hand.alpha=1;
+				console.log(fruits[INDEX_NUMBER[good]].input)
+				
+			})
 			hand.x=fruits[INDEX_NUMBER[good]].x+50;
 			hand.y=fruits[INDEX_NUMBER[good]].y+50;
 		}
@@ -569,7 +583,7 @@ var lizart = function(){
 			fruits[i] = fruitsGroup.create(-500,0,"fruit" + i);
 			fruits[i].id = i;
 			fruits[i].anchor.setTo(0.5,0.5);
-			fruits[i].inputEnabled = true
+			if(!tutorial)fruits[i].inputEnabled = true
 			fruits[i].events.onInputDown.add(chooseFruit,this);
 		}
 
@@ -599,6 +613,7 @@ var lizart = function(){
 	}
 	function createFruits(){
 		var options;
+		var language=localization.getLanguage();
 		var selectList=game.rnd.integerInRange(1,3);
 		if(selectList==1){
 			options=POSITION_LIST_1;
@@ -608,21 +623,27 @@ var lizart = function(){
 			options=POSITION_LIST_3;
 		}
 		pasing=[];
-
 		Phaser.ArrayUtils.shuffle(options)
 		for(var i = 0;i<=ALL_FRUITS;i++){
 			pasing[i]={x:0,y:0};
 			fruits[i].y = -500;
 			fruits[i].scale.setTo(0.7,0.7);
 			fruits[i].anchor.setTo(0.5,0.5);
-			fruits[i].inputEnabled=true;
+			if(!tutorial){
+				fruits[i].inputEnabled=true;
+				fruits[i].input.pixelPerfectClick = true;
+			}
 		}
 		Phaser.ArrayUtils.shuffle(INDEX_NUMBER)
 		for(var e = 0;e<fruitsDificulty;e++){
 			fruits[INDEX_NUMBER[e]].x = options[e].x;
 		}
 		good = getRandomArbitrary(0,fruitsDificulty);
-		colorSelect = colorsArray[fruits[INDEX_NUMBER[good] ].id ];
+		if(language=="ES"){
+			colorSelect = colorsArrayEN[fruits[INDEX_NUMBER[good] ].id ];
+		}else{
+			colorSelect = colorsArrayES[fruits[INDEX_NUMBER[good] ].id ];
+		}
 		checkPositionList(options)
 	}
 	function nextDificultyApearFruit(options){
@@ -642,6 +663,7 @@ var lizart = function(){
 			fruitsBeforeCorrect++;
 		}
 		fruits[INDEX_NUMBER[fruitToAppear]].inputEnabled=true
+		fruits[INDEX_NUMBER[fruitToAppear]].input.pixelPerfectClick = true;
 		fruits[INDEX_NUMBER[fruitToAppear]].x=options[fruitToAppear].x;
 		fruits[INDEX_NUMBER[fruitToAppear]].alpha=1;
 
@@ -784,6 +806,7 @@ var lizart = function(){
 		canTakeFruit = false
 	}
 	function chooseFruit(fruitItem){
+		
 		passingLevel=true;
 		if(timerDificulty!=undefined){
 			timerDificulty.stop();
@@ -932,11 +955,15 @@ var lizart = function(){
 			wrongFruit(null);
 		})
 	}
-
+	function render(){
+		
+		
+	}
 	return {
 		assets: assets,
 		name: "lizart",
 		update: update,
+		render:render,
 		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create:createScene,
 		show: function(event){

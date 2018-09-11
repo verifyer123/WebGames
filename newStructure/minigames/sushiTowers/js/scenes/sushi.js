@@ -198,7 +198,6 @@ var sushi = function(){
 
 	function createSushi(sushi) {
 
-
 		var sprite = pullGroup.create(0, 0, "atlas.sushi", sushi)
 		sprite.anchor.setTo(0.5, 0.5)		
 
@@ -212,10 +211,12 @@ var sushi = function(){
 			sushiList.bg = []
 		sushiList.bg.push(sushiBg)
 		sprite.inputEnabled = true
+		sprite.hitArea=new Phaser.Circle(0,0,sprite.width*0.85);
 		sprite.input.enableDrag(true)
 		sprite.events.onDragStart.add(onDragStart, this)
 		sprite.events.onDragUpdate.add(onDragUpdate, this)
 		sprite.events.onDragStop.add(onDragStop, this)
+		
 		sprite.inputEnabled = false
 		sprite.alive=false;
 	}
@@ -492,8 +493,10 @@ var sushi = function(){
 		hand.x=game.world.centerX-200;
 		hand.y=game.world.height-100;
 		sceneGroup.add(hand)
-		hand.alpha=1;
 		sushisInGame[1][0].container.input.enabled=false;
+		game.time.events.add(300,function(){
+			hand.alpha=1
+		})
 	}
 
 	function onClickPlay(rect) {
@@ -639,9 +642,11 @@ var sushi = function(){
 
 		sound.play("drag")
 		inputsEnabled=false;
+		
 		var option = obj.parent
 		handleSushi=option;
 		option.inBottom = false
+		
 		option.deltaX = pointer.x - obj.world.x
 		option.deltaY = pointer.y - obj.world.y - obj.originalY
 
@@ -657,6 +662,8 @@ var sushi = function(){
 			sushisInGame[option.lane].splice(option.index, 1)
 			option.index = null
 		}
+		
+		option.alpha=0.5;
 
 	}
 
@@ -676,6 +683,7 @@ var sushi = function(){
 		var option = obj.parent
 		handleSushi=null;
 		obj.x = 0
+		option.alpha=1;
 		obj.y = obj.originalY
 
 		option.scale.setTo(1,1);
@@ -718,7 +726,7 @@ var sushi = function(){
 		}
 
 
-		option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed*30, Phaser.Easing.Cubic.In, true)
+		option.tween = game.add.tween(option).to({x: toX, y: option.y}, speed*50, Phaser.Easing.Cubic.In, true)
 		var thisOption=option
 		if(thisOption && option){
 			for(var containerIndex = 0; containerIndex < thisOption.sushiList.length; containerIndex++){

@@ -168,12 +168,6 @@ var drzombie = function(){
         
 	}
 
-	function preload(){
-
-        game.stage.disableVisibilityChange = false;
-
-    }
-
     function stopGame(win){
         
 		sound.play("wrong");
@@ -181,7 +175,6 @@ var drzombie = function(){
         		
         tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3500);
 		tweenScene.onComplete.add(function(){
-            
             spaceSong.stop();
 			var resultScreen = sceneloader.getScene("result");
 			resultScreen.setScore(true, pointsBar.number,gameIndex);	
@@ -191,12 +184,10 @@ var drzombie = function(){
     }
 
     function createTutorial(){
-
         tutoGroup = game.add.group();
         sceneGroup.add(tutoGroup);
 
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay);
-
     }
 
     function onClickPlay(){
