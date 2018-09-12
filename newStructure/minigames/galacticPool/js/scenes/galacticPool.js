@@ -969,8 +969,6 @@ var galacticPool = function(){
 		placePlanetsAndTargets();
 		//positionTimer();
 		initCoin();
-
-
 	}
 
 	function getCoins(player){
@@ -1047,6 +1045,9 @@ var galacticPool = function(){
 				}
 				if(planets[rePosition].body.x>game.world.width-50){
 					planets[rePosition].body.x-=100;
+				}
+				if(planets[rePosition].body.y<50){
+					planets[rePosition].body.y+=100;
 				}
 			}
 		}
