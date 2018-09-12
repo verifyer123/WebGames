@@ -264,6 +264,7 @@ var galacticPool = function(){
 			game.add.tween(planets[resetPlanets].spines).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
 			game.add.tween(planets[resetPlanets].text).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
 			game.add.tween(targets[resetPlanets]).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+			game.add.tween(nebul[resetPlanets]).to({alpha:0},1000,Phaser.Easing.Linear.In,true);
 			targets[resetPlanets].inUse=false;
 		}
 		if(pointsBar.number>40 && dificulty<2){
@@ -405,7 +406,7 @@ var galacticPool = function(){
 			tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, START_TIMING, Phaser.Easing.Linear.Out, true, delayDefault).onComplete.add(function(){
 				if(lives>0)reset();
 				for(var dissapearNebuls=0;dissapearNebuls<nebulsInGame;dissapearNebuls++){
-					nebul[dissapearNebuls].alpha=0;
+					game.add.tween(nebul[dissapearNebuls]).to({alpha:0},300,Phaser.Easing.Linear.In,true);
 				}
 			})
 		}
@@ -519,8 +520,8 @@ var galacticPool = function(){
 					planets[toHole].text.alpha=0;
 					targets[toHole].alpha=0;
 					planets[toHole].body.data.shapes[0].sensor= false
-					nebul[toHole].alpha=0;
 					UIGroup.alpha=0;
+					game.add.tween(nebul[toHole]).to({alpha:0},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].body).to({x:blackHole.centerX,y:blackHole.centerY},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].spines.scale).to({x:0,y:0},300,Phaser.Easing.Linear.In,true);
 					game.add.tween(planets[toHole].spines).to({alpha:0},300,Phaser.Easing.Linear.In,true);
@@ -644,7 +645,7 @@ var galacticPool = function(){
 				tweenScale.onComplete.add(function(){
 					game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
 				})
-
+				
 				offsetY = 100
 			}
 			game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
@@ -1143,7 +1144,7 @@ var galacticPool = function(){
 			var particle
 			if(tag == 'text'){
 
-				fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+				var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
 				var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
 				particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
@@ -1253,14 +1254,14 @@ var galacticPool = function(){
 		localizationData:localizationData,
 		preload:preload,
 		update:update,
+		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 
 
 			sceneGroup = game.add.group()
 			sceneGroup.alpha=1;
-			createBackground()
+		
 			addParticles()
-			//			baseSong = sound.play("acornSong", {loop:true, volume:0.6})
 
 			baseSong = game.add.audio('acornSong')
 			game.sound.setDecodedCallback(baseSong, function(){
@@ -1274,8 +1275,10 @@ var galacticPool = function(){
 			game.onResume.add(function(){
 				game.sound.mute = false
 			}, this);
-
+			
+			
 			initialize()
+			createBackground()
 			createPointsBar()
 			createHearts()
 			createTutorial()
@@ -1287,7 +1290,6 @@ var galacticPool = function(){
 		},
 		show: function(event){
 			loadSounds()
-			initialize()
 		}
 	}
 }()
