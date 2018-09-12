@@ -493,7 +493,7 @@ var space = function () {
                     }
 
                     if (timeAttack && pointsBar.number % 2) {
-                        gameTime > 500 ? gameTime -= 800 : gameTime = 500
+                        gameTime > 800 ? gameTime -= 500 : gameTime = 800
                         waves.forEach(function (obj) {
                             obj.wave.stop()
                             obj.wave = game.add.tween(obj.scale).to({ y: obj.rise }, gameTime * 0.5, Phaser.Easing.Sinusoidal.InOut, false, 0, -1, true)
