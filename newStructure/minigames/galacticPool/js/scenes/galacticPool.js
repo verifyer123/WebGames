@@ -153,7 +153,7 @@ var galacticPool = function(){
 	var planetsGroup;
 	var fontStyleWord
 	var targetsGroup;
-	var wall, wall2
+	var wall, wall2,wall3,wall4
 	var wordFont;
 	var coinsGroup;
 	var nebulsInGame;
@@ -907,6 +907,26 @@ var galacticPool = function(){
 		wall2.body.kinematic=true;
 		wall2.body.collides(allPlanets);
 		physicPlanets.add(wall2)
+		
+		wall3=game.add.sprite(0,0,"atlas.galacticPool","fondo");
+		wall3.scale.setTo(0.15,game.world.height)
+		physicPlanets.add(wall3)
+		wall3.alpha=0;
+		wall3.body.setCollisionGroup(allPlanets);
+		wall3.body.kinematic=true;
+		wall3.body.collides(allPlanets);
+		physicPlanets.add(wall3)
+		
+		wall4=game.add.sprite(game.world.width,0,"atlas.galacticPool","fondo");
+		wall4.scale.setTo(0.15,game.world.height)
+		physicPlanets.add(wall4)
+		wall4.alpha=0;
+		wall4.body.setCollisionGroup(allPlanets);
+		wall4.body.kinematic=true;
+		wall4.body.collides(allPlanets);
+		physicPlanets.add(wall4)
+		
+		
 		for(var placingPositions=0; placingPositions<PLANETS_TOTAL; placingPositions++){
 			planets[placingPositions]=physicPlanets.create(0,0,"atlas.galacticPool",planetsNames[placingPositions].SKIN);
 			planets[placingPositions].anchor.setTo(0.5,0.5);
@@ -1021,6 +1041,12 @@ var galacticPool = function(){
 			for(var rePosition=0; rePosition<planets.length; rePosition++){
 				if(planets[rePosition].y>game.world.height-50){
 					planets[rePosition].body.y-=200;
+				}
+				if(planets[rePosition].body.x<50){
+					planets[rePosition].body.x+=100;
+				}
+				if(planets[rePosition].body.x>game.world.width-50){
+					planets[rePosition].body.x-=100;
 				}
 			}
 		}
