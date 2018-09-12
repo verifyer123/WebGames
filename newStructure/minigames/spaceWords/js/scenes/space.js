@@ -660,7 +660,7 @@ var space = function () {
             var ans = cap.text.text == answer ? true : false;
             eagle.landing.stop(true);
             //game.add.tween(eagle).to({x:cap.x + 50, y: cap.y - 100}, 1000, Phaser.Easing.Cubic.InOut, true).onComplete.add(win,this,null,ans)
-            game.add.tween(eagle).to({ x: cap.x + 50 }, 1000, Phaser.Easing.Cubic.InOut, true).onComplete.add(win, this, null, ans);
+            game.add.tween(eagle).to({ x: cap.x }, 1000, Phaser.Easing.Cubic.InOut, true).onComplete.add(win, this, null, ans);
         }
     }
 
@@ -737,7 +737,7 @@ var space = function () {
     }
 
     function animationElection(up, down) {
-        game.add.tween(up).to({ x: up.x + 60, y: up.y - 350 }, 1400, Phaser.Easing.Linear.InOut, true);
+        game.add.tween(up).to({ x: up.x, y: up.y - 350 }, 1400, Phaser.Easing.Linear.InOut, true);
         game.add.tween(up.scale).to({ x: 0, y: 0 }, 1400, Phaser.Easing.Linear.InOut, true);
         game.add.tween(down).to({ y: down.y + 150 }, 1400, Phaser.Easing.Linear.InOut, true);
     }
