@@ -153,7 +153,7 @@ var galacticPool = function(){
 	var planetsGroup;
 	var fontStyleWord
 	var targetsGroup;
-	var wall
+	var wall, wall2
 	var wordFont;
 	var coinsGroup;
 	var nebulsInGame;
@@ -328,6 +328,7 @@ var galacticPool = function(){
 				checkIfCorrect(obj,targets[overTargets]);
 			}
 		}
+
 		if(tutorial){
 			for(var alphaPlanets=0; alphaPlanets<TOTAL_PLANETS; alphaPlanets++){
 				planets[alphaPlanets].spines.alpha=1;
@@ -890,10 +891,20 @@ var galacticPool = function(){
 		wall.body.kinematic=true;
 		wall.body.collides(allPlanets);
 		physicPlanets.add(wall)
+		
+				
+		wall2=game.add.sprite(game.world.centerX,game.world.height,"atlas.galacticPool","fondo");
+		wall2.scale.setTo(game.world.width,0.15)
+		physicPlanets.add(wall2)
+		wall2.alpha=0;
+		wall2.body.setCollisionGroup(allPlanets);
+		wall2.body.kinematic=true;
+		wall2.body.collides(allPlanets);
+		physicPlanets.add(wall2)
 		for(var placingPositions=0; placingPositions<PLANETS_TOTAL; placingPositions++){
 			planets[placingPositions]=physicPlanets.create(0,0,"atlas.galacticPool",planetsNames[placingPositions].SKIN);
 			planets[placingPositions].anchor.setTo(0.5,0.5);
-			planets[placingPositions].scale.setTo(0.5,0.5);
+			planets[placingPositions].scale.setTo(0.8,0.8);
 			planets[placingPositions].alpha=0;
 			planets[placingPositions].body.x=placingPositions*10;
 			planets[placingPositions].body.setCircle(27);
@@ -1001,7 +1012,13 @@ var galacticPool = function(){
 				texture2.clear();
 				texture3.clear();
 			}
+			for(var rePosition=0; rePosition<planets.length; rePosition++){
+				if(planets[rePosition].y>game.world.height-50){
+					planets[rePosition].body.y-=200;
+				}
+			}
 		}
+		
 	}
 
 	function movingStars(){
