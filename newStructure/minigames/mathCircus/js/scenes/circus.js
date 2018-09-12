@@ -245,7 +245,7 @@ var circus = function(){
         if(pointsBar.number % 3 == 0){
             if(numLimit < 9){
                 numLimit++;
-                timeToUse-=300;
+                timeToUse-=800;
             }
         }
     }
