@@ -541,8 +541,8 @@ var galacticPool = function(){
 			boomParticle.y = clock.centerY
 			boomParticle.start(true, 1200, null, 10)
 			for(var feedBack=0; feedBack<TOTAL_PLANETS; feedBack++){
-				planets[feedBack].x=targets[feedBack].x;
-				planets[feedBack].y=targets[feedBack].y;	
+				planets[feedBack].body.x=targets[feedBack].x;
+				planets[feedBack].body.y=targets[feedBack].y;	
 				planets[feedBack].text.alpha=1;
 			}
 			goal=0;
