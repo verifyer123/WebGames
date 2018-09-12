@@ -2,7 +2,7 @@ var comunicationScript=function(){
 var playerData;
 	window.parent.postMessage('loaded','*');
 	window.addEventListener('message', function(event) {
-		if (event.origin=="http://localhost:4200" && event.data.player) {
+		if (event.origin=="http://localhost:4200" && event.data.player && event.data.timestamp) {
             playerData={
                 player:event.data.player,
                 coins:event.data.coins,

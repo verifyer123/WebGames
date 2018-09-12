@@ -40,7 +40,7 @@ var iMagicGames = {
 		{name:'Imagic Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability',yogotar:"nao", review:false,objective:10,demo:false,type:gameTypeEnum.TAP},
 		{name:'Imagic Elemental Witch',url:'elementalWitch/',mapUrl:'elementalWitch', sceneName:'elemental',subject:'creativity',yogotar:"eagle", review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',yogotar:"eagle",review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},
-		{name:'Imagic Lizart',url:'lizart/',mapUrl:'lizart', sceneName:'lizart',subject:'language',yogotar:"eagle",review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
+		{name:'Imagic Lizart',url:'lizart/',mapUrl:'lizart', sceneName:'lizart',subject:'language',yogotar:"eagle",review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',yogotar:"dazzle",subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
 		{name:'Imagic Hackamole',url:'hackaMole/',mapUrl:'hackaMole', sceneName:'hack',subject:'programming',review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},
 		{name:'Imagic Space Words',url:'spaceWords/',mapUrl:'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},

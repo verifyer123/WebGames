@@ -4,7 +4,7 @@ function startGame(){
 
     
 	//window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.AUTO, null, {init: init, create: create }, false, true);
-	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.canvas, null, {init: init, create: create }, true, true);
+	window.game = new Phaser.Game(document.body.clientWidth, document.body.clientHeight, Phaser.CANVAS, null, {init: init, create: create }, true, true);
 
     document.body.style.visibility = "hidden"
 

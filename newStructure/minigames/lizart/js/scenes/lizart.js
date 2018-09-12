@@ -3,7 +3,24 @@ var imagePath = "images/lizart/"
 var tutorialPath = "../../shared/minigames/"
 
 var lizart = function(){
+	
+	var localizationData = {
+		"EN":{
+			"howTo":"How to Play?",
+			"moves":"Moves left",
+			"stop":"Stop!",
+			"tutorial_image":"images/lizart/tutorial_image_EN.png",
+		},
 
+		"ES":{
+			"moves":"Movimientos extra",
+			"howTo":"¿Cómo jugar?",
+			"stop":"¡Detener!",
+			"tutorial_image":"images/lizart/tutorial_image_ES.png",
+		}
+	}
+	
+	
 	assets = {
 		atlases: [                
 			{
@@ -76,9 +93,10 @@ var lizart = function(){
 				file:imagePath +"fruit6.png"
 			},
 			{
-				name:"tutorial_image",
-				file:imagePath +"tutorial_image.png"
+				name:'tutorial_image',
+				file: "%lang",
 			},
+			
 		],
 		sounds: [
 			{	name: "pop",
@@ -955,15 +973,11 @@ var lizart = function(){
 			wrongFruit(null);
 		})
 	}
-	function render(){
-		
-		
-	}
 	return {
 		assets: assets,
 		name: "lizart",
 		update: update,
-		render:render,
+		localizationData: localizationData,
 		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create:createScene,
 		show: function(event){

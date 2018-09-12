@@ -896,7 +896,7 @@ var galacticPool = function(){
 			planets[placingPositions].scale.setTo(0.5,0.5);
 			planets[placingPositions].alpha=0;
 			planets[placingPositions].body.x=placingPositions*10;
-			planets[placingPositions].body.setCircle(35);
+			planets[placingPositions].body.setCircle(27);
 			planets[placingPositions].body.setZeroVelocity();
 			planets[placingPositions].body.setCollisionGroup(allPlanets);
 			planets[placingPositions].body.collides(allPlanets);

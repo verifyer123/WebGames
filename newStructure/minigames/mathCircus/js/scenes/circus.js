@@ -384,7 +384,8 @@ var circus = function(){
         
         base.text = pointsText;
         
-        yogotar = game.add.spine(game.world.centerX,game.world.height - 350,"yogotar");
+        yogotar = game.add.spine(game.world.centerX,game.world.height - 365,"yogotar");
+        yogotar.scale.setTo(0.8,0.8);
         yogotar.setAnimationByName(0,"idle",true);
         yogotar.setSkinByName("normal");
         sceneGroup.add(yogotar);
@@ -461,7 +462,7 @@ var circus = function(){
     function createTimer(){
         
         timerGroup = game.add.group();
-        //timerGroup.alpha = 0;
+        timerGroup.alpha = 0;
         sceneGroup.add(timerGroup);
         
         var clock = timerGroup.create(game.world.centerX, 75, "atlas.time", "clock");
@@ -650,6 +651,7 @@ var circus = function(){
 
         if(levelZero){
             levelZero = false;
+            game.add.tween(timerGroup).to({alpha:1},300,"Linear",true);
             for(var i = 0; i < buttonsGroup.length; i++){
                 buttonsGroup.children[i].children[0].tint = 0xffffff;
             }

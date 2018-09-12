@@ -946,7 +946,6 @@ var drzombie = function(){
 		assets: assets,
 		name: "drzombie",
 		update: update,
-        preload:preload,
         getGameData:function () { 
         	var games = yogomeGames.getGames(); 
         	return games[gameIndex];

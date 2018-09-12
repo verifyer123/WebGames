@@ -40,7 +40,7 @@ var optimizedGames={
 		{name:'Optimized Green Rescue',url:'greenRescue/',mapUrl:'greenRescue', sceneName:'greenRescue',subject:'sustainability', review:false,objective:10,demo:false,type:gameTypeEnum.TAP},
 		{name:'Optimized Elemental Witch',url:'elementalWitch/',mapUrl:'elementalWitch', sceneName:'elemental',subject:'creativity', review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
 		{name:'Optimized Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},
-		{name:'Optimized Lizart',url:'lizart/',mapUrl:'lizart', sceneName:'lizart',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
+		{name:'Optimized Lizart',url:'lizart/',mapUrl:'lizart', sceneName:'lizart',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Optimized Flag Runner',url:'flagRunner/',mapUrl:'flagRunner', sceneName:'flag',subject:'geography',review:true,objective:15,demo:false,type:gameTypeEnum.MATCH},
 		{name:'Optimized Hackamole',url:'hackaMole/',mapUrl:'hackaMole', sceneName:'hack',subject:'programming',review:true,objective:15,demo:false,type:gameTypeEnum.GRAB},
 		{name:'Optimized Space Words',url:'spaceWords/',mapUrl:'spaceWords', sceneName:'space',subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
