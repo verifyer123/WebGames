@@ -252,7 +252,7 @@ var symfunny = function(){
 
 	function missPoint(){
 
-		sound.play("wrong")
+		//sound.play("wrong")
 
 		lives--;
 		heartsGroup.text.setText('X ' + lives)
@@ -646,31 +646,31 @@ var symfunny = function(){
 
 		harp = game.add.spine(- 200, 0, "normal3")
 		//harp.scale.setTo(0.7)
-		harp.setAnimationByName(0, "idle", true)
+		harp.setAnimationByName(0, "play", true)
 		harp.setSkinByName("normal")
 		orchestaGroup.add(harp)
 
 		piano = game.add.spine(0, 200, "normal4")
 		//piano.scale.setTo(0.7)
-		piano.setAnimationByName(0, "idle", true)
+		piano.setAnimationByName(0, "play", true)
 		piano.setSkinByName("normal")
 		orchestaGroup.add(piano)
 
 		tuba = game.add.spine(200, 0, "normal")
 		//tuba.scale.setTo(0.7)
-		tuba.setAnimationByName(0, "idle", true)
+		tuba.setAnimationByName(0, "play", true)
 		tuba.setSkinByName("normal")
 		orchestaGroup.add(tuba)
 
 		violin = game.add.spine(- 200, 400, "normal2")
 		//violin.scale.setTo(0.7)
-		violin.setAnimationByName(0, "idle", true)
+		violin.setAnimationByName(0, "play", true)
 		violin.setSkinByName("normal")
 		orchestaGroup.add(violin)
 
 		flute = game.add.spine(200, 400, "normal1")
 		//flute.scale.setTo(0.7)
-		flute.setAnimationByName(0, "idle", true)
+		flute.setAnimationByName(0, "play", true)
 		flute.setSkinByName("normal")
 		orchestaGroup.add(flute)
 		
@@ -698,7 +698,7 @@ var symfunny = function(){
 		lightGroup.add(lightsOff)
 		
 		light=game.add.sprite(0,0,"atlas.symfunny","limelight");
-		light.scale.setTo(1,2.2)
+		light.scale.setTo(1,1)
 		light.anchor.setTo(0.5,0.95);
 		light.alpha=0;
 		
@@ -779,7 +779,7 @@ var symfunny = function(){
 					crescendo(true)
 			}
 			else{
-				sound.play('error')
+//				sound.play('error')
 				oof.setAnimationByName(0,"lose",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
 				}
@@ -791,7 +791,7 @@ var symfunny = function(){
 			tutorialLevel(instument);
 		}
 
-		orchestaGroup.children[instument.value].addAnimationByName(0, "idle", true)
+		orchestaGroup.children[instument.value].addAnimationByName(0, "play", true)
 	}
 
 	function crescendo(good){
@@ -808,7 +808,7 @@ var symfunny = function(){
 				sound.play('song')
 				for(var a = 0; a < orchestaGroup.length; a++){
 					orchestaGroup.children[a].setAnimationByName(0, "win", false)
-					orchestaGroup.children[a].addAnimationByName(0, "idle", true)
+					orchestaGroup.children[a].addAnimationByName(0, "play", true)
 				}
 				oof.setAnimationByName(0,"win",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
@@ -839,10 +839,10 @@ var symfunny = function(){
 		else{
 
 			game.time.events.add(1000,function(){
-				sound.play('gameLose')
+				sound.play('error')
 				for(var a = 0; a < orchestaGroup.length; a++){
 					orchestaGroup.children[a].setAnimationByName(0, "lose", false)
-					orchestaGroup.children[a].addAnimationByName(0, "idle", true)
+					orchestaGroup.children[a].addAnimationByName(0, "play", true)
 				}
 				particleWrong.x = oof.x
 				particleWrong.y = oof.y
@@ -853,10 +853,12 @@ var symfunny = function(){
 				missPoint()
 				game.add.tween(courtain1.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true);
 				game.add.tween(courtain2.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
-					game.add.tween(courtain1.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600);
-					game.add.tween(courtain2.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600).onComplete.add(function(){
-					initGame()
-					})
+					if(lives>0){
+						game.add.tween(courtain1.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600);
+						game.add.tween(courtain2.scale).to({x:1},600,Phaser.Easing.Cubic.Out,true,600).onComplete.add(function(){
+						initGame()
+						})
+					}
 				})
 			},this)
 		}
@@ -919,10 +921,10 @@ var symfunny = function(){
 				game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},150,Phaser.Easing.linear,true)
 			})
 			game.add.tween(lightsOff).to({alpha:0.5},400,Phaser.Easing.linear,true);
-			game.add.tween(light).to({x:orchestaGroup.children[r].x,y:orchestaGroup.children[r].y},400,Phaser.Easing.linear,true);
-			game.add.tween(light).to({alpha:0.8},400,Phaser.Easing.linear,true);
+			game.add.tween(light).to({x:orchestaGroup.children[r].x,y:orchestaGroup.children[r].y-40},400,Phaser.Easing.linear,true);
+			game.add.tween(light).to({alpha:0.5},400,Phaser.Easing.linear,true);
 			orchestaGroup.children[r].setAnimationByName(0, "win", false)
-			orchestaGroup.children[r].addAnimationByName(0, "idle", true)
+			orchestaGroup.children[r].addAnimationByName(0, "play", true)
 		},this)
 	}
 

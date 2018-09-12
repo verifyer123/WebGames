@@ -1,187 +1,187 @@
 
 normal1.png
-size: 2048,128
+size: 1024,256
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 normal1/body
-  rotate: true
-  xy: 2, 11
-  size: 115, 168
-  orig: 115, 168
+  rotate: false
+  xy: 363, 77
+  size: 111, 176
+  orig: 111, 176
   offset: 0, 0
   index: -1
 normal1/eye_l
-  rotate: true
-  xy: 1409, 102
-  size: 24, 33
-  orig: 24, 33
+  rotate: false
+  xy: 522, 72
+  size: 26, 35
+  orig: 26, 35
   offset: 0, 0
   index: -1
 normal1/eye_r
   rotate: true
-  xy: 1444, 102
-  size: 24, 33
-  orig: 24, 33
+  xy: 800, 176
+  size: 25, 34
+  orig: 25, 34
   offset: 0, 0
   index: -1
 normal1/eyebrow_l
-  rotate: true
-  xy: 1084, 18
-  size: 25, 14
-  orig: 25, 14
+  rotate: false
+  xy: 2, 2
+  size: 31, 20
+  orig: 31, 20
   offset: 0, 0
   index: -1
 normal1/eyebrow_r
-  rotate: false
-  xy: 1167, 65
-  size: 26, 14
-  orig: 26, 14
+  rotate: true
+  xy: 778, 171
+  size: 31, 20
+  orig: 31, 20
   offset: 0, 0
   index: -1
 normal1/foot_l
-  rotate: true
-  xy: 1005, 2
-  size: 49, 31
-  orig: 49, 31
+  rotate: false
+  xy: 725, 120
+  size: 57, 35
+  orig: 57, 35
   offset: 0, 0
   index: -1
 normal1/foot_r
   rotate: false
-  xy: 1359, 96
-  size: 48, 30
-  orig: 48, 30
+  xy: 725, 120
+  size: 57, 35
+  orig: 57, 35
   offset: 0, 0
   index: -1
 normal1/leg_l_0
   rotate: true
-  xy: 966, 114
-  size: 12, 133
-  orig: 12, 133
+  xy: 587, 207
+  size: 20, 141
+  orig: 20, 141
   offset: 0, 0
   index: -1
 normal1/leg_l_1
   rotate: true
-  xy: 682, 91
-  size: 35, 140
-  orig: 35, 140
+  xy: 587, 229
+  size: 24, 144
+  orig: 24, 144
   offset: 0, 0
   index: -1
 normal1/leg_l_2
-  rotate: true
-  xy: 682, 54
-  size: 35, 140
-  orig: 35, 140
+  rotate: false
+  xy: 556, 110
+  size: 29, 143
+  orig: 29, 143
   offset: 0, 0
   index: -1
 normal1/leg_l_3
-  rotate: true
-  xy: 824, 91
-  size: 35, 140
-  orig: 35, 140
+  rotate: false
+  xy: 519, 109
+  size: 35, 144
+  orig: 35, 144
   offset: 0, 0
   index: -1
 normal1/leg_l_4
-  rotate: true
-  xy: 824, 54
-  size: 35, 140
-  orig: 35, 140
+  rotate: false
+  xy: 476, 107
+  size: 41, 146
+  orig: 41, 146
   offset: 0, 0
   index: -1
 normal1/mouth
   rotate: false
-  xy: 868, 3
+  xy: 733, 204
   size: 67, 49
   orig: 67, 49
   offset: 0, 0
   index: -1
 normal1/mouth_2
   rotate: false
-  xy: 799, 2
+  xy: 802, 203
   size: 67, 50
   orig: 67, 50
   offset: 0, 0
   index: -1
 normal1/mouth_3
   rotate: false
-  xy: 966, 53
+  xy: 652, 146
   size: 70, 59
   orig: 70, 59
   offset: 0, 0
   index: -1
 normal1/nota_loose
   rotate: false
-  xy: 1038, 45
+  xy: 587, 138
   size: 63, 67
   orig: 63, 67
   offset: 0, 0
   index: -1
 normal1/nota_loose2
   rotate: true
-  xy: 1221, 98
+  xy: 587, 108
   size: 28, 67
   orig: 28, 67
   offset: 0, 0
   index: -1
 normal1/nota_ok_2
-  rotate: false
-  xy: 1103, 59
+  rotate: true
+  xy: 871, 191
   size: 62, 67
   orig: 62, 67
   offset: 0, 0
   index: -1
 normal1/note_ok_1
   rotate: true
-  xy: 1290, 98
+  xy: 656, 116
   size: 28, 67
   orig: 28, 67
   offset: 0, 0
   index: -1
 normal1/shadow
   rotate: false
-  xy: 682, 2
+  xy: 2, 24
   size: 115, 50
   orig: 115, 50
   offset: 0, 0
   index: -1
 normal1/special_1
-  rotate: true
-  xy: 172, 11
-  size: 115, 168
-  orig: 115, 168
+  rotate: false
+  xy: 247, 77
+  size: 114, 176
+  orig: 114, 176
   offset: 0, 0
   index: -1
 normal1/special_2
-  rotate: true
-  xy: 342, 11
-  size: 115, 168
-  orig: 115, 168
+  rotate: false
+  xy: 128, 77
+  size: 117, 176
+  orig: 117, 176
   offset: 0, 0
   index: -1
 normal1/special_3
-  rotate: true
-  xy: 512, 11
-  size: 115, 168
-  orig: 115, 168
+  rotate: false
+  xy: 2, 76
+  size: 124, 177
+  orig: 124, 177
   offset: 0, 0
   index: -1
 normal1/tongue
   rotate: false
-  xy: 1167, 81
+  xy: 724, 157
   size: 52, 45
   orig: 52, 45
   offset: 0, 0
   index: -1
 normal1/tongue_2
   rotate: true
-  xy: 937, 2
+  xy: 940, 204
   size: 49, 66
   orig: 49, 66
   offset: 0, 0
   index: -1
 normal1/tongue_3
   rotate: false
-  xy: 1038, 6
+  xy: 476, 68
   size: 44, 37
   orig: 44, 37
   offset: 0, 0

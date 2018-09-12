@@ -6,161 +6,161 @@ filter: Linear,Linear
 repeat: none
 normal2/body
   rotate: true
-  xy: 2, 14
-  size: 112, 314
-  orig: 112, 314
+  xy: 2, 5
+  size: 121, 324
+  orig: 121, 324
   offset: 0, 0
   index: -1
 normal2/eye_l
   rotate: false
-  xy: 480, 40
+  xy: 979, 105
   size: 21, 21
   orig: 21, 21
   offset: 0, 0
   index: -1
 normal2/eye_r
   rotate: false
-  xy: 503, 40
+  xy: 656, 40
   size: 21, 21
   orig: 21, 21
   offset: 0, 0
   index: -1
 normal2/eyebrow_l
   rotate: false
-  xy: 526, 47
+  xy: 679, 47
   size: 27, 14
   orig: 27, 14
   offset: 0, 0
   index: -1
 normal2/eyebrow_r
   rotate: false
-  xy: 555, 48
+  xy: 708, 48
   size: 26, 13
   orig: 26, 13
   offset: 0, 0
   index: -1
 normal2/foot_l
   rotate: false
-  xy: 931, 38
-  size: 43, 26
-  orig: 43, 26
+  xy: 450, 29
+  size: 49, 32
+  orig: 49, 32
   offset: 0, 0
   index: -1
 normal2/foot_r
   rotate: false
-  xy: 436, 35
-  size: 42, 26
-  orig: 42, 26
+  xy: 450, 29
+  size: 49, 32
+  orig: 49, 32
   offset: 0, 0
   index: -1
 normal2/leg_l_0
-  rotate: false
-  xy: 985, 51
-  size: 13, 45
-  orig: 13, 45
+  rotate: true
+  xy: 552, 40
+  size: 21, 53
+  orig: 21, 53
   offset: 0, 0
   index: -1
 normal2/leg_l_1
-  rotate: false
-  xy: 1000, 80
-  size: 22, 46
-  orig: 22, 46
+  rotate: true
+  xy: 450, 2
+  size: 25, 50
+  orig: 25, 50
   offset: 0, 0
   index: -1
 normal2/leg_l_2
-  rotate: false
-  xy: 1000, 32
-  size: 22, 46
-  orig: 22, 46
+  rotate: true
+  xy: 925, 68
+  size: 26, 51
+  orig: 26, 51
   offset: 0, 0
   index: -1
 normal2/leg_l_3
   rotate: true
-  xy: 387, 20
-  size: 22, 46
-  orig: 22, 46
+  xy: 501, 34
+  size: 27, 49
+  orig: 27, 49
   offset: 0, 0
   index: -1
 normal2/mouth
   rotate: false
-  xy: 931, 66
+  xy: 925, 96
   size: 52, 30
   orig: 52, 30
   offset: 0, 0
   index: -1
 normal2/mouth_2
   rotate: false
-  xy: 387, 44
+  xy: 607, 38
   size: 47, 23
   orig: 47, 23
   offset: 0, 0
   index: -1
 normal2/mouth_3
-  rotate: false
-  xy: 318, 2
+  rotate: true
+  xy: 413, 11
   size: 56, 35
   orig: 56, 35
   offset: 0, 0
   index: -1
 normal2/nose
   rotate: false
-  xy: 453, 63
+  xy: 328, 4
   size: 83, 63
   orig: 83, 63
   offset: 0, 0
   index: -1
 normal2/nota_loose
   rotate: true
-  xy: 793, 63
+  xy: 718, 63
   size: 63, 67
   orig: 63, 67
   offset: 0, 0
   index: -1
 normal2/nota_loose2
   rotate: true
-  xy: 318, 39
+  xy: 856, 98
   size: 28, 67
   orig: 28, 67
   offset: 0, 0
   index: -1
 normal2/nota_ok_2
   rotate: true
-  xy: 862, 64
+  xy: 787, 64
   size: 62, 67
   orig: 62, 67
   offset: 0, 0
   index: -1
 normal2/note_ok_1
   rotate: true
-  xy: 931, 98
+  xy: 856, 68
   size: 28, 67
   orig: 28, 67
   offset: 0, 0
   index: -1
 normal2/shadow
   rotate: false
-  xy: 318, 69
+  xy: 328, 69
   size: 133, 57
   orig: 133, 57
   offset: 0, 0
   index: -1
 normal2/special_1
   rotate: false
-  xy: 538, 63
+  xy: 463, 63
   size: 83, 63
   orig: 83, 63
   offset: 0, 0
   index: -1
 normal2/special_2
   rotate: false
-  xy: 623, 63
+  xy: 548, 63
   size: 83, 63
   orig: 83, 63
   offset: 0, 0
   index: -1
 normal2/special_3
   rotate: false
-  xy: 708, 63
+  xy: 633, 63
   size: 83, 63
   orig: 83, 63
   offset: 0, 0
