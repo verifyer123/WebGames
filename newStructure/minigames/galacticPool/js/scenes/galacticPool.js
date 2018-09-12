@@ -444,7 +444,7 @@ var galacticPool = function(){
 			for(var checkRightPlace=0; checkRightPlace<planets.length; checkRightPlace++){
 				if(planet.tag==targets[checkRightPlace].tag){
 					targets[checkRightPlace].inUse=true;
-					game.add.tween(planet.body).to({x:positionX[checkRightPlace],y:positionY[checkRightPlace]},100,Phaser.Easing.Cubic.In,true);
+					game.add.tween(planet.body).to({x:positionX[checkRightPlace],y:positionY[checkRightPlace]},200,Phaser.Easing.Cubic.In,true);
 					planet.text.alpha=1;
 					planet.inputEnabled=false;
 				}
@@ -516,21 +516,30 @@ var galacticPool = function(){
 			stopTimer()
 			blackHole.alpha=1;
 			game.add.tween(blackHole.scale).to({x:blackHole.scale.x-1,y:blackHole.scale.y-1}, 500, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
-				for(var toHole=0; toHole<TOTAL_PLANETS; toHole++){
-					planets[toHole].text.alpha=0;
-					targets[toHole].alpha=0;
-					planets[toHole].body.data.shapes[0].sensor= false
-					UIGroup.alpha=0;
-					game.add.tween(nebul[toHole]).to({alpha:0},300,Phaser.Easing.Linear.In,true);
-					game.add.tween(planets[toHole].body).to({x:blackHole.centerX,y:blackHole.centerY},300,Phaser.Easing.Linear.In,true);
-					game.add.tween(planets[toHole].spines.scale).to({x:0,y:0},300,Phaser.Easing.Linear.In,true);
-					game.add.tween(planets[toHole].spines).to({alpha:0},300,Phaser.Easing.Linear.In,true);
-				}
-				sound.play("swallow")
-				game.add.tween(blackHole.scale).to({x:blackHole.scale.x+4,y:blackHole.scale.y+4}, 1000, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
-					stopGame(false)
-				})
-			});
+				feedBack()
+				game.time.events.add(1000,function(){
+					for(var toHole=0; toHole<TOTAL_PLANETS; toHole++){
+						planets[toHole].text.alpha=0;
+						targets[toHole].alpha=0;
+						planets[toHole].body.data.shapes[0].sensor= false;
+						UIGroup.alpha=0;
+						game.add.tween(nebul[toHole]).to({alpha:0},300,Phaser.Easing.Linear.In,true);
+						game.add.tween(planets[toHole].body).to({x:blackHole.centerX,y:blackHole.centerY},300,Phaser.Easing.Linear.In,true);
+						game.add.tween(planets[toHole].spines.scale).to({x:0,y:0},300,Phaser.Easing.Linear.In,true);
+						game.add.tween(planets[toHole].spines).to({alpha:0},300,Phaser.Easing.Linear.In,true);
+					}
+					sound.play("swallow")
+					game.add.tween(blackHole.scale).to({x:blackHole.scale.x+4,y:blackHole.scale.y+4}, 1000, Phaser.Easing.Linear.Out, true).onComplete.add(function(){
+						stopGame(false)
+					})
+				});
+			})
+		}
+	}
+	function feedBack(){
+		for(var feedBack=0; feedBack<TOTAL_PLANETS; feedBack++){
+			game.add.tween(planets[feedBack].body).to({x:positionX[feedBack],y:positionY[feedBack]},500,Phaser.Easing.linear,true);
+			planets[feedBack].text.alpha=1;
 		}
 	}
 	function startTimer(time){
@@ -540,11 +549,7 @@ var galacticPool = function(){
 			boomParticle.x = clock.centerX
 			boomParticle.y = clock.centerY
 			boomParticle.start(true, 1200, null, 10)
-			for(var feedBack=0; feedBack<TOTAL_PLANETS; feedBack++){
-				planets[feedBack].body.x=targets[feedBack].x;
-				planets[feedBack].body.y=targets[feedBack].y;	
-				planets[feedBack].text.alpha=1;
-			}
+			feedBack()
 			goal=0;
 			giveInputs(SWITCHING)
 			missPoint();
@@ -753,7 +758,7 @@ var galacticPool = function(){
 
 
 	function preload(){		
-		//game.stage.disableVisibilityChange = false;
+		game.stage.disableVisibilityChange = false;
 		epicparticles.loadEmitter(game.load, "pickedEnergy") 
 	}
 
@@ -905,7 +910,7 @@ var galacticPool = function(){
 		for(var placingPositions=0; placingPositions<PLANETS_TOTAL; placingPositions++){
 			planets[placingPositions]=physicPlanets.create(0,0,"atlas.galacticPool",planetsNames[placingPositions].SKIN);
 			planets[placingPositions].anchor.setTo(0.5,0.5);
-			planets[placingPositions].scale.setTo(0.8,0.8);
+			planets[placingPositions].scale.setTo(planetsNames[placingPositions].size-0.2,planetsNames[placingPositions].size-0.2);
 			planets[placingPositions].alpha=0;
 			planets[placingPositions].body.x=placingPositions*10;
 			planets[placingPositions].body.setCircle(27);
