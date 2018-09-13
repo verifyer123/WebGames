@@ -239,8 +239,6 @@ var magnet = function(){
 			particle.x = obj.world.x + offX
 			particle.y = obj.world.y + 520
 			particle.scale.setTo(0.5,0.5)
-			//game.add.tween(particle).to({alpha:0},300,Phaser.Easing.Cubic.In,true)
-			//game.add.tween(particle.scale).to({x:2,y:2},300,Phaser.Easing.Cubic.In,true)
 			particle.start(true, 1500, null, 6);
 
 			game.add.tween(particle).to({alpha:0},500,"Linear",true,1000).onComplete.add(function(){

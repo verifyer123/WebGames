@@ -1,19 +1,28 @@
 
 var soundsPath = "../../shared/minigames/sounds/"
-
+var particlesPath="../../shared/minigames/images/particles/battle/"
+var tutorialPath = "../../shared/minigames/"
 var magicSpell = function(){
 
 	var localizationData = {
 		"EN":{
 			"howTo":"How to Play?",
 			"moves":"Moves left",
-			"stop":"Stop!"
+			"stop":"Stop!",
+			"word0":"VERANO",
+			"word1":"INVIERNO",
+			"word2":"PRIMAVERA",
+			"word3":"OTOÑO"
 		},
 
 		"ES":{
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
-			"stop":"¡Detener!"
+			"stop":"¡Detener!",
+			"word0":"SUMMER",
+			"word1":"WINTER",
+			"word2":"SPRING",
+			"word3":"AUTUMN"
 		}
 	}
 
@@ -21,41 +30,47 @@ var magicSpell = function(){
 	assets = {
 		atlases: [
 			{   
-				name: "atlas.magicSpell",
-				json: "images/magicSpell/atlas.json",
-				image: "images/magicSpell/atlas.png",
+				name: "atlas.magic",
+				json: "images/magic/atlas.json",
+				image: "images/magic/atlas.png",
 			},
 			{   
 				name: "atlas.time",
-				json: "images/magicSpell/timeAtlas.json",
-				image: "images/magicSpell/timeAtlas.png",
+				json: "images/magic/timeAtlas.json",
+				image: "images/magic/timeAtlas.png",
+			},
+			{   
+				name: "atlas.tutorial",
+				json: tutorialPath+"images/tutorial/tutorial_atlas.json",
+				image: tutorialPath+"images/tutorial/tutorial_atlas.png"
 			}
 		],
 		images: [
+
 			{
 				name:'tutorial_image',
-				file:"images/magicSpell/gametuto.png"
-			},
-			{
-				name:'rocks',
-				file:"images/magicSpell/rocks.png"
-			},
-			{
-				name: "season0",
-				file: "images/magicSpell/spring.png"
-			},
-			{
-				name: "season1",
-				file: "images/magicSpell/summer.png"
-			},
-			{
-				name: "season2",
-				file: "images/magicSpell/fall.png"
-			},
-			{
-				name: "season3",
-				file: "images/magicSpell/winter.png"
+				file:"images/magic/tutorial_image_%input.png"
 			}
+
+		],
+		spines: [
+
+		],
+		spritesheets: [
+			{
+				name:"coin",
+				file:"images/Spine/coin/coin.png",
+				width:122,
+				height:123,
+				frames:12
+			},
+			{
+				name:"hand",
+				file:"images/Spine/hand/hand.png",
+				width:115,
+				height:111,
+				frames:23
+			},
 		],
 		sounds: [
 			{	name: "magic",
@@ -63,65 +78,52 @@ var magicSpell = function(){
 			{	name: "cut",
 			 file: soundsPath + "cut.mp3"},
 			{	name: "wrong",
-			 file: soundsPath + "wrongAnswer.mp3"},
-			{	name: "rightChoice",
-			 file: soundsPath + "rightChoice.mp3"},
+			 file: soundsPath + "wrong.mp3"},
+			{	name: "explosion",
+			 file: soundsPath + "laserexplode.mp3"},
 			{	name: "pop",
 			 file: soundsPath + "pop.mp3"},
+			{	name: "shoot",
+			 file: soundsPath + "shoot.mp3"},
 			{	name: "gameLose",
 			 file: soundsPath + "gameLose.mp3"},
-			{   name: 'gameSong',
-			 file: soundsPath + 'songs/childrenbit.mp3'
+			{	name: "ship",
+			 file: soundsPath + "robotBeep.mp3"},
+			{   name:"acornSong",
+			 file: soundsPath + 'songs/childrenbit.mp3'}
+
+		],
+		jsons: [
+			{
+				name: 'pickedEnergy', 
+				file:  particlesPath + 'pickedEnergy/specialBar1.json'
 			}
 		],
-		spritesheets: [
-			{   name: "coin",
-			 file: "images/spines/coin.png",
-			 width: 122,
-			 height: 123,
-			 frames: 12
-			}
-		],
-		spines:[
-			{
-				name:"dinamita",
-				file:"images/spines/Dinamita/dinamita.json"
-			},
-			{
-				name:"enemy",
-				file:"images/spines/Spelletor/spelletor.json"
-			},
-		]
 	}
 
-	var SPELL_WORDS
 
-	var lives
-	var sceneGroup
-	var gameIndex = 190
-	var gameActive
-	var particleCorrect, particleWrong
+	var lives = null
+	var sceneGroup = null
+	var background
+	var gameActive = true
+	var shoot
+	var particlesGroup, particlesUsed
+	var gameIndex = 1
 	var tutoGroup
-	var pointsBar
-	var heartsGroup
-	var timerGroup
-	var gameSong
-	var colors,floors;
-	var coin
-	var hand
-	var seasonsGroup
-	var slotsGroup
-	var runesGroup
-	var dificultyTime
-	var ok
-	var timeAttack
-	var gameTime
-	var season
-	var level
-	var tutorial
-	var dinamita
-	var enemy
-	var timeBar
+	var indexGame
+	var overlayGroup
+	var magicSong
+	var words=[];
+	var runes=[];
+	var slots=[];
+	var TOTAL_WORDS=4;
+	var limitCharacterPerWord;
+	var enemys=[];
+	var backgroundGroup=null
+
+	var tweenTiempo
+	var clock, timeBar
+	var emitter
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -129,24 +131,140 @@ var magicSpell = function(){
 
 	function initialize(){
 
-		game.stage.backgroundColor = "#ffffff"
+		game.stage.backgroundColor = "#000000"
 		lives = 3
-		gameActive = false
-		tutorial=true
-		timeAttack = false
-		gameTime = 10000
-		level = 1
-		dificultyTime=5000;
-		
-		if(localization.getLanguage() === 'EN'){
-			SPELL_WORDS = ["PRIMAVERA", "VERANO", "OTOÑO", "INVIERNO"]
-		}
-		else{
-			SPELL_WORDS = ["SPRING", "SUMMER", "AUTUMN", "WINTER"]
-		}
-
+		emitter=""
+		limitCharacterPerWord=4
 		loadSounds()
+		for(var insertWords=0; insertWords<TOTAL_WORDS; insertWords++){
+			palabras[insertWords]=localization.getString(localizationData,"word"+insertWords);
+		}
 	}
+	
+	function onClickPlay(rect) {
+		tutoGroup.y = -game.world.height
+	}
+
+	function createTutorial(){
+
+		tutoGroup = game.add.group()
+		//overlayGroup.scale.setTo(0.8,0.8)
+		sceneGroup.add(tutoGroup)
+		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
+
+	}
+	
+	function createSlots(){
+		
+		
+	}
+	function createRunes(char){
+		
+		
+	}
+	function divideInCharacters(word){
+		
+		for (var slice=0; slice<word.length; slice++){
+			createRunes()
+		}
+		
+	}
+	function attackYogotar(){
+	
+		
+	}
+	function attackEnemy(){
+		
+		
+	}
+	function shuffleEnemy(){
+		
+		
+	}
+	function evaluateWord(){
+		for (var checkCharacters=0; checkCharacters<wordChoosed.length; checkCharacters++){
+			
+		}
+		
+	}
+	function checkOverlap(spriteA, spriteB) {
+		var boundsA = spriteA.getBounds();
+		var boundsB = spriteB.getBounds();
+		return Phaser.Rectangle.intersects(boundsA , boundsB );
+	}
+	function stopDrag(rune,objOverlaping,word){
+		var alreadyFinished=true;
+		if(objOverlaping.tag=="slot"){
+			if(tutorial && rune.value===slotOverlaping){
+				rune.inputEnabled=false;
+				rune.x=slotOverlaping.x;
+				rune.y=slotOverlaping.y;
+				slotOverlaping.isOccupied=true;
+			}else if(!tutorial){
+				rune.x=slotOverlaping.x;
+				rune.y=slotOverlaping.y;
+				slotOverlaping.isOccupied=true;
+			}
+		}else if(objOverlaping.tag=="board"){
+			
+		}
+		for(var checkIfFinished=0; checkIfFinished<word.length; checkIfFinished++){
+			if(!slots[checkIfFinished].isOccupied){
+			   alreadyFinished=false;
+			}
+		}
+		if(alreadyFinished)evaluateWord(word)
+	}
+	function changeEnviroment(randomNumber,word,lastGroup){
+		var nextGroup;
+		game.add.tween(lastGroup).to({alpha:0},1500,Phaser.Easing.Cubic.OUT,true);
+		switch (word){
+			case "SUMMER" || "VERANO":
+				nextGroup=summerGroup;
+			break;
+			case "SPRING" || "PRIMAVERA": 	
+				nextGroup=springGroup;
+			break;
+			case "WINTER" || "INVIERNO":
+				nextGroup=winterGroup;
+			break;
+			case "AUTUMN" || "OTOÑO": 
+				nextGroup=autumnGroup;
+			break;
+		}
+		game.add.tween(nextGroup).to({alpha:1},1500,Phaser.Easing.Cubic.IN,true);
+	}
+	function chooseWord(){
+		var randomNumber=game.rnd.integerInRange(0,TOTAL_WORDS);
+		var word=words[randomNumber];	
+		if(!tutorial && lives>0){
+			changeEnviroment(randomNumber, word);
+		}else{
+			tutorialLevel(randomNumber,word);
+		}
+	}
+	function enteringToGame(){
+		
+	}
+	function tutorialLevel(enviroment,word){
+		
+		switch (word){
+			case "SUMMER" || "VERANO":
+				summerGroup.alpha=1;
+			break;
+			case "SPRING" || "PRIMAVERA": 	
+				springGroup.alpha=1;
+			break;
+			case "WINTER" || "INVIERNO":
+				winterGroup.alpha=1;
+			break;
+			case "AUTUMN" || "OTOÑO": 
+				autumnGroup.alpha=1;
+			break;	
+		}
+		enteringToGame();
+	}
+	
 
 	function popObject(obj,delay){
 
@@ -160,56 +278,76 @@ var magicSpell = function(){
 
 	function animateScene() {
 
+		gameActive = false
+
+		var startGroup = new Phaser.Group(game)
+		sceneGroup.add(startGroup)
+
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
 
 	}
 
-	function createPointsBar(){
+	function changeImage(index,group){
+		for (var i = 0;i< group.length; i ++){
+			group.children[i].alpha = 0
+			if( i == index){
+				group.children[i].alpha = 1
+			}
+		}
+	} 
 
-		pointsBar = game.add.group()
-		pointsBar.x = game.world.width
-		pointsBar.y = 0
-		sceneGroup.add(pointsBar)
+	function addNumberPart(obj,number,isScore){
 
-		var pointsImg = pointsBar.create(-10,10,'atlas.magicSpell','xpcoins')
-		pointsImg.anchor.setTo(1,0)
+		var pointsText = lookParticle('text')
+		if(pointsText){
 
-		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+			pointsText.x = obj.world.x
+			pointsText.y = obj.world.y
+			pointsText.anchor.setTo(0.5,0.5)
+			pointsText.setText(number)
+			pointsText.scale.setTo(1,1)
 
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
-		pointsText.x = -pointsImg.width * 0.45
-		pointsText.y = pointsImg.height * 0.25
-		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
-		pointsBar.add(pointsText)
-		pointsBar.text = pointsText
-		pointsBar.number = 0
+			var offsetY = -100
+
+			pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+			deactivateParticle(pointsText,800)
+			if(isScore){
+
+				pointsText.scale.setTo(0.7,0.7)
+				var tweenScale = game.add.tween(obj.parent.scale).to({x:0.8,y:0.8},200,Phaser.Easing.linear,true)
+				tweenScale.onComplete.add(function(){
+					game.add.tween(obj.parent.scale).to({x:1,y:1},200,Phaser.Easing.linear,true)
+				})
+
+				offsetY = 100
+			}
+
+			game.add.tween(pointsText).to({y:pointsText.y + 100},800,Phaser.Easing.linear,true)
+			game.add.tween(pointsText).to({alpha:0},250,Phaser.Easing.linear,true,500)
+		}
+
 	}
 
-	function createHearts(){
+	function missPoint(){
 
-		heartsGroup = game.add.group()
-		heartsGroup.y = 10
-		sceneGroup.add(heartsGroup)
+		sound.play("wrong")
 
-		var pivotX = 10
+		lives--;
+		heartsGroup.text.setText('X ' + lives)
 
-		var group = game.add.group()
-		group.x = pivotX
-		heartsGroup.add(group)
+		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+		scaleTween.onComplete.add(function(){
+			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+		})
 
-		var heartImg = group.create(0,0,'atlas.magicSpell','life_box')
+		if(lives == 0){
+			stopGame(false)
+		}
 
-		pivotX += heartImg.width * 0.45
+		addNumberPart(heartsGroup.text,'-1',true)
 
-		var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-		pointsText.x = pivotX
-		pointsText.y = heartImg.height * 0.15
-		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0)
-		pointsText.setText('X ' + lives)
-		heartsGroup.add(pointsText)
-		heartsGroup.text = pointsText
 	}
 
 	function addPoint(number){
@@ -222,112 +360,214 @@ var magicSpell = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
+
+		addNumberPart(pointsBar.text,'+' + number,true)		
+
 	}
 
-	function missPoint(obj){
+	function createPointsBar(){
 
-		sound.play("wrong")
+		pointsBar = game.add.group()
+		pointsBar.x = game.world.width
+		pointsBar.y = 0
+		sceneGroup.add(pointsBar)
 
-		particleWrong.x = obj.x 
-		particleWrong.y = obj.y - 130
-		particleWrong.start(true, 1200, null, 10)
+		var pointsImg = pointsBar.create(-10,10,'atlas.magic','xpcoins')
+		pointsImg.anchor.setTo(1,0)
 
-		lives--;
-		heartsGroup.text.setText('X ' + lives)
+		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle)
+		pointsText.x = -pointsImg.width * 0.45
+		pointsText.y = pointsImg.height * 0.25
+		pointsBar.add(pointsText)
 
-		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-		scaleTween.onComplete.add(function(){
-			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-		})
+		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
 
-		if(lives == 0){
-			stopGame()
-		}
+		pointsBar.text = pointsText
+		pointsBar.number = 0
+
 	}
 
-	function stopGame(){
+	function createHearts(){
+
+		heartsGroup = game.add.group()
+		heartsGroup.y = 10
+		sceneGroup.add(heartsGroup)
+
+
+		var pivotX = 10
+		var group = game.add.group()
+		group.x = pivotX
+		heartsGroup.add(group)
+
+		var heartImg = group.create(0,0,'atlas.magic','life_box')
+
+		pivotX+= heartImg.width * 0.45
+
+		var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+		var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
+		pointsText.x = pivotX
+		pointsText.y = heartImg.height * 0.15
+		pointsText.setText('X ' + lives)
+		heartsGroup.add(pointsText)
+
+		pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
+
+		heartsGroup.text = pointsText
+
+	}
+
+	function stopGame(win){
 
 		sound.play("wrong")
 		sound.play("gameLose")
 
 		gameActive = false
 
-		dinamita.setAnimationByName(0, "lose", false)
-		dinamita.addAnimationByName(0, "losestill", true)
-		restoreAssets()
 
-		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3000)
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
+			magicSong.stop()
 			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)
-			gameSong.stop()	
+			resultScreen.setScore(true, pointsBar.number,gameIndex)		
 			sceneloader.show("result")
 		})
 	}
 
-	function preload(){
 
-		game.stage.disableVisibilityChange = false
+	function preload(){		
+		game.stage.disableVisibilityChange = false;
+		epicparticles.loadEmitter(game.load, "pickedEnergy") 
 	}
 
-	function createTutorial(){
 
-		tutoGroup = game.add.group()
-		sceneGroup.add(tutoGroup)
+	function releaseButton(obj){
 
-		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-	}
-
-	function onClickPlay() {
-		tutoGroup.y = -game.world.height
-		game.add.tween(dinamita).to({x:180}, 1500, Phaser.Easing.linear, true).onComplete.add(function(){
-			dinamita.setAnimationByName(0, "idle", true)
-			initTuto()
-		})
+		obj.parent.children[1].alpha = 1
 	}
 
 	function createBackground(){
 
-		seasonsGroup = game.add.group()
-		sceneGroup.add(seasonsGroup)
+		backgroundGroup = game.add.group()
+		sceneGroup.add(backgroundGroup)
 
-		colors = [0xf5e59c, 0xacfcc7, 0xeff6b9, 0xd3f1fb]
-		floors = [0x66cc66, 0x66cc99, 0xb0cc58, 0xd2fce8]
+		//Aqui inicializo los botones
+		controles=game.input.keyboard.createCursorKeys()
 
-		for(var i = 0; i < colors.length; i++){
+		correctParticle = createPart("star")
+		sceneGroup.add(correctParticle)
+		wrongParticle = createPart("wrong")
+		sceneGroup.add(wrongParticle)
+		boomParticle = createPart("smoke")
+		sceneGroup.add(boomParticle)
 
-			var  subGroup = game.add.group()
-			subGroup.active = false
-			subGroup.alpha = 0
-			seasonsGroup.add(subGroup)
+		
+	}
+	
+	function createCoinsAndHand(){
+		//Coins
+		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
+		coins.anchor.setTo(0.5)
+		coins.scale.setTo(0.5)
+		coins.animations.add('coin');
+		coins.animations.play('coin', 24, true);
+		coins.alpha=0
+	}
 
-			var back = game.add.graphics(0, 0)
-			back.beginFill(colors[i])
-			back.drawRect(0, 0, game.world.width, game.world.height)
-			subGroup.add(back)
 
-			var seasonLand = subGroup.create(0, -10, "season" + i)
-			seasonLand.width = game.world.width
+	function Coin(objectBorn,objectDestiny,time){
 
-			var floor = game.add.graphics(0, back.height-game.world.centerY+70)
-			floor.beginFill(floors[i])
-			floor.drawRect(0, 0, game.world.width, game.world.centerY)
-			subGroup.add(floor)
+
+		//objectBorn= Objeto de donde nacen
+		coins.x=objectBorn.centerX
+		coins.y=objectBorn.centerY
+
+		emitter = epicparticles.newEmitter("pickedEnergy")
+		emitter.duration=0.05;
+		emitter.x = coins.x
+		emitter.y = coins.y
+		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+				coins.x=objectBorn.centerX
+				coins.y=objectBorn.centerY
+				addPoint(1)
+			})
+		})
+	}
+
+
+	function update(){
+
+
+		if(startGame){
+			epicparticles.update()
+
+		}
+	}
+
+	function reset(){
+
+
+	}
+
+
+	function createTextPart(text,obj){
+
+		var pointsText = lookParticle('text')
+
+		if(pointsText){
+
+			pointsText.x = obj.world.x
+			pointsText.y = obj.world.y - 60
+			pointsText.setText(text)
+			pointsText.scale.setTo(1,1)
+
+			game.add.tween(pointsText).to({y:pointsText.y - 75},750,Phaser.Easing.linear,true)
+			game.add.tween(pointsText).to({alpha:0},500,Phaser.Easing.linear,true, 250)
+
+			deactivateParticle(pointsText,750)
 		}
 
-		var rocks = game.add.tileSprite(0, game.world.centerY + 80, game.world.width, 180, "rocks")
-		rocks.anchor.setTo(0, 0.5)
-		sceneGroup.add(rocks)
+	}
 
-		season = game.rnd.integerInRange(0, seasonsGroup.length - 1)
-		seasonsGroup.children[season].alpha = 1
-		seasonsGroup.last = seasonsGroup.children[season]
-		
+	function lookParticle(key){
+
+		for(var i = 0;i<particlesGroup.length;i++){
+
+			var particle = particlesGroup.children[i]
+			//console.log(particle.tag + ' tag,' + particle.used)
+			if(!particle.used && particle.tag == key){
+
+				particle.used = true
+				particle.alpha = 1
+
+				particlesGroup.remove(particle)
+				particlesUsed.add(particle)
+
+				return particle
+				break
+			}
+		}
+
+	}
+
+	function deactivateParticle(obj,delay){
+
+		game.time.events.add(delay,function(){
+
+			obj.used = false
+
+			particlesUsed.remove(obj)
+			particlesGroup.add(obj)
+
+		},this)
 	}
 
 	function createPart(key){
 		var particle = game.add.emitter(0, 0, 100);
-		particle.makeParticles('atlas.magicSpell',key);
+		particle.makeParticles('atlas.magic',key);
 		particle.minParticleSpeed.setTo(-200, -50);
 		particle.maxParticleSpeed.setTo(200, -100);
 		particle.minParticleScale = 0.3;
@@ -338,665 +578,115 @@ var magicSpell = function(){
 		return particle
 	}
 
-	function createParticles(){
-		particleCorrect = createPart('star')
-		sceneGroup.add(particleCorrect)
+	function createParticles(tag,number){
 
-		particleWrong = createPart('smoke')
-		sceneGroup.add(particleWrong)
-	}
+		for(var i = 0; i < number;i++){
 
-	function createTimer(){
+			var particle
+			if(tag == 'text'){
 
-		timerGroup = game.add.group()
-		timerGroup.alpha = 0
-		sceneGroup.add(timerGroup)
+				var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 
-		var clock = timerGroup.create(game.world.centerX, 75, "atlas.time", "clock")
-		clock.anchor.setTo(0.5)
+				var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+				particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+				particlesGroup.add(particle)
 
-		timeBar = timerGroup.create(clock.centerX - 175, clock.centerY + 19, "atlas.time", "bar")
-		timeBar.anchor.setTo(0, 0.5)
-		timeBar.scale.setTo(11.5, 0.65)
-		timeBar.full = 11.5
-		timerGroup.timeBar = timeBar
-	}
+			}else{
+				var particle = game.add.emitter(0, 0, 100);
 
-	function stopTimer(){
+				particle.makeParticles('atlas.magic',tag);
+				particle.minParticleSpeed.setTo(-200, -50);
+				particle.maxParticleSpeed.setTo(200, -100);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
 
-		timerGroup.tweenTiempo.stop()
-		game.add.tween(timerGroup.timeBar.scale).to({x:timeBar.full}, 100, Phaser.Easing.Linear.Out, true, 100)
-	}
+				particlesGroup.add(particle)
 
-	function startTimer(time){
-
-		timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true)
-		timerGroup.tweenTiempo.onComplete.add(checkAnswer)
-	}
-
-	function createCoin(){
-
-		coin = game.add.sprite(0, 0, "coin")
-		coin.anchor.setTo(0.5)
-		coin.scale.setTo(0.8)
-		coin.animations.add('coin');
-		coin.animations.play('coin', 24, true);
-		coin.alpha = 0
-	}
-
-	function addCoin(obj){
-
-		coin.x = obj.centerX
-		coin.y = obj.centerY
-		var time = 300
-
-		particleCorrect.x = obj.centerX 
-		particleCorrect.y = obj.centerY
-		particleCorrect.start(true, 1200, null, 10)
-
-		game.add.tween(coin).to({alpha:1}, time, Phaser.Easing.linear, true)
-
-		game.add.tween(coin).to({y:coin.y - 100}, time + 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-			game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-				game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function(){
-					addPoint(1)
-					if(pointsBar.number === 5){
-						game.add.tween(timerGroup).to({alpha: 1}, 500, Phaser.Easing.linear, true)
-						timeAttack = true
-					}
-					if(pointsBar.number > 5 && pointsBar.number % 5 == 0){
-						level < 3 ? level++ : level = 3
-					}
-					if(level == 3 && pointsBar.number % 5 == 0){
-						gameTime > 3000 ? gameTime -= 1000 : gameTime = 3000
-					}
-				})
-			})
-		})
-	}
-
-	function createAnims(){
-
-		enemy = game.add.spine(game.world.width + 250, game.world.centerY, "enemy")
-		enemy.setAnimationByName(0, "idle", true)
-		enemy.setSkinByName("normal1")
-		enemy.skin = game.rnd.integerInRange(1, 4)
-		enemy.hide = game.world.width + 250
-		enemy.spot = game.world.width - 150
-		sceneGroup.add(enemy)
-
-		dinamita = game.add.spine(-150, game.world.centerY + 110, "dinamita")
-		dinamita.setAnimationByName(0, "run", true)
-		dinamita.setSkinByName("normal")
-		dinamita.scale.setTo(0.6)
-		dinamita.spells = ["spell_spring", "spell_summer", "spell_fall", "spell_winter"]
-		sceneGroup.add(dinamita)
-	}
-
-	function createSlots(){
-
-		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-		var spellBoard = sceneGroup.create(game.world.centerX, game.world.centerY + 200, "atlas.magicSpell", "spellBoard")
-		spellBoard.anchor.setTo(0.5)
-		spellBoard.scale.setTo(1.35)
-
-		slotsGroup = game.add.group()
-		sceneGroup.add(slotsGroup)
-		slotsGroup.board = spellBoard
-
-		for(var i = 0; i < 9; i++){
-
-			var subGroup = game.add.group()
-			subGroup.x = -50
-			subGroup.alpha = 0
-			subGroup.groupPos = i
-			subGroup.empty = true
-			slotsGroup.add(subGroup)
-
-			var slot = subGroup.create(game.world.centerX-340,0, "atlas.magicSpell", "slot")
-			slot.anchor.setTo(0.5)
-			slot.scale.setTo(1.2, 1.35)
-			subGroup.hole = slot
-
-			var rune = subGroup.create(game.world.centerX-340, 0, "atlas.magicSpell", "rune")
-			rune.anchor.setTo(0.5)
-			rune.scale.setTo(0.9)
-			rune.alpha = 0
-			rune.spawnX = rune.x
-			rune.spawnY = rune.y
-			rune.inputEnabled = true
-			rune.input.enableDrag()
-			rune.events.onDragStart.add(function(obj){
-				obj.parent.hole.alpha = 1
-				slotsGroup.remove(obj.parent)
-				sceneGroup.add(obj.parent)
-			})
-			rune.events.onDragStop.add(changeRune, this)
-			subGroup.rune = rune
-			rune.inputEnabled = false
-			var text = new Phaser.Text(subGroup.game, 1, 5, "", fontStyle)
-			text.anchor.setTo(0.5)
-			rune.addChild(text)
-			rune.text = text
-		}      
-	}
-
-	function createRunes(){
-
-		var fontStyle = {font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-
-		var boardGroup = game.add.group()
-		sceneGroup.add(boardGroup)
-
-		var board = boardGroup.create(game.world.centerX, game.world.height, "atlas.magicSpell", "board")
-		board.anchor.setTo(0.5, 1)
-		board.scale.setTo(1.25)
-
-		var space = game.add.graphics(0, 0)
-		space.beginFill(0xffffff, 0)
-		space.drawRect(board.x - board.width * 0.4, board.y - board.height * 0.8, board.width * 0.8, board.height * 0.7)
-		boardGroup.add(space)
-
-		runesGroup = game.add.group()
-		boardGroup.add(runesGroup)
-
-		var pivot = 0.45
-		var aux = 0
-		var nextRow = 0
-
-		for(var i = 0; i < 10; i++){
-
-			var runes = runesGroup.create(0, 0, "atlas.magicSpell", "rune")
-			runes.x = (board.centerX * pivot) + (10 * aux) - 20
-			runes.y = board.centerY - 50  + (90 * nextRow)
-			runes.anchor.setTo(0.5)
-			runes.alpha = 0
-			runes.groupPos = i
-			runes.active = false
-			runes.spawnX = runes.x
-			runes.spawnY = runes.y
-			runes.inputEnabled = true
-			runes.input.enableDrag()
-			runes.events.onDragStart.add(function(obj){
-				runesGroup.bringToTop(obj)
-			})
-			runes.events.onDragStop.add(setRune, this)
-
-			var text = new Phaser.Text(sceneGroup.game, 2, 0, "", fontStyle)
-			text.anchor.setTo(0.5)
-			runes.addChild(text)
-			runes.text = text
-
-			pivot += 0.23
-			aux++
-			if(i === 4){
-				pivot = 0.35
-				aux = 0
-				nextRow = 1
-			}
-		}        
-		runesGroup.setAll("inputEnabled", false)
-
-		var pos = []
-		for(var i = 0; i < runesGroup.length; i++)
-			pos[i] = i
-
-		runesGroup.pos = pos
-		runesGroup.space = space
-	}
-
-	function createOkBtn(bar){
-
-		ok = game.add.group()
-		sceneGroup.add(ok)
-
-		var okOn = ok.create(game.world.width - 100, game.world.height - 70, "atlas.magicSpell", "okOn")
-		okOn.anchor.setTo(0.5)
-		okOn.scale.setTo(0.45)
-
-		var okOff = ok.create(okOn.x, okOn.y, "atlas.magicSpell", "okOff")
-		okOff.anchor.setTo(0.5)
-		okOff.scale.setTo(0.45)
-		okOff.tint = 0x707070
-		okOff.inputEnabled = true
-		okOff.hitArea = new Phaser.Circle(0,0, okOff.width * 2)
-		okOff.events.onInputDown.add(function(btn){
-			if(gameActive){
-				sound.play("pop")
-				btn.alpha = 0
-				if(!tutorial)btn.tint = 0x707070
-			}
-		},this)
-		okOff.events.onInputUp.add(function(btn){
-			btn.alpha = 1
-			if(!tutorial)btn.inputEnabled = false
-			checkAnswer()
-		})
-		okOff.inputEnabled = false
-		ok.btn = okOff
-	}
-
-	function changeRune(obj){
-		
-		if(gameActive){
-			
-			var slot = getSlot(obj)
-
-			if(slot){
-				//sound.play("drag")
-				obj.alpha = 0
-				obj.inputEnabled = false
-				// obj.x = obj.spawnX
-				// obj.y = obj.spawnY
-				obj.parent.empty = true
-				slot.hole.alpha = 0
-				slot.rune.alpha = 1
-				if(tutorial)slot.rune.inputEnabled = true
-				slot.rune.inputEnabled = false
-				slot.rune.text.setText(obj.text.text)
-				slot.empty = false
-			}
-			else if(checkOverlap(obj, runesGroup.space)){
-				obj.alpha = 0
-				obj.inputEnabled = false
-				// obj.x = obj.spawnX
-				// obj.y = obj.spawnY
-				obj.parent.empty = true
-				restoreRune(obj.text.text)
-			}
-		}   
-		game.add.tween(obj).to({x:obj.spawnX, y:obj.spawnY}, 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
-			sceneGroup.remove(obj.parent)
-			slotsGroup.addChildAt(obj.parent, obj.parent.groupPos)
-		})
-	}
-
-	function setRune(obj){
-
-		if(gameActive){
-
-			var slot = getSlot(obj)
-
-			if(slot){
-				//sound.play("drag")
-				obj.alpha = 0
-				obj.inputEnabled = false
-				obj.active = false
-				slot.hole.alpha = 0
-				slot.rune.alpha = 1
-				slot.rune.inputEnabled = true
-				slot.rune.text.setText(obj.text.text)
-				slot.empty = false
-				if(!hand.active){
-					ok.btn.tint = 0xffffff
-					ok.btn.inputEnabled = true
-				}
-			}
-		}
-		game.add.tween(obj).to({x:obj.spawnX, y:obj.spawnY}, 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function(){
-			runesGroup.setChildIndex(obj, obj.groupPos)
-		})
-		if(hand){
-			hand.alpha = 0
-		} 
-	}
-
-	function restoreRune(letter){
-
-		for(var i = 0; i < runesGroup.length; i++){
-
-			var rune = runesGroup.children[i]
-			if(rune.text.text == letter && !rune.active){
-				break
-			}        
-		}
-		rune.alpha = 1
-		rune.inputEnabled = true
-		rune.active = true
-	}
-
-	function getSlot(obj){
-
-		var list = []
-		for(var i = 0; i < slotsGroup.length; i++){
-
-			var slot = slotsGroup.children[i]
-			if(checkOverlap(obj, slot) && slot.empty){
-				list.push(slot)
-			}        
-		}
-
-		if(list.length == 1){
-			return list[0]
-		}
-		else if(list.length > 1){
-			var aux = list[0]
-
-			for(var i = 1; i < list.length; i++){
-
-				if(getIntersections(aux, obj).volume < getIntersections(list[i], obj).volume){
-					aux = list[i]
-				}
-			}
-			return aux
-		}
-	}
-
-	function checkOverlap(spriteA, spriteB) {
-
-		var boundsA = spriteA.getBounds()
-		var boundsB = spriteB.getBounds()
-
-		return Phaser.Rectangle.intersects(boundsA , boundsB)
-
-	}
-
-	function getIntersections(objA, objB){
-
-		var boundA = objA.getBounds()
-		var boundB = objB.getBounds()
-
-		return Phaser.Rectangle.intersection(boundA , boundB)
-	}
-
-	function checkAnswer(){
-
-		if(gameActive){
-			
-			
-			if(timeAttack) stopTimer()
-			var ans = SPELL_WORDS[season]
-			var word = ""
-
-			for(var i = 0; i < ans.length; i++){
-				word += slotsGroup.children[i].rune.text.text
-			}
-			if(!tutorial){
-				runesGroup.setAll("inputEnabled", false)
-				slotsGroup.setAll("rune.inputEnabled", false)
-			}
-			if(word === ans){
-				if(hand){
-					hand.active = false
-					hand.destroy()
-				}
-				tutorial=false;
-				gameActive = false
-				if(tutorial)ok.btn.inputEnabled = false
-				dinamita.setAnimationByName(0, dinamita.spells[season], false).onComplete = function(){
-					var anim = "lose2"
-					if(enemy.skin == 1 || enemy.skin == 4)
-						anim = "lose1"
-					enemy.setAnimationByName(0, anim, false)
-					addCoin(enemy)
-					if(timeAttack && dificultyTime>500)dificultyTime-=500;
-					game.time.events.add(3000, changeEnemy)
-				}
-				dinamita.addAnimationByName(0, "idle", true)
-			}
-			else if(!tutorial && word != ans){
-				gameActive = false
-				dinamita.setAnimationByName(0, "spell_fail", false).onComplete = function(){
-					missPoint(dinamita)
-					enemy.setAnimationByName(0, "attack", false)
-					enemy.addAnimationByName(0, "idle", true)
-					if(lives > 0) showAnswer()
-				}
-				dinamita.addAnimationByName(0, "idle", true)
-			}
-		}
-	}
-
-	function showAnswer(){
-
-		var ans = SPELL_WORDS[season]
-
-		for(var i = 0; i < ans.length; i++){
-			var slot = slotsGroup.children[i]
-			if(slot.empty && slot.alpha != 0){
-				slot.rune.text.setText(ans.charAt(i))
-				game.add.tween(slot.rune).to({alpha:1}, 250, Phaser.Easing.Cubic.InOut, true)
-			}
-		}
-
-		game.time.events.add(1800, changeSeason)
-	}
-
-	function restoreAssets(){
-
-		for(var i = 0; i < runesGroup.length; i++){
-			var delay = game.rnd.integerInRange(30, 60) * 10
-			var rune = runesGroup.children[i]
-			rune.active = false
-			game.add.tween(runesGroup.children[i]).to({alpha:0}, 400, Phaser.Easing.Cubic.InOut,true, delay).onComplete.add(function(){
-				rune.text.setText("")
-			})
-		}     
-
-		for(var i = 0; i < slotsGroup.length; i++){
-			var delay = game.rnd.integerInRange(30, 60) * 10
-			var slot = slotsGroup.children[i]
-			slot.empty = true
-			game.add.tween(slot).to({alpha:0}, 400, Phaser.Easing.Cubic.InOut,true, delay).onComplete.add(function(){
-				slot.hole.alpha = 1
-				slot.rune.alpha = 0
-				slot.rune.text.setText("")
-				slot.rune.inputEnabled = false
-				slot.x = -50
-			})
-		}     
-	}
-
-	function changeEnemy(){
-
-		enemy.x = enemy.hide
-		enemy.setAnimationByName(0, "idle", true)
-		enemy.setSkinByName("normal" + enemy.skin)
-		enemy.setToSetupPose()
-		enemy.skin = getRand(enemy.skin, 4, 1)
-
-		var callBack = function(){
-			game.add.tween(enemy).to({x:enemy.spot}, 700, Phaser.Easing.Cubic.Out,true).onComplete.add(initGame)
-		}
-
-		changeSeason(callBack)
-	}
-
-	function changeSeason(callBack){
-
-		restoreAssets()
-
-		var nextFunction = callBack || initGame
-		season = getRand(season, SPELL_WORDS.length - 1)
-
-		var background = seasonsGroup.children[season]
-		game.add.tween(seasonsGroup.last).to({alpha:0}, 1500, Phaser.Easing.Cubic.InOut,true)
-		game.add.tween(background).to({alpha:1}, 1500, Phaser.Easing.Cubic.InOut,true).onComplete.add(nextFunction)
-		seasonsGroup.last = background
-	}
-
-	function initGame(){
-
-		prepareSpell()
-	}
-
-	function prepareSpell(){
-
-		var ans = SPELL_WORDS[season]
-		var space = slotsGroup.board.width / (ans.length + 1)
-		var delay = 0
-
-		for(var i = 0; i < ans.length; i++){
-
-			delay = game.rnd.integerInRange(30, 60) * 10
-			var slot = slotsGroup.children[i]
-			slot.x = space * (i + 1.2)
-			slot.y = slotsGroup.board.centerY - 15
-			slot.alpha = 1
-			slot.hole.alpha = 1
-			slot.rune.alpha = 0
-			game.add.tween(slot.scale).from({x:0, y:0}, 400, Phaser.Easing.Cubic.InOut,true,delay)
-		}     
-
-		if(level == 1){
-			showClues(ans)
-		}
-
-		prepareRunes(ans)
-	}
-
-	function prepareRunes(ans){
-
-		Phaser.ArrayUtils.shuffle(runesGroup.pos)
-
-		switch(level){
-			case 1:
-			case 2:
-				for(var i = 0; i < ans.length; i++){
-					var slot = slotsGroup.children[i]
-					var rune = runesGroup.children[runesGroup.pos[i]]
-					rune.text.setText(ans.charAt(i))
-					if(slot.empty){
-						rune.active = true
-					}
-				}
-				break
-
-				case 3:
-				for(var i = 0; i < ans.length; i++){
-					var rune = runesGroup.children[runesGroup.pos[i]]
-					rune.text.setText(ans.charAt(i))
-					rune.active = true
-				}
-
-				for(var i = 0; i < runesGroup.length; i++){
-					var rune = runesGroup.children[i]
-					if(!rune.active){
-						var char = String.fromCharCode(game.rnd.integerInRange(65, 90))
-						rune.text.setText(char)
-						rune.active = true
-					}
-				}
-				break
-		}
-
-		runesGroup.forEach(function(rune){
-			if(rune.active){
-				var delay = game.rnd.integerInRange(30, 60) * 10
-				rune.alpha = 1
-				game.add.tween(rune.scale).from({x:0, y:0}, 400, Phaser.Easing.Cubic.InOut, true, delay)
-				rune.inputEnabled = true
-			}
-		})
-		game.time.events.add(1000,function(){
-			gameActive = true
-			if(timeAttack) startTimer(dificultyTime)
-		})
-	}
-
-	function showClues(ans){
-
-		var min = Math.round(ans.length / 4)
-		var max = Math.round(ans.length / 2)
-		var clues = game.rnd.integerInRange(min, max)
-
-		for(var i = 0; i < clues; i++){
-
-			do{
-				var rand = game.rnd.integerInRange(0, ans.length - 1)
-				}while(!slotsGroup.children[rand].empty)
-
-					var slot = slotsGroup.children[rand]
-					slot.empty = false
-			slot.hole.alpha = 0
-			slot.rune.alpha = 1
-			slot.rune.inputEnabled = true
-			slot.rune.text.setText(ans.charAt(rand))
-		}
-	} 
-
-	function getRand(actual, limit, base){
-		var min = base || 0
-		var x = game.rnd.integerInRange(min, limit)
-		if(x === actual)
-			return getRand(actual, limit, min)
-		else
-			return x     
-	}
-
-	/*---------- tutorial ----------*/
-
-	function createHand(){
-
-		hand = sceneGroup.create(0, 0, "atlas.magicSpell", "hand")
-		hand.scale.setTo(0.5)
-		hand.alpha = 0
-		hand.getEmptySlot = getEmptySlot.bind(hand)
-		hand.setPos = setPos.bind(hand)
-		hand.active = true
-	}
-
-	function initTuto(){
-
-		enemy.x = enemy.hide
-		enemy.setAnimationByName(0, "idle", true)
-		enemy.setSkinByName("normal" + enemy.skin)
-		enemy.setToSetupPose()
-		enemy.skin = getRand(enemy.skin, 4, 1)
-		game.add.tween(enemy).to({x:enemy.spot}, 700, Phaser.Easing.Cubic.Out, true, 500).onComplete.add(prepareSpellTuto)
-	}
-
-	function prepareSpellTuto(){
-
-		prepareSpell()
-		runesGroup.setAll("inputEnabled", false)
-		slotsGroup.setAll("rune.inputEnabled", false)
-		game.time.events.add(1000, hand.setPos)    
-	}
-
-	function getEmptySlot(){
-
-		for(var i = 0; i < slotsGroup.length; i++){
-			var slot = slotsGroup.children[i]
-			if(slot.empty && slot.alpha != 0){
-				return slot
-			}
-		}
-		return -1
-	}
-
-	function setPos(){
-
-		var hand = this
-		var ans = SPELL_WORDS[season]
-		var slot = hand.getEmptySlot()
-
-		if(slot != -1){
-			for(var i = 0; i < runesGroup.length; i++){
-
-				var rune = runesGroup.children[i]
-				if(rune.text.text == ans.charAt(slot.groupPos) && rune.active){
-					break
-				}        
 			}
 
-			rune.inputEnabled = true
-			hand.x = rune.centerX
-			hand.y = rune.centerY
-			hand.swipe = game.add.tween(hand).to({x:slot.x+20, y:slot.y}, 1000, Phaser.Easing.Cubic.InOut, false)
-			hand.fadeOut = game.add.tween(hand).to({alpha:0}, 250, Phaser.Easing.Cubic.InOut, false)
-			hand.fadeOut.onComplete.add(hand.setPos)
-			game.add.tween(hand).to({alpha:1}, 250, Phaser.Easing.Cubic.InOut, true).chain(hand.swipe)
-			hand.swipe.chain(hand.fadeOut)
+			particle.alpha = 0
+			particle.tag = tag
+			particle.used = false
+			//particle.anchor.setTo(0.5,0.5)
+			particle.scale.setTo(1,1)
 		}
-		else{
-			hand.x = ok.btn.centerX
-			hand.y = ok.btn.centerY - 20
-			hand.alpha = 1
-			ok.btn.tint = 0xffffff
-			ok.btn.inputEnabled = true
+
+
+	}
+
+	function addParticles(){
+
+
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+
+		createParticles('star',3)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		createParticles('smoke',1)
+
+	}
+
+	function setExplosion(obj){
+
+		var posX = obj.x
+		var posY = obj.y
+
+		if(obj.world){
+			posX = obj.world.x
+			posY = obj.world.y
 		}
+
+		var rect = new Phaser.Graphics(game)
+		rect.beginFill(0xffffff)
+		rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
+		rect.alpha = 0
+		rect.endFill()
+		sceneGroup.add(rect)
+
+		game.add.tween(rect).from({alpha:1},500,"Linear",true)
+
+		var exp = sceneGroup.create(0,0,'atlas.magic','cakeSplat')
+		exp.x = posX
+		exp.y = posY
+		exp.anchor.setTo(0.5,0.5)
+
+		exp.scale.setTo(6,6)
+		game.add.tween(exp.scale).from({x:0.4,y:0.4}, 400, Phaser.Easing.Cubic.In, true)
+		var tweenAlpha = game.add.tween(exp).to({alpha:0}, 300, Phaser.Easing.Cubic.In, true,100)
+
+		particlesNumber = 8
+
+		var particlesGood = game.add.emitter(0, 0, 100);
+
+		particlesGood.makeParticles('atlas.magic','smoke');
+		particlesGood.minParticleSpeed.setTo(-200, -50);
+		particlesGood.maxParticleSpeed.setTo(200, -100);
+		particlesGood.minParticleScale = 0.6;
+		particlesGood.maxParticleScale = 1.5;
+		particlesGood.gravity = 150;
+		particlesGood.angularDrag = 30;
+
+		particlesGood.x = posX;
+		particlesGood.y = posY;
+		particlesGood.start(true, 1000, null, particlesNumber);
+
+		game.add.tween(particlesGood).to({alpha:0},1000,Phaser.Easing.Cubic.In,true)
+		sceneGroup.add(particlesGood)
+
+	}
+
+	function inputButton(obj){
+
+		if(!gameActive){
+			return
+		}
+
 	}
 
 	return {
@@ -1004,47 +694,45 @@ var magicSpell = function(){
 		assets: assets,
 		name: "magicSpell",
 		preload:preload,
-		getGameData:function () {
-			var games = yogomeGames.getGames()
-			return games[gameIndex]
-		},
+		localizationData:localizationData,
+		update:update,
 		create: function(event){
+
 
 			sceneGroup = game.add.group()
 
 			createBackground()
+			addParticles()
+			magicSong = sound.play("acornSong", {loop:true, volume:0.6})
 
-			/*gameSong = game.add.audio('gameSong')
-            game.sound.setDecodedCallback(gameSong, function(){
-                gameSong.loopFull(0.6)
-            }, this);*/
-
-			initialize()
-			gameSong = sound.play("gameSong", {loop:true, volume:0.6})
+			magicSong = game.add.audio('acornSong')
+			game.sound.setDecodedCallback(magicSong, function(){
+				magicSong.loopFull(0.6)
+			}, this);
 
 			game.onPause.add(function(){
 				game.sound.mute = true
-			} , this)
+			} , this);
 
 			game.onResume.add(function(){
 				game.sound.mute = false
-			}, this)
+			}, this);
 
-			createAnims()
-			createSlots()
-			createRunes()
-			createOkBtn()
-			createHand()
+			initialize()
+
+
 			createPointsBar()
 			createHearts()
-			createTimer()
-			createCoin()
-			createParticles()
-
-			buttons.getButton(gameSong,sceneGroup)
 			createTutorial()
 
+			buttons.getButton(magicSong,sceneGroup)
+
 			animateScene()
+
+		},
+		show: function(event){
+			loadSounds()
+			initialize()
 		}
 	}
 }()
