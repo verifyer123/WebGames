@@ -699,7 +699,7 @@ var symfunny = function(){
 		
 		light=game.add.sprite(0,0,"atlas.symfunny","limelight");
 		light.scale.setTo(1,1)
-		light.anchor.setTo(0.5,0.95);
+		light.anchor.setTo(0.5,0.93);
 		light.alpha=0;
 		
 		for(var fillFinalLights=0; fillFinalLights<orchestaGroup.length; fillFinalLights++){
@@ -920,8 +920,8 @@ var symfunny = function(){
 				sound.play(orchesta[r].name)
 				game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},150,Phaser.Easing.linear,true)
 			})
-			game.add.tween(lightsOff).to({alpha:0.5},400,Phaser.Easing.linear,true);
-			game.add.tween(light).to({x:orchestaGroup.children[r].x,y:orchestaGroup.children[r].y-40},400,Phaser.Easing.linear,true);
+			game.add.tween(lightsOff).to({alpha:0.3},400,Phaser.Easing.linear,true);
+			game.add.tween(light).to({x:orchestaGroup.children[r].x,y:orchestaGroup.children[r].y-30},400,Phaser.Easing.linear,true);
 			game.add.tween(light).to({alpha:0.5},400,Phaser.Easing.linear,true);
 			orchestaGroup.children[r].setAnimationByName(0, "win", false)
 			orchestaGroup.children[r].addAnimationByName(0, "play", true)
