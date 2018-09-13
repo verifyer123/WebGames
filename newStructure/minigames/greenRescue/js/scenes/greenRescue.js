@@ -158,6 +158,7 @@ var greenRescue = function(){
 	var backgroundGroup=null
 	var clock, timeBar,tweenTiempo;
 	var activeObj;
+	var iconHandle;
 	var proxy=new Array(9);
 	var iconic=new Array(9);
 	var trash=new Array(9);
@@ -174,6 +175,8 @@ var greenRescue = function(){
 	var hole=[]
 	var objectOverlaping;
 	var tutorialState
+	var iconDissapearing
+	var iconDissapearingTween
 	var dificulty;
 	var tutorial
 	var checked, allClean,canPlant,canShovel;
@@ -746,12 +749,13 @@ var greenRescue = function(){
 	}
 
 	function tutorialLevel(){
-		hand.alpha=1;
-		
-		broom.inputEnabled=true;
-		shovel.inputEnabled=true;
-		sprinkler.inputEnabled=true;
-		sprout.inputEnabled=true;
+		game.time.events.add(800,function(){
+			hand.alpha=1;
+			broom.inputEnabled=true;
+			shovel.inputEnabled=true;
+			sprinkler.inputEnabled=true;
+			sprout.inputEnabled=true;
+		})
 		if(tutorialState==0){
 			hand.x=broomIcon.x+30;
 			hand.y=broomIcon.y+10;
@@ -872,6 +876,34 @@ var greenRescue = function(){
 	}
 
 	function update(){
+		
+		
+		if(!iconDissapearing && !game.device.desktop && game.input.activePointer.identifier==null && activeObj!=null){
+			iconDissapearing=true;
+			if(activeObj=="bro"){
+				iconHandle=broom;
+			}else if(activeObj=="sho"){
+				iconHandle=shovel;
+			}else if(activeObj=="sprout"){
+				iconHandle=sprout;
+			}else if(activeObj=="sprin"){
+				iconHandle=sprinkler;
+			}
+			iconDissapearingTween=game.add.tween(iconHandle).to({alpha:0},300,Phaser.Easing.Exponential.Out,true).onComplete.add(function(){
+				iconDissapearing=false;
+			});
+		}else if(activeObj!=null && game.input.activePointer.identifier!=null && !game.device.desktop){
+			if(activeObj=="bro"){
+				iconHandle=broom;
+			}else if(activeObj=="sho"){
+				iconHandle=shovel;
+			}else if(activeObj=="sprout"){
+				iconHandle=sprout;
+			}else if(activeObj=="sprin"){
+				iconHandle=sprinkler;
+			}
+			iconDissapearingTween=game.add.tween(iconHandle).to({alpha:1},100,Phaser.Easing.Exponential.Out,true)
+		}
 		
 		for(var mess=0;mess<estados.length;mess++){
 			if(tweenIcon[mess] && estados[mess]==0 || estados[mess]==7){
@@ -1021,28 +1053,28 @@ var greenRescue = function(){
 		if(activeObj=="bro"){
 			broom.position.x=game.input.activePointer.x;
 			broom.position.y=game.input.activePointer.y;
-			broom.alpha=1
+			if(game.device.desktop)broom.alpha=1
 		}else{
 			broom.alpha=0
 		}
 		if(activeObj=="sho"){
 			shovel.position.x=game.input.activePointer.x;
 			shovel.position.y=game.input.activePointer.y;
-			shovel.alpha=1
+			if(game.device.desktop)shovel.alpha=1
 		}else{
 			shovel.alpha=0
 		}
 		if(activeObj=="sprin"){
 			sprinkler.position.x=game.input.activePointer.x;
 			sprinkler.position.y=game.input.activePointer.y;
-			sprinkler.alpha=1
+			if(game.device.desktop)sprinkler.alpha=1
 		}else{
 			sprinkler.alpha=0
 		}
 		if(activeObj=="sprout"){
 			sprout.position.x=game.input.activePointer.x;
 			sprout.position.y=game.input.activePointer.y;
-			sprout.alpha=1
+			if(game.device.desktop)sprout.alpha=1
 		}else{
 			sprout.alpha=0
 		}
@@ -1459,6 +1491,7 @@ var greenRescue = function(){
 		if(dificulty<9)dificulty++;
 		onChangeObj(activeObj)
 		activeObj=null;
+		
 		broomIcon.tint=0xffffff;
 		shovelIcon.tint=0xffffff;
 		sproutIcon.tint=0xffffff;
