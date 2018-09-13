@@ -5,6 +5,7 @@ var jsonData = "../../shared/minigames/amazing.json"
 
 var result = function(){
     var lan = "ES"
+
     if(window.location.search!=""){
         var s = window.location.search.split('=')
         if(s.length>1){
@@ -13,6 +14,7 @@ var result = function(){
             }
         }
     }
+
 
 	localizationData = {
 		"PT":{
@@ -113,12 +115,15 @@ var result = function(){
 		totalTime = 0
         win = didWin
         //console.log("finishGame")
-        /*if(icons[gameIndex].demo!=null){
-            if(!icons[gameIndex].demo){*/
+        if(icons[gameIndex].demo!=null){
+            if(!icons[gameIndex].demo){
                 //console.log("mixpanel finish game")
                 amazing.setMixPanelTrack(gameName,"finishGame",didWin,score)
-            /*}
-        }*/
+            }
+        }
+
+        amazing.endTimer(game.time.now,gameName)
+        //backEvent()
 
         var fontStyle = {font: "23px Gotham bold", fill: "#808080"}
         var text = new Phaser.Text(game, -100, -100,"test", fontStyle)
@@ -221,17 +226,17 @@ var result = function(){
 
             }else if(parent.tag == 'reintentar'){
 
-                /*if(icons[gameIndex].demo!=null){
-                    if(!icons[gameIndex].demo){*/
+                if(icons[gameIndex].demo!=null){
+                    if(!icons[gameIndex].demo){
                         amazing.setMixPanelTrack(gameName,"retryGame")
-                    /*}
-                }*/
+                    }
+                }
 
-                /*if(icons[gameIndex].demo!=null){
-                    if(!icons[gameIndex].demo){*/
+                if(icons[gameIndex].demo!=null){
+                    if(!icons[gameIndex].demo){
                         amazing.setMixPanelTrack(gameName,"enterGame")
-                    /*}
-                }*/
+                    }
+                }
 
                 var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
                     alphaTween.onComplete.add(function(){
@@ -1690,7 +1695,7 @@ var result = function(){
         }
 
         gameIcon = icons[gameIndex].iconName
-        //console.log(gameIcon + ' name')
+        
         game.load.image(gameIcon, iconsPath + gameIcon + '.png')
 
        // game.load.onComplete.add()
