@@ -265,6 +265,7 @@ var result = function(){
 				})
 			}else if(parent.tag == 'home'){
 				game.destroy();
+				if(window.gameData)comunicationScript.closeGame();
 			}
 		})
 

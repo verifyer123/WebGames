@@ -18,6 +18,9 @@ var playerData;
     function finalMessage(data){
         window.parent.postMessage(data,'*');
     }
+	function closeGame(){
+		window.parent.postMessage('close','*');
+	}
     return{
         finalMessage:finalMessage,
         sendData:sendData

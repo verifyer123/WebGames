@@ -567,7 +567,7 @@ var climbvoid = function(){
 					if(!climbGroup.children[i].canReturn){
 						continue
 					}
-					
+
 					var random = game.rnd.frac()
 
 					if(!createJewel){
@@ -602,7 +602,7 @@ var climbvoid = function(){
 		}
 
 		if(firstTouch){
-			if((yogotarGroup.y > game.world.height + 100 || (yogotarGroup.x > game.world.width + 100 || yogotarGroup.x < -100) ) && !yogotarGroup.invensible){
+			if((yogotarGroup.y > game.world.height + 100 || (yogotarGroup.x > game.world.width + 100 || yogotarGroup.x < -100) )){
 				missPoint()
 				newLife=true;
 				gameActive = false
@@ -658,12 +658,14 @@ var climbvoid = function(){
 				yogotarGroup.body.velocity.y = 0
 			}
 		}
-		if(newLife || yogotarGroup.hittingLose){
-			game.physics.arcade.gravity.y = 0
-		}else if(!newLife && inTutorial==-1 && !yogotarGroup.inWall){
-			game.physics.arcade.gravity.y = 700
-		}else if(!newLife && yogotarGroup.inWall && inTutorial==-1){
-			game.physics.arcade.gravity.y = 50
+		if(!yogotarGroup.invensible){
+			if(newLife || yogotarGroup.hittingLose){
+				game.physics.arcade.gravity.y = 0
+			}else if(!newLife && inTutorial==-1 && !yogotarGroup.inWall ){
+				game.physics.arcade.gravity.y = 700
+			}else if(!newLife && yogotarGroup.inWall && inTutorial==-1){
+				game.physics.arcade.gravity.y = 50
+			}
 		}
 	}
 
@@ -1078,6 +1080,10 @@ var climbvoid = function(){
 					return
 				}
 
+				if(yogotarGroup.invensible){
+					yogotarGroup.invensible=false
+				}
+
 				if(yogotarGroup.isFalling){
 					return
 				}	
@@ -1258,67 +1264,78 @@ var climbvoid = function(){
 				}
 				break
 				case COLLISION_TYPE.WALL_LOSE:
-				if(!yogotarGroup.invensible){
-					yogotarGroup.hittingLose=true;
-					yogotarGroup.body.velocity.x = 0
-					yogotarGroup.body.velocity.y = 0
-					yogotarGroup.spine.setAnimationByName(0,"lose_wall",false).onComplete = function(){
-						if(lives>0){
-							jump()
-						}
-						game.time.events.add(600,function(){
-							jumpController=false;
-							yogotarGroup.hittingLose=false;
-						})
+				yogotarGroup.hittingLose=true;
+				yogotarGroup.body.velocity.x = 0
+				yogotarGroup.body.velocity.y = 0
+				yogotarGroup.spine.setAnimationByName(0,"lose_wall",false).onComplete = function(){
+					if(lives>0){
+						jump()
 					}
+					game.time.events.add(600,function(){
+						jumpController=false;
+						yogotarGroup.hittingLose=false;
+					})
+				}
 
-					missPoint()
-				}
-				else{
-					jump()
-				}
+				missPoint()
 
 				break
 				case COLLISION_TYPE.SPIDER:
-				yogotarGroup.body.velocity.x = 0
-				yogotarGroup.body.velocity.y = 0
-				sprite2.y = game.world.height
-
 				if(!yogotarGroup.invensible){
+					yogotarGroup.body.velocity.x = 0
+					yogotarGroup.body.velocity.y = 0
+					sprite2.y = game.world.height
+
 					missPoint()
 					newLife=true;
+
+
+					game.physics.arcade.gravity.y = 0
+					game.add.tween(yogotarGroup).to({y:game.world.height+80},1000,Phaser.Easing.linear,true).onComplete.add(function(){
+						gameActive = false
+						restartDie()
+
+					})
+					yogotarGroup.spine.setAnimationByName(0,"lose_spider",false)
+					yogotarGroup.isFalling = true
+
+					sprite2.visible = false
+					sprite2.canCollide = false
 				}
-				//yogotarGroup.invensible = true
-
-				game.physics.arcade.gravity.y = 0
-				game.add.tween(yogotarGroup).to({y:game.world.height+80},1000,Phaser.Easing.linear,true).onComplete.add(function(){
-					gameActive = false
-					restartDie()
-
-				})
-				yogotarGroup.spine.setAnimationByName(0,"lose_spider",false)
-				yogotarGroup.isFalling = true
-
-				sprite2.visible = false
-				sprite2.canCollide = false
 				break
+				//				case COLLISION_TYPE.JEWEL:
+				//				Coin(yogotarGroup,pointsBar,100,5)
+				//				sprite2.y = game.world.height
+				//				sprite2.visible = false
+				//				sprite2.canCollide = false
+				//				jewelCount ++
+				//				if(jewelCount == nextLevelJewel){
+				//					jewelsParticle.x = jewelText.world.x
+				//					jewelsParticle.y = jewelText.world.y
+				//					jewelsParticle.start(true, 1000, null, 5)
+				//
+				//					nextLevelJewel += (nextLevelJewel-1)
+				//					game.add.tween(jewelPoints.scale).to({x:1.2,y:1.2},300,Phaser.Easing.linear,true).yoyo(true)
+				//				}
+				//
+				//				jewelText.setText(jewelCount+"/"+nextLevelJewel)
+				//
+				//				break
 				case COLLISION_TYPE.JEWEL:
-				Coin(yogotarGroup,pointsBar,100,5)
-				sprite2.y = game.world.height
-				sprite2.visible = false
-				sprite2.canCollide = false
-				jewelCount ++
-				if(jewelCount == nextLevelJewel){
-					jewelsParticle.x = jewelText.world.x
-					jewelsParticle.y = jewelText.world.y
-					jewelsParticle.start(true, 1000, null, 5)
-
-					nextLevelJewel += (nextLevelJewel-1)
-					game.add.tween(jewelPoints.scale).to({x:1.2,y:1.2},300,Phaser.Easing.linear,true).yoyo(true)
+				if(!yogotarGroup.invensible){
+					yogotarGroup.invensible=true
+					touchGraphic.inputEnabled=false;
+					game.physics.arcade.gravity.y = -700
+					yogotarGroup.body.velocity.x = 0
+					game.time.events.add(game.rnd.integerInRange(3000,5000),function(){	
+						yogotarGroup.body.velocity.y = 0
+						game.physics.arcade.gravity.y = 700
+						jump()
+						game.time.events.add(1000,function(){
+							touchGraphic.inputEnabled=true;
+						})
+					})
 				}
-
-				jewelText.setText(jewelCount+"/"+nextLevelJewel)
-
 				break
 		}
 
