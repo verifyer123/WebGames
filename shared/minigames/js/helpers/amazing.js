@@ -114,7 +114,7 @@ amazing.getGames = function(){
         {name:'Jump Ward',iconName:'jump',url:'http://amazingapp.mx/juegos/jumpward/',coupon : false,mixName:'jumpward',sceneName:'jumpward',demo:false,id:5647648723828736},
         {name:'Jungle Fury',iconName:'jungle',url:'http://amazingapp.mx/juegos/junglefury/',coupon : false,mixName:'junglefury',sceneName:'junglefury',demo:false,id:5644406560391168},
         {name:'Lluvia de\n Snacks',iconName:'lluvia',url:'http://amazingapp.mx/juegos/chilimbalam/',coupon : false,mixName:'chilimbalam',sceneName:'chilimbalam',demo:false,id:5676073085829120},
-        //{name:'Store Panic',iconName:'panic',url:'http://amazingapp.mx/juegos/storepanic/',coupon : false,mixName:'storepanic',demo:false,id:5709436928655360},
+        {name:'Store Panic',iconName:'panic',url:'http://amazingapp.mx/juegos/storepanic/',coupon : false,mixName:'storepanic',sceneName:'storepanic',demo:false,id:5709436928655360},
         {name:'Tapatopo',iconName:'tapa',url:'http://amazingapp.mx/juegos/tapatopo/',coupon : false,mixName:'tapatopo',sceneName:'tapatopo',demo:false,id:5664248772427776},
         {name:'Twin Dots',iconName:'twin',url:'http://amazingapp.mx/juegos/twindots/',coupon : false,mixName:'twindots',sceneName:'twindots',demo:false,id:5750790484393984},
         {name:'Neon Edge',iconName:'neon',url:'http://amazingapp.mx/juegos/neonedge/',coupon : false,mixName:'neonedge',sceneName:'neonedge',demo:false,id:5742796208078848},
@@ -145,8 +145,9 @@ amazing.getGames = function(){
         {name:'Burger Crush',iconName:'burguerCrush',url:'http://amazingapp.mx/juegos/burgerCrush/',coupon : false,mixName:'burgercrush',sceneName:'burguerCrush',demo:false,id:71},//38
         {name:'Club Puebla',iconName:'puebla',url:'http://amazingapp.mx/juegos/clubPuebla/',coupon : false,mixName:'clubPuebla',sceneName:'puebla',demo:true,id:100016},//39
         {name:'Cirquit Netshoes',iconName:'cirquitNetshoes',url:'http://amazingapp.mx/juegos/cirquitNetshoes/',coupon : false,mixName:'cirquitNetshoes',sceneName:'cirquit',demo:false,id:1000017},//40
-        {name:'Tap Taco',iconName:'tapTaco',url:'http://amazingapp.mx/juegos/tapTaco/',coupon : false,mixName:'tapTaco',sceneName:'tapTaco',demo:true,id:1000018},//40
+        {name:'Tap Taco',iconName:'tapTaco',url:'http://amazingapp.mx/juegos/tapTaco/',coupon : false,mixName:'tapTaco',sceneName:'tapTaco',demo:false,id:81},//40
         {name:'Speed Up',iconName:'speedUp',url:'http://amazingapp.mx/juegos/speedUp/',coupon : false,mixName:'speedUp',sceneName:'speedUp',demo:true,id:1000019},//41
+        {name:'Reinserta',iconName:'reinserta',url:'http://amazingapp.mx/juegos/reinserta/',coupon : false,mixName:'reinserta',sceneName:'reinserta',demo:true,id:1000020},//42
         //
     ]
 
@@ -160,6 +161,7 @@ amazing.startTimer = function(_time){
     var params = {
         type: "startTimer"
     }
+    
     parent.postMessage(JSON.stringify(params), "*")
 
     window.addEventListener("message", function(event){
