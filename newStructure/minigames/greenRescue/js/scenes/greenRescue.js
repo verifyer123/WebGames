@@ -195,6 +195,7 @@ var greenRescue = function(){
 	var index
 	var coinS
 	var tutoTrash
+	var boomParticle
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
@@ -230,7 +231,7 @@ var greenRescue = function(){
 		dificulty=3;
 		gameActive=true
 		velocidadNubes=4;
-		lives = 3
+		lives = 1
 		sumX=1
 		sumY=1
 
@@ -790,6 +791,9 @@ var greenRescue = function(){
 	function startTimer(time){
 		tweenTiempo=game.add.tween(timeBar.scale).to({x:0,y:.45}, time, Phaser.Easing.Linear.Out, true, 100)
 		tweenTiempo.onComplete.add(function(){
+			boomParticle.x = game.world.centerX
+			boomParticle.y = game.world.centerY
+			boomParticle.start(true, 1200, null, 10)
 			missPoint()
 			passingLevel=true;
 			broom.inputEnabled=false;
@@ -1027,7 +1031,7 @@ var greenRescue = function(){
 			}
 
 			for(var hide=0; hide<estados.length;hide++){
-				if(estados[hide-2]>2 && estados[hide-2]<7 && estados[hide]==6 && (hide!=2 && hide!=5 && hide!=8)){
+				if((estados[hide-2]>2 || estados[hide-3]>2) && (estados[hide-2]<7 || estados[hide-3]<7) && estados[hide]==6 && (hide!=2 && hide!=8)){
 					game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
 				}
 			}
@@ -1328,7 +1332,7 @@ var greenRescue = function(){
 				animatedSprinklers[objHere].alpha=0
 			})
 		}else if(estados[obj.tag]==6){
-			animatedSprinklers[objHere].alpha=10
+			animatedSprinklers[objHere].alpha=1
 			animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
 			tree[obj.tag].setAnimationByName(0,"complete",false);
 			estados[obj.tag]=7;
@@ -1745,6 +1749,7 @@ var greenRescue = function(){
 
 			
 			createOverlay()
+			
 
 			animateScene()
 			buttons.getButton(danced,sceneGroup)
