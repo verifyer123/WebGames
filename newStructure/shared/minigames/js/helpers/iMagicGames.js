@@ -46,5 +46,6 @@ var iMagicGames = {
 		{name:'Imagic Space Words',url:'spaceWords/',mapUrl:'spaceWords', sceneName:'space' ,yogotar:"eagle",subject:'language',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Magic Spell',url:'magicSpell/',mapUrl:'magicSpell', sceneName:'magicSpell',yogotar:"dinamita",subject:'language', review:false,objective:10,demo:false, type:gameTypeEnum.GRAB},
 		{name:'Imagic Symfunny',url:'symfunny/',mapUrl:'symfunny', sceneName:'symfunny',yogotar:"eagle",subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},
+		{name:'Imagic Word Blast',url:'wordBlast/',mapUrl:'wordBlast', sceneName:'wordBlast',yogotar:"eagle",subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//196
 	]
 }

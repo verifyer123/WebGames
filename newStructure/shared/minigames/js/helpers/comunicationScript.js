@@ -23,6 +23,7 @@ var playerData;
 	}
     return{
         finalMessage:finalMessage,
-        sendData:sendData
+        sendData:sendData,
+		closeGame:closeGame
     }
 }()

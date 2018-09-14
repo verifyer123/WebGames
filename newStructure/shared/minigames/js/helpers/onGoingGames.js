@@ -196,7 +196,6 @@ var onGoingGames={
 		   {name:'Nestling Quest',url:'nestlingQuest/',mapUrl:'nestlingQuest', sceneName:'nestlingQuest',subject:'sciencie', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//193
 		   {name:'Climbvoid',url:'climbvoid/',mapUrl:'climbvoid', sceneName:'climbvoid',subject:'creativity', review:false,objective:30,demo:false, type:gameTypeEnum.GRAB},//194
 		   {name:'Verte Who',url:'verteWho/',mapUrl:'verteWho', sceneName:'verteWho',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//195
-		   {name:'Word Blast',url:'wordBlast/',mapUrl:'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//196
 		   {name:'Address In Town',url:'addressInTown/',mapUrl:'addressInTown', sceneName:'addressInTown',subject:'geography', review:false,objective:30,demo:false, type:gameTypeEnum.SEQUENCE},//197
 		   {name:'Deliver In Town',url:'deliverInTown/',mapUrl:'deliverInTown', sceneName:'deliverInTown',subject:'coding', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},//198
 		   {name:'Chainge',url:'chainge/',mapUrl:'chainge', sceneName:'chainge',subject:'math', review:false,objective:20,demo:false, type:gameTypeEnum.TRACE},//199
