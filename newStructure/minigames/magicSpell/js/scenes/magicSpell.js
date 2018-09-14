@@ -22,7 +22,7 @@ var magicSpell = function(){
 			"word0":"SUMMER",
 			"word1":"WINTER",
 			"word2":"SPRING",
-			"word3":"AUTUMN"
+			"word3":"FALL"
 		}
 	}
 
@@ -50,11 +50,38 @@ var magicSpell = function(){
 			{
 				name:'tutorial_image',
 				file:"images/magic/tutorial_image_%input.png"
-			}
+			},
+			{
+				name:'summer',
+				file:"images/magic/summer.png"
+			},
+			{
+				name:'spring',
+				file:"images/magic/spring.png"
+			},
+			{
+				name:'fall',
+				file:"images/magic/fall.png"
+			},
+			{
+				name:'winter',
+				file:"images/magic/winter.png"
+			},
+			{
+				name:'rocks',
+				file:"images/magic/smallRock.png"
+			},
 
 		],
 		spines: [
-
+			{
+				name:"dinamita",
+				file:"images/Spine/Dinamita/Dinamita.json"
+			},
+			{
+				name:"skelleton",
+				file:"images/Spine/Spelletor/Spelletor.json"
+			},
 		],
 		spritesheets: [
 			{
@@ -109,18 +136,25 @@ var magicSpell = function(){
 	var shoot
 	var particlesGroup, particlesUsed
 	var gameIndex = 1
+	var summerGroup, springGroup, fallGroup, winterGroup;
 	var tutoGroup
 	var indexGame
 	var overlayGroup
 	var magicSong
+	var tutorial
 	var words=[];
 	var runes=[];
 	var slots=[];
-	var TOTAL_WORDS=4;
+	var positionX=[];
+	var positionY=[];
+	var dinamita, skelleton;
+	var TOTAL_WORDS=3;
 	var limitCharacterPerWord;
 	var enemys=[];
+	var runeIndex
 	var backgroundGroup=null
-
+	
+	var boardSlots, boardRunes
 	var tweenTiempo
 	var clock, timeBar
 	var emitter
@@ -133,11 +167,14 @@ var magicSpell = function(){
 
 		game.stage.backgroundColor = "#000000"
 		lives = 3
+		tutorial=true;
 		emitter=""
+		runeIndex=0;
 		limitCharacterPerWord=4
 		loadSounds()
-		for(var insertWords=0; insertWords<TOTAL_WORDS; insertWords++){
-			palabras[insertWords]=localization.getString(localizationData,"word"+insertWords);
+		for(var insertWords=0; insertWords<=TOTAL_WORDS; insertWords++){
+			words[insertWords]=localization.getString(localizationData,"word"+insertWords);
+			console.log(words[insertWords])
 		}
 	}
 	
@@ -146,56 +183,91 @@ var magicSpell = function(){
 	}
 
 	function createTutorial(){
-
 		tutoGroup = game.add.group()
-		//overlayGroup.scale.setTo(0.8,0.8)
 		sceneGroup.add(tutoGroup)
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-
 	}
 	
-	function createSlots(){
-		
-		
+	function createSlots(word){
+		var countSpaces=word.length*1;
+		var pivotX=boardSlots.x-countSpaces-boardSlots.width/3;
+		for (var slotsInGame=0; slotsInGame<word.length; slotsInGame++){
+			game["slot"+slotsInGame]=game.add.sprite(pivotX,boardSlots.y-10,"atlas.magic","slot");
+			game["slot"+slotsInGame].anchor.setTo(0.5,0.5);
+			game["slot"+slotsInGame].value=word[slotsInGame];
+			game["slot"+slotsInGame].isOccupied=false;
+			sceneGroup.add(game["slot"+slotsInGame])
+			pivotX+=50
+		}
 	}
 	function createRunes(char){
-		
-		
+		game["rune"+runeIndex]=game.add.sprite(positionX[runeIndex],positionY[runeIndex])
+		runeIndex++;
 	}
 	function divideInCharacters(word){
-		
+		createSlots(word)
 		for (var slice=0; slice<word.length; slice++){
-			createRunes()
+			createRunes(word[slice])
 		}
-		
 	}
-	function attackYogotar(){
-	
-		
+	function attackYogotar(word){
+		dinamita.setAnimationByName(0,"spell_"+word.toLowerCase(),false).onComplete=function(){
+			skelleton.setAnimationByName(0,"lose",false).onComplete=function(){
+				game.add.tween(skelleton).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+					skelleton.x=game.world.width+200;
+				});
+			};
+		};
+		Coin(skelleton,pointsBar,100);
+		tutorial=false;
+		reset(true);
 	}
-	function attackEnemy(){
-		
-		
+	function attackEnemy(word){
+		dinamita.setAnimationByName(0,"spell_fail",false).onComplete=function(){
+			skelleton.setAnimationByName(0,"attack",false).onComplete=function(){
+				dinamita.setAnimationByName(0,"lose",false);
+				if(lives>0){
+					dinamita.setAnimationByName(0,"idle",false)
+				}else{
+					dinamita.setAnimationByName(0,"losestill",false)
+				}
+				skelleton.setAnimationByName(0,"idle",true)
+				missPoint();
+				reset(false)
+			};
+		}
 	}
-	function shuffleEnemy(){
-		
-		
+	function shuffleEnemy(word){
+		skelleton.setSkinByName("normal"+game.rnd.integerInRange(1,4));
+		skelleton.setAnimationByName(0,"idle",true)
+		skelleton.alpha=1;
+		game.add.tween(skelleton).to({x:game.world.centerX+300},1500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+			divideInCharacters(word)
+		});
 	}
-	function evaluateWord(){
+	function evaluateWord(wordChoosed){
+		var win=true;
 		for (var checkCharacters=0; checkCharacters<wordChoosed.length; checkCharacters++){
-			
+			if(runes[checkCharacters].value!=slots[checkCharacters].value && runes[checkCharacters].isPlaced){
+				win=false;
+			}
 		}
-		
+		if(win){
+			attackYogotar(wordChoosed)
+		}else{
+			attackEnemy(wordChoosed)
+		}
 	}
 	function checkOverlap(spriteA, spriteB) {
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
-		return Phaser.Rectangle.intersects(boundsA , boundsB );
+		return Phaser.Rectangle.intersects(boundsA , boundsB);
 	}
 	function stopDrag(rune,objOverlaping,word){
 		var alreadyFinished=true;
-		if(objOverlaping.tag=="slot"){
-			if(tutorial && rune.value===slotOverlaping){
+		if(objOverlaping.tag=="slot" && !objOverlaping.isOccupied){
+			var slotOverlaping=objOverlaping;
+			if(tutorial && rune.value===slotOverlaping.value){
 				rune.inputEnabled=false;
 				rune.x=slotOverlaping.x;
 				rune.y=slotOverlaping.y;
@@ -206,7 +278,8 @@ var magicSpell = function(){
 				slotOverlaping.isOccupied=true;
 			}
 		}else if(objOverlaping.tag=="board"){
-			
+			rune.x=positionX[rune.index];
+			rune.y=positionY[rune.index];
 		}
 		for(var checkIfFinished=0; checkIfFinished<word.length; checkIfFinished++){
 			if(!slots[checkIfFinished].isOccupied){
@@ -215,9 +288,26 @@ var magicSpell = function(){
 		}
 		if(alreadyFinished)evaluateWord(word)
 	}
+	function missPoint(){
+		
+		sound.play("wrong")
+
+		lives--;
+		heartsGroup.text.setText('X ' + lives)
+
+		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
+		scaleTween.onComplete.add(function(){
+			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
+		})
+
+		if(lives == 0){
+			stopGame(false)
+		}
+		addNumberPart(heartsGroup.text,'-1',true)
+	}
 	function changeEnviroment(randomNumber,word,lastGroup){
 		var nextGroup;
-		game.add.tween(lastGroup).to({alpha:0},1500,Phaser.Easing.Cubic.OUT,true);
+		game.add.tween(lastGroup).to({alpha:0},1500,Phaser.Easing.Cubic.Out,true);
 		switch (word){
 			case "SUMMER" || "VERANO":
 				nextGroup=summerGroup;
@@ -228,48 +318,60 @@ var magicSpell = function(){
 			case "WINTER" || "INVIERNO":
 				nextGroup=winterGroup;
 			break;
-			case "AUTUMN" || "OTOÑO": 
-				nextGroup=autumnGroup;
+			case "FALL" || "OTOÑO": 
+				nextGroup=fallGroup;
 			break;
 		}
-		game.add.tween(nextGroup).to({alpha:1},1500,Phaser.Easing.Cubic.IN,true);
+		game.add.tween(nextGroup).to({alpha:1},1500,Phaser.Easing.Cubic.In,true);
 	}
-	function chooseWord(){
+	function managerWordEnemyEnviroment(isEnemyAlive){
 		var randomNumber=game.rnd.integerInRange(0,TOTAL_WORDS);
-		var word=words[randomNumber];	
+		var word=words[randomNumber];
 		if(!tutorial && lives>0){
 			changeEnviroment(randomNumber, word);
+			game.time.events.add(1000,function(){
+				if(!isEnemyAlive)shuffleEnemy()
+			});
 		}else{
-			tutorialLevel(randomNumber,word);
+			tutorialLevel(word);
 		}
 	}
-	function enteringToGame(){
+	function enteringToGame(word){
 		
+		game.add.tween(dinamita).to({x:game.world.centerX-200},1500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+			dinamita.setAnimationByName(0,"idle",true);
+			shuffleEnemy(word)
+		});
 	}
-	function tutorialLevel(enviroment,word){
-		
-		switch (word){
-			case "SUMMER" || "VERANO":
-				summerGroup.alpha=1;
-			break;
-			case "SPRING" || "PRIMAVERA": 	
-				springGroup.alpha=1;
-			break;
-			case "WINTER" || "INVIERNO":
-				winterGroup.alpha=1;
-			break;
-			case "AUTUMN" || "OTOÑO": 
-				autumnGroup.alpha=1;
-			break;	
+	function tutorialLevel(word){
+		if(word=="SUMMER" || word=="VERANO"){
+			summerGroup.alpha=1;
 		}
-		enteringToGame();
+		if(word=="SPRING" || word=="PRIMAVERA"){
+			springGroup.alpha=1;
+		}
+		if(word=="FALL" || word=="OTOÑO"){
+			fallGroup.alpha=1;
+		}
+		if(word=="WINTER" || word=="INVIERNO"){
+			winterGroup.alpha=1;
+		}
+		enteringToGame(word);
 	}
-	
-
+	function createYogotarAndEnemy(){
+		dinamita=game.add.spine(-200,game.world.centerY+100,"dinamita");
+		dinamita.setSkinByName("normal");
+		dinamita.setAnimationByName(0,"run",true);
+		dinamita.scale.setTo(0.5,0.5)
+		sceneGroup.add(dinamita);
+		
+		skelleton=game.add.spine(game.world.width+200,game.world.centerY,"skelleton");
+		skelleton.setSkinByName("normal"+game.rnd.integerInRange(1,4));
+		skelleton.setAnimationByName(0,"idle",true);
+		sceneGroup.add(skelleton);
+	}
 	function popObject(obj,delay){
-
 		game.time.events.add(delay,function(){
-
 			sound.play("cut")
 			obj.alpha = 1
 			game.add.tween(obj.scale).from({ y:0.01},250,Phaser.Easing.linear,true)
@@ -277,15 +379,11 @@ var magicSpell = function(){
 	}
 
 	function animateScene() {
-
 		gameActive = false
-
 		var startGroup = new Phaser.Group(game)
 		sceneGroup.add(startGroup)
-
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},400, Phaser.Easing.Cubic.Out,true)
-
 	}
 
 	function changeImage(index,group){
@@ -330,25 +428,7 @@ var magicSpell = function(){
 
 	}
 
-	function missPoint(){
 
-		sound.play("wrong")
-
-		lives--;
-		heartsGroup.text.setText('X ' + lives)
-
-		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
-		scaleTween.onComplete.add(function(){
-			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
-		})
-
-		if(lives == 0){
-			stopGame(false)
-		}
-
-		addNumberPart(heartsGroup.text,'-1',true)
-
-	}
 
 	function addPoint(number){
 
@@ -450,6 +530,18 @@ var magicSpell = function(){
 
 		backgroundGroup = game.add.group()
 		sceneGroup.add(backgroundGroup)
+		
+		summerGroup=game.add.group();
+		sceneGroup.add(summerGroup)
+		
+		springGroup=game.add.group();
+		sceneGroup.add(springGroup)
+		
+		winterGroup=game.add.group();
+		sceneGroup.add(winterGroup)
+		
+		fallGroup=game.add.group();
+		sceneGroup.add(fallGroup)
 
 		//Aqui inicializo los botones
 		controles=game.input.keyboard.createCursorKeys()
@@ -460,9 +552,102 @@ var magicSpell = function(){
 		sceneGroup.add(wrongParticle)
 		boomParticle = createPart("smoke")
 		sceneGroup.add(boomParticle)
+		
+		
+		
+		var summerRect = new Phaser.Graphics(game)
+		summerRect.beginFill(0xedf7b2)
+		summerRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
+		summerRect.alpha = 1
+		summerRect.endFill()
+		
+		var winterRect = new Phaser.Graphics(game)
+		winterRect.beginFill(0x99e9ff)
+		winterRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
+		winterRect.alpha = 1
+		winterRect.endFill()
+		
+		var fallRect = new Phaser.Graphics(game)
+		fallRect.beginFill(0xf9e491)
+		fallRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
+		fallRect.alpha = 1
+		fallRect.endFill()
+		
+		var springRect= new Phaser.Graphics(game)
+		springRect.beginFill(0x8fffc2)
+		springRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
+		springRect.alpha = 1
+		springRect.endFill()
+		
+		summerGroup.add(summerRect)
+		winterGroup.add(winterRect)
+		fallGroup.add(fallRect)
+		springGroup.add(springRect)
+		
+		var springFloor= new Phaser.Graphics(game)
+		springFloor.beginFill(0x66CC66)
+		springFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
+		springFloor.alpha = 1
+		springFloor.endFill()
+	
+		var summerFloor= new Phaser.Graphics(game)
+		summerFloor.beginFill(0x66CC99)
+		summerFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
+		summerFloor.alpha = 1
+		summerFloor.endFill()
+		
+		var fallFloor= new Phaser.Graphics(game)
+		fallFloor.beginFill(0xB0CC58)
+		fallFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
+		fallFloor.alpha = 1
+		fallFloor.endFill()
+		
+		var winterFloor= new Phaser.Graphics(game)
+		winterFloor.beginFill(0xD2FCE8)
+		winterFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
+		winterFloor.alpha = 1
+		winterFloor.endFill()
+		
+		summerGroup.add(summerFloor)
+		winterGroup.add(winterFloor)
+		springGroup.add(springFloor)
+		fallGroup.add(fallFloor)
+		
+		summerGroup.create(0,-5,"summer");
+		winterGroup.create(0,-5,"winter");
+		springGroup.create(0,-5,"spring");
+		fallGroup.create(0,-5,"fall");
+		
+		summerGroup.children[2].width=game.world.width;
+		winterGroup.children[2].width=game.world.width;
+		springGroup.children[2].width=game.world.width;
+		fallGroup.children[2].width=game.world.width;
+		
+		summerGroup.alpha=0;
+		winterGroup.alpha=0;
+		springGroup.alpha=0;
+		fallGroup.alpha=0;
+
+		var rocks= game.add.tileSprite(0,game.world.centerY+10,game.world.width,100,"rocks");
+		sceneGroup.add(rocks)
+		
+		boardSlots=game.add.sprite(game.world.centerX,game.world.centerY+200,"atlas.magic","spellBoard");
+		boardSlots.anchor.setTo(0.5,0.5)
+		sceneGroup.add(boardSlots)
+		
+		boardRunes=game.add.sprite(game.world.centerX,game.world.height-80,"atlas.magic","board");
+		boardRunes.anchor.setTo(0.5,0.5)
+		boardRunes.scale.setTo(1,1)
+		sceneGroup.add(boardRunes)
+		
+		createYogotarAndEnemy();
+		managerWordEnemyEnviroment(false)
+		
 
 		
+		
 	}
+
 	
 	function createCoinsAndHand(){
 		//Coins
@@ -499,26 +684,27 @@ var magicSpell = function(){
 
 
 	function update(){
-
-
 		if(startGame){
 			epicparticles.update()
-
 		}
 	}
 
-	function reset(){
-
-
+	function reset(win,word){
+		for(var clean=0; clean<word.length; clean++){
+			game["slot"+clean].destroy();
+		}
+		if(win){
+			managerWordEnemyEnviroment(false);
+		}else{
+			managerWordEnemyEnviroment(true);
+		}
 	}
-
 
 	function createTextPart(text,obj){
 
 		var pointsText = lookParticle('text')
 
 		if(pointsText){
-
 			pointsText.x = obj.world.x
 			pointsText.y = obj.world.y - 60
 			pointsText.setText(text)
@@ -529,7 +715,6 @@ var magicSpell = function(){
 
 			deactivateParticle(pointsText,750)
 		}
-
 	}
 
 	function lookParticle(key){
@@ -605,11 +790,9 @@ var magicSpell = function(){
 				particlesGroup.add(particle)
 
 			}
-
 			particle.alpha = 0
 			particle.tag = tag
 			particle.used = false
-			//particle.anchor.setTo(0.5,0.5)
 			particle.scale.setTo(1,1)
 		}
 
@@ -641,7 +824,6 @@ var magicSpell = function(){
 			posX = obj.world.x
 			posY = obj.world.y
 		}
-
 		var rect = new Phaser.Graphics(game)
 		rect.beginFill(0xffffff)
 		rect.drawRect(0,0,game.world.width * 2, game.world.height * 2)
@@ -686,7 +868,6 @@ var magicSpell = function(){
 		if(!gameActive){
 			return
 		}
-
 	}
 
 	return {
@@ -701,7 +882,7 @@ var magicSpell = function(){
 
 			sceneGroup = game.add.group()
 
-			createBackground()
+			
 			addParticles()
 			magicSong = sound.play("acornSong", {loop:true, volume:0.6})
 
@@ -719,7 +900,7 @@ var magicSpell = function(){
 			}, this);
 
 			initialize()
-
+			createBackground()
 
 			createPointsBar()
 			createHearts()

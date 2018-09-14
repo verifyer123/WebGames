@@ -1243,7 +1243,7 @@ var greenRescue = function(){
 		iconic[obj.tag].loadTexture("atlas.green","SHOVEL")
 		tweenIcon[obj.tag]=game.add.tween(iconic[obj.tag]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
 		game.add.tween(iconic[obj.tag].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
-
+//		getCoins(platform1)
 		allClean++;
 		if(tutorial){
 			hand.alpha=0;
