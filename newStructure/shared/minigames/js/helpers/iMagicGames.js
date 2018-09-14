@@ -24,7 +24,6 @@ var iMagicGames = {
 		{name:'Imagic UniDream',url:'uniDream/',mapUrl:'uniDream', sceneName:'uni',subject:'math',yogotar:"theffanie", review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
         {name:'Imagic Selfie Planet',url:'selfiePlanet/',mapUrl:'selfiePlanet', sceneName:'selfiePlanet',subject:'geography',yogotar:"eagle", review:false,objective:15,demo:false,type:gameTypeEnum.TARGET},
         {name:'Imagic Wild Dentist',url:'wildDentist/',mapUrl:'wildDentist', sceneName:'wildDentist',subject:'health',yogotar:"eagle", review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},
-        {name:'Imagic Sushi Towers',url:'sushiTowers/',mapUrl:'sushiTowers', sceneName:'sushi',subject:'math',yogotar:"tomiko", review:true,objective:20,demo:false,type:gameTypeEnum.MATCH},
         {name:'Imagic Math Run',url:'mathRun/',mapUrl:'mathRun', sceneName:'mathRun',subject:'math',yogotar:"arthurius",review:true,objective:20,demo:true,type:gameTypeEnum.COUNT},
 		{name:'Imagic Dinamita Dance',url:'dinamitaDance/',mapUrl:'dinamitaDance', sceneName:'dinamitaDance',subject:'language' ,yogotar:"dinamita", review:false,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Oona Says Cook',url:'oonaSaysCook/',mapUrl:'oonaSaysCook', sceneName:'oona',subject:'coding',yogotar:"oona", review:true,objective:15,demo:true,type:gameTypeEnum.CHOOSE},
