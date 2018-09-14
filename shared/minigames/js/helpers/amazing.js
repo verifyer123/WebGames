@@ -148,6 +148,7 @@ amazing.getGames = function(){
         {name:'Tap Taco',iconName:'tapTaco',url:'http://amazingapp.mx/juegos/tapTaco/',coupon : false,mixName:'tapTaco',sceneName:'tapTaco',demo:false,id:81},//40
         {name:'Speed Up',iconName:'speedUp',url:'http://amazingapp.mx/juegos/speedUp/',coupon : false,mixName:'speedUp',sceneName:'speedUp',demo:true,id:1000019},//41
         {name:'Reinserta',iconName:'reinserta',url:'http://amazingapp.mx/juegos/reinserta/',coupon : false,mixName:'reinserta',sceneName:'reinserta',demo:true,id:1000020},//42
+        {name:'Trajinera',iconName:'trajinera',url:'http://amazingapp.mx/juegos/trajinera/',coupon : false,mixName:'trajinera',sceneName:'trajinera',demo:true,id:1000021},//43
         //
     ]
 

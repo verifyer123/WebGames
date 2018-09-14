@@ -5,12 +5,14 @@ var wordBlast = function(){
     var localizationData = {
 		"EN":{
             "howTo":"How to Play?",
-            "moves":"Moves left"
+            "moves":"Moves left",
+            "tutorial_image": "images/wordBlast/gameTuto_EN.png"
 		},
 
 		"ES":{
             "howTo":"¿Cómo jugar?",
-            "moves":"Movimientos extra"
+            "moves":"Movimientos extra",
+            "tutorial_image": "images/wordBlast/gameTuto_ES.png"
 		}
 	}
     
@@ -24,10 +26,9 @@ var wordBlast = function(){
             }
         ],
         images: [
-            {
-				name:'tutorial_image',
-				file:"images/wordBlast/tutorial_image_%input.png"
-			},
+            {   name:'tutorial_image',
+                file:"%lang"
+            },
             {
 				name:'background',
 				file:"images/wordBlast/background.png"
@@ -119,7 +120,7 @@ var wordBlast = function(){
         gameActive = false;
         wordsArray = [];
         
-        if(localization.getLanguage() === 'ES'){
+        if(localization.getLanguage() == 'ES'){
             wordsPool = [["CAT", "DOG", "LION", "MOUSE", "SHEEP", "SQUIRREL"],
                          ["APPLE", "BANANA", "CARROT", "ORANGE", "PEACH"],
                          ["EARTH", "MOON", "SUN", "VENUS"]];
@@ -150,13 +151,12 @@ var wordBlast = function(){
     function stopGame(win){
         
         sound.play("wrong");
-
         gameActive = false;
-        gameSong.stop();
-                
+      
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
         tweenScene.onComplete.add(function(){
             var resultScreen = sceneloader.getScene("result");
+            gameSong.stop();
             resultScreen.setScore(true, pointsBar.number,gameIndex);          
             sceneloader.show("result");
             sound.play("gameLose");
@@ -791,7 +791,8 @@ var wordBlast = function(){
 	return {
 		
 		assets: assets,
-		name: "wordBlast",
+        name: "wordBlast",
+        localizationData: localizationData,
         preload:preload,
 		update: update,
         getGameData:function () {

@@ -903,8 +903,8 @@ var acorn = function(){
     function generateQuestion() {
         var round = ROUNDS[roundCounter] ? ROUNDS[roundCounter] : ROUNDS[ROUNDS.length - 1];
 
-        var number1 = game.rnd.integerInRange(0, round.maxNumber);
-        var number2 = game.rnd.integerInRange(0, round.maxNumber);
+        var number1 = game.rnd.integerInRange(1, round.maxNumber);
+        var number2 = game.rnd.integerInRange(1, round.maxNumber);
         var answer;
 
         var operation = round.operator;
