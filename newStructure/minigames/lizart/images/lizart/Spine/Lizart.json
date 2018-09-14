@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "LsigbALrF4So8ewAd3Q9y15daKY", "spine": "3.2.01", "width": 298.24, "height": 235.37, "images": "" },
+"skeleton": { "hash": "SQdtIm9c7xQ3QmpeCdUBRRF/3kM", "spine": "3.2.01", "width": 298.24, "height": 235.37, "images": "" },
 "bones": [
 	{ "name": "root", "shearY": 0.08 },
 	{ "name": "torso", "parent": "root", "x": 0.09, "y": 58.99 },
@@ -10,7 +10,7 @@
 	{ "name": "leg2", "parent": "torso", "length": 34.88, "rotation": -85.68, "x": 6.3, "y": -22.74, "inheritScale": false },
 	{ "name": "leg3", "parent": "torso", "length": 27.07, "rotation": -88.61, "x": 46.8, "y": -22.45, "inheritScale": false },
 	{ "name": "leg4", "parent": "torso", "length": 25.91, "rotation": -74.55, "x": 73.17, "y": -21.75, "inheritScale": false },
-	{ "name": "lengua", "parent": "head", "rotation": -16.3, "x": -19.95, "y": -2 },
+	{ "name": "lengua", "parent": "head", "rotation": -16.3, "x": 4.06, "y": -20.54 },
 	{ "name": "tale", "parent": "torso", "length": 45.25, "rotation": 161.02, "x": -40.09, "y": -5.07, "inheritScale": false }
 ],
 "slots": [
@@ -98,6 +98,7 @@
 			"lengua": {
 				"attachment": [
 					{ "time": 0, "name": null },
+					{ "time": 0.2, "name": "lengua" },
 					{ "time": 1, "name": null }
 				]
 			},
@@ -499,7 +500,6 @@
 		},
 		"drawOrder": [
 			{ "time": 0 },
-			{ "time": 0.2 },
 			{ "time": 1 }
 		]
 	},

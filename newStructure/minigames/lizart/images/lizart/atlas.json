@@ -91,6 +91,33 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "tongue_1",
+	"frame": {"x":1357,"y":244,"w":18,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":18,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tongue_2",
+	"frame": {"x":1333,"y":271,"w":18,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":7,"y":0,"w":18,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "tongue_3",
+	"frame": {"x":1299,"y":271,"w":32,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":32},
+	"sourceSize": {"w":32,"h":32},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "tree",
 	"frame": {"x":1,"y":1,"w":1095,"h":814},
 	"rotated": false,
@@ -115,6 +142,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1595,"h":816},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:876fd4539e75db05627298d640ed986a:3bd28a79ffaab50bd44840bec693cac6:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:39d8d8f293df6d1139e0d2093cf3a573:8338bb7761ce73d3b20bc5e607eeb5e4:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
