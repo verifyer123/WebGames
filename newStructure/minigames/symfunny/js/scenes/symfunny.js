@@ -234,6 +234,13 @@ var symfunny = function(){
 			oof.setAnimationByName(0,"good",false).onComplete=function(){
 				oof.setAnimationByName(0,"idle",true)
 			}
+			game.add.tween(light).to({x:instrument.x,y:instrument.y-30},400,Phaser.Easing.linear,true);
+			if(light.alpha==0){
+				game.add.tween(light).to({alpha:0.5},400,Phaser.Easing.linear,true)
+			}
+			particleCorrect.x = instrument.x+game.world.centerX
+			particleCorrect.y = instrument.y+game.world.centerY
+			particleCorrect.start(true, 1000, null, 5)
 			orchestaGroup.children[instrument.value].setAnimationByName(0, "win", false)
 			pivot++
 			sound.play(orchesta[instrument.value].name)
@@ -242,7 +249,7 @@ var symfunny = function(){
 			}
 			tutorialNext++;
 			if(tutorialNext<cap){
-				game.add.tween(hand).to({x:orchestaGroup.children[correctAnswer[tutorialNext]].x+30,y:orchestaGroup.children[correctAnswer[tutorialNext]].y-100},300,Phaser.Easing.Cubic.Out,true);
+			game.add.tween(hand).to({x:orchestaGroup.children[correctAnswer[tutorialNext]].x+30,y:orchestaGroup.children[correctAnswer[tutorialNext]].y-100},300,Phaser.Easing.Cubic.Out,true);
 			}else{
 				hand.alpha=0;
 				tutorial=false;
@@ -470,7 +477,6 @@ var symfunny = function(){
 
 			deactivateParticle(pointsText,750)
 		}
-
 	}
 
 	function lookParticle(key){
@@ -767,12 +773,21 @@ var symfunny = function(){
 	}
 
 	function inputButton(instument){
+		
+
 		if(pivot < cap && gameActive && !tutorial){
+			game.add.tween(light).to({x:instument.x,y:instument.y-30},400,Phaser.Easing.linear,true);
+			if(light.alpha==0){
+				game.add.tween(light).to({alpha:0.5},400,Phaser.Easing.linear,true)
+			}
 			if(correctAnswer[pivot] === instument.value){
 				oof.setAnimationByName(0,"good",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
 				}
 				orchestaGroup.children[instument.value].setAnimationByName(0, "win", false)
+				particleCorrect.x = instument.x+game.world.centerX
+				particleCorrect.y = instument.y+game.world.centerY
+				particleCorrect.start(true, 1000, null, 5)
 				pivot++
 				sound.play(orchesta[instument.value].name)
 				if(pivot === cap)
@@ -783,13 +798,18 @@ var symfunny = function(){
 				oof.setAnimationByName(0,"lose",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
 				}
+				particleWrong.x = instument.x+game.world.centerX
+				particleWrong.y = instument.y+game.world.centerY
+				particleWrong.start(true, 1000, null, 5)
 				orchestaGroup.children[instument.value].setAnimationByName(0, "lose", false)
 				sound.play("bad_note"+instument.value)
 				crescendo(false)
 			}
 		}else if(pivot < cap && gameActive && tutorial){
 			tutorialLevel(instument);
+		
 		}
+		
 
 		orchestaGroup.children[instument.value].addAnimationByName(0, "play", true)
 	}
@@ -810,13 +830,11 @@ var symfunny = function(){
 					orchestaGroup.children[a].setAnimationByName(0, "win", false)
 					orchestaGroup.children[a].addAnimationByName(0, "play", true)
 				}
+				getCoins(oof)
+				game.add.tween(light).to({alpha:0},380,Phaser.Easing.linear,true);
 				oof.setAnimationByName(0,"win",false).onComplete=function(){
 					oof.setAnimationByName(0,"idle",true)
 				}
-				particleCorrect.x = oof.x
-				particleCorrect.y = oof.y
-				getCoins(oof)
-				particleCorrect.start(true, 1000, null, 5)
 			},this)
 			
 			for(var illuminateAll=0; illuminateAll<orchestaGroup.length; illuminateAll++){
@@ -837,20 +855,19 @@ var symfunny = function(){
 			},this)
 		}
 		else{
-
+			
 			game.time.events.add(1000,function(){
 				sound.play('error')
 				for(var a = 0; a < orchestaGroup.length; a++){
 					orchestaGroup.children[a].setAnimationByName(0, "lose", false)
 					orchestaGroup.children[a].addAnimationByName(0, "play", true)
 				}
-				particleWrong.x = oof.x
-				particleWrong.y = oof.y
-				particleWrong.start(true, 1000, null, 5)
+				
 			},this)
 
 			game.time.events.add(2500,function(){
 				missPoint()
+				game.add.tween(light).to({alpha:0},380,Phaser.Easing.linear,true);
 				game.add.tween(courtain1.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true);
 				game.add.tween(courtain2.scale).to({x:2.5},600,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
 					if(lives>0){
@@ -873,6 +890,9 @@ var symfunny = function(){
 			correctAnswer[i] = game.rnd.integerInRange(0, 4)
 		}
 		if(tutorial){
+			correctAnswer[0] = 3
+			correctAnswer[1] = 1
+			correctAnswer[2] = 4
 			hand.x=orchestaGroup.children[correctAnswer[0]].x+30;
 			hand.y=orchestaGroup.children[correctAnswer[0]].y-100;
 		}

@@ -40,7 +40,7 @@ function startGame(){
         game.input.maxPointers = 1
 
         game.stage.backgroundColor = "#ffffff"
-        game.time.advancedTiming = true
+        game.time.advancedTiming = false
         game.stage.disableVisibilityChange = true;        
 
 		game.plugins.add(Fabrique.Plugins.Spine);

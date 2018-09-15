@@ -928,7 +928,7 @@ var sushi = function(){
 						wrongParticle.y = lastSushi.centerY
 						wrongParticle.start(true, 1000, null, 5)
 						missPoint()
-						if(handleSushi)handleSushi.destroy()
+//						if(handleSushi)handleSushi.destroy()
 						octopus.setAnimation(["lose"]);
 						gameEnded = true
 						return
@@ -1053,6 +1053,7 @@ var sushi = function(){
 	return {
 		assets: assets,
 		name: "sushi",
+		preload:preload,
 		update:function(event) {
 			if(gameActive)
 				update()

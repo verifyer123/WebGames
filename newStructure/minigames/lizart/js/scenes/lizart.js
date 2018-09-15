@@ -992,46 +992,46 @@ var lizart = function(){
 		})
 	}
 
-	function tongueFinalRecursive(){
-		
-			tongueIndex--;
-		if(tongueIndex>0){
-			game["tongue"+(tongueIndex-1)].loadTexture("atlas.lizart","tongue_3")
-			game["tongue"+tongueIndex].destroy();
-			game.time.events.add(1,function(){
-				tongueFinalRecursive()
-			})
-		}else{
-			game["tongue"+(tongueIndex)].destroy();
-			tongueIndex=0;
-			firstTongue=true;
-		}
-		
-	}
-	function tongueInitRecursive(fruit){
-		if(firstTongue){
-			game["tongue"+tongueIndex]=game.add.sprite(lizard.x+70,lizard.y-110,"atlas.lizart","tongue_1")
-			game["tongue"+tongueIndex].anchor.setTo(0.5,0.5)
-			sceneGroup.add(game["tongue"+tongueIndex])
-			game.time.events.add(1,function(){
-				tongueIndex++;
-				firstTongue=false;
-				
-				tongueInitRecursive(fruit);
-			})
-		}else if(!firstTongue && game["tongue"+(tongueIndex-1)].y>=fruit.y){
-			if(tongueIndex>1)game["tongue"+(tongueIndex-1)].loadTexture("atlas.lizart","tongue_2")
-			game["tongue"+(tongueIndex)]=game.add.sprite(lizard.x+70,game["tongue"+(tongueIndex-1)].y-game["tongue"+(tongueIndex-1)].height,"atlas.lizart","tongue_3")
-			game["tongue"+tongueIndex].anchor.setTo(0.5,0.5)
-			sceneGroup.add(game["tongue"+(tongueIndex)])
-			game.time.events.add(1,function(){
-				tongueIndex++;
-				tongueInitRecursive(fruit);
-			})
-		}else{
-			tongueFinalRecursive()
-		}
-	}
+//	function tongueFinalRecursive(){
+//		
+//			tongueIndex--;
+//		if(tongueIndex>0){
+//			game["tongue"+(tongueIndex-1)].loadTexture("atlas.lizart","tongue_3")
+//			game["tongue"+tongueIndex].destroy();
+//			game.time.events.add(1,function(){
+//				tongueFinalRecursive()
+//			})
+//		}else{
+//			game["tongue"+(tongueIndex)].destroy();
+//			tongueIndex=0;
+//			firstTongue=true;
+//		}
+//		
+//	}
+//	function tongueInitRecursive(fruit){
+//		if(firstTongue){
+//			game["tongue"+tongueIndex]=game.add.sprite(lizard.x+70,lizard.y-110,"atlas.lizart","tongue_1")
+//			game["tongue"+tongueIndex].anchor.setTo(0.5,0.5)
+//			sceneGroup.add(game["tongue"+tongueIndex])
+//			game.time.events.add(1,function(){
+//				tongueIndex++;
+//				firstTongue=false;
+//				
+//				tongueInitRecursive(fruit);
+//			})
+//		}else if(!firstTongue && game["tongue"+(tongueIndex-1)].y>=fruit.y){
+//			if(tongueIndex>1)game["tongue"+(tongueIndex-1)].loadTexture("atlas.lizart","tongue_2")
+//			game["tongue"+(tongueIndex)]=game.add.sprite(lizard.x+70,game["tongue"+(tongueIndex-1)].y-game["tongue"+(tongueIndex-1)].height,"atlas.lizart","tongue_3")
+//			game["tongue"+tongueIndex].anchor.setTo(0.5,0.5)
+//			sceneGroup.add(game["tongue"+(tongueIndex)])
+//			game.time.events.add(1,function(){
+//				tongueIndex++;
+//				tongueInitRecursive(fruit);
+//			})
+//		}else{
+//			tongueFinalRecursive()
+//		}
+//	}
 	function stopTimer(){
 		if(lives>0){
 			tweenTiempo.stop()
