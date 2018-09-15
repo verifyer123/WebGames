@@ -317,6 +317,21 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">tongue_1.png</key>
+            <key type="filename">tongue_2.png</key>
+            <key type="filename">tongue_3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">tree.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -358,6 +373,9 @@
             <filename>tree.png</filename>
             <filename>xpcoins.png</filename>
             <filename>fruit6.png</filename>
+            <filename>tongue_1.png</filename>
+            <filename>tongue_2.png</filename>
+            <filename>tongue_3.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
