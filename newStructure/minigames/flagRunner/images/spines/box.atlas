@@ -1,0 +1,34 @@
+
+box.png
+size: 1024,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal4/box_a1
+  rotate: true
+  xy: 638, 31
+  size: 89, 118
+  orig: 89, 118
+  offset: 0, 0
+  index: -1
+normal4/box_a2
+  rotate: true
+  xy: 515, 31
+  size: 89, 121
+  orig: 89, 121
+  offset: 0, 0
+  index: -1
+normal5/box_b1
+  rotate: false
+  xy: 2, 2
+  size: 253, 118
+  orig: 253, 118
+  offset: 0, 0
+  index: -1
+normal5/box_b2
+  rotate: false
+  xy: 257, 5
+  size: 256, 115
+  orig: 256, 115
+  offset: 0, 0
+  index: -1

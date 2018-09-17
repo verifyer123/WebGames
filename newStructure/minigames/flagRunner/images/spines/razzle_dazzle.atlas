@@ -1,0 +1,272 @@
+
+razzle_dazzle.png
+size: 2048,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/arm1
+  rotate: true
+  xy: 1376, 97
+  size: 29, 49
+  orig: 29, 49
+  offset: 0, 0
+  index: -1
+normal1/arm1_side
+  rotate: false
+  xy: 1324, 96
+  size: 50, 30
+  orig: 50, 30
+  offset: 0, 0
+  index: -1
+normal1/arm2
+  rotate: true
+  xy: 1477, 97
+  size: 29, 46
+  orig: 29, 46
+  offset: 0, 0
+  index: -1
+normal1/arm2_side
+  rotate: false
+  xy: 1121, 2
+  size: 40, 26
+  orig: 40, 26
+  offset: 0, 0
+  index: -1
+normal1/foot1
+  rotate: true
+  xy: 1163, 2
+  size: 26, 20
+  orig: 26, 20
+  offset: 0, 0
+  index: -1
+normal1/foot1_side
+  rotate: true
+  xy: 1820, 105
+  size: 21, 27
+  orig: 21, 27
+  offset: 0, 0
+  index: -1
+normal1/foot2
+  rotate: false
+  xy: 751, 2
+  size: 26, 20
+  orig: 26, 20
+  offset: 0, 0
+  index: -1
+normal1/foot2_side
+  rotate: false
+  xy: 1761, 103
+  size: 27, 23
+  orig: 27, 23
+  offset: 0, 0
+  index: -1
+normal1/head_a
+  rotate: false
+  xy: 627, 21
+  size: 122, 105
+  orig: 122, 105
+  offset: 0, 0
+  index: -1
+normal1/head_a_side
+  rotate: false
+  xy: 1000, 23
+  size: 119, 103
+  orig: 119, 103
+  offset: 0, 0
+  index: -1
+normal1/head_b
+  rotate: false
+  xy: 252, 21
+  size: 123, 105
+  orig: 123, 105
+  offset: 0, 0
+  index: -1
+normal1/head_b_side
+  rotate: false
+  xy: 751, 24
+  size: 123, 102
+  orig: 123, 102
+  offset: 0, 0
+  index: -1
+normal1/head_c
+  rotate: false
+  xy: 377, 21
+  size: 123, 105
+  orig: 123, 105
+  offset: 0, 0
+  index: -1
+normal1/leg1
+  rotate: true
+  xy: 1226, 2
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+normal1/leg1_side
+  rotate: true
+  xy: 1192, 31
+  size: 34, 32
+  orig: 34, 32
+  offset: 0, 0
+  index: -1
+normal1/leg2
+  rotate: false
+  xy: 1226, 34
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+normal1/leg2_side
+  rotate: false
+  xy: 1728, 95
+  size: 31, 31
+  orig: 31, 31
+  offset: 0, 0
+  index: -1
+normal1/torso
+  rotate: false
+  xy: 1224, 68
+  size: 48, 58
+  orig: 48, 58
+  offset: 0, 0
+  index: -1
+normal1/torso_side
+  rotate: false
+  xy: 1121, 67
+  size: 50, 59
+  orig: 50, 59
+  offset: 0, 0
+  index: -1
+normal2/arm1
+  rotate: true
+  xy: 1427, 97
+  size: 29, 48
+  orig: 29, 48
+  offset: 0, 0
+  index: -1
+normal2/arm1_side
+  rotate: true
+  xy: 1573, 98
+  size: 28, 46
+  orig: 28, 46
+  offset: 0, 0
+  index: -1
+normal2/arm2
+  rotate: true
+  xy: 1525, 97
+  size: 29, 46
+  orig: 29, 46
+  offset: 0, 0
+  index: -1
+normal2/arm2_side
+  rotate: true
+  xy: 1621, 98
+  size: 28, 37
+  orig: 28, 37
+  offset: 0, 0
+  index: -1
+normal2/colita
+  rotate: true
+  xy: 1121, 30
+  size: 35, 69
+  orig: 35, 69
+  offset: 0, 0
+  index: -1
+normal2/foot1
+  rotate: false
+  xy: 779, 2
+  size: 26, 20
+  orig: 26, 20
+  offset: 0, 0
+  index: -1
+normal2/foot1_side
+  rotate: false
+  xy: 1790, 105
+  size: 28, 21
+  orig: 28, 21
+  offset: 0, 0
+  index: -1
+normal2/foot2
+  rotate: false
+  xy: 807, 2
+  size: 26, 20
+  orig: 26, 20
+  offset: 0, 0
+  index: -1
+normal2/foot2_side
+  rotate: false
+  xy: 835, 2
+  size: 24, 20
+  orig: 24, 20
+  offset: 0, 0
+  index: -1
+normal2/head_a
+  rotate: false
+  xy: 502, 21
+  size: 123, 105
+  orig: 123, 105
+  offset: 0, 0
+  index: -1
+normal2/head_b
+  rotate: false
+  xy: 2, 20
+  size: 123, 106
+  orig: 123, 106
+  offset: 0, 0
+  index: -1
+normal2/head_c
+  rotate: false
+  xy: 127, 20
+  size: 123, 106
+  orig: 123, 106
+  offset: 0, 0
+  index: -1
+normal2/head_side
+  rotate: false
+  xy: 876, 24
+  size: 122, 102
+  orig: 122, 102
+  offset: 0, 0
+  index: -1
+normal2/leg1
+  rotate: true
+  xy: 1660, 96
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+normal2/leg1_side
+  rotate: true
+  xy: 1192, 2
+  size: 27, 31
+  orig: 27, 31
+  offset: 0, 0
+  index: -1
+normal2/leg2
+  rotate: true
+  xy: 1694, 96
+  size: 30, 32
+  orig: 30, 32
+  offset: 0, 0
+  index: -1
+normal2/leg2_side
+  rotate: true
+  xy: 1324, 69
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+normal2/torso
+  rotate: false
+  xy: 1274, 69
+  size: 48, 57
+  orig: 48, 57
+  offset: 0, 0
+  index: -1
+normal2/torso_side
+  rotate: false
+  xy: 1173, 67
+  size: 49, 59
+  orig: 49, 59
+  offset: 0, 0
+  index: -1
