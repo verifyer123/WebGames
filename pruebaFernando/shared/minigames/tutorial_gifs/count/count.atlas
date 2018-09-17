@@ -1,0 +1,132 @@
+
+count.png
+size: 256,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/fist_r_closed
+  rotate: false
+  xy: 2, 173
+  size: 73, 74
+  orig: 73, 74
+  offset: 0, 0
+  index: -1
+normal1/indexfinger_closed
+  rotate: false
+  xy: 79, 157
+  size: 30, 29
+  orig: 30, 29
+  offset: 0, 0
+  index: -1
+normal1/indexfinger_halfway
+  rotate: true
+  xy: 31, 31
+  size: 35, 33
+  orig: 35, 33
+  offset: 0, 0
+  index: -1
+normal1/indexfinger_raised
+  rotate: false
+  xy: 2, 52
+  size: 27, 57
+  orig: 27, 57
+  offset: 0, 0
+  index: -1
+normal1/line
+  rotate: true
+  xy: 132, 189
+  size: 11, 30
+  orig: 11, 30
+  offset: 0, 0
+  index: -1
+normal1/littlefinger_closed
+  rotate: true
+  xy: 79, 130
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+normal1/littlefinger_halfway
+  rotate: true
+  xy: 206, 193
+  size: 24, 26
+  orig: 24, 26
+  offset: 0, 0
+  index: -1
+normal1/littlefinger_raised
+  rotate: false
+  xy: 59, 135
+  size: 18, 36
+  orig: 18, 36
+  offset: 0, 0
+  index: -1
+normal1/middlefinger_closed
+  rotate: false
+  xy: 111, 158
+  size: 23, 28
+  orig: 23, 28
+  offset: 0, 0
+  index: -1
+normal1/middlefinger_halfway
+  rotate: false
+  xy: 173, 207
+  size: 31, 40
+  orig: 31, 40
+  offset: 0, 0
+  index: -1
+normal1/middlefinger_raised
+  rotate: false
+  xy: 2, 5
+  size: 27, 45
+  orig: 27, 45
+  offset: 0, 0
+  index: -1
+normal1/palm
+  rotate: false
+  xy: 2, 111
+  size: 55, 60
+  orig: 55, 60
+  offset: 0, 0
+  index: -1
+normal1/palm_fix
+  rotate: false
+  xy: 206, 219
+  size: 41, 28
+  orig: 41, 28
+  offset: 0, 0
+  index: -1
+normal1/ringfinger_closed
+  rotate: false
+  xy: 136, 159
+  size: 25, 28
+  orig: 25, 28
+  offset: 0, 0
+  index: -1
+normal1/ringfinger_halfway
+  rotate: true
+  xy: 31, 2
+  size: 27, 31
+  orig: 27, 31
+  offset: 0, 0
+  index: -1
+normal1/ringfinger_raised
+  rotate: false
+  xy: 31, 68
+  size: 23, 41
+  orig: 23, 41
+  offset: 0, 0
+  index: -1
+normal1/thumb_closed
+  rotate: false
+  xy: 77, 188
+  size: 53, 59
+  orig: 53, 59
+  offset: 0, 0
+  index: -1
+normal1/thumb_raised
+  rotate: false
+  xy: 132, 202
+  size: 39, 45
+  orig: 39, 45
+  offset: 0, 0
+  index: -1

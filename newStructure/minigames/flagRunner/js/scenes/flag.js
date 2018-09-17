@@ -166,7 +166,8 @@ var flag = function () {
 	var lanesGroup;
 	var boxesGroup;
 	var spaceSong;
-	var objectsGroup, usedObjects;
+	//var objectsGroup;
+	var usedObjects;
 	var moveSideLeft;
 	var moveSideRight;
 	var flagGroup;
@@ -177,7 +178,7 @@ var flag = function () {
 	var levelZero;
 	var moveSideUp;
 	var moveSideDown;
-	var levelZeroColocation = [1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1];
+	//var levelZeroColocation = [1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1];
 	var steps;
 	var directionMove;
 	var tweenHand;
@@ -197,7 +198,7 @@ var flag = function () {
 		offsetObjs = 300;
 		gameActive = false;
 		levelCounter = 0;
-		levelChange = 10;
+		levelChange = 6;
 		levelZero = true;
 		moveSideLeft = false;
 		moveSideRight = false;
@@ -245,6 +246,7 @@ var flag = function () {
 	function update() {
 
 		if (!gameActive) {
+			this.swipe.direction = null;
 			return;
 		}
 
@@ -259,7 +261,6 @@ var flag = function () {
 				}
 			}
 		}
-
 
 		var direction = this.swipe.check();
 
@@ -409,8 +410,7 @@ var flag = function () {
 		sound.play("wrong");
 		lives--;
 		heartsGroup.text.setText('X ' + lives);
-
-		//loseInMissPoint();
+		gameActive = false;
 
 		var scaleTween = game.add.tween(heartsGroup.scale).to({ x: 0.7, y: 0.7 }, 200, Phaser.Easing.linear, true);
 		scaleTween.onComplete.add(function () {
@@ -441,10 +441,10 @@ var flag = function () {
 	}
 	//#endregion
 	//#region Own functions
-	function changeHand(step){
+	function changeHand(step) {
 		hand.x = robot.x;
 		hand.y = robot.y;
-		if(tweenHand!=null){
+		if (tweenHand != null) {
 			tweenHand.stop();
 		}
 		switch (steps) {
@@ -452,59 +452,60 @@ var flag = function () {
 				hand.y += 80;
 				tweenHandAnimation(0);
 				break;
-			case 1:
-				hand.x += 80;
-				tweenHandAnimation(2);
-				break;
-			case 2:
-				hand.y += 80;
-				tweenHandAnimation(2);
-				break;
-			case 3:
-				hand.y += 80;
-				tweenHandAnimation(1);
-				break;
-			case 4:
-				hand.x -= 80;
-				tweenHandAnimation(2);
-				break;
-			case 5:
-				hand.y += 80;
-				tweenHandAnimation(2);
-				break;
-			case 6:
-				hand.y += 80;
-				tweenHandAnimation(3);
-				break;
-			case 7:
-				hand.y -= 160;
-				tweenHandAnimation(2);
-				break;
-			case 8:
-				hand.y += 80;
-				tweenHandAnimation(1);
-				break;
-			case 9:
-				hand.x -= 80;
-				hand.y -= 80;
-				tweenHandAnimation(2);
-				break;
-			case 10:
-				game.add.tween(hand).to({ alpha: 0 }, 250, "Linear", true);
-				break;
+			// case 1:
+			// 	hand.x += 80;
+			// 	tweenHandAnimation(2);
+			// 	break;
+			// case 2:
+			// 	hand.y += 80;
+			// 	tweenHandAnimation(2);
+			// 	break;
+			// case 3:
+			// 	hand.y += 80;
+			// 	tweenHandAnimation(1);
+			// 	break;
+			// case 4:
+			// 	hand.x -= 80;
+			// 	tweenHandAnimation(2);
+			// 	break;
+			// case 5:
+			// 	hand.y += 80;
+			// 	tweenHandAnimation(2);
+			// 	break;
+			// case 6:
+			// 	hand.y += 80;
+			// 	tweenHandAnimation(3);
+			// 	break;
+			// case 7:
+			// 	hand.y -= 160;
+			// 	tweenHandAnimation(2);
+			// 	break;
+			// case 8:
+			// 	hand.y += 80;
+			// 	tweenHandAnimation(1);
+			// 	break;
+			// case 9:
+			// 	hand.x -= 80;
+			// 	hand.y -= 80;
+			// 	tweenHandAnimation(2);
+			// 	break;
+			// case 10:
+			// 	game.add.tween(hand).to({ alpha: 0 }, 250, "Linear", true);
+			// 	break;
 		}
 	}
 
-	function tweenHandAnimation(typeAnim){
-		if(typeAnim == 0){
-			tweenHand = game.add.tween(hand).to({ x: hand.x + 120}, 800, Phaser.Easing.Linear.In, true, 0, -1);
-		}else if(typeAnim == 1){
-			tweenHand = game.add.tween(hand).to({ x: hand.x - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
-		}else if(typeAnim == 2){
-			tweenHand = game.add.tween(hand).to({ y: hand.y + 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
-		}else if(typeAnim == 3){
-			tweenHand = game.add.tween(hand).to({ y: hand.y - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
-		}
+	function tweenHandAnimation(typeAnim) {
+		if (typeAnim == 0) {
+			tweenHand = game.add.tween(hand).to({ x: hand.x + 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
+		} 
+		// else if (typeAnim == 1) {
+		// 	tweenHand = game.add.tween(hand).to({ x: hand.x - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
+		// } else if (typeAnim == 2) {
+		// 	tweenHand = game.add.tween(hand).to({ y: hand.y + 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
+		// } else if (typeAnim == 3) {
+		// 	tweenHand = game.add.tween(hand).to({ y: hand.y - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
+		// }
 	}
 
 	function checkObjectsLevelZero() {
@@ -513,52 +514,63 @@ var flag = function () {
 				moveSideDown = moveForwarSteps(1);
 				break;
 			case 1:
-				moveSideRight = moveForwarSteps(3);
+				moveSideLeft = true;
+				moveSideRight = true;
+				moveSideUp = true;
+				moveSideDown = true;
+				levelZero = false;
+				game.add.tween(hand).to({ alpha: 0 }, 250, "Linear", true);
+				for (var i = 0; i < 8; i++) {
+					addObject();
+				}
 				break;
-			case 2:
-				moveSideDown = moveForwarSteps(1);
-				break;
-			case 3:
-				moveSideDown = moveForwarSteps(1);
-				break;
-			case 4:
-				moveSideLeft = moveForwarSteps(2);
-				break;
-			case 5:
-				moveSideDown = moveForwarSteps(1);
-				break;
-			case 6:
-				moveSideDown = moveForwarSteps(1);
-				break;
-			case 7:
-				moveSideUp = moveForwarSteps(0);
-				break;
-			case 8:
-				moveSideDown = moveForwarSteps(1);
-				break;
-			case 9:
-				moveSideLeft = moveForwarSteps(2);
-				break;
-			case 10:
-				moveSideDown = moveForwarSteps(1);
-				break;
-			case 11:
-				game.add.tween(objectsGroup).to({ alpha: 0 }, 1000, "Linear", true).onComplete.add(function () {
-					moveSideLeft = true;
-					moveSideRight = true;
-					moveSideUp = true;
-					moveSideDown = true;
-					objectsGroup.callAll('kill');
-					objectsGroup.destroy();
-					levelZero = false;
-				});
-				break;
+			// case 1:
+			// 	moveSideRight = moveForwarSteps(3);
+			// 	break;
+			// case 2:
+			// 	moveSideDown = moveForwarSteps(1);
+			// 	break;
+			// case 3:
+			// 	moveSideDown = moveForwarSteps(1);
+			// 	break;
+			// case 4:
+			// 	moveSideLeft = moveForwarSteps(2);
+			// 	break;
+			// case 5:
+			// 	moveSideDown = moveForwarSteps(1);
+			// 	break;
+			// case 6:
+			// 	moveSideDown = moveForwarSteps(1);
+			// 	break;
+			// case 7:
+			// 	moveSideUp = moveForwarSteps(0);
+			// 	break;
+			// case 8:
+			// 	moveSideDown = moveForwarSteps(1);
+			// 	break;
+			// case 9:
+			// 	moveSideLeft = moveForwarSteps(2);
+			// 	break;
+			// case 10:
+			// 	moveSideDown = moveForwarSteps(1);
+			// 	break;
+			// case 11:
+			// 	game.add.tween(objectsGroup).to({ alpha: 0 }, 1000, "Linear", true).onComplete.add(function () {
+			// 		moveSideLeft = true;
+			// 		moveSideRight = true;
+			// 		moveSideUp = true;
+			// 		moveSideDown = true;
+			// 		objectsGroup.callAll('kill');
+			// 		objectsGroup.destroy();
+			// 		levelZero = false;
+			// 	});
+			// 	break;
 		}
 
 	}
 
-	function moveForwarSteps(direction) {
-		if (directionMove == direction) {
+	function moveForwarSteps(directionTo) {
+		if (directionMove == directionTo) {
 			changeHand(steps);
 			steps++;
 			directionMove = -1;
@@ -613,9 +625,6 @@ var flag = function () {
 
 		obj.alpha = 1;
 		obj.used = false;
-
-		// objectsGroup.remove(obj);
-		// usedObjects.add(obj);
 
 		var laneToUse = game.rnd.integerInRange(1, 5);
 
@@ -696,7 +705,7 @@ var flag = function () {
 			robot.alpha = 1;
 			game.add.tween(robot).from({ y: -50 }, 500, "Linear", true).onComplete.add(function () {
 				gameActive = true;
-				if(levelZero){
+				if (levelZero) {
 					hand.x = robot.x;
 					hand.y = robot.y;
 					game.add.tween(hand).to({ alpha: 1 }, 250, "Linear", true);
@@ -726,9 +735,9 @@ var flag = function () {
 
 			var indexList = [correctIndex, otherIndex, anotherIndex];
 		}
-		if (!levelZero) {
+		//if (!levelZero) {
 			Phaser.ArrayUtils.shuffle(indexList);
-		}
+		//}
 
 		for (var i = 0; i < boxesGroup.length; i++) {
 
@@ -754,9 +763,7 @@ var flag = function () {
 		obj.alpha = 1;
 		obj.lane = null;
 		obj.used = false;
-		// usedObjects.remove(obj);
-		// // obj.destroy(obj);
-		// objectsGroup.add(obj);
+
 	}
 
 	function createBackground() {
@@ -890,7 +897,6 @@ var flag = function () {
 					//gameActive = false;
 
 				} else {
-
 					//missPoint()
 					//box.anim.setAnimationByName(0,"lose",true)
 					if (lives - 1 == 0) {
@@ -961,7 +967,7 @@ var flag = function () {
 
 	}
 
-	function moveRobot(direction) {
+	function moveRobot(inDirection) {
 
 		if (!robot.active || !gameActive) {
 			return
@@ -978,7 +984,7 @@ var flag = function () {
 
 		var lane = lanesGroup.children[robot.index]
 
-		switch (direction) {
+		switch (inDirection) {
 			case 'up':
 
 				jumpY = -128
@@ -1097,15 +1103,15 @@ var flag = function () {
 
 	function createObjects() {
 
-		//Para juego tutorial
-		objectsGroup = game.add.group();
-		sceneGroup.add(objectsGroup);
+		// //Para juego tutorial
+		// objectsGroup = game.add.group();
+		// sceneGroup.add(objectsGroup);
 
 		//Para juego normal
 		usedObjects = game.add.group();
 		sceneGroup.add(usedObjects);
 
-		createAssetLevelZero('enemy', 0.8, 25);
+		//createAssetLevelZero('enemy', 0.8, 25);
 		createAsset('enemy', 0.8, 10);
 
 		particleCorrect = createPart("star");
@@ -1115,42 +1121,42 @@ var flag = function () {
 		sceneGroup.add(particleWrong);
 
 		hand = game.add.sprite(0, 0, "hand");
-        hand.animations.add('hand');
-        hand.animations.play('hand', 24, true);
-        hand.alpha = 0;
+		hand.animations.add('hand');
+		hand.animations.play('hand', 24, true);
+		hand.alpha = 0;
 	}
 
-	function createAssetLevelZero(tagTuto, scaleTuto, numberTuto) {
-		var counterLane = 1;
-		var actualLane = 1;
-		for (var t = 0; t < numberTuto; t++) {
-			var enemyTuto = game.add.spine(100, 100, 'box');
-			objectsGroup.add(enemyTuto);
-			enemyTuto.setSkinByName('normal4');
-			enemyTuto.scale.setTo(scaleTuto, scaleTuto);
-			console.log(actualLane);
-			enemyTuto.lane = lanesGroup.children[actualLane];
-			enemyTuto.used = false;
-			enemyTuto.tag = tagTuto;
-			if (enemyTuto.lane.left == 0) {
-				enemyTuto.x = (140 * (counterLane - 1)) + 60;
-				enemyTuto.scale.x = Math.abs(enemyTuto.scale.x) * -1;
-			} else {
-				enemyTuto.x = game.width - (140 * (counterLane - 1)) - 60;
-				enemyTuto.scale.x = Math.abs(enemyTuto.scale.x);
-			}
-			enemyTuto.y = enemyTuto.lane.y + enemyTuto.lane.height * 0.65;
-			enemyTuto.used = true;
-			counterLane++;
-			if (counterLane > 5) {
-				actualLane++;
-				counterLane = 1;
-			}
-			if (levelZeroColocation[t] == 0) {
-				enemyTuto.alpha = 0;
-			}
-		}
-	}
+	// function createAssetLevelZero(tagTuto, scaleTuto, numberTuto) {
+	// 	var counterLane = 1;
+	// 	var actualLane = 1;
+	// 	for (var t = 0; t < numberTuto; t++) {
+	// 		var enemyTuto = game.add.spine(100, 100, 'box');
+	// 		objectsGroup.add(enemyTuto);
+	// 		enemyTuto.setSkinByName('normal4');
+	// 		enemyTuto.scale.setTo(scaleTuto, scaleTuto);
+	// 		console.log(actualLane);
+	// 		enemyTuto.lane = lanesGroup.children[actualLane];
+	// 		enemyTuto.used = false;
+	// 		enemyTuto.tag = tagTuto;
+	// 		if (enemyTuto.lane.left == 0) {
+	// 			enemyTuto.x = (140 * (counterLane - 1)) + 60;
+	// 			enemyTuto.scale.x = Math.abs(enemyTuto.scale.x) * -1;
+	// 		} else {
+	// 			enemyTuto.x = game.width - (140 * (counterLane - 1)) - 60;
+	// 			enemyTuto.scale.x = Math.abs(enemyTuto.scale.x);
+	// 		}
+	// 		enemyTuto.y = enemyTuto.lane.y + enemyTuto.lane.height * 0.65;
+	// 		enemyTuto.used = true;
+	// 		counterLane++;
+	// 		if (counterLane > 5) {
+	// 			actualLane++;
+	// 			counterLane = 1;
+	// 		}
+	// 		if (levelZeroColocation[t] == 0) {
+	// 			enemyTuto.alpha = 0;
+	// 		}
+	// 	}
+	// }
 
 	function createAsset(tag, scale, number) {
 
