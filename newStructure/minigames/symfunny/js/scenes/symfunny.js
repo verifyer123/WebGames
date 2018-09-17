@@ -650,33 +650,38 @@ var symfunny = function(){
 		oof.setAnimationByName(0,"idle",true);
 		courtainGroup.add(oof)
 
-		harp = game.add.spine(- 200, 0, "normal3")
+		harp = game.add.spine(- 100, 0, "normal3")
+		harp.scale.setTo(0.7,0.7)
 		//harp.scale.setTo(0.7)
-		harp.setAnimationByName(0, "play", true)
+		harp.setAnimationByName(0, "idle", true)
 		harp.setSkinByName("normal")
 		orchestaGroup.add(harp)
 
 		piano = game.add.spine(0, 200, "normal4")
+		piano.scale.setTo(0.7,0.7)
 		//piano.scale.setTo(0.7)
-		piano.setAnimationByName(0, "play", true)
+		piano.setAnimationByName(0, "idle", true)
 		piano.setSkinByName("normal")
 		orchestaGroup.add(piano)
 
-		tuba = game.add.spine(200, 0, "normal")
+		tuba = game.add.spine(100, 0, "normal")
+		tuba.scale.setTo(0.7,0.7)
 		//tuba.scale.setTo(0.7)
-		tuba.setAnimationByName(0, "play", true)
+		tuba.setAnimationByName(0, "idle", true)
 		tuba.setSkinByName("normal")
 		orchestaGroup.add(tuba)
 
-		violin = game.add.spine(- 200, 400, "normal2")
+		violin = game.add.spine(- 150, 400, "normal2")
+		violin.scale.setTo(0.7,0.7)
 		//violin.scale.setTo(0.7)
-		violin.setAnimationByName(0, "play", true)
+		violin.setAnimationByName(0, "idle", true)
 		violin.setSkinByName("normal")
 		orchestaGroup.add(violin)
 
-		flute = game.add.spine(200, 400, "normal1")
+		flute = game.add.spine(150, 400, "normal1")
+		flute.scale.setTo(0.7,0.7)
 		//flute.scale.setTo(0.7)
-		flute.setAnimationByName(0, "play", true)
+		flute.setAnimationByName(0, "idle", true)
 		flute.setSkinByName("normal")
 		orchestaGroup.add(flute)
 		
@@ -711,7 +716,7 @@ var symfunny = function(){
 		for(var fillFinalLights=0; fillFinalLights<orchestaGroup.length; fillFinalLights++){
 		
 		if(fillFinalLights==0 || fillFinalLights==2){
-			finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_back");
+			finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_middle");
 		}
 		if(fillFinalLights==1)finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_middle");
 		if(fillFinalLights==3 || fillFinalLights==4)finalLight[fillFinalLights]=game.add.sprite(0,0,"atlas.symfunny","light_side");
@@ -742,7 +747,7 @@ var symfunny = function(){
 		{
 			var instument = buttonsGroup.create(0, 0, 'atlas.symfunny', 'floor')
 			instument.anchor.setTo(0.5, 0)
-			instument.scale.setTo(1, 1.5)
+			instument.scale.setTo(0.7, 1.7)
 			instument.alpha = 0
 			instument.inputEnabled = true
 			instument.events.onInputDown.add(inputButton)
@@ -751,7 +756,7 @@ var symfunny = function(){
 		}
 
 		//harp
-		buttonsGroup.children[0].x = -200
+		buttonsGroup.children[0].x = -100
 		buttonsGroup.children[0].y = -200
 
 		//piano
@@ -759,15 +764,15 @@ var symfunny = function(){
 		buttonsGroup.children[1].y = 0
 
 		//tuba
-		buttonsGroup.children[2].x = 200
-		buttonsGroup.children[2].y = -200
+		buttonsGroup.children[2].x = 100
+		buttonsGroup.children[2].y = -170
 
 		//violin
-		buttonsGroup.children[3].x = -200
+		buttonsGroup.children[3].x = -150
 		buttonsGroup.children[3].y = 200
 
 		//flute
-		buttonsGroup.children[4].x = 200
+		buttonsGroup.children[4].x = 150
 		buttonsGroup.children[4].y = 200
 		
 	}
@@ -811,7 +816,7 @@ var symfunny = function(){
 		}
 		
 
-		orchestaGroup.children[instument.value].addAnimationByName(0, "play", true)
+		orchestaGroup.children[instument.value].addAnimationByName(0, "idle", true)
 	}
 
 	function crescendo(good){
@@ -828,7 +833,7 @@ var symfunny = function(){
 				sound.play('song')
 				for(var a = 0; a < orchestaGroup.length; a++){
 					orchestaGroup.children[a].setAnimationByName(0, "win", false)
-					orchestaGroup.children[a].addAnimationByName(0, "play", true)
+					orchestaGroup.children[a].addAnimationByName(0, "idle", true)
 				}
 				getCoins(oof)
 				game.add.tween(light).to({alpha:0},380,Phaser.Easing.linear,true);
@@ -860,7 +865,7 @@ var symfunny = function(){
 				sound.play('error')
 				for(var a = 0; a < orchestaGroup.length; a++){
 					orchestaGroup.children[a].setAnimationByName(0, "lose", false)
-					orchestaGroup.children[a].addAnimationByName(0, "play", true)
+					orchestaGroup.children[a].addAnimationByName(0, "idle", true)
 				}
 				
 			},this)
@@ -936,15 +941,15 @@ var symfunny = function(){
 		
 		game.time.events.add(delay,function(){
 
-			game.add.tween(orchestaGroup.children[r].scale).to({x:1.5, y:1.5},300,Phaser.Easing.linear,true).onComplete.add(function(){
+			game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},300,Phaser.Easing.linear,true).onComplete.add(function(){
 				sound.play(orchesta[r].name)
-				game.add.tween(orchestaGroup.children[r].scale).to({x:1, y:1},150,Phaser.Easing.linear,true)
+				game.add.tween(orchestaGroup.children[r].scale).to({x:0.7, y:0.7},150,Phaser.Easing.linear,true)
 			})
 			game.add.tween(lightsOff).to({alpha:0.3},400,Phaser.Easing.linear,true);
 			game.add.tween(light).to({x:orchestaGroup.children[r].x,y:orchestaGroup.children[r].y-30},400,Phaser.Easing.linear,true);
 			game.add.tween(light).to({alpha:0.5},400,Phaser.Easing.linear,true);
 			orchestaGroup.children[r].setAnimationByName(0, "win", false)
-			orchestaGroup.children[r].addAnimationByName(0, "play", true)
+			orchestaGroup.children[r].addAnimationByName(0, "idle", true)
 		},this)
 	}
 
