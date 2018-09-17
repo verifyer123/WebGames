@@ -1,68 +1,68 @@
 
 helicopter.png
-size: 1024,1024
+size: 2048,512
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
-Helicopter/Helicopter_base
-  rotate: true
-  xy: 543, 2
-  size: 146, 162
-  orig: 146, 162
+normal3/base
+  rotate: false
+  xy: 669, 6
+  size: 36, 36
+  orig: 36, 36
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_box1
+normal3/box1
   rotate: false
-  xy: 2, 736
+  xy: 2, 244
   size: 564, 240
   orig: 564, 240
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_box2
+normal3/box2
   rotate: false
-  xy: 2, 494
+  xy: 2, 2
   size: 564, 240
   orig: 564, 240
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_box3
+normal3/box3
   rotate: false
-  xy: 2, 252
+  xy: 568, 244
   size: 564, 240
   orig: 564, 240
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_heli1
+normal3/heli1
   rotate: false
-  xy: 568, 150
-  size: 337, 123
-  orig: 337, 123
+  xy: 1675, 453
+  size: 82, 31
+  orig: 82, 31
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_heli2
+normal3/heli2
   rotate: false
-  xy: 568, 275
-  size: 406, 160
-  orig: 406, 160
+  xy: 568, 2
+  size: 99, 40
+  orig: 99, 40
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_light1
-  rotate: true
-  xy: 568, 437
+normal3/light1
+  rotate: false
+  xy: 568, 44
   size: 539, 198
   orig: 539, 198
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_light2
+normal3/light2
   rotate: false
-  xy: 2, 52
+  xy: 1134, 286
   size: 539, 198
   orig: 539, 198
   offset: 0, 0
   index: -1
-Helicopter/Helicopter_light3
-  rotate: true
-  xy: 768, 437
+normal3/light3
+  rotate: false
+  xy: 1134, 86
   size: 539, 198
   orig: 539, 198
   offset: 0, 0
