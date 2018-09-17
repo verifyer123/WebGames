@@ -231,7 +231,7 @@ var greenRescue = function(){
 		dificulty=3;
 		gameActive=true
 		velocidadNubes=4;
-		lives = 1
+		lives = 3
 		sumX=1
 		sumY=1
 
