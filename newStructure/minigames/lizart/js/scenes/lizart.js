@@ -804,13 +804,13 @@ var lizart = function(){
 		game.add.tween(shadowLizar).to({x:fruitItem.x-220},500,Phaser.Easing.linear,true)
 		game.add.tween(lizard).to({x:fruitItem.x-70},500,Phaser.Easing.linear,true).onComplete.add(function(){
 			sound.play("swallow");
-//			tongueInitRecursive(fruitItem);
-			
 			lizard.setAnimationByName(0,"eat",false);
 			game.time.events.add(10,function(){
 				slot.cursor.alpha=1
+				
 				game.add.tween(slot.cursor).to({height:(lizard.y-fruitItem.y)-110},150,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 					game.add.tween(slot.cursor).to({height:0},150,Phaser.Easing.Cubic.Out,true)
+					game.add.tween(slot.cursor).to({alpha:0},150,Phaser.Easing.Cubic.Out,true)
 				})
 			})
 			game.time.events.add(150,function(){
@@ -991,47 +991,6 @@ var lizart = function(){
 			})
 		})
 	}
-
-//	function tongueFinalRecursive(){
-//		
-//			tongueIndex--;
-//		if(tongueIndex>0){
-//			game["tongue"+(tongueIndex-1)].loadTexture("atlas.lizart","tongue_3")
-//			game["tongue"+tongueIndex].destroy();
-//			game.time.events.add(1,function(){
-//				tongueFinalRecursive()
-//			})
-//		}else{
-//			game["tongue"+(tongueIndex)].destroy();
-//			tongueIndex=0;
-//			firstTongue=true;
-//		}
-//		
-//	}
-//	function tongueInitRecursive(fruit){
-//		if(firstTongue){
-//			game["tongue"+tongueIndex]=game.add.sprite(lizard.x+70,lizard.y-110,"atlas.lizart","tongue_1")
-//			game["tongue"+tongueIndex].anchor.setTo(0.5,0.5)
-//			sceneGroup.add(game["tongue"+tongueIndex])
-//			game.time.events.add(1,function(){
-//				tongueIndex++;
-//				firstTongue=false;
-//				
-//				tongueInitRecursive(fruit);
-//			})
-//		}else if(!firstTongue && game["tongue"+(tongueIndex-1)].y>=fruit.y){
-//			if(tongueIndex>1)game["tongue"+(tongueIndex-1)].loadTexture("atlas.lizart","tongue_2")
-//			game["tongue"+(tongueIndex)]=game.add.sprite(lizard.x+70,game["tongue"+(tongueIndex-1)].y-game["tongue"+(tongueIndex-1)].height,"atlas.lizart","tongue_3")
-//			game["tongue"+tongueIndex].anchor.setTo(0.5,0.5)
-//			sceneGroup.add(game["tongue"+(tongueIndex)])
-//			game.time.events.add(1,function(){
-//				tongueIndex++;
-//				tongueInitRecursive(fruit);
-//			})
-//		}else{
-//			tongueFinalRecursive()
-//		}
-//	}
 	function stopTimer(){
 		if(lives>0){
 			tweenTiempo.stop()
