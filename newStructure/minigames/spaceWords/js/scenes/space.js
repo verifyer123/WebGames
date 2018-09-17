@@ -517,7 +517,7 @@ var space = function () {
         board.scale.setTo(0)
         boardGroup.board = board
 
-        var fontStyle = { font: "60px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" }
+        var fontStyle = { font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" }
 
         var text = new Phaser.Text(sceneGroup.game, board.x, board.y + 10, "", fontStyle)
         text.anchor.setTo(0.5)
@@ -560,7 +560,7 @@ var space = function () {
                 }
             }
 
-            var fontStyle = { font: "30px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" };
+            var fontStyle = { font: "28px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" };
 
             var text = new Phaser.Text(sceneGroup.game, card.x, card.y + 5, "Threehouse", fontStyle);
             text.anchor.setTo(0.5);
