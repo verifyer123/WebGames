@@ -1,0 +1,55 @@
+
+sequence.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/arrow_1
+  rotate: false
+  xy: 2, 6
+  size: 40, 27
+  orig: 40, 27
+  offset: 0, 0
+  index: -1
+normal3/arrow_2
+  rotate: true
+  xy: 44, 2
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+normal3/arrow_3
+  rotate: true
+  xy: 90, 81
+  size: 40, 27
+  orig: 40, 27
+  offset: 0, 0
+  index: -1
+normal3/number_1
+  rotate: false
+  xy: 2, 79
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+normal3/number_2
+  rotate: false
+  xy: 2, 35
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+normal3/number_3
+  rotate: false
+  xy: 46, 79
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
+normal3/number_4
+  rotate: false
+  xy: 46, 35
+  size: 42, 42
+  orig: 42, 42
+  offset: 0, 0
+  index: -1
