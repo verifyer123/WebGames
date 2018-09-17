@@ -823,6 +823,7 @@ var greenRescue = function(){
 						tweenIcon[iconicDissapear].stop()
 					}
 					iconic[iconicDissapear].alpha=0
+					hole[iconicDissapear].alpha=0
 					trash[iconicDissapear].inputEnabled=false;
 					iconic[iconicDissapear].y=trash[iconicDissapear].y-90
 					iconic[iconicDissapear].x=trash[iconicDissapear].x
@@ -877,7 +878,7 @@ var greenRescue = function(){
 		activeObj=obj.tag;
 		UIGroup.bringToTop(obj)
 		if(obj.tag=="bro"){
-			game.add.tween(nao).to({y:board.y-100},300,Phaser.Easing.linear,true).onComplete.add(function(){
+			game.add.tween(nao).to({y:board.y-93},300,Phaser.Easing.linear,true).onComplete.add(function(){
 				nao.setAnimationByName(0,"idle",true);
 			})
 		}else{
@@ -1294,10 +1295,6 @@ var greenRescue = function(){
 		//		getCoins(platform1)
 		allClean++;
 		getCoins(platform1)
-		emitter = epicparticles.newEmitter("pickedEnergy")
-		emitter.duration=0.2;
-		emitter.x = platform1.x
-		emitter.y = platform1.y
 		if(tutorial){
 			hand.alpha=0;
 		}
@@ -1313,8 +1310,8 @@ var greenRescue = function(){
 			sound.play("combo")
 			emitter = epicparticles.newEmitter("pickedEnergy")
 			emitter.duration=0.2;
-			emitter.x = platform1.x
-			emitter.y = platform1.y
+			emitter.x = platform2.x
+			emitter.y = platform2.y
 			platformGroup.add(emitter)
 
 		}
@@ -1336,10 +1333,6 @@ var greenRescue = function(){
 			tweenIcon[obj.tag].stop();
 			iconic[obj.tag].alpha=0;
 			getCoins(platform1)
-			emitter = epicparticles.newEmitter("pickedEnergy")
-			emitter.duration=0.2;
-			emitter.x = platform1.x
-			emitter.y = platform1.y
 			if(counterToPlant==dificulty){
 				for(var checkHoles=0; checkHoles<estados.length; checkHoles++){
 					iconic[checkHoles].loadTexture("atlas.green","SPROUT")
@@ -1358,10 +1351,6 @@ var greenRescue = function(){
 			sound.play("plant")
 			if(tutorialState==2)hand.alpha=0;
 			getCoins(platform1)
-			emitter = epicparticles.newEmitter("pickedEnergy")
-			emitter.duration=0.2;
-			emitter.x = platform1.x
-			emitter.y = platform1.y
 			tree[obj.tag].setAnimationByName(0,"shoot",false);
 			tree[obj.tag].alpha=1;
 			hole[obj.tag].alpha=0;
@@ -1381,10 +1370,6 @@ var greenRescue = function(){
 			animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
 			iconic[obj.tag].alpha=0
 			getCoins(platform1)
-			emitter = epicparticles.newEmitter("pickedEnergy")
-			emitter.duration=0.2;
-			emitter.x = platform1.x
-			emitter.y = platform1.y
 			tree[obj.tag].setAnimationByName(0,"half",false);
 			iconic[obj.tag].y-=70
 			animatedSprinklers[objHere].y-=70

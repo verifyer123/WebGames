@@ -151,6 +151,7 @@ var magicSpell = function(){
 	var sceneGroup = null
 	var gameGroup = null
 	var UIGroup = null
+	var handleRune
 	var timeBar, clock
 	var dificultyTime
 	var background
@@ -197,6 +198,7 @@ var magicSpell = function(){
 		dificultyTime=15500;
 		canPlay=false;
 		emitter=""
+		handleRune=null
 		movingHand=true;
 		runesInSlots=0;
 		runeIndex=0;
@@ -253,6 +255,7 @@ var magicSpell = function(){
 		}
 		game["rune"+runeIndex].inSlot=null;
 		game["rune"+runeIndex].events.onDragStart.add(startDrag, this);
+		//game["rune"+runeIndex].events.onDragUpdate.add(updateDrag, this);
 		game["rune"+runeIndex].events.onDragStop.add(stopDrag.bind(this,word));
 		game["rune"+runeIndex].text=new Phaser.Text(sceneGroup.game, 0, 30,game["rune"+runeIndex].value, fontStyle)
 		game["rune"+runeIndex].text.x=0;
@@ -260,12 +263,24 @@ var magicSpell = function(){
 		game["rune"+runeIndex].text.anchor.setTo(0.5,0.5)
 		game["rune"+runeIndex].addChild(game["rune"+runeIndex].text)
 		gameGroup.add(game["rune"+runeIndex])
-		
 		runeIndex++;
 	}
+	function updateDrag(obj){
+		if(!magicParticles){
+			game.time.events.add(500,function(){
+				magicParticles=false
+				emitter = epicparticles.newEmitter("pickedEnergy")
+				emitter.duration=0.005;
+				emitter.x = obj.x
+				emitter.y = obj.y
+			})
+		}
+	}
 	function startDrag(obj){
+		magicParticles=false;
 		obj.scale.setTo(0.5,0.5)
 		sound.play("rune")
+		handleRune=obj;
 		gameGroup.bringToTop(obj)
 		if(obj.inSlot!=null){
 			game["slot"+obj.inSlot].isOccupied=false;
@@ -276,6 +291,7 @@ var magicSpell = function(){
 	}
 	function stopDrag(word,rune){
 		rune.scale.setTo(0.8,0.8)
+		handleRune=null;
 		var objOverlaping=null;
 		for(var checkSlots=0; checkSlots<word.length; checkSlots++){
 				if(checkOverlap(game["slot"+checkSlots],rune)){
@@ -376,9 +392,12 @@ var magicSpell = function(){
 		};
 	}
 	function feedBack(word){
+		
+		
 		for(var placeAllLettersInBoard=0; placeAllLettersInBoard<ALL_RUNES; placeAllLettersInBoard++){
 			game.add.tween(game["rune"+placeAllLettersInBoard]).to({x:positionX[game["rune"+placeAllLettersInBoard].posIndex],y:positionY[game["rune"+placeAllLettersInBoard].posIndex]},100,Phaser.Easing.Cubic.In,true)	
 			game["rune"+placeAllLettersInBoard].inSlot=false;
+			game["rune"+placeAllLettersInBoard].scale.setTo(0.8,0.8);
 		}
 		for(var cleanSlots=0; cleanSlots<word.length; cleanSlots++){
 			game["slot"+cleanSlots].isOccupied=false;
@@ -693,7 +712,6 @@ var magicSpell = function(){
 
 
 	function addPoint(number){
-
 		sound.play("magic")
 		pointsBar.number+=number;
 		pointsBar.text.setText(pointsBar.number)
@@ -914,7 +932,6 @@ var magicSpell = function(){
 		sceneGroup.add(wrongParticle)
 		boomParticle = createPart("smoke")
 		sceneGroup.add(boomParticle)
-		
 	}
 	function fillPositions(){
 		var pivotX=boardRunes.x-boardRunes.width/2+100;
@@ -933,7 +950,6 @@ var magicSpell = function(){
 			}
 		}
 	}
-	
 	function createCoinsAndHand(){
 		//Coins
 		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin")
@@ -943,12 +959,7 @@ var magicSpell = function(){
 		coins.animations.play('coin', 24, true);
 		coins.alpha=0
 	}
-
-
 	function Coin(objectBorn,objectDestiny,time){
-
-
-		//objectBorn= Objeto de donde nacen
 		coins.x=objectBorn.centerX
 		coins.y=objectBorn.centerY
 
@@ -996,6 +1007,10 @@ var magicSpell = function(){
 			okButton.inputEnabled=false;
 			for(var stopMoving=0; stopMoving<ALL_RUNES; stopMoving++){
 				game["rune"+stopMoving].inputEnabled=false;
+			}
+			if(handleRune){			
+				handleRune.scale.setTo(0.8,0.8)
+				game.add.tween(handleRune).to({x:positionX[handleRune.posIndex],y:positionY[handleRune.posIndex]},100,Phaser.Easing.Cubic.In,true)	
 			}
 			stopTimer();
 			attackEnemy(world);

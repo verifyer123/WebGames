@@ -40,7 +40,7 @@ function startGame(){
 
         game.stage.backgroundColor = "#ffffff"
         game.time.advancedTiming = true
-        game.stage.disableVisibilityChange = true;        
+        game.stage.disableVisibilityChange = false;        
 
         game.plugins.add(PhaserSpine.SpinePlugin);
         
