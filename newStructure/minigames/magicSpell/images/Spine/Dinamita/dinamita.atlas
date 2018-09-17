@@ -1,0 +1,1296 @@
+
+dinamita.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+After/Flowers/baston 2_00000
+  rotate: false
+  xy: 1454, 1212
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00000
+  rotate: false
+  xy: 1454, 1212
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00000
+  rotate: false
+  xy: 1454, 1212
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00000
+  rotate: false
+  xy: 1454, 1212
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00001
+  rotate: false
+  xy: 1091, 244
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00002
+  rotate: false
+  xy: 1454, 860
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00003
+  rotate: false
+  xy: 1454, 508
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00000
+  rotate: false
+  xy: 2, 1564
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00001
+  rotate: false
+  xy: 2, 1080
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00002
+  rotate: false
+  xy: 365, 1564
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00003
+  rotate: false
+  xy: 2, 596
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00004
+  rotate: false
+  xy: 365, 1080
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00005
+  rotate: false
+  xy: 728, 1564
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00006
+  rotate: false
+  xy: 2, 112
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00007
+  rotate: false
+  xy: 365, 596
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00008
+  rotate: false
+  xy: 728, 1080
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00009
+  rotate: false
+  xy: 1091, 1564
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00010
+  rotate: false
+  xy: 365, 112
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00011
+  rotate: false
+  xy: 728, 596
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00012
+  rotate: false
+  xy: 1091, 1080
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00013
+  rotate: false
+  xy: 1454, 1564
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00014
+  rotate: false
+  xy: 728, 112
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/LOSE/baston_00015
+  rotate: false
+  xy: 1091, 596
+  size: 361, 482
+  orig: 361, 482
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_00
+  rotate: false
+  xy: 1806, 1265
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_01
+  rotate: false
+  xy: 1806, 1118
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_02
+  rotate: false
+  xy: 1806, 971
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_03
+  rotate: false
+  xy: 1806, 824
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_04
+  rotate: false
+  xy: 1806, 677
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_05
+  rotate: false
+  xy: 1806, 530
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_06
+  rotate: false
+  xy: 1091, 97
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_07
+  rotate: false
+  xy: 1239, 97
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_08
+  rotate: true
+  xy: 1846, 382
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_09
+  rotate: false
+  xy: 1846, 235
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_10
+  rotate: false
+  xy: 1387, 91
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_11
+  rotate: false
+  xy: 1535, 91
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_12
+  rotate: false
+  xy: 1683, 91
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_13
+  rotate: false
+  xy: 1831, 88
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+normal/Capa_22
+  rotate: false
+  xy: 528, 26
+  size: 64, 34
+  orig: 64, 34
+  offset: 0, 0
+  index: -1
+normal/armL
+  rotate: false
+  xy: 331, 2
+  size: 48, 58
+  orig: 48, 58
+  offset: 0, 0
+  index: -1
+normal/armR
+  rotate: false
+  xy: 594, 22
+  size: 49, 38
+  orig: 49, 38
+  offset: 0, 0
+  index: -1
+normal/barba_a
+  rotate: false
+  xy: 1806, 1412
+  size: 171, 150
+  orig: 171, 150
+  offset: 0, 0
+  index: -1
+normal/barba_b
+  rotate: false
+  xy: 170, 46
+  size: 159, 64
+  orig: 159, 64
+  offset: 0, 0
+  index: -1
+normal/baston
+  rotate: false
+  xy: 1817, 1564
+  size: 194, 482
+  orig: 194, 482
+  offset: 0, 0
+  index: -1
+normal/bigote
+  rotate: false
+  xy: 653, 58
+  size: 148, 52
+  orig: 148, 52
+  offset: 0, 0
+  index: -1
+normal/eye_a
+  rotate: false
+  xy: 331, 62
+  size: 159, 48
+  orig: 159, 48
+  offset: 0, 0
+  index: -1
+normal/eye_b
+  rotate: false
+  xy: 492, 62
+  size: 159, 48
+  orig: 159, 48
+  offset: 0, 0
+  index: -1
+normal/eye_c
+  rotate: false
+  xy: 2, 27
+  size: 166, 83
+  orig: 166, 83
+  offset: 0, 0
+  index: -1
+normal/eye_d
+  rotate: true
+  xy: 2013, 1901
+  size: 145, 13
+  orig: 145, 13
+  offset: 0, 0
+  index: -1
+normal/eye_e
+  rotate: true
+  xy: 1979, 1469
+  size: 93, 28
+  orig: 93, 28
+  offset: 0, 0
+  index: -1
+normal/eyebroan_b
+  rotate: false
+  xy: 903, 55
+  size: 90, 55
+  orig: 90, 55
+  offset: 0, 0
+  index: -1
+normal/eyebrown_a
+  rotate: false
+  xy: 381, 19
+  size: 78, 41
+  orig: 78, 41
+  offset: 0, 0
+  index: -1
+normal/handL
+  rotate: true
+  xy: 995, 55
+  size: 55, 85
+  orig: 55, 85
+  offset: 0, 0
+  index: -1
+normal/handR
+  rotate: false
+  xy: 461, 14
+  size: 65, 46
+  orig: 65, 46
+  offset: 0, 0
+  index: -1
+normal/head
+  rotate: true
+  xy: 1443, 238
+  size: 268, 401
+  orig: 268, 401
+  offset: 0, 0
+  index: -1
+normal/leg
+  rotate: true
+  xy: 803, 44
+  size: 66, 98
+  orig: 66, 98
+  offset: 0, 0
+  index: -1
+
+dinamita2.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+After/Flowers/baston 2_00004
+  rotate: false
+  xy: 2, 1685
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00005
+  rotate: false
+  xy: 2, 1333
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00006
+  rotate: false
+  xy: 354, 1685
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00007
+  rotate: false
+  xy: 2, 981
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00008
+  rotate: false
+  xy: 354, 1333
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00009
+  rotate: false
+  xy: 706, 1685
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00010
+  rotate: false
+  xy: 2, 629
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00011
+  rotate: false
+  xy: 354, 981
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00012
+  rotate: false
+  xy: 706, 1333
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00013
+  rotate: false
+  xy: 1058, 1685
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00014
+  rotate: false
+  xy: 2, 277
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00015
+  rotate: false
+  xy: 354, 629
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00016
+  rotate: false
+  xy: 706, 981
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00017
+  rotate: false
+  xy: 1058, 1333
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00018
+  rotate: false
+  xy: 1410, 1685
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00019
+  rotate: false
+  xy: 354, 277
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00020
+  rotate: false
+  xy: 706, 629
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00021
+  rotate: false
+  xy: 1058, 981
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00022
+  rotate: false
+  xy: 1410, 1333
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00023
+  rotate: false
+  xy: 706, 277
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00024
+  rotate: false
+  xy: 1058, 629
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00025
+  rotate: false
+  xy: 1410, 981
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00026
+  rotate: false
+  xy: 1058, 277
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00027
+  rotate: false
+  xy: 1410, 629
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Flowers/baston 2_00028
+  rotate: false
+  xy: 1410, 277
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_14
+  rotate: false
+  xy: 2, 130
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_15
+  rotate: false
+  xy: 1762, 1890
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_16
+  rotate: false
+  xy: 150, 130
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_17
+  rotate: false
+  xy: 1762, 1743
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_18
+  rotate: false
+  xy: 298, 130
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_19
+  rotate: false
+  xy: 1762, 1596
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_20
+  rotate: false
+  xy: 446, 130
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_21
+  rotate: false
+  xy: 1762, 1449
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_22
+  rotate: false
+  xy: 594, 130
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_23
+  rotate: false
+  xy: 1762, 1302
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+After/secuencia_humo_chispas/humo_chispas_24
+  rotate: false
+  xy: 742, 130
+  size: 146, 145
+  orig: 146, 145
+  offset: 0, 0
+  index: -1
+normal/torso
+  rotate: false
+  xy: 2, 2
+  size: 116, 126
+  orig: 116, 126
+  offset: 0, 0
+  index: -1
+
+dinamita3.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+After/Flowers/baston 2_00029
+  rotate: false
+  xy: 2, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00001
+  rotate: false
+  xy: 2, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00002
+  rotate: false
+  xy: 354, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00003
+  rotate: false
+  xy: 2, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00004
+  rotate: false
+  xy: 354, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00005
+  rotate: false
+  xy: 706, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00006
+  rotate: false
+  xy: 2, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00007
+  rotate: false
+  xy: 354, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00008
+  rotate: false
+  xy: 706, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00009
+  rotate: false
+  xy: 1058, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00010
+  rotate: false
+  xy: 2, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00011
+  rotate: false
+  xy: 354, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00012
+  rotate: false
+  xy: 706, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00013
+  rotate: false
+  xy: 1058, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00014
+  rotate: false
+  xy: 1410, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00015
+  rotate: false
+  xy: 354, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00016
+  rotate: false
+  xy: 706, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00017
+  rotate: false
+  xy: 1058, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00018
+  rotate: false
+  xy: 1410, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00019
+  rotate: false
+  xy: 706, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00020
+  rotate: false
+  xy: 1058, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00021
+  rotate: false
+  xy: 1410, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00022
+  rotate: false
+  xy: 1058, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00023
+  rotate: false
+  xy: 1410, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00024
+  rotate: false
+  xy: 1410, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+
+dinamita4.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+After/Ice/baston 2_00025
+  rotate: false
+  xy: 2, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00026
+  rotate: false
+  xy: 2, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00027
+  rotate: false
+  xy: 354, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00028
+  rotate: false
+  xy: 2, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/Ice/baston 2_00029
+  rotate: false
+  xy: 354, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00001
+  rotate: false
+  xy: 706, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00002
+  rotate: false
+  xy: 2, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00003
+  rotate: false
+  xy: 354, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00004
+  rotate: false
+  xy: 706, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00005
+  rotate: false
+  xy: 1058, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00006
+  rotate: false
+  xy: 2, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00007
+  rotate: false
+  xy: 354, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00008
+  rotate: false
+  xy: 706, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00009
+  rotate: false
+  xy: 1058, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00010
+  rotate: false
+  xy: 1410, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00011
+  rotate: false
+  xy: 354, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00012
+  rotate: false
+  xy: 706, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00013
+  rotate: false
+  xy: 1058, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00014
+  rotate: false
+  xy: 1410, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00015
+  rotate: false
+  xy: 706, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00016
+  rotate: false
+  xy: 1058, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00017
+  rotate: false
+  xy: 1410, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00018
+  rotate: false
+  xy: 1058, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00019
+  rotate: false
+  xy: 1410, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00020
+  rotate: false
+  xy: 1410, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+
+dinamita5.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+After/otono/baston 2_00021
+  rotate: false
+  xy: 2, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00022
+  rotate: false
+  xy: 2, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00023
+  rotate: false
+  xy: 354, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00024
+  rotate: false
+  xy: 2, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00025
+  rotate: false
+  xy: 354, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00026
+  rotate: false
+  xy: 706, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00027
+  rotate: false
+  xy: 2, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00028
+  rotate: false
+  xy: 354, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/otono/baston 2_00029
+  rotate: false
+  xy: 706, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00001
+  rotate: false
+  xy: 1058, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00002
+  rotate: false
+  xy: 2, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00003
+  rotate: false
+  xy: 354, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00004
+  rotate: false
+  xy: 706, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00005
+  rotate: false
+  xy: 1058, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00006
+  rotate: false
+  xy: 1410, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00007
+  rotate: false
+  xy: 354, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00008
+  rotate: false
+  xy: 706, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00009
+  rotate: false
+  xy: 1058, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00010
+  rotate: false
+  xy: 1410, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00011
+  rotate: false
+  xy: 706, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00012
+  rotate: false
+  xy: 1058, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00013
+  rotate: false
+  xy: 1410, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00014
+  rotate: false
+  xy: 1058, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00015
+  rotate: false
+  xy: 1410, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00016
+  rotate: false
+  xy: 1410, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+
+dinamita6.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+After/sun/baston 2_00017
+  rotate: false
+  xy: 2, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00018
+  rotate: false
+  xy: 2, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00019
+  rotate: false
+  xy: 354, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00020
+  rotate: false
+  xy: 2, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00021
+  rotate: false
+  xy: 354, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00022
+  rotate: false
+  xy: 706, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00023
+  rotate: false
+  xy: 2, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00024
+  rotate: false
+  xy: 354, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00025
+  rotate: false
+  xy: 706, 1058
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00026
+  rotate: false
+  xy: 1058, 1410
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00027
+  rotate: false
+  xy: 2, 2
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00028
+  rotate: false
+  xy: 354, 354
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
+After/sun/baston 2_00029
+  rotate: false
+  xy: 706, 706
+  size: 350, 350
+  orig: 350, 350
+  offset: 0, 0
+  index: -1
