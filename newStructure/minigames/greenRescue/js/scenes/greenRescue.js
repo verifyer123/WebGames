@@ -307,7 +307,7 @@ var greenRescue = function(){
 		scaleTween.onComplete.add(function(){
 			game.add.tween(heartsGroup.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
 		})
-		
+
 		if(lives == 0){
 			stopGame(false)
 			onChangeObj(activeObj)
@@ -796,10 +796,17 @@ var greenRescue = function(){
 			boomParticle.start(true, 1200, null, 10)
 			missPoint()
 			passingLevel=true;
+			canPlant=false;
 			broom.inputEnabled=false;
 			shovel.inputEnabled=false;
 			sprout.inputEnabled=false;
 			sprinkler.inputEnabled=false;
+			onChangeObj(activeObj)
+			activeObj=null;
+			broomIcon.tint=0xffffff;
+			shovelIcon.tint=0xffffff;
+			sproutIcon.tint=0xffffff;
+			sprinklerIcon.tint=0xffffff;
 			if(activeObj=="bro"){
 				game.add.tween(nao).to({y:game.world.height},300,Phaser.Easing.linear,true);
 			}
@@ -807,9 +814,45 @@ var greenRescue = function(){
 				danced.loopFull(0.6)
 			}, this);
 			stopTimer()
-			game.time.events.add(2500,function(){
-				passingLevel=false;
-				reset()
+			checked=0;
+			allClean=0;
+
+			game.time.events.add(100,function(){
+				for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
+					if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
+						tweenIcon[iconicDissapear].stop()
+					}
+					iconic[iconicDissapear].alpha=0
+					trash[iconicDissapear].inputEnabled=false;
+					iconic[iconicDissapear].y=trash[iconicDissapear].y-90
+					iconic[iconicDissapear].x=trash[iconicDissapear].x
+					animatedSprinklers[iconicDissapear].y=trash[iconicDissapear].y-90
+					animatedSprinklers[iconicDissapear].x=trash[iconicDissapear].x
+				}
+				checked=0;
+				canPlant=false
+				game.time.events.add(1500,function(){
+					game.add.tween(platformGroup).to({x:-game.world.width}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
+						platformGroup.alpha=0;
+						for(var allObjects=0;allObjects<estados.length;allObjects++){
+							tree[allObjects].alpha=0
+							trash[allObjects].alpha=0
+							readyToPlant[allObjects]=false;
+							estados[allObjects]=0
+						}
+						platformGroup.position.x=0	
+						game.time.events.add(1500,function(){
+							platformGroup.alpha=1
+							platform1.alpha=1;
+							platform2.alpha=0;
+							platform1.setAnimationByName(0,"STAR_DIRTY",false);
+							game.time.events.add(1500,function(){
+								putTrash();
+								passingLevel=false;
+							})
+						})
+					})
+				});
 			});
 			canPlant=false
 		})
@@ -824,7 +867,7 @@ var greenRescue = function(){
 		return Phaser.Rectangle.intersects(boundsA, boundsB);
 	}
 	function activeObject(obj){
-		
+
 		if(activeObj!=null)onChangeObj(activeObj)
 		broom.input.priorityID = 1;
 		shovel.input.priorityID = 1;
@@ -880,8 +923,8 @@ var greenRescue = function(){
 	}
 
 	function update(){
-		
-		
+
+
 		if(!iconDissapearing && !game.device.desktop && game.input.activePointer.identifier==null && activeObj!=null){
 			iconDissapearing=true;
 			if(activeObj=="bro"){
@@ -908,7 +951,7 @@ var greenRescue = function(){
 			}
 			iconDissapearingTween=game.add.tween(iconHandle).to({alpha:1},100,Phaser.Easing.Exponential.Out,true)
 		}
-		
+
 		for(var mess=0;mess<estados.length;mess++){
 			if(tweenIcon[mess] && estados[mess]==0 || estados[mess]==7){
 				tweenIcon[mess].stop()
@@ -1035,7 +1078,7 @@ var greenRescue = function(){
 					game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
 				}
 			}
-			
+
 			checkMouse();
 			broomProxy.position.x=broom.x;
 			broomProxy.position.y=broom.y;
@@ -1091,21 +1134,21 @@ var greenRescue = function(){
 		nao.y=game.world.height;
 		nao.x=game.world.centerX-250;
 		nao.scale.setTo(0.8,0.8);
-		
+
 		estrella=game.add.spine(0,0,"estrella");
 		estrella.setSkinByName("normal1");
 		estrella.setAnimationByName(0,"win",true);
 		estrella.x=game.world.centerX+230;
 		estrella.y=game.world.height-200;
 		estrella.alpha=0;
-		
+
 		justice=game.add.spine(0,0,"justice");
 		justice.setSkinByName("normal2");
 		justice.setAnimationByName(0,"win",true);
 		justice.x=game.world.centerX+230;
 		justice.y=game.world.height-200;
 		justice.alpha=0;
-		
+
 		backgroundGroup.add(nao)
 		backgroundGroup.add(estrella)
 		backgroundGroup.add(justice)
@@ -1131,11 +1174,11 @@ var greenRescue = function(){
 			broom.y=broomIcon.y;
 			broom.alpha=0;
 		}
-//		for(var show=0; show<estados.length;show++){
-//			if(estados[show-2]>2 && estados[show]==7 && (show!=2 && show!=5 && show!=8) && !passingLevel){
-//				game.add.tween(tree[show]).to({alpha:1},10,Phaser.Easing.Cubic.In,true,200);
-//			}
-//		}
+		//		for(var show=0; show<estados.length;show++){
+		//			if(estados[show-2]>2 && estados[show]==7 && (show!=2 && show!=5 && show!=8) && !passingLevel){
+		//				game.add.tween(tree[show]).to({alpha:1},10,Phaser.Easing.Cubic.In,true,200);
+		//			}
+		//		}
 	}
 
 	function putTrash(){
@@ -1143,7 +1186,7 @@ var greenRescue = function(){
 		var counter=0;
 		var donde=0;
 		var whichOne=0;
-		
+
 
 		if(counter<9){
 			while(counter<dificulty){ 
@@ -1167,6 +1210,7 @@ var greenRescue = function(){
 				whichOne=game.rnd.integerInRange(0,6);
 				trash[placeTrash].setAnimationByName(0,"START_"+animations[whichOne],false);
 				trash[placeTrash].alpha=1;
+				tree[placeTrash].alpha=0;
 			}
 		}
 		if(!tutorial){
@@ -1230,7 +1274,7 @@ var greenRescue = function(){
 				if(tutorialState==3)tutorialState=4;
 			}
 		}
-		
+
 		objectOverlaping=null
 	}
 
@@ -1247,8 +1291,13 @@ var greenRescue = function(){
 		iconic[obj.tag].loadTexture("atlas.green","SHOVEL")
 		tweenIcon[obj.tag]=game.add.tween(iconic[obj.tag]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
 		game.add.tween(iconic[obj.tag].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
-//		getCoins(platform1)
+		//		getCoins(platform1)
 		allClean++;
+		getCoins(platform1)
+		emitter = epicparticles.newEmitter("pickedEnergy")
+		emitter.duration=0.2;
+		emitter.x = platform1.x
+		emitter.y = platform1.y
 		if(tutorial){
 			hand.alpha=0;
 		}
@@ -1286,6 +1335,11 @@ var greenRescue = function(){
 			}
 			tweenIcon[obj.tag].stop();
 			iconic[obj.tag].alpha=0;
+			getCoins(platform1)
+			emitter = epicparticles.newEmitter("pickedEnergy")
+			emitter.duration=0.2;
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			if(counterToPlant==dificulty){
 				for(var checkHoles=0; checkHoles<estados.length; checkHoles++){
 					iconic[checkHoles].loadTexture("atlas.green","SPROUT")
@@ -1303,7 +1357,11 @@ var greenRescue = function(){
 		if(canPlant){
 			sound.play("plant")
 			if(tutorialState==2)hand.alpha=0;
-			
+			getCoins(platform1)
+			emitter = epicparticles.newEmitter("pickedEnergy")
+			emitter.duration=0.2;
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			tree[obj.tag].setAnimationByName(0,"shoot",false);
 			tree[obj.tag].alpha=1;
 			hole[obj.tag].alpha=0;
@@ -1322,6 +1380,11 @@ var greenRescue = function(){
 			animatedSprinklers[objHere].alpha=1
 			animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
 			iconic[obj.tag].alpha=0
+			getCoins(platform1)
+			emitter = epicparticles.newEmitter("pickedEnergy")
+			emitter.duration=0.2;
+			emitter.x = platform1.x
+			emitter.y = platform1.y
 			tree[obj.tag].setAnimationByName(0,"half",false);
 			iconic[obj.tag].y-=70
 			animatedSprinklers[objHere].y-=70
@@ -1354,13 +1417,10 @@ var greenRescue = function(){
 					animatedSprinklers[objHere].alpha=0
 					animatedSprinklers[objHere].y+=170
 				})
-
 			})
-
 			checked++
 		}
 		if(checked==dificulty){
-
 			if(!tutorial){
 				stopTimer()
 			}
@@ -1392,7 +1452,6 @@ var greenRescue = function(){
 						nextLevel()
 					})
 				});
-
 			});
 		}
 	}
@@ -1467,6 +1526,7 @@ var greenRescue = function(){
 		}
 		game.add.tween(platformGroup).to({x:-game.world.width}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
 			platformGroup.alpha=0;
+			platformGroup.position.x=0
 			for(var allObjects=0;allObjects<estados.length;allObjects++){
 				tree[allObjects].alpha=0
 				trash[allObjects].alpha=0
@@ -1474,7 +1534,6 @@ var greenRescue = function(){
 				readyToPlant[allObjects]=false;
 				estados[allObjects]=0
 			}
-			platformGroup.position.x=0
 		})
 
 		game.time.events.add(650,function(){
@@ -1495,11 +1554,12 @@ var greenRescue = function(){
 		if(dificulty<9)dificulty++;
 		onChangeObj(activeObj)
 		activeObj=null;
-		
+
 		broomIcon.tint=0xffffff;
 		shovelIcon.tint=0xffffff;
 		sproutIcon.tint=0xffffff;
 		sprinklerIcon.tint=0xffffff;
+		canPlant=false;
 		passingLevel=true;
 		canShovel=false;
 		activeObj=null
@@ -1708,14 +1768,14 @@ var greenRescue = function(){
 		update: update,
 		preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
-			
+
 			sceneGroup = game.add.group()
 
 			document.addEventListener("contextmenu", function(e){
 				e.preventDefault();
 			}, false);
-			
-			
+
+
 			createBackground()
 			yogotars();
 			addParticles()
@@ -1745,11 +1805,11 @@ var greenRescue = function(){
 			createPointsBar();
 			createHearts();
 			createCoin();
-			
 
-			
+
+
 			createOverlay()
-			
+
 
 			animateScene()
 			buttons.getButton(danced,sceneGroup)

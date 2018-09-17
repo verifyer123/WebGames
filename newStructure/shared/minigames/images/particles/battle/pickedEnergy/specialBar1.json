@@ -5,7 +5,7 @@
   "rotatePerSecond" : 121.1187,
   "radialAcceleration" : 0,
   "yCoordFlipped" : 1,
-  "emitterType" : 1,
+  "emitterType" : 0,
   "blendFuncSource" : 770,
   "finishColorVarianceAlpha" : 0,
   "rotationEnd" : 90,
