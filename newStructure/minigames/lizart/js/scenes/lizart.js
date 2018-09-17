@@ -426,7 +426,9 @@ var lizart = function(){
 		speedGame = 5;
 		starGame = false;
 		pasing=[null]
-		sceneGroup = game.add.group(); 
+		sceneGroup = game.add.group();
+		
+		
 		yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); ;
 		overlayGroup = game.add.group()
 
@@ -562,7 +564,9 @@ var lizart = function(){
 		firstTongue=true;
 
 
-		sceneGroup = game.add.group(); yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel);
+		sceneGroup = game.add.group(); 
+		
+		
 		loadSounds();
 
 		game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -628,6 +632,17 @@ var lizart = function(){
 		cursors = game.input.keyboard.createCursorKeys();
 		createFruits();	
 		createOverlay();
+		
+		addParticles()
+				
+		correctParticle = createPart("star")
+		sceneGroup.add(correctParticle)
+		wrongParticle = createPart("wrong")
+		sceneGroup.add(wrongParticle)
+		boomParticle = createPart("smoke")
+		sceneGroup.add(boomParticle)
+		
+		
 	}
 	function checkPositionList(options){
 		displayFruits(options)
@@ -844,6 +859,9 @@ var lizart = function(){
 		}
 		if(tweenTiempo!=null)stopTimer();
 		missPoint()
+		boomParticle.x=lizard.x;
+		boomParticle.y=lizard.y-100;
+		boomParticle.start(true, 1200, null, 10)
 		lizard.setAnimationByName(0,"lose",false).onComplete=function(){
 			if(lives<=0){
 				lizard.setAnimationByName(0,"losestill",true)
@@ -883,6 +901,9 @@ var lizart = function(){
 
 	function winLizar(){
 		Coin(lizard,pointsBar,50)
+		correctParticle.x=lizard.x;
+		correctParticle.y=lizard.y-100;
+		correctParticle.start(true, 1200, null, 10)
 		wasCorrect=true;
 		lizard.setAnimationByName(0,"run",true);
 		game.add.tween(shadowLizar).to({x:game.world.width+100},1200,Phaser.Easing.linear,true);
@@ -976,7 +997,80 @@ var lizart = function(){
 		})
 		addNumberPart(pointsBar.text,'+' + number)
 	}
+	function deactivateParticle(obj,delay){
 
+		game.time.events.add(delay,function(){
+
+			obj.used = false
+
+			particlesUsed.remove(obj)
+			particlesGroup.add(obj)
+
+		},this)
+	}
+
+	function createPart(key){
+		var particle = game.add.emitter(0, 0, 100);
+		particle.makeParticles('atlas.lizart',key);
+		particle.minParticleSpeed.setTo(-200, -50);
+		particle.maxParticleSpeed.setTo(200, -100);
+		particle.minParticleScale = 0.3;
+		particle.maxParticleScale = .8;
+		particle.gravity = 150;
+		particle.angularDrag = 30;
+		particle.setAlpha(1, 0, 2000, Phaser.Easing.Cubic.In)
+		return particle
+	}
+	function createParticles(tag,number){
+
+		for(var i = 0; i < number;i++){
+
+			var particle
+			if(tag == 'text'){
+
+				var fontStyle = {font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
+
+				var particle = new Phaser.Text(sceneGroup.game, 0, 10, '0', fontStyle)
+				particle.setShadow(3, 3, 'rgba(0,0,0,1)', 0);
+				particlesGroup.add(particle)
+
+			}else{
+				var particle = game.add.emitter(0, 0, 100);
+
+				particle.makeParticles('atlas.lizart',tag);
+				particle.minParticleSpeed.setTo(-200, -50);
+				particle.maxParticleSpeed.setTo(200, -100);
+				particle.minParticleScale = 0.6;
+				particle.maxParticleScale = 1.5;
+				particle.gravity = 150;
+				particle.angularDrag = 30;
+
+				particlesGroup.add(particle)
+
+			}
+			particle.alpha = 0
+			particle.tag = tag
+			particle.used = false
+			particle.scale.setTo(1,1)
+		}
+
+
+	}
+	function addParticles(){
+
+
+		particlesGroup = game.add.group()
+		sceneGroup.add(particlesGroup)
+
+		particlesUsed = game.add.group()
+		sceneGroup.add(particlesUsed)
+
+		createParticles('star',3)
+		createParticles('wrong',1)
+		createParticles('text',5)
+		createParticles('smoke',1)
+
+	}
 	function Coin(objectBorn,objectDestiny,time){
 		coins.x=objectBorn.centerX;
 		coins.y=objectBorn.centerY;

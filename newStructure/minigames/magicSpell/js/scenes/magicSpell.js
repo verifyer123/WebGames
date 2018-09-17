@@ -78,11 +78,11 @@ var magicSpell = function(){
 		spines: [
 			{
 				name:"dinamita",
-				file:"images/Spine/Dinamita/Dinamita.json"
+				file:"images/Spine/Dinamita/dinamita.json"
 			},
 			{
 				name:"skelleton",
-				file:"images/Spine/Spelletor/Spelletor.json"
+				file:"images/Spine/Spelletor/spelletor.json"
 			},
 		],
 		spritesheets: [
