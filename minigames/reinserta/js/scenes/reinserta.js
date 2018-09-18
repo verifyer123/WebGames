@@ -1146,6 +1146,7 @@ var reinserta = function(){
     function tap(){
 
     	if(!inJump){
+
 	    	monster.lineId++
 	    	var obstacleInFront = false
 
@@ -1219,6 +1220,8 @@ var reinserta = function(){
 	    				}
 	    			}
 	    		}
+
+                addPoint(1,{x:game.world.width-80,y:80})
 
 	        	monster.loadTexture("atlas.game","monster_"+monster.id+"_back")	
 		        inJump = true
@@ -2004,7 +2007,7 @@ var reinserta = function(){
 		        water.endFill()
 		        var r2 = game.world.width*3 - r
 		        water.beginFill(0x89e2e8)
-		        water.drawRect(0,r,r2,LINE_HEIGTH*numLines)
+		        water.drawRect(r,0,r2,LINE_HEIGTH*numLines)
 		        water.endFill()
 		        water.mark.x = r-60
 		        water.woodLines = []
