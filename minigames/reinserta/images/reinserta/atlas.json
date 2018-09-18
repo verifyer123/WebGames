@@ -172,6 +172,15 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "sombra",
+	"frame": {"x":497,"y":478,"w":74,"h":22},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":74,"h":22},
+	"sourceSize": {"w":74,"h":22},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "spectacular_1",
 	"frame": {"x":605,"y":276,"w":101,"h":118},
 	"rotated": false,
@@ -376,6 +385,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1492,"h":505},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:c54a8b7de28488ed7bdbbc0069d38868:625a5c26a17fd5fdf08d12ace023ac89:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:ecf3885bc6f7c76e0f4d9457c9b19282:9a7b0c931d67d8f373593bf42a83c718:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
