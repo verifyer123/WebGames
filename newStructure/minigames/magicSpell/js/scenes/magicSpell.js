@@ -166,6 +166,7 @@ var magicSpell = function(){
 	var magicSong
 	var FIRST_DIFICULTY=4;
 	var SECOND_DIFICULTY=7;
+	var firstWord
 	var tutorial
 	var okButton
 	var words=[];
@@ -319,10 +320,12 @@ var magicSpell = function(){
 					slotOverlaping.isOccupied=true;
 					runesInSlots++;
 					if(runesInSlots==word.length){
-						if(hand)hand.destroy()
 						game.add.tween(okButton).to({alpha:1},900,Phaser.Easing.linear,true).onComplete.add(function(){
 							okButton.inputEnabled=true;
 							okButton.input.perfectPixelClick=true;
+							hand.x=okButton.x+20;
+							hand.y=okButton.y+10;
+							hand.animations.play('hand', 24, true);
 						})
 					}
 					return
@@ -462,6 +465,7 @@ var magicSpell = function(){
 	}
 	function evaluateWord(word,button){
 		if(!tutorial)stopTimer();
+		if(hand)hand.destroy()
 		button.loadTexture("atlas.magic","okOff")
 		var win=true;
 		button.inputEnabled=false;
@@ -680,14 +684,15 @@ var magicSpell = function(){
 			winterGroup.alpha=1;
 		}
 		enteringToGame(word);
+		firstWord=word
 	}
 	function handToSlot(){
 		movingHand=true;
-		if(hand){
+		if(hand && runesInSlots<firstWord.length){
 			hand.alpha=1;
 			var runePos=game["rune"+searchInRunes];
 			for(var searchInRunes=0; searchInRunes<allRunes; searchInRunes++){
-				if(game["rune"+searchInRunes].value==game["slot"+runesInSlots].value && !game["rune"+searchInRunes].inSlot){
+				if(game["rune"+searchInRunes].value==game["slot"+runesInSlots].value && !game["rune"+searchInRunes].inSlot  && !game["slot"+runesInSlots].isOccupied){
 					runePos=game["rune"+searchInRunes];
 				}
 			}
