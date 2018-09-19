@@ -432,8 +432,8 @@ var magicSpell = function(){
 		});
 	}
 	function attackEnemy(word){
-		sound.play("splash")
 		dinamita.setAnimationByName(0,"spell_fail",false).onComplete=function(){
+			sound.play("splash")
 			feedBack(word)
 			dinamita.setAnimationByName(0,"idle",true)
 			skelleton.setAnimationByName(0,"attack",false).onComplete=function(){
@@ -588,8 +588,7 @@ var magicSpell = function(){
 	function checkOverlap(spriteA, spriteB) {
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
-		boundsB.width=boundsB.width/3.1;
-		boundsB.height=boundsB.height/3.1;
+		boundsB.width=boundsB.width/2;
 		return Phaser.Rectangle.intersects(boundsA , boundsB);
 	}
 	function missPoint(){
@@ -612,15 +611,8 @@ var magicSpell = function(){
 	function changeEnviroment(randomNumber,word,lastGroup,enemyIsAlive){
 		var nextGroup;
 		var lastGroup;
-		var checked=false;
-		if(!enemyIsAlive)word=words[0];
 		var lastWorld=lastGroup.toUpperCase();
-		for(var changeEnviroments=0; changeEnviroments<words.length; changeEnviroments++){
-			if(word.toLowerCase()!=lastGroup && !checked && !enemyIsAlive){
-				word=words[changeEnviroments];
-				checked=true;
-			}
-		}
+
 		if(lastWorld=="SUMMER" || lastWorld=="VERANO"){
 			lastGroup=summerGroup;
 		}else if(lastWorld=="SPRING" || lastWorld=="PRIMAVERA"){
@@ -644,7 +636,19 @@ var magicSpell = function(){
 	}
 	function managerWordEnemyEnviroment(isEnemyAlive,worldChange){
 		var randomNumber=game.rnd.integerInRange(0,TOTAL_WORDS);
-		var word=words[randomNumber];
+		var word
+		if(isEnemyAlive){
+			word=worldChange.toUpperCase()
+		}else{
+			word=words[randomNumber];
+			if(worldChange){
+				while(word==worldChange.toUpperCase()){
+					randomNumber=game.rnd.integerInRange(0,TOTAL_WORDS);
+					word=words[randomNumber];
+				}
+			}
+		}
+		
 		if(!tutorial && lives>0){
 			game.time.events.add(1000,function(){
 				changeEnviroment(randomNumber,word, worldChange, isEnemyAlive);
@@ -1061,7 +1065,6 @@ var magicSpell = function(){
 	}
 	function reset(win,word){
 		for(var cleanSlots=0; cleanSlots<word.length; cleanSlots++){
-
 			game.add.tween(game["slot"+cleanSlots]).to({alpha:0},900,Phaser.Easing.Cubic.Out,true,100*cleanSlots)
 		}
 		for(var cleanRunes=0; cleanRunes<allRunes; cleanRunes++){
@@ -1102,13 +1105,11 @@ var magicSpell = function(){
 			deactivateParticle(pointsText,750)
 		}
 	}
-
 	function lookParticle(key){
 
 		for(var i = 0;i<particlesGroup.length;i++){
 
 			var particle = particlesGroup.children[i]
-			//console.log(particle.tag + ' tag,' + particle.used)
 			if(!particle.used && particle.tag == key){
 
 				particle.used = true
