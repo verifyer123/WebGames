@@ -452,10 +452,8 @@ var flag = function () {
 				hand.y += 80;
 				tweenHandAnimation(0);
 				break;
-			// case 1:
-			// 	hand.x += 80;
-			// 	tweenHandAnimation(2);
-			// 	break;
+				hand.x += 80;
+				tweenHandAnimation(2);
 			// case 2:
 			// 	hand.y += 80;
 			// 	tweenHandAnimation(2);
@@ -503,9 +501,10 @@ var flag = function () {
 		// 	tweenHand = game.add.tween(hand).to({ x: hand.x - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
 		// } else if (typeAnim == 2) {
 		// 	tweenHand = game.add.tween(hand).to({ y: hand.y + 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
-		// } else if (typeAnim == 3) {
-		// 	tweenHand = game.add.tween(hand).to({ y: hand.y - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
 		// }
+		else if (typeAnim == 3) {
+			tweenHand = game.add.tween(hand).to({ y: hand.y - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
+		}
 	}
 
 	function checkObjectsLevelZero() {
@@ -514,6 +513,9 @@ var flag = function () {
 				moveSideDown = moveForwarSteps(1);
 				break;
 			case 1:
+				moveSideRight = moveForwarSteps(3);
+				break;
+			case 2:
 				moveSideLeft = true;
 				moveSideRight = true;
 				moveSideUp = true;
@@ -524,9 +526,6 @@ var flag = function () {
 					addObject();
 				}
 				break;
-			// case 1:
-			// 	moveSideRight = moveForwarSteps(3);
-			// 	break;
 			// case 2:
 			// 	moveSideDown = moveForwarSteps(1);
 			// 	break;
