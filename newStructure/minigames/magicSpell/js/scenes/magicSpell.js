@@ -397,11 +397,21 @@ var magicSpell = function(){
 		UIGroup.add(timeBar)
 	}
 	function attackYogotar(word){
+		var dinamitaAttack
+		if(word=="SUMMER" || word=="VERANO"){
+			dinamitaAttack="summer"
+		}else if(word=="SPRING" || word=="PRIMAVERA"){
+			dinamitaAttack="spring"
+		}else if(word=="FALL" || word=="OTOÑO"){
+			dinamitaAttack="fall"
+		}else if(word=="WINTER" || word=="INVIERNO"){
+			dinamitaAttack="winter"
+		}
 		word=word.toLowerCase()
 		tutorial=false;
 		if(dificultyTime>500)dificultyTime-=200;
 		sound.play("magic")
-		dinamita.setAnimationByName(0,"spell_"+word,false).onComplete=function(){
+		dinamita.setAnimationByName(0,"spell_"+dinamitaAttack,false).onComplete=function(){
 			Coin(skelleton,pointsBar,100);
 			sound.play("explode")
 			skelleton.setAnimationByName(0,"lose1",false).onComplete=function(){
@@ -534,7 +544,7 @@ var magicSpell = function(){
 		for(var checkWordInSlot=0; checkWordInSlot<word.length; checkWordInSlot++){
 			for(var checkWordInRune=0; checkWordInRune<allRunes; checkWordInRune++){
 				canClue=game.rnd.integerInRange(0,1)
-				if(game["rune"+checkWordInRune].value===game["slot"+checkWordInSlot].value && canClue==1 && counterWords<howMany && !game["rune"+checkWordInRune].inSlot && !game["slot"+checkWordInSlot].isOccupied){
+				if(game["rune"+checkWordInRune].value===game["slot"+checkWordInSlot].value && canClue==1 && counterWords<howMany && game["rune"+checkWordInRune].inSlot==null && !game["slot"+checkWordInSlot].isOccupied){
 					game["rune"+checkWordInRune].inSlot=game["slot"+checkWordInSlot].index;
 					game["rune"+checkWordInRune].scale.setTo(game["slot"+checkWordInSlot].scale.x-0.3,game["slot"+checkWordInSlot].scale.y-0.3)
 					game["slot"+checkWordInSlot].isOccupied=true;
@@ -659,7 +669,7 @@ var magicSpell = function(){
 				shuffleEnemy(word,isEnemyAlive)
 			});
 		}else{
-			word="WINTER";
+			word=words[1];
 			tutorialLevel(word);
 		}
 	}
@@ -692,7 +702,7 @@ var magicSpell = function(){
 			hand.alpha=1;
 			var runePos=game["rune"+searchInRunes];
 			for(var searchInRunes=0; searchInRunes<allRunes; searchInRunes++){
-				if(game["rune"+searchInRunes].value==game["slot"+runesInSlots].value && !game["rune"+searchInRunes].inSlot  && !game["slot"+runesInSlots].isOccupied){
+				if(game["rune"+searchInRunes].value==game["slot"+runesInSlots].value && game["rune"+searchInRunes].inSlot==null && !game["slot"+runesInSlots].isOccupied ){
 					runePos=game["rune"+searchInRunes];
 				}
 			}
@@ -972,6 +982,7 @@ var magicSpell = function(){
 
 		boardSlots=game.add.sprite(game.world.centerX,game.world.centerY+200,"atlas.magic","spellBoard");
 		boardSlots.anchor.setTo(0.5,0.5)
+		boardSlots.scale.setTo(1.2,1)
 		sceneGroup.add(boardSlots)
 
 		boardRunes=game.add.sprite(game.world.centerX,game.world.height-80,"atlas.magic","board");
