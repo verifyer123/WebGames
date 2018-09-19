@@ -224,7 +224,7 @@ var magicSpell = function(){
 
 	function createSlots(word){
 		var countSpaces=word.length;
-		var pivotX=boardSlots.x-(word.length/2)*42;
+		var pivotX=boardSlots.x-(word.length/2)*53;
 		for (var slotsInGame=0; slotsInGame<word.length; slotsInGame++){
 			game["slot"+slotsInGame]=game.add.sprite(pivotX,boardSlots.y-10,"atlas.magic","slot");
 			game["slot"+slotsInGame].anchor.setTo(0.5,0.5);
@@ -235,7 +235,7 @@ var magicSpell = function(){
 			game.add.tween(game["slot"+slotsInGame]).to({alpha:1},900,Phaser.Easing.Cubic.In,true);
 			game["slot"+slotsInGame].index=slotsInGame;
 			gameGroup.add(game["slot"+slotsInGame])
-			pivotX+=50
+			pivotX+=60
 		}
 	}
 	function createRunes(char,word){
@@ -602,7 +602,6 @@ var magicSpell = function(){
 	function checkOverlap(spriteA, spriteB) {
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
-		boundsB.width=boundsB.width/2;
 		return Phaser.Rectangle.intersects(boundsA , boundsB);
 	}
 	function missPoint(){
@@ -857,7 +856,6 @@ var magicSpell = function(){
 		sound.play("gameLose")
 
 		gameActive = false
-
 
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
 		tweenScene.onComplete.add(function(){
@@ -1288,7 +1286,6 @@ var magicSpell = function(){
 
 
 			addParticles()
-			magicSong = sound.play("technology", {loop:true, volume:0.6})
 
 			magicSong = game.add.audio('technology')
 			game.sound.setDecodedCallback(magicSong, function(){
