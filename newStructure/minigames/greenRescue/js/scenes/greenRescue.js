@@ -792,6 +792,7 @@ var greenRescue = function(){
 			boomParticle.start(true, 1200, null, 10)
 			missPoint()
 			passingLevel=true;
+			canShovel=false;
 			canPlant=false;
 			broom.inputEnabled=false;
 			shovel.inputEnabled=false;

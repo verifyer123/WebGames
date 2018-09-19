@@ -124,15 +124,15 @@ var magicSpell = function(){
 			 file: soundsPath + "gameLose.mp3"},
 			{	name: "ship",
 			 file: soundsPath + "robotBeep.mp3"},
-			 {	name: "rune",
+			{	name: "rune",
 			 file: soundsPath + "flesh.mp3"},
-			 {	name: "cog",
+			{	name: "cog",
 			 file: soundsPath + "cog.mp3"},
-			 {	name: "evilLaugh",
+			{	name: "evilLaugh",
 			 file: soundsPath + "evilLaugh.mp3"},
-			 {	name: "splash",
+			{	name: "splash",
 			 file: soundsPath + "splash.mp3"},
-			  {	name: "explode",
+			{	name: "explode",
 			 file: soundsPath + "explosion.mp3"},
 			{   name:"technology",
 			 file: soundsPath + 'songs/technology_action.mp3'},
@@ -164,6 +164,8 @@ var magicSpell = function(){
 	var indexGame
 	var overlayGroup
 	var magicSong
+	var FIRST_DIFICULTY=4;
+	var SECOND_DIFICULTY=7;
 	var tutorial
 	var okButton
 	var words=[];
@@ -172,14 +174,14 @@ var magicSpell = function(){
 	var positionX=[];
 	var positionY=[];
 	var movingHand
-	var ALL_RUNES=9
+	var allRunes=9
 	var dinamita, skelleton;
 	var TOTAL_WORDS=3;
 	var enemys=[];
 	var runeIndex
 	var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	var backgroundGroup=null
-	
+
 	var boardSlots, boardRunes
 	var tweenTiempo
 	var clock, timeBar
@@ -207,7 +209,7 @@ var magicSpell = function(){
 			words[insertWords]=localization.getString(localizationData,"word"+insertWords);
 		}
 	}
-	
+
 	function onClickPlay(rect) {
 		tutoGroup.y = -game.world.height
 		canPlay=true;
@@ -218,7 +220,7 @@ var magicSpell = function(){
 		sceneGroup.add(tutoGroup)
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 	}
-	
+
 	function createSlots(word){
 		var countSpaces=word.length;
 		var pivotX=boardSlots.x-(word.length/2)*42;
@@ -237,7 +239,7 @@ var magicSpell = function(){
 	}
 	function createRunes(char,word){
 		var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-		
+
 		game["rune"+runeIndex]=game.add.sprite(positionX[runeIndex],positionY[runeIndex],"atlas.magic","rune")
 		game["rune"+runeIndex].anchor.setTo(0.5,0.5)
 		game["rune"+runeIndex].scale.setTo(0.8,0.8)
@@ -251,7 +253,11 @@ var magicSpell = function(){
 		game["rune"+runeIndex].posIndex=runeIndex;
 		game["rune"+runeIndex].value=char;
 		if(char==null){
-			game["rune"+runeIndex].value=possible[game.rnd.integerInRange(0,possible.length-1)];
+			if(pointsBar.number<SECOND_DIFICULTY && pointsBar.number>FIRST_DIFICULTY){
+				game["rune"+runeIndex].value="";
+			}else{
+				game["rune"+runeIndex].value=possible[game.rnd.integerInRange(0,possible.length-1)];
+			}
 		}
 		game["rune"+runeIndex].inSlot=null;
 		game["rune"+runeIndex].events.onDragStart.add(startDrag, this);
@@ -285,7 +291,7 @@ var magicSpell = function(){
 		if(obj.inSlot!=null){
 			game["slot"+obj.inSlot].isOccupied=false;
 			obj.inSlot=null;
-			
+
 			runesInSlots--;
 		}
 	}
@@ -294,12 +300,12 @@ var magicSpell = function(){
 		handleRune=null;
 		var objOverlaping=null;
 		for(var checkSlots=0; checkSlots<word.length; checkSlots++){
-				if(checkOverlap(game["slot"+checkSlots],rune)){
-					objOverlaping=game["slot"+checkSlots];
-				}
-				if(checkOverlap(boardRunes,rune)){
-					objOverlaping=boardRunes;
-				}
+			if(checkOverlap(game["slot"+checkSlots],rune)){
+				objOverlaping=game["slot"+checkSlots];
+			}
+			if(checkOverlap(boardRunes,rune)){
+				objOverlaping=boardRunes;
+			}
 		}
 		if(objOverlaping!=null){
 			var slotOverlaping=objOverlaping;
@@ -342,10 +348,10 @@ var magicSpell = function(){
 		}
 	}
 	function createHandAndCoinsAndUIGroup(){
-		
+
 		UIGroup=game.add.group()
 		sceneGroup.add(UIGroup);
-		
+
 		hand=game.add.sprite(0,0, "hand")
 		hand.anchor.setTo(0.5,0.5);
 		hand.scale.setTo(0.6,0.6);
@@ -353,7 +359,7 @@ var magicSpell = function(){
 		hand.animations.play('hand', 5, false);
 		hand.alpha=0;
 		sceneGroup.add(hand)
-		
+
 		coins=game.add.sprite(game.world.centerX,game.world.centerY, "coin");
 		coins.anchor.setTo(0.5);
 		coins.scale.setTo(0.5);
@@ -392,9 +398,8 @@ var magicSpell = function(){
 		};
 	}
 	function feedBack(word){
-		
-		
-		for(var placeAllLettersInBoard=0; placeAllLettersInBoard<ALL_RUNES; placeAllLettersInBoard++){
+
+		for(var placeAllLettersInBoard=0; placeAllLettersInBoard<allRunes; placeAllLettersInBoard++){
 			game.add.tween(game["rune"+placeAllLettersInBoard]).to({x:positionX[game["rune"+placeAllLettersInBoard].posIndex],y:positionY[game["rune"+placeAllLettersInBoard].posIndex]},100,Phaser.Easing.Cubic.In,true)	
 			game["rune"+placeAllLettersInBoard].inSlot=false;
 			game["rune"+placeAllLettersInBoard].scale.setTo(0.8,0.8);
@@ -404,7 +409,7 @@ var magicSpell = function(){
 		}
 		game.time.events.add(300,function(){
 			for(var checkWordInSlot=0; checkWordInSlot<word.length; checkWordInSlot++){
-				for(var checkWordInRune=0; checkWordInRune<ALL_RUNES; checkWordInRune++){
+				for(var checkWordInRune=0; checkWordInRune<allRunes; checkWordInRune++){
 					if(game["rune"+checkWordInRune].value===game["slot"+checkWordInSlot].value && !game["rune"+checkWordInRune].inSlot && !game["slot"+checkWordInSlot].isOccupied){
 						game["rune"+checkWordInRune].inSlot=true
 						game["slot"+checkWordInSlot].isOccupied=true
@@ -424,18 +429,18 @@ var magicSpell = function(){
 				boomParticle.x=dinamita.x;
 				boomParticle.y=dinamita.y-100;
 				boomParticle.start(true, 1200, null, 10)
-					if(lives>1){
-						dinamita.setAnimationByName(0,"idle",true)
-					}else{
-						dinamita.setAnimationByName(0,"lose",false).onComplete=function(){
-							dinamita.setAnimationByName(0,"losestill",false)
-						}
+				if(lives>1){
+					dinamita.setAnimationByName(0,"idle",true)
+				}else{
+					dinamita.setAnimationByName(0,"lose",false).onComplete=function(){
+						dinamita.setAnimationByName(0,"losestill",false)
 					}
-					skelleton.setAnimationByName(0,"idle",true)
-					missPoint();
-					game.time.events.add(1000,function(){
-						if(lives>0)reset(false,word)
-					})
+				}
+				skelleton.setAnimationByName(0,"idle",true)
+				missPoint();
+				game.time.events.add(1000,function(){
+					if(lives>0)reset(false,word)
+				})
 			};
 		}
 	}
@@ -449,7 +454,7 @@ var magicSpell = function(){
 		var win=true;
 		button.inputEnabled=false;
 		game.add.tween(okButton).to({alpha:0},900,Phaser.Easing.linear,true);
-		for (var checkCharacters=0; checkCharacters<ALL_RUNES; checkCharacters++){
+		for (var checkCharacters=0; checkCharacters<allRunes; checkCharacters++){
 			game["rune"+checkCharacters].inputEnabled=false;
 			if(game["slot"+game["rune"+checkCharacters].inSlot]){
 				if(game["rune"+checkCharacters].value!=game["slot"+game["rune"+checkCharacters].inSlot].value){
@@ -468,7 +473,7 @@ var magicSpell = function(){
 		}
 	}
 	function createUI(word){
-		
+
 		if(tutorial){
 			okButton.inputEnabled=false;
 		}
@@ -494,10 +499,10 @@ var magicSpell = function(){
 		var firstChar;
 		var passingChar;
 		var secondChar;
-		var howManyWords=ALL_RUNES-1;
+		var howManyWords=allRunes-1;
 		for(var change=0; change<howManyWords; change++){
-			firstChar=game.rnd.integerInRange(0,ALL_RUNES-1);
-			secondChar=game.rnd.integerInRange(0,ALL_RUNES-1);
+			firstChar=game.rnd.integerInRange(0,allRunes-1);
+			secondChar=game.rnd.integerInRange(0,allRunes-1);
 			passingChar=game["rune"+firstChar].value;
 			game["rune"+firstChar].value=game["rune"+secondChar].value;
 			game["rune"+secondChar].value=passingChar;
@@ -505,18 +510,45 @@ var magicSpell = function(){
 			game["rune"+secondChar].text.setText(game["rune"+secondChar].value);
 		}	
 	}
+	function cluesForWord(word){
+		var howMany=game.rnd.integerInRange(1,3);
+		var counterWords=0;
+		var canClue=0;
+		for(var checkWordInSlot=0; checkWordInSlot<word.length; checkWordInSlot++){
+			for(var checkWordInRune=0; checkWordInRune<allRunes; checkWordInRune++){
+				canClue=game.rnd.integerInRange(0,1)
+				if(game["rune"+checkWordInRune].value===game["slot"+checkWordInSlot].value && canClue==1 && counterWords<howMany && !game["rune"+checkWordInRune].inSlot && !game["slot"+checkWordInSlot].isOccupied){
+					game["rune"+checkWordInRune].inSlot=game["slot"+checkWordInSlot].index;
+					game["rune"+checkWordInRune].scale.setTo(game["slot"+checkWordInSlot].scale.x-0.3,game["slot"+checkWordInSlot].scale.y-0.3)
+					game["slot"+checkWordInSlot].isOccupied=true;
+					game["rune"+checkWordInRune].x=game["slot"+checkWordInSlot].x;
+					game["rune"+checkWordInRune].y=game["slot"+checkWordInSlot].y;
+					counterWords++
+					runesInSlots++;
+				}
+			}
+		}
+	}
 	function divideInCharacters(word){
 		createSlots(word)
 		createUI(word)
 		var wordForTimer=word;
 		word=randomizeWord(word)
-		for (var slice=0; slice<ALL_RUNES; slice++){
+		allRunes=word.length;
+		if(pointsBar.number>=FIRST_DIFICULTY){
+			allRunes=9;
+		}
+		for (var slice=0; slice<allRunes; slice++){
 			createRunes(word[slice],word)
 		}
-		randomizeInRunes()
+		if(pointsBar.number>=FIRST_DIFICULTY){
+			randomizeInRunes()
+		}else if(pointsBar.number<FIRST_DIFICULTY && !tutorial){
+			cluesForWord(wordForTimer)
+		}
 		game.time.events.add(2000,function(){
 			if(tutorial){
-					movingHand=false;
+				movingHand=false;
 			}else{
 				startTimer(dificultyTime,wordForTimer)
 				okButton.inputEnabled=true;
@@ -546,7 +578,7 @@ var magicSpell = function(){
 		return Phaser.Rectangle.intersects(boundsA , boundsB);
 	}
 	function missPoint(){
-		
+
 		sound.play("wrong")
 
 		lives--;
@@ -601,7 +633,7 @@ var magicSpell = function(){
 		}
 	}
 	function enteringToGame(word){
-		
+
 		game.add.tween(dinamita).to({x:game.world.centerX-200},1500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 			dinamita.setAnimationByName(0,"idle",true);
 			shuffleEnemy(word)
@@ -627,7 +659,7 @@ var magicSpell = function(){
 		if(hand){
 			hand.alpha=1;
 			var runePos=game["rune"+searchInRunes];
-			for(var searchInRunes=0; searchInRunes<ALL_RUNES; searchInRunes++){
+			for(var searchInRunes=0; searchInRunes<allRunes; searchInRunes++){
 				if(game["rune"+searchInRunes].value==game["slot"+runesInSlots].value && !game["rune"+searchInRunes].inSlot){
 					runePos=game["rune"+searchInRunes];
 				}
@@ -648,7 +680,7 @@ var magicSpell = function(){
 		dinamita.setAnimationByName(0,"run",true);
 		dinamita.scale.setTo(0.5,0.5)
 		gameGroup.add(dinamita);
-		
+
 		skelleton=game.add.spine(game.world.width+300,game.world.centerY,"skelleton");
 		skelleton.setSkinByName("normal"+game.rnd.integerInRange(1,4));
 		skelleton.setAnimationByName(0,"idle",true);
@@ -817,87 +849,87 @@ var magicSpell = function(){
 		baseRect.alpha = 1
 		baseRect.endFill()
 		sceneGroup.add(baseRect)
-			
+
 		summerGroup=game.add.group();
 		sceneGroup.add(summerGroup)
-		
+
 		springGroup=game.add.group();
 		sceneGroup.add(springGroup)
-		
+
 		winterGroup=game.add.group();
 		sceneGroup.add(winterGroup)
-		
+
 		fallGroup=game.add.group();
 		sceneGroup.add(fallGroup)
-		
+
 		var summerRect = new Phaser.Graphics(game)
 		summerRect.beginFill(0xedf7b2)
 		summerRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
 		summerRect.alpha = 1
 		summerRect.endFill()
-		
+
 		var winterRect = new Phaser.Graphics(game)
 		winterRect.beginFill(0x99e9ff)
 		winterRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
 		winterRect.alpha = 1
 		winterRect.endFill()
-		
+
 		var fallRect = new Phaser.Graphics(game)
 		fallRect.beginFill(0xf9e491)
 		fallRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
 		fallRect.alpha = 1
 		fallRect.endFill()
-		
+
 		var springRect= new Phaser.Graphics(game)
 		springRect.beginFill(0x8fffc2)
 		springRect.drawRect(0,0,game.world.width * 2, game.world.height / 2)
 		springRect.alpha = 1
 		springRect.endFill()
-		
+
 		summerGroup.add(summerRect)
 		winterGroup.add(winterRect)
 		fallGroup.add(fallRect)
 		springGroup.add(springRect)
-		
+
 		var springFloor= new Phaser.Graphics(game)
 		springFloor.beginFill(0x66CC66)
 		springFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
 		springFloor.alpha = 1
 		springFloor.endFill()
-	
+
 		var summerFloor= new Phaser.Graphics(game)
 		summerFloor.beginFill(0x66CC99)
 		summerFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
 		summerFloor.alpha = 1
 		summerFloor.endFill()
-		
+
 		var fallFloor= new Phaser.Graphics(game)
 		fallFloor.beginFill(0xB0CC58)
 		fallFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
 		fallFloor.alpha = 1
 		fallFloor.endFill()
-		
+
 		var winterFloor= new Phaser.Graphics(game)
 		winterFloor.beginFill(0xD2FCE8)
 		winterFloor.drawRect(0,game.world.height / 2,game.world.width * 2, game.world.height)
 		winterFloor.alpha = 1
 		winterFloor.endFill()
-		
+
 		summerGroup.add(summerFloor)
 		winterGroup.add(winterFloor)
 		springGroup.add(springFloor)
 		fallGroup.add(fallFloor)
-		
+
 		summerGroup.create(0,-5,"summer");
 		winterGroup.create(0,-5,"winter");
 		springGroup.create(0,-5,"spring");
 		fallGroup.create(0,-5,"fall");
-		
+
 		summerGroup.children[2].width=game.world.width;
 		winterGroup.children[2].width=game.world.width;
 		springGroup.children[2].width=game.world.width;
 		fallGroup.children[2].width=game.world.width;
-		
+
 		summerGroup.alpha=0;
 		winterGroup.alpha=0;
 		springGroup.alpha=0;
@@ -905,24 +937,24 @@ var magicSpell = function(){
 
 		var rocks= game.add.tileSprite(0,game.world.centerY+10,game.world.width,100,"rocks");
 		sceneGroup.add(rocks)
-		
+
 		boardSlots=game.add.sprite(game.world.centerX,game.world.centerY+200,"atlas.magic","spellBoard");
 		boardSlots.anchor.setTo(0.5,0.5)
 		sceneGroup.add(boardSlots)
-		
+
 		boardRunes=game.add.sprite(game.world.centerX,game.world.height-80,"atlas.magic","board");
 		boardRunes.anchor.setTo(0.5,0.5)
 		boardRunes.scale.setTo(1,1)
 		boardRunes.tag="board";
 		sceneGroup.add(boardRunes)
-		
+
 		okButton=game.add.sprite(boardRunes.x+170,game.world.height-45,"atlas.magic","okOff");
 		okButton.alpha=0;
 		fillPositions();
-		
+
 		gameGroup = game.add.group()
 		sceneGroup.add(gameGroup);
-		
+
 		createYogotarAndEnemy();
 		managerWordEnemyEnviroment(false,null)
 
@@ -936,7 +968,7 @@ var magicSpell = function(){
 	function fillPositions(){
 		var pivotX=boardRunes.x-boardRunes.width/2+100;
 		var pivotY=boardRunes.y-boardRunes.height+130;
-		for(var fill=0; fill<ALL_RUNES; fill++){
+		for(var fill=0; fill<allRunes; fill++){
 			if(fill%5!=0 || fill==0 || fill==1){
 				positionX[fill]=pivotX;
 				positionY[fill]=pivotY;
@@ -1005,7 +1037,7 @@ var magicSpell = function(){
 		tweenTiempo.onComplete.add(function(){
 			game.add.tween(okButton).to({alpha:0},900,Phaser.Easing.linear,true);
 			okButton.inputEnabled=false;
-			for(var stopMoving=0; stopMoving<ALL_RUNES; stopMoving++){
+			for(var stopMoving=0; stopMoving<allRunes; stopMoving++){
 				game["rune"+stopMoving].inputEnabled=false;
 			}
 			if(handleRune){			
@@ -1017,19 +1049,20 @@ var magicSpell = function(){
 		})
 	}
 	function reset(win,word){
-		positionTimer();
+		if(tutorial)positionTimer();
 		for(var cleanSlots=0; cleanSlots<word.length; cleanSlots++){
-				
+
 			game.add.tween(game["slot"+cleanSlots]).to({alpha:0},900,Phaser.Easing.Cubic.Out,true,100*cleanSlots)
 		}
-		for(var cleanRunes=0; cleanRunes<ALL_RUNES; cleanRunes++){
+		for(var cleanRunes=0; cleanRunes<allRunes; cleanRunes++){
 			game["rune"+cleanRunes].inputEnabled=false;
 			game.add.tween(game["rune"+cleanRunes]).to({alpha:0},900,Phaser.Easing.Cubic.Out,true,100*cleanRunes);
 			runeIndex--;
 		}
+		okButton.loadTexture("atlas.magic","okOff")
 		runesInSlots=0;
 		game.time.events.add(1800,function(){
-			for(var destroyRunes=0; destroyRunes<ALL_RUNES; destroyRunes++){
+			for(var destroyRunes=0; destroyRunes<allRunes; destroyRunes++){
 				game["rune"+destroyRunes].destroy();
 			}
 			for(var destroySlots=0; destroySlots<word.length; destroySlots++){
@@ -1226,7 +1259,7 @@ var magicSpell = function(){
 			sceneGroup = game.add.group()
 
 
-			
+
 			addParticles()
 			magicSong = sound.play("technology", {loop:true, volume:0.6})
 
@@ -1250,7 +1283,7 @@ var magicSpell = function(){
 			createHearts()
 			createHandAndCoinsAndUIGroup()
 			createTutorial()
-			
+
 
 			buttons.getButton(magicSong,sceneGroup)
 
