@@ -253,7 +253,7 @@ var magicSpell = function(){
 		game["rune"+runeIndex].posIndex=runeIndex;
 		game["rune"+runeIndex].value=char;
 		if(char==null){
-			if(pointsBar.number<SECOND_DIFICULTY && pointsBar.number>FIRST_DIFICULTY){
+			if(pointsBar.number<SECOND_DIFICULTY && pointsBar.number>=FIRST_DIFICULTY){
 				game["rune"+runeIndex].value="";
 			}else{
 				game["rune"+runeIndex].value=possible[game.rnd.integerInRange(0,possible.length-1)];
@@ -381,6 +381,18 @@ var magicSpell = function(){
 			})
 		})
 	}
+	function positionTimer(){
+		clock=game.add.image(game.world.centerX-150,70,"atlas.time","clock")
+		clock.scale.setTo(.7)
+		timeBar=game.add.image(clock.position.x+40,clock.position.y+40,"atlas.time","bar")
+		timeBar.scale.setTo(8,.45)
+		backgroundGroup.add(clock)
+		backgroundGroup.add(timeBar)
+		timeBar.alpha=1
+		clock.alpha=1
+		UIGroup.add(clock)
+		UIGroup.add(timeBar)
+	}
 	function attackYogotar(word){
 		word=word.toLowerCase()
 		tutorial=false;
@@ -465,6 +477,7 @@ var magicSpell = function(){
 		if(runesInSlots!=word.length){
 			win=false;
 		}
+		if(tutorial)positionTimer();
 		tutorial=false
 		if(win){
 			attackYogotar(word)
@@ -575,6 +588,8 @@ var magicSpell = function(){
 	function checkOverlap(spriteA, spriteB) {
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
+		boundsB.width=boundsB.width/3.1;
+		boundsB.height=boundsB.height/3.1;
 		return Phaser.Rectangle.intersects(boundsA , boundsB);
 	}
 	function missPoint(){
@@ -594,10 +609,18 @@ var magicSpell = function(){
 		}
 		addNumberPart(heartsGroup.text,'-1',true)
 	}
-	function changeEnviroment(randomNumber,word,lastGroup){
+	function changeEnviroment(randomNumber,word,lastGroup,enemyIsAlive){
 		var nextGroup;
 		var lastGroup;
+		var checked=false;
+		if(!enemyIsAlive)word=words[0];
 		var lastWorld=lastGroup.toUpperCase();
+		for(var changeEnviroments=0; changeEnviroments<words.length; changeEnviroments++){
+			if(word.toLowerCase()!=lastGroup && !checked && !enemyIsAlive){
+				word=words[changeEnviroments];
+				checked=true;
+			}
+		}
 		if(lastWorld=="SUMMER" || lastWorld=="VERANO"){
 			lastGroup=summerGroup;
 		}else if(lastWorld=="SPRING" || lastWorld=="PRIMAVERA"){
@@ -624,7 +647,7 @@ var magicSpell = function(){
 		var word=words[randomNumber];
 		if(!tutorial && lives>0){
 			game.time.events.add(1000,function(){
-				changeEnviroment(randomNumber,word, worldChange);
+				changeEnviroment(randomNumber,word, worldChange, isEnemyAlive);
 				shuffleEnemy(word,isEnemyAlive)
 			});
 		}else{
@@ -1015,18 +1038,6 @@ var magicSpell = function(){
 			if(tutorial && !movingHand && canPlay)handToSlot()
 		}
 	}
-	function positionTimer(){
-		clock=game.add.image(game.world.centerX-150,70,"atlas.time","clock")
-		clock.scale.setTo(.7)
-		timeBar=game.add.image(clock.position.x+40,clock.position.y+40,"atlas.time","bar")
-		timeBar.scale.setTo(8,.45)
-		backgroundGroup.add(clock)
-		backgroundGroup.add(timeBar)
-		timeBar.alpha=1
-		clock.alpha=1
-		UIGroup.add(clock)
-		UIGroup.add(timeBar)
-	}
 	function stopTimer(){
 		tweenTiempo.stop()
 		tweenTiempo=game.add.tween(timeBar.scale).to({x:8,y:.45}, 500, Phaser.Easing.Linear.Out, true, 100)
@@ -1049,7 +1060,6 @@ var magicSpell = function(){
 		})
 	}
 	function reset(win,word){
-		if(tutorial)positionTimer();
 		for(var cleanSlots=0; cleanSlots<word.length; cleanSlots++){
 
 			game.add.tween(game["slot"+cleanSlots]).to({alpha:0},900,Phaser.Easing.Cubic.Out,true,100*cleanSlots)

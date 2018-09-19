@@ -2,7 +2,7 @@ var comunicationScript=function(){
 var playerData;
 	window.parent.postMessage('loaded','*');
 	window.addEventListener('message', function(event) {
-		if (event.origin=="http://192.168.1.151:4200" && event.data.player && event.data.timestamp) {
+		if ((event.origin=="http://192.168.1.151:4200" || event.origin=="https://imag.mogoymoma.com" || event.origin=="https://imag.mogoymoma2.com/" || event.origin=="https://imagicplay.com/") && event.data.player && event.data.timestamp) {
             playerData={
                 player:event.data.player,
                 coins:event.data.coins,
