@@ -159,7 +159,11 @@ var tutorialHelper = function () {
 				break
 				case gameTypeEnum.TAP:
 				videoName = "tap"
-				tutorialTypeText = "TAP"
+				if(game.device.desktop){
+					tutorialTypeText = "CLICK"
+				}else{
+					tutorialTypeText = "TAP"
+				}
 				break
 				case gameTypeEnum.DRAG:
 				videoName = "drag and drop"
