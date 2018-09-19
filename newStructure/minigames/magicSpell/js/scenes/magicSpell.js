@@ -325,7 +325,7 @@ var magicSpell = function(){
 							okButton.input.perfectPixelClick=true;
 							hand.x=okButton.x+20;
 							hand.y=okButton.y+10;
-							hand.animations.play('hand', 24, true);
+							hand.animations.play('hand', 25, true);
 						})
 					}
 					return
