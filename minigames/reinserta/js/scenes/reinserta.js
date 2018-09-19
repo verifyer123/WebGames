@@ -44,7 +44,7 @@ var reinserta = function(){
     var LINE_HEIGTH_ANGLE,LINE_WIDTH_ANGLE
     var X_MOVE, Y_MOVE
     var SPEED = 3
-    var SPEED_LERP = 0.05
+    var SPEED_LERP = 0.1
     var SPEED_LERP_HORIZONTAL = 0.15
     var DELTA_SWIPE = 50
 
@@ -86,6 +86,8 @@ var reinserta = function(){
     var Y_JUMP_DISTANCE = 40
 
     var NUM_JUMPS_CHANGE_MONSTER = 10
+
+    var OFFSET_SHADOW = -10
 
     var gameIndex = 31
     var gameId = 1000020 
@@ -487,10 +489,12 @@ var reinserta = function(){
                 
                 if(jumpLerp<=0.5){
                 	var extraY = lerp(0,Y_JUMP_DISTANCE,jumpLerp*2)
+                    var scaleShadow = lerp(1,0.5,jumpLerp*2)
                 	
                 }
                 else{
                 	var extraY = lerp(Y_JUMP_DISTANCE,0,(jumpLerp-0.5)*2)
+                    var scaleShadow = lerp(0.5,1,(jumpLerp-0.5)*2)
                 	
                 }
 
@@ -499,9 +503,14 @@ var reinserta = function(){
                 lastYJump = temp
                 monster.y-=extraY
 
+                monster.shadow.scale.setTo(scaleShadow)
+
                 if(monster.y > INIT_Y && !jumpReverse){
                 	monster.x += x
                 	monster.y -= y
+
+                    monster.shadow.x = monster.x
+                    monster.shadow.y = monster.y + OFFSET_SHADOW
 
                 	/*if(monster.y<INIT_Y){
                 		//x = monster.x - INIT_X
@@ -524,6 +533,8 @@ var reinserta = function(){
                 jumpLerp = 0
 
                 if(dieInWater){
+                    game.add.tween(monster.shadow.scale).to({x:0,y:0},500,Phaser.Easing.linear,true)
+                    game.add.tween(monster.shadow).to({alpha:0},500,Phaser.Easing.linear,true)
                 	game.add.tween(monster.scale).to({x:0,y:0},500,Phaser.Easing.linear,true)
                 	game.add.tween(monster).to({alpha:0},500,Phaser.Easing.linear,true)
 	        		missPoint()
@@ -561,6 +572,10 @@ var reinserta = function(){
 
 	        monster.x-=x
 	        monster.y+=y
+            monster.shadow.x = monster.x
+            monster.shadow.y = monster.y + OFFSET_SHADOW
+
+
 
         }
 
@@ -592,26 +607,33 @@ var reinserta = function(){
 
 	            monster.x+=x
 	            monster.y+=y
+                monster.shadow.x = monster.x
+                monster.shadow.y = monster.y + OFFSET_SHADOW
 
 	            if(jumpLerp<=0.5){
-                	var extraY = lerp(0,Y_JUMP_DISTANCE,jumpLerp*2)
-                	
+                    var extraY = lerp(0,Y_JUMP_DISTANCE,jumpLerp*2)
+                    var scaleShadow = lerp(1,0.5,jumpLerp*2)
+                    
                 }
                 else{
-                	var extraY = lerp(Y_JUMP_DISTANCE,0,(jumpLerp-0.5)*2)
-                	
+                    var extraY = lerp(Y_JUMP_DISTANCE,0,(jumpLerp-0.5)*2)
+                    var scaleShadow = lerp(0.5,1,(jumpLerp-0.5)*2)
+                    
                 }
 
                 var temp = extraY
                 extraY = extraY- lastYJump
                 lastYJump = temp
                 monster.y-=extraY
+                monster.shadow.scale.setTo(scaleShadow)
 
 	        }
 	        else{
 	        	inMoveHorizontal = 0
 	        	jumpLerp = 0
 	        	if(dieInWater){
+                    game.add.tween(monster.shadow.scale).to({x:0,y:0},500,Phaser.Easing.linear,true)
+                    game.add.tween(monster.shadow).to({alpha:0},500,Phaser.Easing.linear,true)
 	        		game.add.tween(monster.scale).to({x:0,y:0},500,Phaser.Easing.linear,true)
                 	game.add.tween(monster).to({alpha:0},500,Phaser.Easing.linear,true)
 	        		missPoint()
@@ -628,6 +650,8 @@ var reinserta = function(){
         	//if(woodObject.direction==1){
         		monster.x+=(X_WOOD*woodObject.direction)
         		monster.y+=(Y_WOOD*woodObject.direction)
+                monster.shadow.x = monster.x
+                monster.shadow.y = monster.y + OFFSET_SHADOW
         	//}
 
         	if(monster.x < MIN_X){
@@ -1122,6 +1146,7 @@ var reinserta = function(){
     function tap(){
 
     	if(!inJump){
+
 	    	monster.lineId++
 	    	var obstacleInFront = false
 
@@ -1195,6 +1220,8 @@ var reinserta = function(){
 	    				}
 	    			}
 	    		}
+
+                addPoint(1,{x:game.world.width-80,y:80})
 
 	        	monster.loadTexture("atlas.game","monster_"+monster.id+"_back")	
 		        inJump = true
@@ -1980,7 +2007,7 @@ var reinserta = function(){
 		        water.endFill()
 		        var r2 = game.world.width*3 - r
 		        water.beginFill(0x89e2e8)
-		        water.drawRect(0,r,r2,LINE_HEIGTH*numLines)
+		        water.drawRect(r,0,r2,LINE_HEIGTH*numLines)
 		        water.endFill()
 		        water.mark.x = r-60
 		        water.woodLines = []
@@ -2210,11 +2237,19 @@ var reinserta = function(){
         gameObjectsGroup = game.add.group()
         sceneGroup.add(gameObjectsGroup)
 
+        var shadow = sceneGroup.create(0,0,"atlas.game","sombra")
+        shadow.anchor.setTo(0.5)
+
         var monsterId = game.rnd.integerInRange(1,TOTAL_MONSTERS)
         monster = sceneGroup.create(0,0,"atlas.game","monster_"+monsterId+"_front")
         monster.anchor.setTo(0.5,1)
         monster.id = monsterId
         monster.lineId = 0
+
+        
+        monster.shadow = shadow
+        //monster.addChild(shadow)
+
 
         getInitialLines()
 
@@ -2233,7 +2268,8 @@ var reinserta = function(){
         INIT_X = game.world.centerX
         monster.x = INIT_X
         monster.y = INIT_Y
-
+        monster.shadow.x = monster.x 
+        monster.shadow.y = monster.y+OFFSET_SHADOW
     }
 
     function getInitialLines(){
