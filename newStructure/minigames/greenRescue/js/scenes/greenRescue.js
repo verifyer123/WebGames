@@ -514,8 +514,6 @@ var greenRescue = function(){
 		sun=game.add.sprite(-200,game.world.centerY+300,"atlas.green","SUN");
 		moon=game.add.sprite(sun.x,game.world.centerY+300,"atlas.green","MOON");
 
-
-
 		clouds1=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
 		clouds2=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
 		clouds3=game.add.sprite(0,game.rnd.integerInRange(0,game.world.centerY-150),"atlas.green","CLOUD");
@@ -665,7 +663,6 @@ var greenRescue = function(){
 			}else if(translate==6){
 				treeScale=0.5
 			}
-
 			animatedSprinklers[translate]=game.add.sprite(game.world.centerX-standarX+acomodateX*general,game.world.centerY+standarY-acomodateY*general-100,"sprinkler")
 			animatedSprinklers[translate].scale.setTo(.5,.5)
 			animatedSprinklers[translate].alpha=0
@@ -715,7 +712,6 @@ var greenRescue = function(){
 
 			general++;
 		}
-
 		platformGroup.bringToTop(tree[2]);
 		platformGroup.bringToTop(iconic[2]);
 		platformGroup.bringToTop(animatedSprinklers[2]);
@@ -816,49 +812,45 @@ var greenRescue = function(){
 			stopTimer()
 			checked=0;
 			allClean=0;
-
 			game.time.events.add(100,function(){
 				for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
 					if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
-						tweenIcon[iconicDissapear].stop()
+						tweenIcon[iconicDissapear].stop();
 					}
-					iconic[iconicDissapear].alpha=0
-					hole[iconicDissapear].alpha=0
+					iconic[iconicDissapear].alpha=0;
+					hole[iconicDissapear].alpha=0;
 					trash[iconicDissapear].inputEnabled=false;
-					iconic[iconicDissapear].y=trash[iconicDissapear].y-90
-					iconic[iconicDissapear].x=trash[iconicDissapear].x
-					animatedSprinklers[iconicDissapear].y=trash[iconicDissapear].y-90
-					animatedSprinklers[iconicDissapear].x=trash[iconicDissapear].x
+					iconic[iconicDissapear].y=trash[iconicDissapear].y-90;
+					iconic[iconicDissapear].x=trash[iconicDissapear].x;
+					animatedSprinklers[iconicDissapear].y=trash[iconicDissapear].y-90;
+					animatedSprinklers[iconicDissapear].x=trash[iconicDissapear].x;
 				}
 				checked=0;
-				canPlant=false
-				game.time.events.add(1500,function(){
-					game.add.tween(platformGroup).to({x:-game.world.width}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
-						platformGroup.alpha=0;
-						for(var allObjects=0;allObjects<estados.length;allObjects++){
-							tree[allObjects].alpha=0
-							trash[allObjects].alpha=0
-							readyToPlant[allObjects]=false;
-							estados[allObjects]=0
-						}
-						platformGroup.position.x=0	
+				canPlant=false;
+				game.add.tween(platformGroup).to({x:-game.world.width}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
+					platformGroup.alpha=0;
+					for(var allObjects=0;allObjects<estados.length;allObjects++){
+						tree[allObjects].alpha=0
+						trash[allObjects].alpha=0
+						readyToPlant[allObjects]=false;
+						estados[allObjects]=0;
+					}
+					platformGroup.position.x=0	
+					game.time.events.add(1500,function(){
+						platformGroup.alpha=1
+						platform1.alpha=1;
+						platform2.alpha=0;
+						platform1.setAnimationByName(0,"STAR_DIRTY",false);
 						game.time.events.add(1500,function(){
-							platformGroup.alpha=1
-							platform1.alpha=1;
-							platform2.alpha=0;
-							platform1.setAnimationByName(0,"STAR_DIRTY",false);
-							game.time.events.add(1500,function(){
-								putTrash();
-								passingLevel=false;
-							})
-						})
-					})
+							putTrash();
+							passingLevel=false;
+						});
+					});
 				});
 			});
 			canPlant=false
-		})
+		});
 	}
-
 	function checkOverlap(spriteA, spriteB) {
 
 
@@ -976,7 +968,6 @@ var greenRescue = function(){
 					sun.position.y-=sumY*sumY
 				}
 			}
-
 			if(moonAct){
 				if(moon.x>game.world.centerY+100){
 					sumX+=0.0001
@@ -1075,7 +1066,7 @@ var greenRescue = function(){
 			}
 
 			for(var hide=0; hide<estados.length;hide++){
-				if((estados[hide-2]>2 || estados[hide-3]>2) && (estados[hide-2]<7 || estados[hide-3]<7) && estados[hide]==6 && (hide!=2 && hide!=8)){
+				if(!passingLevel && (estados[hide-2]>2 || estados[hide-3]>2) && (estados[hide-2]<7 || estados[hide-3]<7) && estados[hide]==6 && (hide!=2 && hide!=8)){
 					game.add.tween(tree[hide]).to({alpha:0.5},10,Phaser.Easing.Cubic.Out,true,200);
 				}
 			}
@@ -1175,11 +1166,6 @@ var greenRescue = function(){
 			broom.y=broomIcon.y;
 			broom.alpha=0;
 		}
-		//		for(var show=0; show<estados.length;show++){
-		//			if(estados[show-2]>2 && estados[show]==7 && (show!=2 && show!=5 && show!=8) && !passingLevel){
-		//				game.add.tween(tree[show]).to({alpha:1},10,Phaser.Easing.Cubic.In,true,200);
-		//			}
-		//		}
 	}
 
 	function putTrash(){
@@ -1230,8 +1216,6 @@ var greenRescue = function(){
 			tutorialLevel();
 		}
 	}
-
-
 	function managerObjects(obj){
 		if(objectOverlaping && !passingLevel){
 			if(activeObj=="bro" && ((estados[objectOverlaping.tag]==1 && broom.alpha==1) || (!game.device.desktop && estados[objectOverlaping.tag]==1))){
@@ -1469,11 +1453,8 @@ var greenRescue = function(){
 		coinS.animations.play('coin', 24, true)
 		coinS.alpha = 0
 		coinS.kill()
-
 	}
-
 	function addCoin(coin,obj){
-
 		if(coin.motion)
 			coin.motion.stop()
 		coin.reset(obj.centerX,obj.centerY);
@@ -1493,46 +1474,6 @@ var greenRescue = function(){
 			})
 		})
 	}
-
-	function reset(){
-		checked=0;
-		allClean=0;
-
-		for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
-			if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
-				tweenIcon[iconicDissapear].stop()
-			}
-			iconic[iconicDissapear].alpha=0
-			trash[iconicDissapear].inputEnabled=false;
-			iconic[iconicDissapear].y=trash[iconicDissapear].y-90
-			iconic[iconicDissapear].x=trash[iconicDissapear].x
-			animatedSprinklers[iconicDissapear].y=trash[iconicDissapear].y-90
-			animatedSprinklers[iconicDissapear].x=trash[iconicDissapear].x
-		}
-		game.add.tween(platformGroup).to({x:-game.world.width}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
-			platformGroup.alpha=0;
-			platformGroup.position.x=0
-			for(var allObjects=0;allObjects<estados.length;allObjects++){
-				tree[allObjects].alpha=0
-				trash[allObjects].alpha=0
-				hole[allObjects].alpha=0;
-				readyToPlant[allObjects]=false;
-				estados[allObjects]=0
-			}
-		})
-
-		game.time.events.add(650,function(){
-			platformGroup.alpha=1
-			platform1.alpha=1;
-			platform2.alpha=0;
-			platform1.setAnimationByName(0,"STAR_DIRTY",false);
-			game.time.events.add(1500,function(){
-				putTrash();
-			})
-		})
-
-	}
-
 	function nextLevel(){
 
 		if(roundTime>2000)roundTime-=3000;
