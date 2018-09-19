@@ -813,7 +813,7 @@ var greenRescue = function(){
 			stopTimer()
 			checked=0;
 			allClean=0;
-			for(var iconicDissapear=0; iconicDissapear<estados.length;iconicDissapear++){
+			for(var iconicDissapear=0; iconicDissapear<9;iconicDissapear++){
 				if(readyToPlant[iconicDissapear] && iconic[iconicDissapear].alpha!=0){
 					tweenIcon[iconicDissapear].stop();
 				}
@@ -1272,6 +1272,8 @@ var greenRescue = function(){
 		game.add.tween(trash[obj.tag]).to({alpha:0},300,Phaser.Easing.Cubic.Out,true,300);
 		game.add.tween(trash[obj.tag]).to({x:trash[obj.tag].x,y:trash[obj.tag].y},200,Phaser.Easing.Cubic.In,true,1200);
 		estados[obj.tag]=3;
+		iconic[obj.tag].y=trash[obj.tag].y-90;
+		iconic[obj.tag].x=trash[obj.tag].x;
 		iconic[obj.tag].loadTexture("atlas.green","SHOVEL")
 		tweenIcon[obj.tag]=game.add.tween(iconic[obj.tag]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
 		game.add.tween(iconic[obj.tag].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
