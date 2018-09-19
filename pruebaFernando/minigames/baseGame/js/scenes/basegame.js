@@ -139,13 +139,12 @@ var basegame = function () {
 
     var levelGroup = null;
     var quizGroup = null;
-    var playerGroup = null;
-    var uiGroup = null;
     var correctAnswer;
     var playerAnswer;
     var quiz = new Array;
     var allPanels = new Array;
     var allNumbersForPlay = new Array;
+    var lastPanelClicked;
     var gametype;
     var scrollQuiz;
     var playing = false;
@@ -266,7 +265,7 @@ var basegame = function () {
     //#region GameLogic
 
     function getGameType() {
-        if (lives < 1){
+        if (lives < 1) {
             sound.play("gameLose");
             return;
         }
@@ -371,6 +370,7 @@ var basegame = function () {
         s = game.add.tween(this.actualButton.scale);
         s.to({ x: 0, y: 0 }, 450, Phaser.Easing.Linear.None);
         s.start();
+        lastPanelClicked = this.actualButton;
         this.actualButton.inputEnabled = false;
         for (var i = 0; i < quiz.length; i++) {
             if (i == 0 && quiz[i] == "[ ]") {
@@ -420,7 +420,7 @@ var basegame = function () {
         finishGame();
         if (playerAnswer == correctAnswer && allQuizSolved()) {
             animateMaster("WIN");
-            addPoint(gametype);
+            addCoin(lastPanelClicked, gametype);
         }
         else {
             animateMaster("LOSE");
@@ -445,7 +445,7 @@ var basegame = function () {
         timeBarTween.start();
     }
 
-    function fillBar(){
+    function fillBar() {
         timeBarTween = game.add.tween(timeBar.scale);
         timeBarTween.to({ x: 11.5, y: 0.65 }, 300, Phaser.Easing.Linear.None);
         timeBarTween.start();
@@ -560,7 +560,7 @@ var basegame = function () {
 
     }
 
-    function addCoin(obj) {
+    function addCoin(obj, points) {
         coin.x = obj.centerX;
         coin.y = obj.centerY;
         var time = 300;
@@ -570,7 +570,7 @@ var basegame = function () {
         game.add.tween(coin).to({ y: coin.y - 100 }, time + 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function () {
             game.add.tween(coin).to({ x: pointsBar.centerX, y: pointsBar.centerY }, 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function () {
                 game.add.tween(coin).to({ alpha: 0 }, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
-                    addPoint(1);
+                    addPoint(points);
                 });
             });
         });
