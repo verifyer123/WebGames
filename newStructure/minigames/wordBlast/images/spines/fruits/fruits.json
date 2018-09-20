@@ -1,5 +1,5 @@
 {
-"skeleton": { "hash": "pzMT/2uE2uySJtcERQBaBr3o2bA", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"skeleton": { "hash": "LWqhx+0qrN1E+3m1lhR2C1IXpgs", "spine": "3.2.01", "width": 198.74, "height": 199.75, "images": "" },
 "bones": [
 	{ "name": "root" },
 	{ "name": "COG", "parent": "root", "rotation": 90, "y": 30, "color": "000000ff" },
@@ -12,7 +12,7 @@
 ],
 "skins": {
 	"default": {},
-	"apple": {
+	"normal": {
 		"circle": {
 			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
 		},
@@ -20,7 +20,7 @@
 			"fruit": { "name": "normal/fruits_apple", "x": 7.3, "rotation": -90, "width": 197, "height": 197 }
 		}
 	},
-	"banana": {
+	"normal1": {
 		"circle": {
 			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
 		},
@@ -28,7 +28,7 @@
 			"fruit": { "name": "normal/fruits_banana", "x": 7.3, "rotation": -90, "width": 197, "height": 197 }
 		}
 	},
-	"carrot": {
+	"normal2": {
 		"circle": {
 			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
 		},
@@ -36,7 +36,7 @@
 			"fruit": { "name": "normal/fruits_carrot", "x": 7.3, "rotation": -90, "width": 197, "height": 197 }
 		}
 	},
-	"orange": {
+	"normal3": {
 		"circle": {
 			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
 		},
@@ -44,12 +44,68 @@
 			"fruit": { "name": "normal/fruits_orange", "x": 10.79, "y": 0.69, "rotation": -90, "width": 197, "height": 197 }
 		}
 	},
-	"peach": {
+	"normal4": {
 		"circle": {
 			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
 		},
 		"fruit": {
 			"fruit": { "name": "normal/fruits_peach", "x": 10.79, "y": 0.69, "rotation": -90, "width": 196, "height": 197 }
+		}
+	},
+	"normal5": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/pear", "rotation": -90, "width": 112, "height": 126 }
+		}
+	},
+	"normal6": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/cherry", "x": 8.38, "y": 2.79, "rotation": -90, "width": 106, "height": 145 }
+		}
+	},
+	"normal7": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/coconut", "x": 8.38, "y": 2.79, "rotation": -90, "width": 136, "height": 128 }
+		}
+	},
+	"normal8": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/grapes", "x": 8.38, "y": -3.49, "rotation": -90, "width": 124, "height": 155 }
+		}
+	},
+	"normal9": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/guava", "x": 8.38, "y": -2.79, "rotation": -90, "width": 106, "height": 124 }
+		}
+	},
+	"normal10": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/lemon", "x": 8.38, "y": -2.79, "rotation": -90, "width": 109, "height": 122 }
+		}
+	},
+	"normal11": {
+		"circle": {
+			"circle": { "name": "normal/fruits_fruits", "x": 6.99, "rotation": -90, "width": 196, "height": 197 }
+		},
+		"fruit": {
+			"fruit": { "name": "normal/mango", "rotation": -90, "width": 130, "height": 136 }
 		}
 	}
 },
