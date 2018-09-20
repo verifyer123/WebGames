@@ -169,11 +169,14 @@ var magicSpell = function(){
 	var firstWord
 	var tutorial
 	var okButton
+	var handTween
+	var rocks
 	var words=[];
 	var canPlay
 	var runesInSlots
 	var positionX=[];
 	var positionY=[];
+	var movingTile
 	var movingHand
 	var allRunes=9
 	var dinamita, skelleton;
@@ -199,6 +202,7 @@ var magicSpell = function(){
 		lives = 3
 		tutorial=true;
 		dificultyTime=15500;
+		movingTile=false;
 		canPlay=false;
 		emitter=""
 		handleRune=null
@@ -320,11 +324,15 @@ var magicSpell = function(){
 					slotOverlaping.isOccupied=true;
 					runesInSlots++;
 					if(runesInSlots==word.length){
+						canPlay=false;
+						if(handTween)handTween.stop(false);
+						hand.alpha=0;
+						hand.x=okButton.x+20;
+						hand.y=okButton.y+30;
+						game.add.tween(hand).to({alpha:1},900,Phaser.Easing.linear,true)
 						game.add.tween(okButton).to({alpha:1},900,Phaser.Easing.linear,true).onComplete.add(function(){
 							okButton.inputEnabled=true;
 							okButton.input.perfectPixelClick=true;
-							hand.x=okButton.x+20;
-							hand.y=okButton.y+10;
 							hand.animations.play('hand', 25, true);
 						})
 					}
@@ -416,7 +424,7 @@ var magicSpell = function(){
 			sound.play("explode")
 			skelleton.setAnimationByName(0,"lose1",false).onComplete=function(){
 				dinamita.setAnimationByName(0,"idle",true)
-				game.add.tween(skelleton).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){		
+				game.add.tween(skelleton).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
 					if(lives>0)reset(true,word);
 				});
 			};
@@ -468,6 +476,7 @@ var magicSpell = function(){
 				})
 			};
 		}
+		dinamita.setToSetupPose();
 	}
 	function pressOk(button){
 		sound.play("pop")
@@ -587,12 +596,13 @@ var magicSpell = function(){
 	function shuffleEnemy(word,alive){
 		if(!alive){
 			skelleton=null;
-			skelleton=game.add.spine(game.world.width+300,game.world.centerY,"skelleton");
+			skelleton=game.add.spine(game.world.centerX+200,game.world.centerY,"skelleton");
 			skelleton.setSkinByName("normal"+game.rnd.integerInRange(1,4));
 			skelleton.setAnimationByName(0,"idle",true)
-			skelleton.alpha=1;
+			if(!tutorial)skelleton.alpha=0;
 			gameGroup.add(skelleton)
-			game.add.tween(skelleton).to({x:game.world.centerX+200},1500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+			game.add.tween(skelleton).to({alpha:1},1500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+				dinamita.setAnimationByName(0,"idle",true)
 				divideInCharacters(word)
 			});
 		}else{
@@ -644,8 +654,15 @@ var magicSpell = function(){
 		}else if(word=="WINTER" || word=="INVIERNO"){
 			nextGroup=winterGroup;
 		}
-		game.add.tween(lastGroup).to({alpha:0},1500,Phaser.Easing.Cubic.Out,true);
-		game.add.tween(nextGroup).to({alpha:1},1500,Phaser.Easing.Cubic.In,true);
+		if(!enemyIsAlive){
+			dinamita.setAnimationByName(0,"run",true)
+			movingTile=true;
+		}
+		game.add.tween(lastGroup).to({alpha:0},900,Phaser.Easing.Cubic.Out,true).onComplete.add(function(){
+			dinamita.setAnimationByName(0,"idle",true);
+			movingTile=false;
+		});
+		game.add.tween(nextGroup).to({alpha:1},1500,Phaser.Easing.Cubic.In,true)
 	}
 	function managerWordEnemyEnviroment(isEnemyAlive,worldChange){
 		var randomNumber=game.rnd.integerInRange(0,TOTAL_WORDS);
@@ -673,10 +690,11 @@ var magicSpell = function(){
 		}
 	}
 	function enteringToGame(word){
-
+		
+		shuffleEnemy(word)
 		game.add.tween(dinamita).to({x:game.world.centerX-200},1500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
 			dinamita.setAnimationByName(0,"idle",true);
-			shuffleEnemy(word)
+			
 		});
 	}
 	function tutorialLevel(word){
@@ -710,13 +728,14 @@ var magicSpell = function(){
 			runePos.input.pixelPerfectOver=true;
 			hand.x=runePos.x+20;
 			hand.y=runePos.y+30;
-			hand.tween=game.add.tween(hand).to({x:game["slot"+runesInSlots].x+20,y:game["slot"+runesInSlots].y+30},1200,Phaser.Easing.linear,true).onComplete.add(function(){
+			handTween=game.add.tween(hand).to({x:game["slot"+runesInSlots].x+20,y:game["slot"+runesInSlots].y+30},1200,Phaser.Easing.linear,true)
+			handTween.onComplete.add(function(){
 				movingHand=false;
 			})
 		}
 	}
 	function createYogotarAndEnemy(){
-		dinamita=game.add.spine(-200,game.world.centerY+100,"dinamita");
+		dinamita=game.add.spine(-200,game.world.centerY+60,"dinamita");
 		dinamita.setSkinByName("normal");
 		dinamita.setAnimationByName(0,"run",true);
 		dinamita.scale.setTo(0.5,0.5)
@@ -975,7 +994,7 @@ var magicSpell = function(){
 		springGroup.alpha=0;
 		fallGroup.alpha=0;
 
-		var rocks= game.add.tileSprite(0,game.world.centerY+10,game.world.width,100,"rocks");
+		rocks= game.add.tileSprite(0,game.world.centerY+10,game.world.width,100,"rocks");
 		sceneGroup.add(rocks)
 
 		boardSlots=game.add.sprite(game.world.centerX,game.world.centerY+200,"atlas.magic","spellBoard");
@@ -1053,7 +1072,12 @@ var magicSpell = function(){
 	function update(){
 		if(startGame){
 			epicparticles.update()
-			if(tutorial && !movingHand && canPlay)handToSlot()
+			if(tutorial && !movingHand && canPlay){
+				handToSlot()
+			}
+			if(movingTile){
+				rocks.tilePosition.x-=10;
+			}
 		}
 	}
 	function stopTimer(){

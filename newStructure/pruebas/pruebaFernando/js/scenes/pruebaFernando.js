@@ -1,6 +1,7 @@
 //#region Assets
 
 var soundsPath = "../../shared/minigames/sounds/";
+var tutorialPath = "../../shared/minigames/";
 
 var pruebaFernando = function () {
     var localizationData =
@@ -31,6 +32,11 @@ var pruebaFernando = function () {
                     name: "atlas.timeAtlas",
                     json: "images/pruebaFernando/timeAtlas.json",
                     image: "images/pruebaFernando/timeAtlas.png",
+                },
+                {
+                    name: "atlas.tutorial",
+                    json: tutorialPath + "images/tutorial/tutorial_atlas.json",
+                    image: tutorialPath + "images/tutorial/tutorial_atlas.png"
                 },
             ],
         images:
@@ -127,6 +133,7 @@ var pruebaFernando = function () {
 
     var lives = null;
     var sceneGroup = null;
+    var tutoGroup = null;
     var gameActive = false;
     var gameIndex = 223;
     var particleCorrect;
@@ -529,6 +536,17 @@ var pruebaFernando = function () {
 
     //#region Yogome Template
 
+    function createTutorial() {
+        tutoGroup = game.add.group();
+        sceneGroup.add(tutoGroup);
+        tutorialHelper.createTutorialGif(tutoGroup, onClickPlay);
+    }
+
+    function onClickPlay(rect) {
+        tutoGroup.y = -game.world.height
+    }
+
+
     function loadSounds() {
         sound.decode(assets.sounds);
     }
@@ -569,7 +587,7 @@ var pruebaFernando = function () {
         });
     }
 
-    function createTutorial() {
+    function createTutorialPruebaFernando() {
         tutoGroup = game.add.group();
         sceneGroup.add(tutoGroup);
 
@@ -766,7 +784,7 @@ var pruebaFernando = function () {
             createHearts();
             createPointsBar();
             createCoin();
-            //createTutorial();
+            createTutorial();
             createParticles();
 
             buttons.getButton(spaceSong, sceneGroup);
