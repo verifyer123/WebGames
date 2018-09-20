@@ -23,6 +23,7 @@ var yogomeGames = function () {
 		"onGoingGames",
 		"aprendeGames",
         "michoMauGames",
+        "pruebaGames",
 	]
 	
 
