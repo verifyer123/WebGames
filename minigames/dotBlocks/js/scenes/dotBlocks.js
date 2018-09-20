@@ -30,8 +30,8 @@ var dotBlocks = function(){
     var INITIAL_LIVES = 1
     var DIAMETER_DOT = 50
     var INITIAL_PROBABILITY_BLOCK = 0.2
-    var DELTA_PROBABILITY = 0.03
-    var MAX_PROBABILITY = 0.8
+    var DELTA_PROBABILITY = 0.02
+    var MAX_PROBABILITY = 0.6
     var WIDT_BLOCK = 110
     var INITIAL_MIN = 3
     var INITIAL_MAX = 8
@@ -65,7 +65,7 @@ var dotBlocks = function(){
     var minRange, maxRange
     var initialBall
     var currentY
-    var initX, ballY 
+    var initX, ballY
     var touchStarted
     var blockGroup, dotsGroup, shadowGroup
     var walls 
@@ -73,9 +73,10 @@ var dotBlocks = function(){
     var initialVel
     var miniDots
     var topWall
-    var returnedDots, canTouch, blockInMove 
+    var returnedDots, canTouch, blockInMove
     var dotsInSpace
     var endInitCreation
+    var numberDots
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -106,7 +107,6 @@ var dotBlocks = function(){
 
 
     }
-    
 
     
     function animateScene() {
@@ -392,6 +392,10 @@ var dotBlocks = function(){
                         currentDots[currentIndexShoot].shooted = true
                         currentIndexShoot++
                         timeShoot = game.time.now + TIME_BETWEEN_SHOT
+                        numberDots.setText((currentDots.length-currentIndexShoot)+" x")
+                        if(currentIndexShoot >= currentDots.length){
+                            numberDots.visible = false
+                        }
                     }
                 }
 
@@ -650,6 +654,16 @@ var dotBlocks = function(){
             }
         }
         setTimeout(function(){
+            numberDots.visible = true
+            numberDots.y = ballY+26
+            if(startPointX > 200){
+                numberDots.x = startPointX - 35
+                numberDots.setText((currentDots.length)+" x")
+            }
+            else{
+                numberDots.x = startPointX + 105
+                numberDots.setText("x "+(currentDots.length))
+            }
             blockInMove = false
         },300)
     }
@@ -887,6 +901,10 @@ var dotBlocks = function(){
 
         endInitCreation = true
 
+        var fontStyle = {font: "36px Baloo", fontWeight: "bold", fill: "#ffffff", align: "center"}
+        numberDots = new Phaser.Text(sceneGroup.game, game.world.centerX-35, ballY+6, "10 x", fontStyle)
+        numberDots.anchor.setTo(1,0.5)
+        sceneGroup.add(numberDots)
     }
 
 
