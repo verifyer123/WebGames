@@ -13,7 +13,7 @@ var routing = function () {
 	router
 		.on({
 
-		'minigames/:id': function (params) {
+		'pruebas/:id': function (params) {
 			var id = params.id
 			var game = games[id]
 			console.log(id, game.url)

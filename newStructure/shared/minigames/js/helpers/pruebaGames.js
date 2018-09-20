@@ -21,7 +21,7 @@ var optimizedGames={
 
     minigames : [
 
-        {name:'Prueba pruebaFernando',url:'pruebaFernando/',mapUrl:'pruebaFernando', sceneName:'pruebaFernando',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
+        {name:'Test pruebaFernando',url:'pruebaFernando/',mapUrl:'pruebaFernando', sceneName:'pruebaFernando',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.COUNT},
 	]
 	
 }
