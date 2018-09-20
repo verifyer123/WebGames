@@ -156,6 +156,7 @@ var pruebaFernando = function () {
     var quizLevel = 1;
     var timeBarTween;
     var cellSize = 50;
+    var onTutorial = true;
 
     //#endregion
 
@@ -169,6 +170,7 @@ var pruebaFernando = function () {
         createMaster();
         createTimer();
         createPergamino();
+        createHandTutorial();
     }
 
     function createBaseFontStyle(size) {
@@ -261,6 +263,13 @@ var pruebaFernando = function () {
         master.addAnimationByName(0, "IDLE", true);
     }
 
+    function createHandTutorial() {
+        hand = game.add.sprite(0, 0, "hand");
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);
+        hand.alpha = 0;
+    }
+
     //#endregion
 
     //#region Tweens
@@ -296,8 +305,11 @@ var pruebaFernando = function () {
             game.time.events.add(200, tweenScaleSinglePanel, { panelToTween: this.panelToTween + 1, show: this.show });
         else {
             setInputPanels(this.show);
-            tweenScaleStartTimeLimit();
-            tweenTintTimeBar(65280, 16711680, timeLimit);
+            if (onTutorial) setInputPanelTutorial(0);
+            else {
+                tweenScaleStartTimeLimit();
+                tweenTintTimeBar(65280, 16711680, timeLimit);
+            }
         }
     }
 
@@ -327,7 +339,26 @@ var pruebaFernando = function () {
 
     //#endregion
 
-    //#region GameLogic
+    //#region Tutorial
+
+    function setInputPanelTutorial(panelToEnable) {
+        for (var i = 0; i < allPanels.length; i++) {
+            allPanels[i].inputEnabled = false;
+        }
+        allPanels[panelToEnable].inputEnabled = true;
+        hand.x = allPanels[panelToEnable].x;
+        hand.y = allPanels[panelToEnable].y;
+        hand.alpha = 1;
+    }
+
+    function finishTutorial() {
+        hand.alpha = 0;
+        onTutorial = false;
+    }
+
+    //#endregion
+
+    //#region Game Logic
 
     function startNewGame() {
         playedTimes++;
@@ -369,7 +400,8 @@ var pruebaFernando = function () {
                 correctAnswer = adittion ? correctAnswer + numberToSave : correctAnswer - numberToSave;
             allNumbersForPlay[i] = numberToSave;
         }
-        Phaser.ArrayUtils.shuffle(allNumbersForPlay);
+        if (!onTutorial)
+            Phaser.ArrayUtils.shuffle(allNumbersForPlay);
         fillPanels();
     }
 
@@ -416,6 +448,7 @@ var pruebaFernando = function () {
 
     function savePlayerInput() {
         if (!playing) return;
+        if (onTutorial) setInputPanelTutorial(1);
         tweenScaleSinglePanel(this.actualButton);
         lastPanelClicked = this.actualButton;
         this.actualButton.inputEnabled = false;
@@ -472,6 +505,7 @@ var pruebaFernando = function () {
         game.time.events.add(500, tweenScaleAllPanels, false);
         playing = false;
         showQuiz();
+        if (onTutorial) finishTutorial();
     }
 
     function sendNewGame() {
