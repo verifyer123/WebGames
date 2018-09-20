@@ -159,6 +159,7 @@ var greenRescue = function(){
 	var clock, timeBar,tweenTiempo;
 	var activeObj;
 	var iconHandle;
+	var counterToSprink
 	var proxy=new Array(9);
 	var iconic=new Array(9);
 	var trash=new Array(9);
@@ -218,6 +219,7 @@ var greenRescue = function(){
 		animations[4]="SODA";
 		animations[5]="TIRE";
 		animations[6]="TV";
+		counterToSprink=0;
 		canShovel=false;
 		canPlant=false;
 		roundTime=50000;
@@ -794,6 +796,7 @@ var greenRescue = function(){
 			passingLevel=true;
 			canShovel=false;
 			canPlant=false;
+			counterToSprink=0;
 			broom.inputEnabled=false;
 			shovel.inputEnabled=false;
 			sprout.inputEnabled=false;
@@ -1279,12 +1282,13 @@ var greenRescue = function(){
 		game.add.tween(iconic[obj.tag].scale).to({x:0.6,y:0.6}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
 		//		getCoins(platform1)
 		allClean++;
-		getCoins(platform1)
+		
 		if(tutorial){
 			hand.alpha=0;
 		}
 
 		if(allClean==dificulty){
+			getCoins(platform1)
 			if(tutorial){
 				tutorialLevel();
 			}
@@ -1317,8 +1321,8 @@ var greenRescue = function(){
 			}
 			tweenIcon[obj.tag].stop();
 			iconic[obj.tag].alpha=0;
-			getCoins(platform1)
 			if(counterToPlant==dificulty){
+				getCoins(platform1)
 				for(var checkHoles=0; checkHoles<estados.length; checkHoles++){
 					iconic[checkHoles].loadTexture("atlas.green","SPROUT")
 					tweenIcon[checkHoles]=game.add.tween(iconic[checkHoles]).to({alpha:0.8}, (620), Phaser.Easing.Cubic.inOut, true).yoyo(true).loop(true)
@@ -1334,8 +1338,11 @@ var greenRescue = function(){
 	function plant(obj){
 		if(canPlant){
 			sound.play("plant")
+			counterToSprink++
+			if(counterToSprink==dificulty){
+				getCoins(platform1)
+			}
 			if(tutorialState==2)hand.alpha=0;
-			getCoins(platform1)
 			tree[obj.tag].setAnimationByName(0,"shoot",false);
 			tree[obj.tag].alpha=1;
 			hole[obj.tag].alpha=0;
@@ -1354,7 +1361,6 @@ var greenRescue = function(){
 			animatedSprinklers[objHere].alpha=1
 			animatedSprinklers[objHere].animations.play('sprinkler', 24,false);
 			iconic[obj.tag].alpha=0
-			getCoins(platform1)
 			tree[obj.tag].setAnimationByName(0,"half",false);
 			iconic[obj.tag].y-=70
 			animatedSprinklers[objHere].y-=70
@@ -1407,6 +1413,7 @@ var greenRescue = function(){
 			sprinkler.inputEnabled=false;
 			game.time.events.add(100,function(){
 				checked=0;
+				counterToSprink=0;
 				canPlant=false
 				game.time.events.add(1500,function(){
 					game.add.tween(platformGroup).to({x:-game.world.width}, (620), Phaser.Easing.Cubic.inOut, true).onComplete.add(function(){
@@ -1530,7 +1537,6 @@ var greenRescue = function(){
 
 			deactivateParticle(pointsText,750)
 		}
-
 	}
 
 	function lookParticle(key){
