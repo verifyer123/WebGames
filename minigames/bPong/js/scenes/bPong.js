@@ -50,7 +50,7 @@ var bPong = function(){
     var Y_BALL = 200
     var Y_LAST 
     var WIDTH_PLATFORM = 64
-    var PLATFORMS_TO_BEER = 10
+    var PLATFORMS_TO_BEER = 5
     var HEIGTH_PLATFORM = 64
     var PROBABILTY_WATER = 0.2
     var PROBABILTY_FIRE = 0.05
@@ -64,8 +64,8 @@ var bPong = function(){
 
     var BALL_Y_DIFFERENCE = 5
 
-    var MIN_TREE = 300
-    var MAX_TREE = 500
+    var MIN_TREE = 500
+    var MAX_TREE = 800
 
     var gameIndex = 31
     var gameId = 1000023
@@ -458,35 +458,39 @@ var bPong = function(){
                                     }
                                 }
                                 if(platform.canGiveCoin){
-                                    if(platform.glass != null){
+                                    /*if(platform.glass != null){
                                         if(checkOverlap(player,platform.glass)){
                                             addPoint(POINTS_FOR_BEER,{x:game.world.width - 80, y: 80})
                                             beerParticle.x = player.x
                                             beerParticle.y = player.y - 100
-                                            beerParticle.start(true,500,null,10)
+                                            beerParticle.start(true,500,null,20)
                                             platform.glass.canGiveCoin = false
+                                            player.x = platform.glass.x
+                                            createTextPart('+'+POINTS_FOR_BEER, platform.glass)
 
                                         }
                                         else{
                                             addPoint(1,{x:game.world.width - 80, y: 80})
                                         }
                                     }
-                                    else{
+                                    else{*/
                                         addPoint(1,{x:game.world.width - 80, y: 80})
-                                    }
+                                    //}
                                     platform.canGiveCoin = false
                                 }
-                                else if(platform.glass != null){
+                                /*else if(platform.glass != null){
                                     if(platform.glass.canGiveCoin){
                                         if(checkOverlap(player,platform.glass)){
                                             addPoint(POINTS_FOR_BEER,{x:game.world.width - 80, y: 80})
                                             beerParticle.x = player.x
                                             beerParticle.y = player.y - 100
-                                            beerParticle.start(true,500,null,10)
+                                            beerParticle.start(true,500,null,20)
                                             platform.glass.canGiveCoin = false
+                                            player.x = platform.glass.x
+                                            createTextPart('+'+POINTS_FOR_BEER, platform.glass)
                                         }
                                     }
-                                }
+                                }*/
 
                             }
                             else{
@@ -505,7 +509,34 @@ var bPong = function(){
                             }
                         }
                     }
+
+                    if(platform.glass != null){
+                        if(platform.glass.canGiveCoin){
+                            if(checkOverlap(player,platform.glass)){
+                                addPoint(POINTS_FOR_BEER,{x:game.world.width - 80, y: 80})
+                                beerParticle.x = platform.glass.x
+                                beerParticle.y = platform.glass.y
+                                beerParticle.start(true,500,null,20)
+                                platform.glass.canGiveCoin = false
+                                player.x = platform.glass.x
+
+                                createTextPart('+'+POINTS_FOR_BEER, platform.glass)
+
+                                currentPlatform = platform
+                                player.inJump = false
+                                player.y = platform.y - BALL_Y_DIFFERENCE
+                                if(platform.direction == 0){
+                                    platform.direction = game.rnd.integerInRange(0,1)
+                                    if(platform.direction == 0){
+                                        platform.direction = -1
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
+
+
 
                 if(platform.y < 0){
                     platform.canCollision = false
@@ -597,7 +628,9 @@ var bPong = function(){
                         platform.glass = null
                     }
                     else{
+                        platform.width = WIDTH_PLATFORM
                         platform.glass = getGlass(platform.x+platform.width/2,platform.y-20)
+                        
                         countToBeer = 0
                     }
                 }
@@ -619,7 +652,9 @@ var bPong = function(){
                 platform.glass = null
             }
             else{
-                platform.glass = getGlass(platform.x+(numOfTiles*WIDTH_PLATFORM)/2,platform.y-20)
+                platform.width = WIDTH_PLATFORM
+                //platform.glass = getGlass(platform.x+(numOfTiles*WIDTH_PLATFORM)/2,platform.y-20)
+                platform.glass = getGlass(platform.x+platform.width/2,platform.y-20)
                 countToBeer = 0
             }
         }
