@@ -150,10 +150,12 @@ var basegame = function () {
     var playing = false;
     var timeBar;
     var timeLimit = 10000;
+    var colorTweenTimeBar
     var playedTimes = 0;
     var timesForHard = 3;
     var quizLevel = 1;
     var timeBarTween;
+    var cellSize = 50;
 
     //#endregion
 
@@ -183,7 +185,7 @@ var basegame = function () {
     function createTimer() {
         timerGroup = game.add.group();
         sceneGroup.add(timerGroup);
-        var clock = timerGroup.create(game.world.centerX, 75, "atlas.timeAtlas", "clock");
+        var clock = timerGroup.create(game.world.centerX, game.world.centerY + 430, "atlas.timeAtlas", "clock");
         clock.anchor.setTo(0.5);
         timeBar = timerGroup.create(clock.centerX - 175, clock.centerY + 19, "atlas.timeAtlas", "bar");
         timeBar.anchor.setTo(0, 0.5);
@@ -256,26 +258,86 @@ var basegame = function () {
 
     function animateMaster(animationToPlay) {
         master.setAnimationByName(0, animationToPlay, false);
-        sound.play(animationToPlay == "WIN" ? "magic" : "wrong");
         master.addAnimationByName(0, "IDLE", true);
+    }
+
+    //#endregion
+
+    //#region Tweens
+
+    function tweenAlphaScrollQuiz(show) {
+        game.add.tween(scrollQuiz).to({ alpha: show ? 1 : 0 }, 400, Phaser.Easing.Cubic.Out, true);
+        game.add.tween(quizGroup).to({ alpha: show ? 1 : 0 }, 400, Phaser.Easing.Cubic.Out, true);
+    }
+
+    function tweenScaleAllPanels(show) {
+        if (!show) {
+            for (var i = 0; i < allPanels.length; i++) {
+                singlePanel = game.add.tween(allPanels[i].scale);
+                singlePanel.to({ x: show ? 0.6 : 0, y: show ? 0.6 : 0 }, 250, Phaser.Easing.Linear.None);
+                singlePanel.start();
+            }
+        } else
+            game.time.events.add(400, tweenScaleSinglePanel, { panelToTween: 0, show: show });
+    }
+
+    function tweenScaleSinglePanel(playerPanel = 0) {
+        if (playerPanel != 0) {
+            playerPanelTween = game.add.tween(playerPanel.scale);
+            playerPanelTween.to({ x: 0, y: 0 }, 450, Phaser.Easing.Linear.None);
+            playerPanelTween.start();
+            return;
+        }
+        singlePanel = game.add.tween(allPanels[this.panelToTween].scale);
+        singlePanel.to({ x: this.show ? 0.6 : 0, y: this.show ? 0.6 : 0 }, 150, Phaser.Easing.Linear.None);
+        singlePanel.start();
+        sound.play("pop");
+        if (this.panelToTween < allPanels.length - 1)
+            game.time.events.add(200, tweenScaleSinglePanel, { panelToTween: this.panelToTween + 1, show: this.show });
+        else {
+            setInputPanels(this.show);
+            tweenScaleStartTimeLimit();
+            tweenTintTimeBar(65280, 16711680, timeLimit);
+        }
+    }
+
+    function tweenScaleStartTimeLimit() {
+        timeBar.scale.setTo(11.5, 0.65);
+        timeBarTween = game.add.tween(timeBar.scale);
+        timeBarTween.to({ x: 0, y: 0.65 }, timeLimit, Phaser.Easing.Linear.None);
+        timeBarTween.onComplete.add(evaluateQuiz);
+        timeBarTween.start();
+    }
+
+    function tweenScaleFillBar() {
+        timeBarTween = game.add.tween(timeBar.scale);
+        timeBarTween.to({ x: 11.5, y: 0.65 }, 300, Phaser.Easing.Linear.None);
+        timeBarTween.start();
+    }
+
+    function tweenTintTimeBar(startColor, endColor, time) {
+        var actualStep = { step: 0 };
+        colorTweenTimeBar = game.add.tween(actualStep).to({ step: 100 }, time);
+        timeBar.tint = startColor;
+        colorTweenTimeBar.onUpdateCallback(function () {
+            timeBar.tint = Phaser.Color.interpolateColor(startColor, endColor, 100, actualStep.step);
+        });
+        colorTweenTimeBar.start();
     }
 
     //#endregion
 
     //#region GameLogic
 
-    function getGameType() {
-        if (lives < 1) {
-            sound.play("gameLose");
-            return;
-        }
+    function startNewGame() {
         playedTimes++;
         if (playedTimes == timesForHard) {
             playedTimes = 0;
             timeLimit = (timeLimit - 1000 > 2000) ? timeLimit - 1000 : 2000;
             quizLevel = quizLevel + 1 == 5 ? 4 : quizLevel + 1;
         }
-        fillBar();
+        tweenScaleFillBar();
+        tweenTintTimeBar(timeBar.tint, 65280, 300);
         gametype = game.rnd.integerInRange(1, quizLevel);
         switch (gametype) {
             case 1:
@@ -320,56 +382,41 @@ var basegame = function () {
 
     function generateQuiz() {
         quiz.push(correctAnswer);
-        playerInputTime = 0;
         playerAnswer = 0;
-        if (lives > 0)
-            playing = true;
+        playing = true;
         showQuiz();
         tweenAlphaScrollQuiz(true);
         tweenScaleAllPanels(true);
     }
 
-    function tweenAlphaScrollQuiz(show) {
-        game.add.tween(scrollQuiz).to({ alpha: show ? 1 : 0 }, 400, Phaser.Easing.Cubic.Out, true);
-        game.add.tween(quizGroup).to({ alpha: show ? 1 : 0 }, 400, Phaser.Easing.Cubic.Out, true);
-    }
-
-    function tweenScaleAllPanels(show) {
-        if (!show) {
-            for (var i = 0; i < allPanels.length; i++) {
-                singlePanel = game.add.tween(allPanels[i].scale);
-                singlePanel.to({ x: show ? 0.6 : 0, y: show ? 0.6 : 0 }, 450, Phaser.Easing.Linear.None);
-                singlePanel.start();
+    function showQuiz() {
+        quizGroup.removeAll();
+        quizGroup.x = game.world.centerX - (cellSize * (quiz.length / 2));
+        quizGroup.y = game.world.centerY - 120;
+        for (var i = 0; i < quiz.length; i++) {
+            if (quiz[i] == "[ ]") {
+                numFaltante = quizGroup.create(0, 0, "atlas.basegame", "numFaltante");
+                numFaltante.scale.setTo(0.7, 0.7);
             }
-        } else
-            game.time.events.add(400, tweenScaleSinglePanel, { panelToTween: 0, show: show });
-    }
-
-    function tweenScaleSinglePanel() {
-        singlePanel = game.add.tween(allPanels[this.panelToTween].scale);
-        singlePanel.to({ x: this.show ? 0.6 : 0, y: this.show ? 0.6 : 0 }, 450, Phaser.Easing.Linear.None);
-        singlePanel.start();
-        sound.play("pop");
-        if (this.panelToTween < allPanels.length - 1)
-            game.time.events.add(400, tweenScaleSinglePanel, { panelToTween: this.panelToTween + 1, show: this.show });
-        else {
-            enableInputPanels(this.show);
-            startTimeLimit();
+            else {
+                var numberToShow = game.add.text(0, 0, quiz[i], createBaseFontStyle("50"));
+                numberToShow.stroke = '#000000';
+                numberToShow.strokeThickness = 6;
+                quizGroup.add(numberToShow);
+            }
         }
+        quizGroup.align(-1, 1, cellSize, cellSize, Phaser.CENTER);
     }
 
-    function enableInputPanels(enable) {
+    function setInputPanels(enable) {
         for (var i = 0; i < allPanels.length; i++) {
             allPanels[i].inputEnabled = enable;
         }
     }
 
     function savePlayerInput() {
-        if (!playing)
-            return;
-        s = game.add.tween(this.actualButton.scale);
-        s.to({ x: 0, y: 0 }, 450, Phaser.Easing.Linear.None);
-        s.start();
+        if (!playing) return;
+        tweenScaleSinglePanel(this.actualButton);
         lastPanelClicked = this.actualButton;
         this.actualButton.inputEnabled = false;
         for (var i = 0; i < quiz.length; i++) {
@@ -393,32 +440,15 @@ var basegame = function () {
             }
         }
         timeBarTween.stop();
+        colorTweenTimeBar.stop();
         finishGame();
         game.time.events.add(1000, evaluateQuiz);
-    }
-
-    function showQuiz() {
-        quizGroup.removeAll();
-        var cellSize = 50;
-        quizGroup.x = game.world.centerX - (cellSize * (quiz.length / 2));
-        quizGroup.y = game.world.centerY - 120;
-        for (var i = 0; i < quiz.length; i++) {
-            if (quiz[i] == "[ ]") {
-                numFaltante = quizGroup.create(0, 0, "atlas.basegame", "numFaltante");
-                numFaltante.scale.setTo(0.7, 0.7);
-            } else {
-
-                var numberToShow = game.add.text(0, 0, quiz[i], createBaseFontStyle("50"));
-                quizGroup.add(numberToShow);
-            }
-        }
-        quizGroup.align(-1, 1, cellSize, cellSize, Phaser.CENTER);
     }
 
     function evaluateQuiz() {
         tweenAlphaScrollQuiz(false);
         finishGame();
-        if (playerAnswer == correctAnswer && allQuizSolved()) {
+        if (playerAnswer == correctAnswer && isAllQuizSolved()) {
             animateMaster("WIN");
             addCoin(lastPanelClicked, gametype);
         }
@@ -429,7 +459,7 @@ var basegame = function () {
         sendNewGame();
     }
 
-    function allQuizSolved() {
+    function isAllQuizSolved() {
         for (var i = 0; i < quiz.length; i++) {
             if (quiz[i] == "[ ]")
                 return false;
@@ -437,29 +467,16 @@ var basegame = function () {
         return true;
     }
 
-    function startTimeLimit() {
-        timeBar.scale.setTo(11.5, 0.65);
-        timeBarTween = game.add.tween(timeBar.scale);
-        timeBarTween.to({ x: 0, y: 0.65 }, timeLimit, Phaser.Easing.Linear.None);
-        timeBarTween.onComplete.add(evaluateQuiz);
-        timeBarTween.start();
-    }
-
-    function fillBar() {
-        timeBarTween = game.add.tween(timeBar.scale);
-        timeBarTween.to({ x: 11.5, y: 0.65 }, 300, Phaser.Easing.Linear.None);
-        timeBarTween.start();
-    }
-
     function finishGame() {
-        enableInputPanels(false);
+        setInputPanels(false);
         game.time.events.add(500, tweenScaleAllPanels, false);
         playing = false;
         showQuiz();
     }
 
     function sendNewGame() {
-        game.time.events.add(1000, getGameType);
+        if (lives > 0)
+            game.time.events.add(1000, startNewGame);
     }
 
     //#endregion
@@ -480,7 +497,7 @@ var basegame = function () {
 
         loadSounds();
 
-        getGameType();
+        startNewGame();
 
 
     }
