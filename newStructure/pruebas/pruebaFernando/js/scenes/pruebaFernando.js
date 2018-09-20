@@ -343,15 +343,27 @@ var pruebaFernando = function () {
 
     function setInputPanelTutorial(panelToEnable) {
         for (var i = 0; i < allPanels.length; i++) {
-            allPanels[i].inputEnabled = false;
+            if (panelToEnable == i) {
+                allPanels[i].inputEnabled = true;
+                allPanels[i].tint = 16777215;
+                allPanels[i].children[0].tint = 16777215;
+            }
+            else {
+                allPanels[i].inputEnabled = false;
+                allPanels[i].tint = 8421504;
+                allPanels[i].children[0].tint = 8421504;
+            }
         }
-        allPanels[panelToEnable].inputEnabled = true;
         hand.x = allPanels[panelToEnable].x;
         hand.y = allPanels[panelToEnable].y;
         hand.alpha = 1;
     }
 
     function finishTutorial() {
+        for (var i = 0; i < allPanels.length; i++) {
+            allPanels[i].tint = 16777215;
+            allPanels[i].children[0].tint = 16777215;
+        }
         hand.alpha = 0;
         onTutorial = false;
     }
