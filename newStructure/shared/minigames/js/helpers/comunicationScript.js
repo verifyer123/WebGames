@@ -9,6 +9,9 @@ var playerData;
                 timestamp:event.data.timestamp
             }
 		} else {
+			if(parent.gameData===undefined){
+				window.parent.postMessage('close','*');
+			}
 			return;
 		}
 	});

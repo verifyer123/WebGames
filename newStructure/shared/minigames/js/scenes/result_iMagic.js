@@ -25,7 +25,7 @@ var result = function(){
 			"Great":"Genial",
 			"share":"Compartir",
 			"retry":"Reintentar",
-			"home":"Casa",
+			"home":"Inicio",
 			"myScore":"Mi score es: ",
 			"previous":"Record \n anterior :",
 			"record":"¡Nuevo Récord!",
@@ -112,8 +112,8 @@ var result = function(){
         var playerData=comunicationScript.sendData();
 		if(parent.gameData){
             gameData = parent.gameData;
-			player.name="Masciosare Extraño";
-			player.totalScore=999;
+			player.name="Masciosare Ex...";
+			player.totalScore=500;
         }else{
             gameData = window.gameData;
 			player.name=playerData.player;
@@ -146,7 +146,6 @@ var result = function(){
 
 		scaleToUse = scale || 0.9
 //		setMixpanel("MinigameAnswer")
-		console.log('Set score')
 	}
 
 	function startsObtained(total){
@@ -179,28 +178,6 @@ var result = function(){
 
 	function loadSounds(){
 		sound.decode(assets.sounds)
-	}
-
-	function createAnswerCounter(totalAnswered, totalQuestions){
-		var containerGroup = new Phaser.Group(sceneGroup.game)
-
-		var background = containerGroup.create(0, 0, 'atlas.resultScreen', 'questioncounter')
-
-		background.anchor.setTo(0.5, 0.5)
-
-		var fontStyle = {font: "26px VAGRounded", fontWeight: "bold", fill: "#568f00", align: "center"}
-		var trackerText = new Phaser.Text(sceneGroup.game, 0, 0, "X/Y", fontStyle)
-		trackerText.anchor.setTo(0.5, 0.5)
-		trackerText.x = background.width * 0.15
-		trackerText.y = background.height * 0.12
-		containerGroup.add(trackerText)
-
-		var goal = totalQuestions
-		var answeredQuestions = totalAnswered
-
-		trackerText.text = totalScore
-
-		return containerGroup
 	}
 
 	function setMixpanel(callName){
@@ -251,7 +228,6 @@ var result = function(){
 				shareEvent()
 			}else if(parent.tag == 'retry'){
 //				setMixpanel("onRetry")
-				console.log(gameData)
 				var alphaTween = game.add.tween(sceneGroup).to({alpha:0},400, Phaser.Easing.Cubic.Out, true,200)
 				alphaTween.onComplete.add(function(){
 					sceneloader.show(gameData.sceneName)
@@ -327,9 +303,6 @@ var result = function(){
 
 			pivotX +=150
 		}
-
-
-		console.log(parent.env)
 		if(parent.env && parent.env.isMap){
 			var homeBtn = buttonsGroup.create(game.world.centerX - 200,game.world.centerY - 350,'atlas.resultScreen','home')
 			homeBtn.anchor.setTo(0.5,0.5)
@@ -379,9 +352,6 @@ var result = function(){
 		if(game.device.desktop){
 			haveCoupon = false
 		}
-
-
-		console.log("Create scene results")
 		loadSounds()
 
 		sceneGroup = game.add.group()
@@ -454,19 +424,19 @@ var result = function(){
 		var fontStyle = {font: "48px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
 		var fontStyleImagic = {font: "48px Monoton-Regular",fontWeight: "lighter", fill: "#ffffff", align: "center",  wordWrap: true, wordWrapWidth: 200}
 		var retryText = new Phaser.Text(sceneGroup.game, -imgCont.width *0.10,5, '= 0' , fontStyle)
-		var totalScoreImage=game.add.sprite(game.world.centerX-170,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
-		var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.centerX-30,totalScoreImage.y+70, player.totalScore , fontStyle)
-
+		var totalScoreImage=game.add.sprite(game.world.centerX,coinsToStarsContainer.y+100,"atlas.resultScreenImagic","total")
+		var lengthOfTotal=player.totalScore.toString();
+		var playerAllScoreText = new Phaser.Text(sceneGroup.game, totalScoreImage.x-(lengthOfTotal.length/2),totalScoreImage.y+70, player.totalScore , fontStyle)
 		retryText.anchor.setTo(0,0.5)
-		totalScoreImage.anchor.setTo(0,0.5)
-		playerAllScoreText.anchor.setTo(0,0.5)
+		totalScoreImage.anchor.setTo(0.5,0.5)
+		playerAllScoreText.anchor.setTo(0.5,0.5)
 		coinsToStarsContainer.add(retryText)
 		coinsToStarsContainer.text = retryText
 		playerTotalScoreContainer.add(totalScoreImage)
 		playerTotalScoreContainer.add(playerAllScoreText)
 		playerTotalScoreContainer.text = playerAllScoreText
 
-		var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/3.7,0,'atlas.resultScreenImagic','coinImagic')
+		var coinContainer_coin = coinsToStarsContainer.create(coinsToStarsContainer.width/2.5,0,'atlas.resultScreenImagic','coinImagic')
 		coinContainer_coin.anchor.setTo(0.5,0.5)
 
 		coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-30,0,'atlas.resultScreenImagic','coinImagic')
@@ -489,15 +459,12 @@ var result = function(){
 				numberAdd++
 				coinsToStarsContainer.text.setText(' = ' + numberAdd)
 				coinsToStarsContainer.scale.setTo(1,1)
-
+				lengthOfTotal=numberAdd+player.totalScore.toString();
 				playerTotalScoreContainer.text.setText(numberAdd+player.totalScore);
 				playerTotalScoreContainer.scale.setTo(1,1)
 				var indexCheck = numberAdd - 1
-				if(indexCheck % 100 == 0){
-					coinContainer_coin.x+=8;
-					playerTotalScoreContainer.text.x-=3;
-					sound.play("point")
-				}
+				playerTotalScoreContainer.text.x=totalScoreImage.x-(lengthOfTotal.length/2);
+				sound.play("point")
 				if(indexCheck % 25 == 0){
 					createPart('coinImagic',coinsToStarsContainer.text)
 				}
@@ -798,9 +765,7 @@ var result = function(){
 
 		particlesUsed = game.add.group()
 		sceneGroup.add(particlesUsed)
-
-		createParticles('star',3)
-		createParticles('glitter',5)
+		
 		createParticles('coinImagic',3)
 
 		createParticles('text',5)
