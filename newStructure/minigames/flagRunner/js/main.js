@@ -58,6 +58,8 @@ function startGame(){
             
         }
 		
+		localization.setLanguage(language)
+		
 		if(!parent.gameData){
 			var games = yogomeGames.getObjectGames("custom");
 			var gameName = games["Imagic"+actualGame];
@@ -71,8 +73,6 @@ function startGame(){
 				localization.setLanguage("ES")
 			}
 		}
-
-        localization.setLanguage(language)
 
         window.minigame.game = window.game
     	sceneloader.init(game)
