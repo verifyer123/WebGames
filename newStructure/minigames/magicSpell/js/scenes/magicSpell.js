@@ -159,6 +159,7 @@ var magicSpell = function(){
 	var shoot
 	var particlesGroup, particlesUsed
 	var gameIndex = 1
+	var baseRect
 	var summerGroup, springGroup, fallGroup, winterGroup;
 	var tutoGroup
 	var indexGame
@@ -873,15 +874,16 @@ var magicSpell = function(){
 
 		sound.play("wrong")
 		sound.play("gameLose")
-
+		baseRect.alpha = 0
 		gameActive = false
-
-		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
-		tweenScene.onComplete.add(function(){
-			magicSong.stop()
-			var resultScreen = sceneloader.getScene("result")
-			resultScreen.setScore(true, pointsBar.number,gameIndex)		
-			sceneloader.show("result")
+		game.time.events.add(1500,function(){
+			tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1200)
+			tweenScene.onComplete.add(function(){
+				magicSong.stop()
+				var resultScreen = sceneloader.getScene("result")
+				resultScreen.setScore(true, pointsBar.number,gameIndex)		
+				sceneloader.show("result")
+			})
 		})
 	}
 
@@ -902,7 +904,7 @@ var magicSpell = function(){
 		backgroundGroup = game.add.group()
 		sceneGroup.add(backgroundGroup)
 
-		var baseRect= new Phaser.Graphics(game)
+		baseRect= new Phaser.Graphics(game)
 		baseRect.beginFill(0xffffff)
 		baseRect.drawRect(0,0,game.world.width, game.world.height)
 		baseRect.alpha = 1
