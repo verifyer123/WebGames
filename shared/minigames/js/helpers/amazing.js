@@ -149,7 +149,8 @@ amazing.getGames = function(){
         {name:'Speed Up',iconName:'speedUp',url:'http://amazingapp.mx/juegos/speedUp/',coupon : false,mixName:'speedUp',sceneName:'speedUp',demo:true,id:1000019},//41
         {name:'Reinserta',iconName:'reinserta',url:'http://amazingapp.mx/juegos/reinserta/',coupon : false,mixName:'reinserta',sceneName:'reinserta',demo:true,id:1000020},//42
         {name:'Viva la Traja',iconName:'vivaLaTraja',url:'http://amazingapp.mx/juegos/vivaLaTraja/',coupon : false,mixName:'vivalaTraja',sceneName:'vivaLaTraja',demo:false,id:91},//43
-        {name:'Dot Blocks',iconName:'dotBlocks',url:'http://amazingapp.mx/juegos/dotBlocks/',coupon : false,mixName:'dotBlocks',sceneName:'dotBlocks',demo:false,id:1000022},//43
+        {name:'Dot Blocks',iconName:'dotBlocks',url:'http://amazingapp.mx/juegos/dotBlocks/',coupon : false,mixName:'dotBlocks',sceneName:'dotBlocks',demo:false,id:1000022},//44
+        {name:'B-Pong',iconName:'bPong',url:'http://amazingapp.mx/juegos/bPong/',coupon : false,mixName:'bPong',sceneName:'bPong',demo:true,id:1000023},//45
         //
     ]
 
