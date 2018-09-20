@@ -169,6 +169,7 @@ var magicSpell = function(){
 	var firstWord
 	var tutorial
 	var okButton
+	var handTween
 	var rocks
 	var words=[];
 	var canPlay
@@ -323,11 +324,15 @@ var magicSpell = function(){
 					slotOverlaping.isOccupied=true;
 					runesInSlots++;
 					if(runesInSlots==word.length){
+						canPlay=false;
+						if(handTween)handTween.stop(false);
+						hand.alpha=0;
+						hand.x=okButton.x+20;
+						hand.y=okButton.y+30;
+						game.add.tween(hand).to({alpha:1},900,Phaser.Easing.linear,true)
 						game.add.tween(okButton).to({alpha:1},900,Phaser.Easing.linear,true).onComplete.add(function(){
 							okButton.inputEnabled=true;
 							okButton.input.perfectPixelClick=true;
-							hand.x=okButton.x+20;
-							hand.y=okButton.y+10;
 							hand.animations.play('hand', 25, true);
 						})
 					}
@@ -723,7 +728,8 @@ var magicSpell = function(){
 			runePos.input.pixelPerfectOver=true;
 			hand.x=runePos.x+20;
 			hand.y=runePos.y+30;
-			hand.tween=game.add.tween(hand).to({x:game["slot"+runesInSlots].x+20,y:game["slot"+runesInSlots].y+30},1200,Phaser.Easing.linear,true).onComplete.add(function(){
+			handTween=game.add.tween(hand).to({x:game["slot"+runesInSlots].x+20,y:game["slot"+runesInSlots].y+30},1200,Phaser.Easing.linear,true)
+			handTween.onComplete.add(function(){
 				movingHand=false;
 			})
 		}
@@ -1066,7 +1072,9 @@ var magicSpell = function(){
 	function update(){
 		if(startGame){
 			epicparticles.update()
-			if(tutorial && !movingHand && canPlay)handToSlot()
+			if(tutorial && !movingHand && canPlay){
+				handToSlot()
+			}
 			if(movingTile){
 				rocks.tilePosition.x-=10;
 			}
