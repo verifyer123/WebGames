@@ -466,7 +466,7 @@ var magicSpell = function(){
 					dinamita.setAnimationByName(0,"idle",true)
 				}else{
 					dinamita.setAnimationByName(0,"lose",false).onComplete=function(){
-						dinamita.setAnimationByName(0,"losestill",false)
+						dinamita.setAnimationByName(0,"losestill",true)
 					}
 				}
 				skelleton.setAnimationByName(0,"idle",true)
@@ -876,7 +876,7 @@ var magicSpell = function(){
 
 		gameActive = false
 
-		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+		tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 2500)
 		tweenScene.onComplete.add(function(){
 			magicSong.stop()
 			var resultScreen = sceneloader.getScene("result")

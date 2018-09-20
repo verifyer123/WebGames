@@ -140,7 +140,7 @@ var wordBlast = function () {
         }
         else {
             wordsPool = [
-                ["MANZANA", "PLATANO", "ZANAHORIA", "NARANJA", "DURAZNO", "PERA", "CEREZA", "COCO", "UVAS", "GUAYABA", "LIMON", "MANGO"]
+                ["MANZANA", "PLÁTANO", "ZANAHORIA", "NARANJA", "DURAZNO", "PERA", "CEREZA", "COCO", "UVAS", "GUAYABA", "LIMÓN", "MANGO"]
             ];
         }
 
@@ -621,8 +621,11 @@ var wordBlast = function () {
 
     function initGame() {
 
-        option = getRand(option, wordsPool[0].length - 1);
-
+        if (!tutorial) {
+            option = getRand(option, wordsPool[0].length - 1);
+        }else{
+            option = 1;
+        }
         riddleText = wordsPool[0][option];
         animatedGroup.children[0].setAnimationByName(0, "idle", true);
         var nameIndex = "";
