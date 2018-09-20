@@ -24,9 +24,10 @@ var flag = function () {
 			"turkey": "Turkey",
 			"russia": "Russia",
 			"australia": "Australia",
-			"newzealand": "Newzealand",
+			"newzealand": "New Zealand",
 			"samoa": "Samoa",
-			"tonga": "Tonga"
+			"tonga": "Tonga",
+			"tutorial_image": "images/flag/gameTuto_EN.png"
 		},
 
 		"ES": {
@@ -52,7 +53,8 @@ var flag = function () {
 			"australia": "Australia",
 			"newzealand": "Nueva Zelanda",
 			"samoa": "Samoa",
-			"tonga": "Tonga"
+			"tonga": "Tonga",
+			"tutorial_image": "images/flag/gameTuto_ES.png"
 		}
 	}
 
@@ -66,9 +68,8 @@ var flag = function () {
 
 		],
 		images: [
-			{
-				name: "tutorial_image",
-				file: "images/flag/tutorial_image.png"
+			{   name:'tutorial_image',
+				file:"%lang"
 			}
 		],
 		sounds: [
@@ -452,8 +453,10 @@ var flag = function () {
 				hand.y += 80;
 				tweenHandAnimation(0);
 				break;
+			case 1:
 				hand.x += 80;
 				tweenHandAnimation(2);
+				break;
 			// case 2:
 			// 	hand.y += 80;
 			// 	tweenHandAnimation(2);
@@ -729,7 +732,13 @@ var flag = function () {
 			var anotherIndex = correctIndex;
 			while (otherIndex == correctIndex) {
 				otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-				anotherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+				while(anotherIndex == correctIndex){
+					anotherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+				}
+				if(otherIndex == anotherIndex){
+					anotherIndex = correctIndex;
+					otherIndex = correctIndex;
+				}
 			}
 
 			var indexList = [correctIndex, otherIndex, anotherIndex];
@@ -1215,7 +1224,8 @@ var flag = function () {
 
 			var fontStyle = { font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center", wordWrap: true, wordWrapWidth: 220 };
 
-			var pointsText = new Phaser.Text(sceneGroup.game, 0, 30, "0", fontStyle);
+			var pointsText = new Phaser.Text(sceneGroup.game, 0, 26, "0", fontStyle);
+			pointsText.lineSpacing = -10;
 			pointsText.anchor.setTo(0.5, 0.5);
 			boxGroup.add(pointsText);
 
@@ -1233,6 +1243,7 @@ var flag = function () {
 		name: "flag",
 		update: update,
 		preload: preload,
+		localizationData: localizationData,
 		getGameData: function () {
 			var games = yogomeGames.getGames();
 			return games[gameIndex];
