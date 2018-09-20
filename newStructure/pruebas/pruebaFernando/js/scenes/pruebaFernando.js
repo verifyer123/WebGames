@@ -2,7 +2,7 @@
 
 var soundsPath = "../../shared/minigames/sounds/";
 
-var basegame = function () {
+var pruebaFernando = function () {
     var localizationData =
     {
         "EN":
