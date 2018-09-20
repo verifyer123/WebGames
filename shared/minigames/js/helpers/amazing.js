@@ -125,7 +125,7 @@ amazing.getGames = function(){
         {name:'2+2',iconName:'2+2',url:'http://amazingapp.mx/juegos/game2Plus2/',coupon : false,mixName:'2+2',sceneName:'2+2',demo:false,id:6293705958883328},//18
         {name:'Rafaga de\n Tamales',iconName:'rafaga_de_tamales',url:'http://amazingapp.mx/juegos/rafaga_de_tamales/',coupon : false,mixName:'rafaga_de_tamales',sceneName:'rafaga_de_tamales',demo:true,id:5679382827892736},//19
         {name:'Ski Zag',iconName:'skiZag',url:'http://amazingapp.mx/juegos/skiZag/',coupon : false,mixName:'skiZag',sceneName:'skiZag',demo:false,id:5766289444306944},//20
-        {name:'Vips',iconName:'vips',url:'http://amazingapp.mx/juegos/vips/',coupon : false,mixName:'vips',sceneName:'vips',demo:true,id:5303856053354496},//21
+        {name:'Shakes',iconName:'shakes',url:'http://amazingapp.mx/juegos/shakes/',coupon : false,mixName:'shakes',sceneName:'shakes',demo:true,id:5303856053354496},//21
         {name:'Chak Block',iconName:'chakBlock',url:'http://amazingapp.mx/juegos/chakBlock/',coupon : false,mixName:'chakBlock',sceneName:'chakBlock',demo:false,id:5642980933238784},//22
         {name:'Choco Pile',iconName:'chocoPile',url:'http://amazingapp.mx/juegos/chocoPile/',coupon : false,mixName:'chocoPile',sceneName:'chocoPile',demo:true,id:5676219550924800},//23
         {name:'Volaris',iconName:'volaris',url:'http://amazingapp.mx/juegos/volaris/',coupon : false,mixName:'volaris',sceneName:'volaris',demo:true,id:100001},//24
@@ -148,7 +148,8 @@ amazing.getGames = function(){
         {name:'Tap Taco',iconName:'tapTaco',url:'http://amazingapp.mx/juegos/tapTaco/',coupon : false,mixName:'tapTaco',sceneName:'tapTaco',demo:false,id:81},//40
         {name:'Speed Up',iconName:'speedUp',url:'http://amazingapp.mx/juegos/speedUp/',coupon : false,mixName:'speedUp',sceneName:'speedUp',demo:true,id:1000019},//41
         {name:'Reinserta',iconName:'reinserta',url:'http://amazingapp.mx/juegos/reinserta/',coupon : false,mixName:'reinserta',sceneName:'reinserta',demo:true,id:1000020},//42
-        {name:'Trajinera',iconName:'trajinera',url:'http://amazingapp.mx/juegos/trajinera/',coupon : false,mixName:'trajinera',sceneName:'trajinera',demo:true,id:1000021},//43
+        {name:'Viva la Traja',iconName:'vivaLaTraja',url:'http://amazingapp.mx/juegos/vivaLaTraja/',coupon : false,mixName:'vivalaTraja',sceneName:'vivaLaTraja',demo:false,id:91},//43
+        {name:'Dot Blocks',iconName:'dotBlocks',url:'http://amazingapp.mx/juegos/dotBlocks/',coupon : false,mixName:'dotBlocks',sceneName:'dotBlocks',demo:false,id:1000022},//43
         //
     ]
 
