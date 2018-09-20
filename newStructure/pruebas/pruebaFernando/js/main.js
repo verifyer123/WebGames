@@ -65,7 +65,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            basegame,
+            pruebaFernando,
             result,
     	])
     }
