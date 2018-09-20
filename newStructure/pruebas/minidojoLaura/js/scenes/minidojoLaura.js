@@ -1,7 +1,7 @@
 //#region Assets
 var soundsPath = "../../shared/minigames/sounds/";
 
-var basegame = function(){
+var minidojoLaura = function(){
     
     var localizationData = {
 		"EN":{
@@ -733,14 +733,14 @@ var basegame = function(){
                 op1 = game.rnd.integerInRange(1,9);
                 op2 = game.rnd.integerInRange(1,9);
                 answOp = op1 + op2;
-                console.log(op1 + " + " + op2 + " = " + answOp);
+                //console.log(op1 + " + " + op2 + " = " + answOp);
             }
             else
             {
                 op1 = game.rnd.integerInRange(5,9);
                 op2 = game.rnd.integerInRange(0,4);
                 answOp = op1 - op2;
-                console.log(op1 + " - " + op2 + " = " + answOp);
+                //console.log(op1 + " - " + op2 + " = " + answOp);
             }            
         }
         else    //3 operandos
@@ -752,7 +752,7 @@ var basegame = function(){
                 op2 = game.rnd.integerInRange(1,9);
                 op3 = game.rnd.integerInRange(1,9);
                 answOp = op1 + op2 + op3;
-                console.log(op1 + " + " + op2 + " + " + op3 + " = " + answOp);
+                //console.log(op1 + " + " + op2 + " + " + op3 + " = " + answOp);
             }
             else
             {
@@ -760,7 +760,7 @@ var basegame = function(){
                 op2 = game.rnd.integerInRange(4,6);
                 op3 = game.rnd.integerInRange(0,3);
                 answOp = op1 - op2 - op3;
-                console.log(op1 + " - " + op2 + " - " + op3 + " = " + answOp);
+                //console.log(op1 + " - " + op2 + " - " + op3 + " = " + answOp);
             }
         }                
     }
