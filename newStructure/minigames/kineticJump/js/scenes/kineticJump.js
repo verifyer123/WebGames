@@ -424,8 +424,7 @@ var kineticJump = function(){
 		sceneGroup.add(coinsGroup)
 		coinsGroup.add(coinS)
 		gameActive = true
-		jumpController=false;
-		touchGraphic.inputEnabled=true;
+		
 		setRound()
 
 	}
@@ -648,6 +647,7 @@ var kineticJump = function(){
 		if(firstTouch){
 			if((yogotarGroup.y > game.world.height + 100 || (yogotarGroup.x > game.world.width + 100 || yogotarGroup.x < -100) )){
 				missPoint()
+				floor.alpha=1;
 				wrongParticle.x = game.world.centerX
 				wrongParticle.y = yogotarGroup.world.y-200
 				wrongParticle.start(true, 1000, null, 5)
@@ -739,6 +739,8 @@ var kineticJump = function(){
 		if(lives>0){
 			hand.loadTexture("atlas.game","handDown")
 			tutorialTimeout = setTimeout(function(){
+				jumpController=false;
+				touchGraphic.inputEnabled=true;
 				hand.loadTexture("atlas.game","handUp")
 				tutorialTimeout = setTimeout(evalTutorial,500)
 			},500)
@@ -777,7 +779,7 @@ var kineticJump = function(){
 				}
 				climbHeight = climbHeight-48
 				climb.tile.height = climbHeight
-				climb.cornDown.y = climbHeight-2
+				climb.cornDown.y = climbHeight
 				climb.graphics.clear()
 				climb.graphics.drawRect(0,-40,83,climbHeight+48)
 				climb.totalHeigth = climbHeight+48
@@ -829,7 +831,7 @@ var kineticJump = function(){
 		group.cornDown = cornDown
 		cornDown.anchor.setTo(0,0)
 
-		var graphics = game.add.graphics(0,-20)
+		var graphics = game.add.graphics(0,-23)
 		graphics.drawRect(0,-40,60,climbHeight+48)
 		graphics.group = group
 		group.graphics = graphics
@@ -854,6 +856,7 @@ var kineticJump = function(){
 
 		graphics.body.allowGravity = false
 		graphics.body.immovable = true
+		graphics.body.checkCollision.up = false
 		graphics.typeCollision = COLLISION_TYPE.WALL
 
 	}
@@ -1046,7 +1049,7 @@ var kineticJump = function(){
 		spine.setSkinByName("normal")
 		spine.setAnimationByName(0,"idle_stand",true)
 		yogotarGroup.spine = spine
-		yogotarGroup.body.setSize(60,50,30,140)
+		yogotarGroup.body.setSize(60,100,30,90)
 
 		yogotarGroup.body.onCollide = new Phaser.Signal();
 		yogotarGroup.body.onCollide.add(hit, this);
@@ -1246,6 +1249,7 @@ var kineticJump = function(){
 		}
 		if(newLife){
 			newLife=false;
+			game.add.tween(floor).to({alpha:0},400,Phaser.Easing.linear,true)
 		}
 		yogotarGroup.inWall = false
 		currentCollider = null
@@ -1272,18 +1276,20 @@ var kineticJump = function(){
 
 		switch(sprite2.typeCollision){
 			case COLLISION_TYPE.WALL:
-				yogotarGroup.body.velocity.x = 0
-				yogotarGroup.body.velocity.y = 0
-				if(inTutorial==-1){
-					game.physics.arcade.gravity.y = 50
-				}
-				yogotarGroup.inWall = true
-				yogotarGroup.spine.setAnimationByName(0,"idle_wall",true)
-				currentTimeForce = game.time.now
-				currentCollider = sprite2
-				jumpController=false;
-				if(!game.input.activePointer.isDown){
-					jump()
+				if(lives>0 && !yogotarGroup.hittingLose){
+					yogotarGroup.body.velocity.x = 0
+					yogotarGroup.body.velocity.y = 0
+					if(inTutorial==-1){
+						game.physics.arcade.gravity.y = 50
+					}
+					yogotarGroup.inWall = true
+					yogotarGroup.spine.setAnimationByName(0,"idle_wall",true)
+					currentTimeForce = game.time.now
+					currentCollider = sprite2
+					jumpController=false;
+					if(!game.input.activePointer.isDown){
+						jump()
+					}
 				}
 				break
 				case COLLISION_TYPE.WALL_LOSE:
@@ -1471,7 +1477,7 @@ var kineticJump = function(){
 	}
 
 	function render(){
-	/*
+		/*
 		game.debug.body(yogotarGroup)
         for(var i = 0; i < graphicCollisions.length; i++){
              game.debug.body(graphicCollisions[i])
@@ -1480,6 +1486,7 @@ var kineticJump = function(){
         for(var i = 0; i < loseCollision.length; i++){
              game.debug.body(loseCollision.children[i])
         }
+	
         for(var i = 0; i < milkGroup.length; i++){
      	      game.debug.body(milkGroup.children[i])   
         }
