@@ -245,6 +245,12 @@ var wordBlast = function () {
             game.add.tween(coin).to({ x: pointsBar.centerX, y: pointsBar.centerY }, 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function () {
                 game.add.tween(coin).to({ alpha: 0 }, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
                     addPoint(1);
+                    if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
+                        clearBoard()
+                        chipCounter = 0
+                        speed > 100 ? speed -= 200 : speed = 100
+                        //console.log("speed " + speed)
+                    }
                 })
             })
         })
@@ -444,7 +450,7 @@ var wordBlast = function () {
 
     function createBoard() {
 
-        var fontStyle = { font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" };
+        var fontStyle = { font: "45px Arial", fontWeight: "bold", fill: "#ffffff", align: "center" };
 
         var board = sceneGroup.create(0, game.world.height, "atlas.wordBlast", "board");
         board.anchor.setTo(0, 1);
@@ -459,9 +465,11 @@ var wordBlast = function () {
 
         okBtn = game.add.group();
         if (!tutorial) {
-            okBtn.alpha = 1;
+            //okBtn.alpha = 1;
+            game.add.tween(okBtn).to({ alpha: 1 }, 600, Phaser.Easing.linear, true);
         } else {
-            okBtn.alpha = 0;
+            //okBtn.alpha = 0;
+            game.add.tween(okBtn).to({ alpha: 0 }, 600, Phaser.Easing.linear, true);
         }
         sceneGroup.add(okBtn);
 
@@ -587,12 +595,12 @@ var wordBlast = function () {
 
         if (ans === riddleText) {
             addCoin(riddleImage)
-            if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
-                clearBoard()
-                chipCounter = 0
-                speed > 100 ? speed -= 200 : speed = 100
-                //console.log("speed " + speed)
-            }
+            // if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
+            //     clearBoard()
+            //     chipCounter = 0
+            //     speed > 100 ? speed -= 200 : speed = 100
+            //     //console.log("speed " + speed)
+            // }
         }
         else {
             missPoint(riddleImage)
@@ -648,16 +656,17 @@ var wordBlast = function () {
     function dropChip() {
 
         if (gameActive) {
-            var chip = selectChip()
-            var color = game.rnd.integerInRange(0, 3)
-            chip.chipOff.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "Off")
-            chip.chipOn.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "On")
-            chip.used = true
-            chip.pressed = false
-            chip.text.alpha = 0
-            chip.alpha = 1
-            chip.text.setText(selectLetter())
-            chip.falling = game.add.tween(chip.children[0]).from({ y: 0 }, speed, Phaser.Easing.linear, true)
+            var chip = selectChip();
+            var color = game.rnd.integerInRange(0, 3);
+            chip.chipOff.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "Off");
+            chip.chipOn.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "On");
+            chip.used = true;
+            chip.pressed = false;
+            chip.text.alpha = 0;
+            chip.alpha = 1;
+            chip.text.setText(selectLetter());
+            chipsGroup.sendToBack(chip);
+            chip.falling = game.add.tween(chip.children[0]).from({ y: 0 }, speed, Phaser.Easing.linear, true);
             chip.falling.onComplete.add(function () {
                 sound.play("robotWhoosh")
                 chip.text.alpha = 1
@@ -669,8 +678,8 @@ var wordBlast = function () {
                         }
                         else {
                             gameActive = false
-                            clearBoard()
-                            chipCounter = 0
+                            //clearBoard()
+                            //chipCounter = 0
                             win("")
                         }
                     }
@@ -683,10 +692,10 @@ var wordBlast = function () {
 
         var x = game.rnd.integerInRange(0, chipsGroup.length - 1)
         if (chipsGroup.children[x].used)
-            return selectChip()
+            return selectChip();
         else {
             chipCounter++
-            return chipsGroup.children[x]
+            return chipsGroup.children[x];
         }
     }
 
@@ -755,6 +764,7 @@ var wordBlast = function () {
             chip.alpha = 1;
             chip.text.setText(riddleText.charAt(wordIndex));
             wordIndex++;
+            chipsGroup.sendToBack(chip);
             chip.falling = game.add.tween(chip.children[0]).from({ y: 0 }, speed, Phaser.Easing.linear, true);
             chip.falling.onComplete.add(function () {
                 sound.play("robotWhoosh");
@@ -768,17 +778,17 @@ var wordBlast = function () {
     function posHand(obj) {
 
         if (obj) {
-            hand.x = obj.children[0].x
-            hand.y = obj.children[0].y
-            hand.alpha = 1
+            hand.x = obj.children[0].x - 30;
+            hand.y = obj.children[0].y;
         }
         else {
-            hand.x = okBtn.children[0].x
-            hand.y = okBtn.children[0].y
-            hand.alpha = 1
-            okBtn.alpha = 1
+            hand.x = okBtn.children[0].x;
+            hand.y = okBtn.children[0].y;
+            game.add.tween(okBtn).to({ alpha: 1 }, 600, Phaser.Easing.linear, true);
             okBtn.children[0].inputEnabled = true
         }
+        game.add.tween(hand).to({ alpha: 1 }, 600, Phaser.Easing.linear, true);
+        
     }
     //#endregion
 
