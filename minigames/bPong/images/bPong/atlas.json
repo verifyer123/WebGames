@@ -11,7 +11,7 @@
 },
 {
 	"filename": "ball_particle",
-	"frame": {"x":153,"y":235,"w":8,"h":8},
+	"frame": {"x":226,"y":235,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "beer_particle",
-	"frame": {"x":127,"y":235,"w":11,"h":11},
+	"frame": {"x":200,"y":235,"w":11,"h":11},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":11},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "burn_ball_particle",
-	"frame": {"x":153,"y":245,"w":8,"h":8},
+	"frame": {"x":226,"y":245,"w":8,"h":8},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":8,"h":8},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "coin",
-	"frame": {"x":550,"y":174,"w":68,"h":70},
+	"frame": {"x":563,"y":174,"w":68,"h":70},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":68,"h":70},
@@ -74,7 +74,7 @@
 },
 {
 	"filename": "glass",
-	"frame": {"x":493,"y":174,"w":55,"h":72},
+	"frame": {"x":506,"y":174,"w":55,"h":72},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":55,"h":72},
@@ -91,8 +91,44 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "splash1",
+	"frame": {"x":182,"y":235,"w":16,"h":13},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":25,"y":20,"w":16,"h":13},
+	"sourceSize": {"w":66,"h":33},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "splash2",
+	"frame": {"x":127,"y":235,"w":53,"h":18},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":6,"y":15,"w":53,"h":18},
+	"sourceSize": {"w":66,"h":33},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "splash3",
+	"frame": {"x":401,"y":229,"w":58,"h":25},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":8,"w":58,"h":25},
+	"sourceSize": {"w":66,"h":33},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "splash4",
+	"frame": {"x":438,"y":192,"w":66,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":33},
+	"sourceSize": {"w":66,"h":33},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
-	"frame": {"x":620,"y":174,"w":64,"h":64},
+	"frame": {"x":633,"y":174,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -110,7 +146,7 @@
 },
 {
 	"filename": "water_particle",
-	"frame": {"x":140,"y":235,"w":11,"h":11},
+	"frame": {"x":213,"y":235,"w":11,"h":11},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":11,"h":11},
@@ -133,6 +169,6 @@
 	"format": "RGBA8888",
 	"size": {"w":720,"h":256},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:07d3446374463287770222732774cd17:a3dfc65f01853ca166d2ae6fc7fd3858:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:58bffb2e02696de031543a4922fc6951:eed1b35f2d620a8ad3d17f514285e081:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
