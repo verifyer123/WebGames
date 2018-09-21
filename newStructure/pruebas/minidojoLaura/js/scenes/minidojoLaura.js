@@ -278,7 +278,7 @@ var minidojoLaura = function(){
         if(lives == 0){
             //stopGame(false);            
             gameActive = false;
-            
+            grpBoard.destroy();
             console.log("Fin del juego");
         }
         
@@ -744,7 +744,7 @@ var minidojoLaura = function(){
 
     function getOperation(){
         answOp = 0;        
-        
+                
         if (game.rnd.integerInRange(0,1) === 1)   
             sumOperation = true;        
         else
@@ -783,7 +783,7 @@ var minidojoLaura = function(){
             else
             {
                 op1 = game.rnd.integerInRange(7,9);
-                op2 = game.rnd.integerInRange(4,6);
+                op2 = game.rnd.integerInRange(0,4);
                 op3 = game.rnd.integerInRange(0,3);
                 answOp = op1 - op2 - op3;
                 //console.log(op1 + " - " + op2 + " - " + op3 + " = " + answOp);
