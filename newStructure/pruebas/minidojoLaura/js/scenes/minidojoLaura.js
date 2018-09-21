@@ -322,7 +322,7 @@ var minidojoLaura = function(){
         setCardsOnBoard(); 
         loadBoard();                
         
-        sceneGroup.add(grpBoard);        
+        sceneGroup.add(grpBoard);
     }
 
     function loadBoard(){
@@ -525,16 +525,21 @@ var minidojoLaura = function(){
         }
         else
         {
-            enabledButtonsOnBoard();            
-            tweenClock = game.add.tween(timerGroup.timeBar.scale).to({x: 0}, 10000, Phaser.Easing.linear, true);
-            tweenClock.onComplete.add(function(){
-                missPoint();
-                tweenClock.stop();  
-                tweenClock = game.add.tween(timerGroup.timeBar.scale).to({x: 10.3}, 1500, Phaser.Easing.linear, true);                              
-                game.time.events.add(250,function(){
-                    clearBoard();
-                },this);
-            }); 
+            if (!tutorial)
+            {
+                enabledButtonsOnBoard();            
+                tweenClock = game.add.tween(timerGroup.timeBar.scale).to({x: 0}, 10000, Phaser.Easing.linear, true);
+                tweenClock.onComplete.add(function(){
+                    missPoint();
+                    tweenClock.stop();  
+                    tweenClock = game.add.tween(timerGroup.timeBar.scale).to({x: 10.3}, 1500, Phaser.Easing.linear, true);                              
+                    game.time.events.add(250,function(){
+                        clearBoard();
+                    },this);
+                });
+            }
+            else            
+                showTutorial();                                                      
         }
     }    
 
@@ -579,7 +584,7 @@ var minidojoLaura = function(){
 
     //#region GameLogic
     
-    var sumOperation = false; var twoOptions = false;
+    var sumOperation = false; var twoOptions = false; var tutorial = true;
     var op1 = 0; var op2 = 0; var op3 = 0; var answOp = 0;
     var answ1 = -1; var answ2 = -1; var answ3 = -1;
     var txtAnsw1 = null; var txtAnsw2 = null; var txtAnsw3 = null;
@@ -589,6 +594,7 @@ var minidojoLaura = function(){
     function setAnswerOnAnswerPlace(){  
         
         sound.play("pop");
+        btnAllBoard[this.indexAnswer].inputEnabled = false;
 
         if (answ1 == -1)
         {            
@@ -597,9 +603,11 @@ var minidojoLaura = function(){
                 txtAnsw1 = getText(answ1, posXTxtAnsw1, posYTxtAnsw1, fontWhite);
             else
                 txtAnsw1 = getText(answ1, posXTxtAnsw1, posYTxtAnsw1, fontShortWhite);
-            grpPergamino.add(txtAnsw1);
-            btnAllBoard[this.indexAnswer].inputEnabled = false;    
-            imgOutlines[0] = setOutlineOptionSelect(btnAllBoard[this.indexAnswer]);            
+            grpPergamino.add(txtAnsw1);              
+            imgOutlines[0] = setOutlineOptionSelect(btnAllBoard[this.indexAnswer]);
+            
+            if (tutorial)            
+                tutorialChangeOption(posAnsw1, posAnsw2);                                    
         }
         else
         {
@@ -610,22 +618,24 @@ var minidojoLaura = function(){
                     txtAnsw2 = getText(answ2, posXTxtAnsw2, posYTxtAnsw2, fontWhite);
                 else
                     txtAnsw2 = getText(answ2, posXTxtAnsw2, posYTxtAnsw2, fontShortWhite);
-                grpPergamino.add(txtAnsw2);
-                btnAllBoard[this.indexAnswer].inputEnabled = false;
+                grpPergamino.add(txtAnsw2);                
                 imgOutlines[1] = setOutlineOptionSelect(btnAllBoard[this.indexAnswer]);                
                 if (twoOptions)
+                    disableButtonsOnBoard(this.indexAnswer);                
+                else
                 {
-                    disableButtonsOnBoard(this.indexAnswer);
+                    if (tutorial)
+                        tutorialChangeOption(posAnsw2, posAnsw3);
                 }
             }else{
                 answ3 = parseInt(txtBoardInGame[this.indexAnswer].text);                                
                 txtAnsw3 = getText(answ3, posXTxtAnsw3, posYTxtAnsw3, fontShortWhite);
-                grpPergamino.add(txtAnsw3);
-                btnAllBoard[this.indexAnswer].inputEnabled = false;
+                grpPergamino.add(txtAnsw3);                
                 imgOutlines[2] = setOutlineOptionSelect(btnAllBoard[this.indexAnswer]);
                 disableButtonsOnBoard(this.indexAnswer);
             }                            
-        } 
+        }    
+        darkColorButton(this.indexAnswer);
         game.add.tween(btnAllBoard[this.indexAnswer].scale).from({x: 0.3, y: 0.3},350, Phaser.Easing.linear, true);       
     }
 
@@ -637,6 +647,11 @@ var minidojoLaura = function(){
         imgOutline.y = spaceOnBoard.y;
 
         return imgOutline;
+    }
+
+    function darkColorButton(index){
+        btnAllBoard[index].tint = 0x666666;
+        txtBoardInGame[index].tint = 0x666666;
     }
 
     function enabledButtonsOnBoard(){
@@ -704,6 +719,14 @@ var minidojoLaura = function(){
         game.time.events.add(1500,function(){
             loadBoard();
         },this);
+
+        clearColorButtonsBoard();
+
+        if (tutorial)
+        {
+            tutorial = false;
+            hand.destroy();
+        }            
     }
 
     function hideButtonsBoard(){
@@ -721,9 +744,12 @@ var minidojoLaura = function(){
 
     function getOperation(){
         answOp = 0;        
+        
+        if (game.rnd.integerInRange(0,1) === 1)   
+            sumOperation = true;        
+        else
+            sumOperation = false;
 
-        if (game.rnd.integerInRange(0,1) === 1)
-            sumOperation = true;
 
         if (game.rnd.integerInRange(0,1) === 0) //2 operandos
         {
@@ -819,6 +845,63 @@ var minidojoLaura = function(){
         return rndNumber;
     }
 
+    //#endregion
+
+    //#region Tutorial
+
+    function tutorialChangeOption(optOff, optOn){
+        btnAllBoard[optOff].tint = 0x666666;
+        txtBoardInGame[optOff].tint = 0x666666;
+        btnAllBoard[optOn].tint = 0xffffff;
+        txtBoardInGame[optOn].tint = 0xffffff;
+        btnAllBoard[optOn].inputEnabled = true;
+        setHandAnimatedTo(btnAllBoard[optOn]);
+    }
+
+    function showTutorial(){
+        createHand();
+        for (var i = 0; i < btnAllBoard.length; i++){
+            if (i == posAnsw1)
+            {
+                btnAllBoard[posAnsw1].inputEnabled = true;
+                setHandTo(btnAllBoard[posAnsw1]);
+            }
+            else
+            {
+                btnAllBoard[i].tint = 0x666666;
+                txtBoardInGame[i].tint = 0x666666;
+            }            
+        }
+    }
+
+    function clearColorButtonsBoard(){
+        for (var i = 0; i < btnAllBoard.length; i++){
+            btnAllBoard[i].tint = 0xffffff;
+            txtBoardInGame[i].tint = 0xffffff;
+        }
+    }
+
+    function createHand(){        
+        hand = game.add.sprite(0, 0, "hand");
+        hand.animations.add('hand');
+        hand.animations.play('hand', 24, true);        
+        //hand.alpha = 0;
+        //hand.x = game.world.centerX;
+        //hand.y = game.world.centerY;
+    }
+
+    function setHandTo(objPosition){
+        hand.x = objPosition.x;
+        hand.y = objPosition.y;
+    }
+
+    function setHandAnimatedTo(posObject){
+        tweenHand = game.add.tween(hand).to({ x: posObject.x, y: posObject.y }, 800, Phaser.Easing.Linear.In, true, 0, 0);
+        tweenHand.onComplete.add(function(){
+            tweenHand.stop();
+        });
+        //tweenHand.stop();
+    }
     //#endregion
 
 	return {
