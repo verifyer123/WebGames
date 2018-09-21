@@ -254,7 +254,7 @@ var magicSpell = function(){
 		if(!tutorial){
 			game["rune"+runeIndex].inputEnabled=true;
 			game["rune"+runeIndex].input.pixelPerfectOver=true;
-			game["rune"+runeIndex].input.enableDrag();
+			game["rune"+runeIndex].input.enableDrag(true);
 		}
 		game["rune"+runeIndex].posIndex=runeIndex;
 		game["rune"+runeIndex].value=char;
@@ -329,7 +329,7 @@ var magicSpell = function(){
 						if(handTween)handTween.stop(false);
 						hand.alpha=0;
 						hand.x=okButton.x+20;
-						hand.y=okButton.y+30;
+						hand.y=okButton.y+10;
 						game.add.tween(hand).to({alpha:1},900,Phaser.Easing.linear,true)
 						game.add.tween(okButton).to({alpha:1},900,Phaser.Easing.linear,true).onComplete.add(function(){
 							okButton.inputEnabled=true;
@@ -501,7 +501,6 @@ var magicSpell = function(){
 		if(runesInSlots!=word.length){
 			win=false;
 		}
-		if(tutorial)positionTimer();
 		tutorial=false
 		if(win){
 			attackYogotar(word)
@@ -682,6 +681,7 @@ var magicSpell = function(){
 		
 		if(!tutorial && lives>0){
 			game.time.events.add(1000,function(){
+				if(!timeBar)positionTimer();
 				changeEnviroment(randomNumber,word, worldChange, isEnemyAlive);
 				shuffleEnemy(word,isEnemyAlive)
 			});
@@ -725,7 +725,7 @@ var magicSpell = function(){
 				}
 			}
 			runePos.inputEnabled=true;
-			runePos.input.enableDrag();
+			runePos.input.enableDrag(true);
 			runePos.input.pixelPerfectOver=true;
 			hand.x=runePos.x+20;
 			hand.y=runePos.y+30;
@@ -886,8 +886,6 @@ var magicSpell = function(){
 			})
 		})
 	}
-
-
 	function preload(){		
 		game.stage.disableVisibilityChange = false;
 		epicparticles.loadEmitter(game.load, "pickedEnergy") 
