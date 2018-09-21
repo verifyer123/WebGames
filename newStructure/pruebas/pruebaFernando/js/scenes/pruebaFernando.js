@@ -222,14 +222,18 @@ var pruebaFernando = function () {
         var offsetX = 110;
         var offsetY = -100;
 
-        for (var x = 0; x < 3; x++) {
-            for (var y = 0; y < 3; y++) {
-                if ((x + y) % 2 == 0) {
+        for (var x = 0; x < 3; x++)
+        {
+            for (var y = 0; y < 3; y++)
+            {
+                if ((x + y) % 2 == 0)
+                {
                     allPanels.push(levelGroup.create(
                         game.world.centerX - offsetX + (x * offsetX),
                         game.world.centerY - offsetY + (y * offsetX),
                         "atlas.basegame", "panelClear"));
-                } else {
+                } else
+                {
                     allPanels.push(levelGroup.create(
                         game.world.centerX - offsetX + (x * offsetX),
                         game.world.centerY - offsetY + (y * offsetX),
@@ -287,33 +291,35 @@ var pruebaFernando = function () {
     }
 
     function tweenScaleAllPanels(show) {
-        if (!show) {
-            for (var i = 0; i < allPanels.length; i++) {
-                singlePanel = game.add.tween(allPanels[i].scale);
-                singlePanel.to({ x: show ? 0.6 : 0, y: show ? 0.6 : 0 }, 250, Phaser.Easing.Linear.None);
-                singlePanel.start();
+        if (!show)
+        {
+            for (var i = 0; i < allPanels.length; i++)
+            {
+                game.add.tween(allPanels[i].scale).to({ x: 0, y: 0 }, 250, Phaser.Easing.Linear.None, true);
             }
-        } else
+        }
+        else
             game.time.events.add(400, tweenScaleSinglePanel, { panelToTween: 0, show: show });
     }
 
     function tweenScaleSinglePanel(playerPanel = 0) {
-        if (playerPanel != 0) {
-            playerPanelTween = game.add.tween(playerPanel.scale);
-            playerPanelTween.to({ x: 0, y: 0 }, 450, Phaser.Easing.Linear.None);
-            playerPanelTween.start();
+        if (playerPanel != 0)
+        {
+            game.add.tween(playerPanel.scale).to({ x: 0, y: 0 }, 450, Phaser.Easing.Cubic.In, true);
+            game.add.tween(playerPanel).to({ angle: 360 }, 450, Phaser.Easing.Linear.None, true);
             return;
         }
-        singlePanel = game.add.tween(allPanels[this.panelToTween].scale);
-        singlePanel.to({ x: this.show ? 0.6 : 0, y: this.show ? 0.6 : 0 }, 150, Phaser.Easing.Linear.None);
-        singlePanel.start();
+        game.add.tween(allPanels[this.panelToTween].scale).to({ x: this.show ? 0.6 : 0, y: this.show ? 0.6 : 0 }, 150, Phaser.Easing.Linear.None, true);
         sound.play("pop");
         if (this.panelToTween < allPanels.length - 1)
             game.time.events.add(200, tweenScaleSinglePanel, { panelToTween: this.panelToTween + 1, show: this.show });
-        else {
+        else
+        {
             setInputPanels(this.show);
-            if (onTutorial) setInputPanelTutorial(0);
-            else {
+            if (onTutorial)
+                setInputPanelTutorial(0);
+            else
+            {
                 tweenScaleStartTimeLimit();
                 tweenTintTimeBar(65280, 16711680, timeLimit);
             }
@@ -322,16 +328,12 @@ var pruebaFernando = function () {
 
     function tweenScaleStartTimeLimit() {
         timeBar.scale.setTo(11.5, 0.65);
-        timeBarTween = game.add.tween(timeBar.scale);
-        timeBarTween.to({ x: 0, y: 0.65 }, timeLimit, Phaser.Easing.Linear.None);
+        timeBarTween = game.add.tween(timeBar.scale).to({ x: 0, y: 0.65 }, timeLimit, Phaser.Easing.Linear.None, true);
         timeBarTween.onComplete.add(evaluateQuiz);
-        timeBarTween.start();
     }
 
     function tweenScaleFillBar() {
-        timeBarTween = game.add.tween(timeBar.scale);
-        timeBarTween.to({ x: 11.5, y: 0.65 }, 300, Phaser.Easing.Linear.None);
-        timeBarTween.start();
+        timeBarTween = game.add.tween(timeBar.scale).to({ x: 11.5, y: 0.65 }, 300, Phaser.Easing.Linear.None, true);
     }
 
     function tweenTintTimeBar(startColor, endColor, time) {
@@ -349,13 +351,16 @@ var pruebaFernando = function () {
     //#region Tutorial
 
     function setInputPanelTutorial(panelToEnable) {
-        for (var i = 0; i < allPanels.length; i++) {
-            if (panelToEnable == i) {
+        for (var i = 0; i < allPanels.length; i++)
+        {
+            if (panelToEnable == i)
+            {
                 allPanels[i].inputEnabled = true;
                 allPanels[i].tint = 16777215;
                 allPanels[i].children[0].tint = 16777215;
             }
-            else {
+            else
+            {
                 allPanels[i].inputEnabled = false;
                 allPanels[i].tint = 8421504;
                 allPanels[i].children[0].tint = 8421504;
@@ -367,7 +372,8 @@ var pruebaFernando = function () {
     }
 
     function finishTutorial() {
-        for (var i = 0; i < allPanels.length; i++) {
+        for (var i = 0; i < allPanels.length; i++)
+        {
             allPanels[i].tint = 16777215;
             allPanels[i].children[0].tint = 16777215;
         }
@@ -381,7 +387,8 @@ var pruebaFernando = function () {
 
     function startNewGame() {
         playedTimes++;
-        if (playedTimes == timesForHard) {
+        if (playedTimes == timesForHard)
+        {
             playedTimes = 0;
             timeLimit = (timeLimit - 1000 > 2000) ? timeLimit - 1000 : 2000;
             quizLevel = quizLevel + 1 == 5 ? 4 : quizLevel + 1;
@@ -389,7 +396,8 @@ var pruebaFernando = function () {
         tweenScaleFillBar();
         tweenTintTimeBar(timeBar.tint, 65280, 300);
         gametype = game.rnd.integerInRange(1, quizLevel);
-        switch (gametype) {
+        switch (gametype)
+        {
             case 1:
                 quiz = ["[ ]", "+", "[ ]", "="];
                 createAllNumbers(true, 2);
@@ -411,7 +419,8 @@ var pruebaFernando = function () {
 
     function createAllNumbers(adittion, numbersToPlace) {
         correctAnswer = 0;
-        for (var i = 0; i < 9; i++) {
+        for (var i = 0; i < 9; i++)
+        {
             var numberToSave = game.rnd.integerInRange(1, 7);
             if (i == 0)
                 correctAnswer += numberToSave;
@@ -425,7 +434,8 @@ var pruebaFernando = function () {
     }
 
     function fillPanels() {
-        for (var x = 0; x < 9; x++) {
+        for (var x = 0; x < 9; x++)
+        {
             allPanels[x].children[0].setText(allNumbersForPlay[x]);
         }
         generateQuiz();
@@ -444,12 +454,15 @@ var pruebaFernando = function () {
         quizGroup.removeAll();
         quizGroup.x = game.world.centerX - (cellSize * (quiz.length / 2));
         quizGroup.y = game.world.centerY - 120;
-        for (var i = 0; i < quiz.length; i++) {
-            if (quiz[i] == "[ ]") {
+        for (var i = 0; i < quiz.length; i++)
+        {
+            if (quiz[i] == "[ ]")
+            {
                 numFaltante = quizGroup.create(0, 0, "atlas.basegame", "numFaltante");
                 numFaltante.scale.setTo(0.7, 0.7);
             }
-            else {
+            else
+            {
                 var numberToShow = game.add.text(0, 0, quiz[i], createBaseFontStyle("50"));
                 numberToShow.stroke = '#000000';
                 numberToShow.strokeThickness = 6;
@@ -460,7 +473,8 @@ var pruebaFernando = function () {
     }
 
     function setInputPanels(enable) {
-        for (var i = 0; i < allPanels.length; i++) {
+        for (var i = 0; i < allPanels.length; i++)
+        {
             allPanels[i].inputEnabled = enable;
         }
     }
@@ -471,19 +485,19 @@ var pruebaFernando = function () {
         tweenScaleSinglePanel(this.actualButton);
         lastPanelClicked = this.actualButton;
         this.actualButton.inputEnabled = false;
-        for (var i = 0; i < quiz.length; i++) {
-            if (i == 0 && quiz[i] == "[ ]") {
+        for (var i = 0; i < quiz.length; i++)
+        {
+            if (i == 0 && quiz[i] == "[ ]")
+            {
                 playerAnswer = Math.floor(this.playerInput.text);
                 quiz[i] = Math.floor(this.playerInput.text);
                 showQuiz();
                 sound.play("cut");
                 return;
             }
-            if (quiz[i] == "[ ]") {
-                playerAnswer =
-                    gametype < 3 ?
-                        playerAnswer + Math.floor(this.playerInput.text) :
-                        playerAnswer - Math.floor(this.playerInput.text);
+            if (quiz[i] == "[ ]")
+            {
+                playerAnswer = gametype < 3 ? playerAnswer + Math.floor(this.playerInput.text) : playerAnswer - Math.floor(this.playerInput.text);
                 quiz[i] = Math.floor(this.playerInput.text);
                 sound.play("cut");
                 showQuiz();
@@ -500,11 +514,13 @@ var pruebaFernando = function () {
     function evaluateQuiz() {
         tweenAlphaScrollQuiz(false);
         finishGame();
-        if (playerAnswer == correctAnswer && isAllQuizSolved()) {
+        if (playerAnswer == correctAnswer && isAllQuizSolved())
+        {
             animateMaster("WIN");
             addCoin(lastPanelClicked, gametype);
         }
-        else {
+        else
+        {
             animateMaster("LOSE");
             missPoint();
         }
@@ -512,7 +528,8 @@ var pruebaFernando = function () {
     }
 
     function isAllQuizSolved() {
-        for (var i = 0; i < quiz.length; i++) {
+        for (var i = 0; i < quiz.length; i++)
+        {
             if (quiz[i] == "[ ]")
                 return false;
         }
@@ -585,18 +602,6 @@ var pruebaFernando = function () {
             sceneloader.show("result");
             sound.play("gameLose");
         });
-    }
-
-    function createTutorialPruebaFernando() {
-        tutoGroup = game.add.group();
-        sceneGroup.add(tutoGroup);
-
-        tutorialHelper.createTutorialGif(tutoGroup, onClickPlay);
-    }
-
-    function onClickPlay() {
-        tutoGroup.y = -game.world.height;
-
     }
 
     function update() {
@@ -723,7 +728,8 @@ var pruebaFernando = function () {
             game.add.tween(heartsGroup.scale).to({ x: 1, y: 1 }, 200, Phaser.Easing.linear, true);
         })
 
-        if (lives == 0) {
+        if (lives == 0)
+        {
             stopGame(false);
         }
 
@@ -784,7 +790,7 @@ var pruebaFernando = function () {
             createHearts();
             createPointsBar();
             createCoin();
-            createTutorial();
+            //createTutorial();
             createParticles();
 
             buttons.getButton(spaceSong, sceneGroup);
