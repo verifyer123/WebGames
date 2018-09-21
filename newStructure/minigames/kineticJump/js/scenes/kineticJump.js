@@ -118,7 +118,9 @@ var kineticJump = function(){
 	var numPoints
 	var newLife
 	var gameGroup
+	var index
 	var heartsGroup
+	var coinsGroup=null
 	var pointsBar
 
 	var timeOn = false
@@ -150,7 +152,8 @@ var kineticJump = function(){
 	var loseCollision
 
 	var firstTouch
-
+	
+	var coinS
 	var currentDistanceObject
 	var nextDistance
 	var jumpEffect
@@ -194,6 +197,7 @@ var kineticJump = function(){
 		currentLevel = 0
 		timeOn = false
 		canTouch = false
+		index=0;
 
 		inTutorial = 0
 		gameActive = false
@@ -291,26 +295,6 @@ var kineticJump = function(){
 		return particles
 	}
 
-	function Coin(objectBorn,objectDestiny,time,amount){
-
-		coins.x=objectBorn.centerX
-		coins.y=objectBorn.centerY
-
-		correctParticle.x = objectBorn.x
-		correctParticle.y = objectBorn.y-100
-		correctParticle.start(true, 1000, null, 5)
-
-		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
-		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
-			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
-			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
-				coins.x=objectBorn.centerX
-				coins.y=objectBorn.centerY
-				addPoint(amount)
-			})
-		})
-	}
-
 
 	function stopGame(){
 
@@ -383,9 +367,59 @@ var kineticJump = function(){
 		}
 
 	}
+	function createCoin(){
+		coinS = game.add.sprite(0, 0, "coin")
+		coinS.anchor.setTo(0.5)
+		coinS.scale.setTo(0.8)
+		coinS.animations.add('coin')
+		coinS.animations.play('coin', 24, true)
+		coinS.alpha = 0
+		coinS.kill()
+	}
+	function getCoins(player){
+		var coin=coinsGroup.getFirstDead();
 
+		if(coin==undefined){
+			game["coinS"+index] = game.add.sprite(0, 0, "coin")
+			game["coinS"+index].anchor.setTo(0.5,0.5)
+			game["coinS"+index].scale.setTo(0.5,0.5)
+			game["coinS"+index].animations.add('coin')
+			game["coinS"+index].animations.play('coin', 24, true)
+			game["coinS"+index].alpha = 0
+			coinsGroup.add(game["coinS"+index])
+			coin=game["coinS"+index];
+			index++;
+			addCoin(coin,player)
+		}else{
+			addCoin(coin,player)
+		}
+	}
+	function addCoin(coin,obj){
+
+		if(coin.motion)
+			coin.motion.stop()
+
+		coin.reset(obj.centerX,obj.centerY);
+
+		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
+
+		coin.motion = game.add.tween(coin).to({y:coin.y - 100}, 200, Phaser.Easing.Cubic.InOut,true)
+		coin.motion.onComplete.add(function(){
+			coin.motion = game.add.tween(coin).to({x: pointsBar.centerX, y:pointsBar.centerY}, 200, Phaser.Easing.Cubic.InOut,true)
+			coin.motion.onComplete.add(function(){
+				coin.motion = game.add.tween(coin).to({alpha:0}, 200, Phaser.Easing.Cubic.In, true)
+				coin.motion.onComplete.add(function(){
+					addPoint(1);
+					coin.kill();
+				})
+			})
+		})
+	}
 	function onClickPlay(rect) {
 		tutoGroup.y = -game.world.height
+		coinsGroup= new Phaser.Group(game)
+		sceneGroup.add(coinsGroup)
+		coinsGroup.add(coinS)
 		gameActive = true
 		touchGraphic.inputEnabled=true;
 		setRound()
@@ -513,7 +547,10 @@ var kineticJump = function(){
 					spider.y += delta
 					spider.canCollide = true
 					if(spider.y > game.world.height && spider.giveCoin){
-						Coin(spider,pointsBar,100,1)
+						getCoins(spider)
+						correctParticle.x = spider.x
+						correctParticle.y = spider.y-100
+						correctParticle.start(true, 1000, null, 5)
 						spider.giveCoin = false
 					}
 					if(spider.y > game.world.height + 200){
@@ -1255,6 +1292,7 @@ var kineticJump = function(){
 				wrongParticle.x = yogotarGroup.world.x
 				wrongParticle.y = yogotarGroup.world.y+100
 				wrongParticle.start(true, 1000, null, 5)
+				missPoint()
 				yogotarGroup.spine.setAnimationByName(0,"lose_web",false).onComplete = function(){
 					if(lives>0){
 						jump()
@@ -1265,7 +1303,7 @@ var kineticJump = function(){
 					})
 				}
 
-				missPoint()
+				
 
 				break
 				case COLLISION_TYPE.SPIDER:
@@ -1378,7 +1416,7 @@ var kineticJump = function(){
 
 		initialize()
 		createBackground()
-		
+		createCoin()
 		
 
 		backgroundSound = game.add.audio('gameSong')
