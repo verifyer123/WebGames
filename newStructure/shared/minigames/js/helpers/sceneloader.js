@@ -94,7 +94,11 @@ var sceneloader = function(){
 						if(file.includes("%lang")) {
 							var re = /%lang/gi;
 							file = file.replace(re, language);
-							file = localization.getString(currentScene.localizationData, currentImage.name)
+							if(file.includes("%input")){
+								file = localization.getString(currentScene.localizationData, currentImage.name +"_"+inputDevice)
+							}else{
+								file = localization.getString(currentScene.localizationData, currentImage.name)
+							}
 						}
 						
 						

@@ -82,8 +82,9 @@ var result = function(){
 	var whiteFade
 	var iconsGroup
 	var buttonsActive
+	var isImagicCharacter
 	var currentPlayer
-	var haveCoupon
+	//var haveCoupon
 	var gameData
 	var goalScore = 50
 	var gameNumbers = null
@@ -104,6 +105,9 @@ var result = function(){
 	var timeGoal = null
 	var stars = 0
 	var player = new Object()
+	var IMAGIC_CHARACTERS=[
+		"dax"
+	]
 
 
 	function setScore(didWin,score,index,scale) {
@@ -252,9 +256,6 @@ var result = function(){
 		buttonsGroup = game.add.group()
 		sceneGroup.add(buttonsGroup)
 
-
-
-
 		var buttonNames = ['retry','home','share']
 
 		var buttonTexts = ['retry','home','share']
@@ -349,9 +350,9 @@ var result = function(){
 
 		//console.log(icons[0].name + ' name')
 
-		if(game.device.desktop){
-			haveCoupon = false
-		}
+//		if(game.device.desktop){
+//			haveCoupon = false
+//		}
 		loadSounds()
 
 		sceneGroup = game.add.group()
@@ -386,16 +387,26 @@ var result = function(){
 			}
 			parent.epicModel.savePlayer(currentPlayer)
 		}
-
 		yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "yogotaResults");
+		for(var check=0; check<IMAGIC_CHARACTERS.length; check++){
+			if(gameData.yogotar==IMAGIC_CHARACTERS[check]){
+				isImagicCharacter=true;
+				yogotar = game.add.spine(game.world.centerX - 100,topHeight * 0.5, "imagicResults");
+			}
+		}
 		yogotar.scale.setTo(scaleSpine,scaleSpine)
 		yogotar.setAnimationByName(0, "idle", true);
-//		if(currentPlayer && currentPlayer.yogotar){
-		var yogotarSkin = gameData.yogotar;
-		yogotar.setSkinByName(yogotarSkin.toLowerCase());
-//		}else{
-//			yogotar.setSkinByName('eagle');
-//		}
+		if(!isImagicCharacter && gameData.yogotar!=null){
+			var yogotarSkin = gameData.yogotar;
+			yogotar.setSkinByName(yogotarSkin.toLowerCase());
+		}else if(isImagicCharacter){
+			yogotar.setSkinByName("normal");
+		}else if(gameData.yogotar==null){
+			var anyYogotar=game.rnd.integerInRange(1,yogotar.skeleton.data.skins.length)
+			var nameOfChoosenYogotar=yogotar.skeleton.data.skins[anyYogotar].name;
+			console.log(anyYogotar, nameOfChoosenYogotar)
+			yogotar.setSkinByName(nameOfChoosenYogotar);
+		}
 
 		yogotar.y=yogotar.y-30;
 
@@ -478,14 +489,8 @@ var result = function(){
 		iconImage = sceneGroup.create(game.world.centerX + 103, game.world.centerY - 212,'gameIcon')
 		iconImage.scale.setTo(0.7,0.7)
 		iconImage.anchor.setTo(0.5,0.5)
-
-
-
-
-
+		
 		tweenScene = game.add.tween(sceneGroup).to({alpha: 1}, 500, Phaser.Easing.Cubic.In, 500, true)
-
-
 
 		starGroup = game.add.group()
 		starGroup.x = game.world.centerX
@@ -497,9 +502,6 @@ var result = function(){
 
 		infoGroup = game.add.group()
 		sceneGroup.add(infoGroup)
-
-
-
 
 		var playerNameText = new Phaser.Text(sceneGroup.game, 0, 0,player.name.toString() , fontStyleImagic).setShadow(0, 0, 'rgba(0,255,255,1)', 20);
 		playerNameText.anchor.setTo(0.5, 0.5)
@@ -529,19 +531,12 @@ var result = function(){
 
 		sceneGroup.alpha = 0
 		game.add.tween(sceneGroup).to({alpha:1},500,"Linear",true).onComplete.add(function(){
-
 			addCoins()
-
 		})
-
 	}
-
 	function addCoins(){
-
-
-
 		var soundName = 'cheers'
-		var animName = "win"
+		var animName =  isImagicCharacter ? "salute" : "win";
 		yogotar.setAnimationByName(0,animName,true)
 		game.time.events.add(500,function(){
 			var delay = 0
@@ -591,7 +586,8 @@ var result = function(){
 		buttonsActive = false
 		totalScore = totalScore || 0
 		totalTime = totalTime || 99.99
-		haveCoupon = false
+		//haveCoupon = false
+		isImagicCharacter=false;
 		game.stage.backgroundColor = "#ffffff"
 	}
 
@@ -639,6 +635,7 @@ var result = function(){
 		game.load.bitmapFont('luckiest', imagesPath + 'bitfont/font.png', imagesPath + 'bitfont/font.fnt');
 
 		game.load.spine('yogotaResults', imagesPath + "spines/yogotar.json?v2");
+		game.load.spine('imagicResults', imagesPath + "spines/Imagic/dax.json?v2");
 
 		var iconName = gameData.sceneName
 		game.load.image('gameIcon', imagesPath + "icons/" + iconName + ".png")

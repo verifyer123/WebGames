@@ -47,7 +47,7 @@ var kineticJump = function(){
 		spines:[
 			{
 				name:'dax',
-				file:'images/spines/dax/dax.json'
+				file:'images/spines/dax/dax_game.json'
 			},
 			{
 				name:'spider',
@@ -95,6 +95,7 @@ var kineticJump = function(){
 	var MULTIPLIER_FORCE = 1.5
 	var MIN_TIME_FORCE = 500
 	var MAX_TIME_FORCE = 1500
+	
 
 	var JEWEL_TO_RANDOM = 7
 
@@ -310,6 +311,7 @@ var kineticJump = function(){
 
 		backgroundSound.stop()
 		inputsEnabled = false
+		touchGraphic.inputEnabled=false;
 
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
@@ -1258,7 +1260,7 @@ var kineticJump = function(){
 				if(!yogotarGroup.invensible){
 					yogotarGroup.body.velocity.x = 0
 					yogotarGroup.body.velocity.y = 0
-					sprite2.y = game.world.height
+					sprite2.y = game.world.height+300
 
 					missPoint()
 					newLife=true;
@@ -1357,6 +1359,8 @@ var kineticJump = function(){
 
 		initialize()
 		createBackground()
+		
+		
 
 		backgroundSound = game.add.audio('gameSong')
 		game.sound.setDecodedCallback(backgroundSound, function(){
@@ -1395,9 +1399,11 @@ var kineticJump = function(){
 		correctParticle = createPart('atlas.game','star')
 		jewelsParticle = createPart('atlas.game','star')
 
-		buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+		
 
 		createTutorial()
+		
+		buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
 	}
 
@@ -1417,9 +1423,10 @@ var kineticJump = function(){
 
      	for(var i = 0; i < spidersGroup.length; i++){
           game.debug.body(spidersGroup.children[i])   
-        }*/
+        }
 
 		game.debug.text(game.time.fps || '--', 2, 14, "#00ff00"); 
+		*/
 	}
 
 

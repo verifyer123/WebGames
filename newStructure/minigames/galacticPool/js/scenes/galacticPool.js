@@ -9,7 +9,6 @@ var galacticPool = function(){
 			"howTo":"How to Play?",
 			"moves":"Moves left",
 			"stop":"Stop!",
-			"tutorial_image":"images/galacticPool/tutorial_image_EN_movil.png",
 			"tutorial_image":"images/galacticPool/tutorial_image_EN.png",
 			"planet1":"Sun",
 			"planet2":"Mercury",
@@ -26,7 +25,6 @@ var galacticPool = function(){
 			"moves":"Movimientos extra",
 			"howTo":"¿Cómo jugar?",
 			"stop":"¡Detener!",
-			"tutorial_image":"images/galacticPool/tutorial_image_ES_desktop.png",
 			"tutorial_image":"images/galacticPool/tutorial_image_ES.png",
 			"planet1":"Sol",
 			"planet2":"Mercurio",
@@ -62,7 +60,7 @@ var galacticPool = function(){
 
 			{
 				name:'tutorial_image',
-				file:"%lang_%input",
+				file:"%lang",
 			},
 			{
 				name:'tile_back',

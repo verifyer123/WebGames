@@ -54,7 +54,6 @@ var tutorialHelper = function () {
 		var tuto = group.create(game.world.centerX, game.world.centerY - 120,'tutorial_image')
 		tuto.anchor.setTo(0.5,0.5)
 
-
 		button.inputEnabled=true;
 		button.events.onInputDown.add(function(){
 			button.inputEnabled = false
