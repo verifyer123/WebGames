@@ -6,7 +6,7 @@ var kineticJump = function(){
 		WALL:1,
 		WALL_LOSE:2,
 		SPIDER:3,
-		JEWEL:4,
+		milk:4,
 	}
 
 	var GAME_STATE = {
@@ -39,6 +39,10 @@ var kineticJump = function(){
 			 file: soundsPath + "magic.mp3"},
 			{   name: "gameLose",
 			 file: soundsPath + "gameLose.mp3"},
+			{   name: "powerup",
+			 file: soundsPath + "powerup.mp3"},
+			{   name: "energyCharge2",
+			 file: soundsPath + "energyCharge2.mp3"},
 			{
 				name: 'gameSong',
 				file: soundsPath + 'songs/mysterious_garden.mp3'},
@@ -97,7 +101,7 @@ var kineticJump = function(){
 	var MAX_TIME_FORCE = 1500
 	
 
-	var JEWEL_TO_RANDOM = 7
+	var milk_TO_RANDOM = 7
 
 	var JUNGLE_TILE_HEIGTH = 959
 	var COLOR_STEPS = 50
@@ -140,7 +144,7 @@ var kineticJump = function(){
 	var yogotarGroup
 	var climbGroup
 	var spidersGroup
-	var jewelGroup
+	var milkGroup
 	var lastObject
 	var graphicCollisions
 	var loseCollision
@@ -158,17 +162,18 @@ var kineticJump = function(){
 	var multiplierForce 
 
 	var currentDeltaDistance
-	var createJewel
-	var jewelCount
+	var createmilk
+	var milkCount
 
-	var jewelPoints
-	var nextLevelJewel
+	var milkPoints
+	var nextLevelmilk
 
 	var fadePanel
 	var currentColorStep
 	var bmd, colorIndex, distanceChangeColor
 	var currentCollider
-	var jewelsParticle
+	var milksParticle
+	var wrongParticle
 	var touchGraphic
 
 	function loadSounds(){
@@ -205,11 +210,11 @@ var kineticJump = function(){
 
 		multiplierForce = 1
 		currentTimeForce = 0
-		nextLevelJewel = 2
+		nextLevelmilk = 2
 
 		currentDeltaDistance = 0
-		createJewel = false
-		jewelCount = 0
+		createmilk = false
+		milkCount = 0
 		distanceChangeColor = 0
 
 		currentCollider = null
@@ -292,7 +297,7 @@ var kineticJump = function(){
 		coins.y=objectBorn.centerY
 
 		correctParticle.x = objectBorn.x
-		correctParticle.y = objectBorn.y
+		correctParticle.y = objectBorn.y-100
 		correctParticle.start(true, 1000, null, 5)
 
 		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
@@ -482,7 +487,7 @@ var kineticJump = function(){
 //				distanceChangeColor = 0
 //			}
 
-			if(currentDistanceObject >= nextDistance && !createJewel){
+			if(currentDistanceObject >= nextDistance && !createmilk){
 				currentDistanceObject = 0
 				nextDistance = game.rnd.integerInRange(MIN_DISTANCE_OBJECT-currentDeltaDistance,MAX_DISTANCE_OBJECT-currentDeltaDistance)
 				var random = game.rnd.frac()
@@ -494,11 +499,11 @@ var kineticJump = function(){
 					setSpider()
 				}
 				else{
-					if(jewelCount > JEWEL_TO_RANDOM){
-						setJewel()
+					if(milkCount > milk_TO_RANDOM){
+						setmilk()
 					}
 					else{
-						createJewel = true
+						createmilk = true
 					}
 				}
 			}
@@ -516,13 +521,13 @@ var kineticJump = function(){
 					}
 				}
 			}
-			for(var i = 0; i < jewelGroup.length; i++){
-				var jewel = jewelGroup.children[i]
-				if(jewel.visible){
-					jewel.y += delta
-					jewel.canCollide = true
-					if(jewel.y > game.world.height + 100){
-						jewel.visible = false
+			for(var i = 0; i < milkGroup.length; i++){
+				var milk = milkGroup.children[i]
+				if(milk.visible){
+					milk.y += delta
+					milk.canCollide = true
+					if(milk.y > game.world.height + 100){
+						milk.visible = false
 					}
 				}
 			}
@@ -568,7 +573,7 @@ var kineticJump = function(){
 
 					var random = game.rnd.frac()
 
-					if(!createJewel){
+					if(!createmilk){
 						if(random<PORCENTAGE_DOUBLE){
 							var reference = lastObject.y
 							setWall(reference,0)
@@ -581,7 +586,7 @@ var kineticJump = function(){
 					}
 					else{
 						var reference = lastObject.y
-						if(jewelCount < 3){
+						if(milkCount < 3){
 
 							setWall(reference,0)
 							setWall(reference,1,false)
@@ -591,8 +596,8 @@ var kineticJump = function(){
 							setWall(reference,side)
 						}
 
-						setJewel(reference-250)
-						createJewel = false
+						setmilk(reference-250)
+						createmilk = false
 						nextDistance = game.rnd.integerInRange(-reference+MIN_DISTANCE_OBJECT-currentDeltaDistance,-reference+MAX_DISTANCE_OBJECT-currentDeltaDistance)
 					}
 				}
@@ -602,6 +607,9 @@ var kineticJump = function(){
 		if(firstTouch){
 			if((yogotarGroup.y > game.world.height + 100 || (yogotarGroup.x > game.world.width + 100 || yogotarGroup.x < -100) )){
 				missPoint()
+				wrongParticle.x = yogotarGroup.world.x
+				wrongParticle.y = yogotarGroup.world.y-100
+				wrongParticle.start(true, 1000, null, 5)
 				newLife=true;
 				gameActive = false
 				yogotarGroup.body.velocity.x = 0
@@ -626,11 +634,11 @@ var kineticJump = function(){
 
 		}
 
-		for(var i = 0; i < jewelGroup.length; i++){
-			var jewel = jewelGroup.children[i]
-			if(jewel.visible && jewel.canCollide){
-				game.physics.arcade.overlap(yogotarGroup,jewel,function(){
-					hit(null, jewel)
+		for(var i = 0; i < milkGroup.length; i++){
+			var milk = milkGroup.children[i]
+			if(milk.visible && milk.canCollide){
+				game.physics.arcade.overlap(yogotarGroup,milk,function(){
+					hit(null, milk)
 				},null,this)
 			}
 		}
@@ -858,34 +866,34 @@ var kineticJump = function(){
 
 	}
 
-	function setJewel(y){
+	function setmilk(y){
 		if(y==null){
 			y = -100
 		}
 
-		for(var i = 0; i < jewelGroup.length; i++){
-			if(!jewelGroup.children[i].visible){
-				var jewel = jewelGroup.children[i]
+		for(var i = 0; i < milkGroup.length; i++){
+			if(!milkGroup.children[i].visible){
+				var milk = milkGroup.children[i]
 
-				jewel.x = game.world.centerX
-				jewel.y = y
-				jewel.visible = true
+				milk.x = game.world.centerX
+				milk.y = y
+				milk.visible = true
 				return
 			}
 		}
 
-		var jewel = jewelGroup.create(-100,y,"atlas.game","ruby")
-		jewel.anchor.setTo(0.5)
-		jewel.scale.setTo(0.7)
-		game.physics.arcade.enable(jewel)
-		jewel.body.setSize(100,150,0,0)
-		jewel.body.allowGravity = false
-		jewel.body.immovable = true
-		jewel.typeCollision = COLLISION_TYPE.JEWEL
-		jewel.canCollide = false
+		var milk = milkGroup.create(-100,y,"atlas.game","milk")
+		milk.anchor.setTo(0.5)
+		milk.scale.setTo(0.7)
+		game.physics.arcade.enable(milk)
+		milk.body.setSize(100,150,0,0)
+		milk.body.allowGravity = false
+		milk.body.immovable = true
+		milk.typeCollision = COLLISION_TYPE.milk
+		milk.canCollide = false
 
-		jewel.x = game.world.centerX
-		jewel.visible = true
+		milk.x = game.world.centerX
+		milk.visible = true
 	}
 
 
@@ -1035,8 +1043,8 @@ var kineticJump = function(){
 
 
 
-		jewelGroup = game.add.group()
-		sceneGroup.add(jewelGroup)
+		milkGroup = game.add.group()
+		sceneGroup.add(milkGroup)
 
 		jumpEffect = sceneGroup.create(0,0,"atlas.game","efect")
 		jumpEffect.anchor.setTo(0.5)
@@ -1052,6 +1060,7 @@ var kineticJump = function(){
 		touchGraphic.events.onInputDown.add(function(){
 
 			if(!jumpController){
+				
 				if(!gameActive && inTutorial!=1 && inTutorial!=2 && inTutorial!=3){
 					return
 				}
@@ -1100,7 +1109,7 @@ var kineticJump = function(){
 
 
 		touchGraphic.events.onInputUp.add(function(){
-
+			
 			if(!gameActive || !firstTouch){
 				return
 			}
@@ -1243,6 +1252,9 @@ var kineticJump = function(){
 				yogotarGroup.hittingLose=true;
 				yogotarGroup.body.velocity.x = 0
 				yogotarGroup.body.velocity.y = 0
+				wrongParticle.x = yogotarGroup.world.x
+				wrongParticle.y = yogotarGroup.world.y+100
+				wrongParticle.start(true, 1000, null, 5)
 				yogotarGroup.spine.setAnimationByName(0,"lose_web",false).onComplete = function(){
 					if(lives>0){
 						jump()
@@ -1261,6 +1273,9 @@ var kineticJump = function(){
 					yogotarGroup.body.velocity.x = 0
 					yogotarGroup.body.velocity.y = 0
 					sprite2.y = game.world.height+300
+					wrongParticle.x = yogotarGroup.world.x
+					wrongParticle.y = yogotarGroup.world.y+100
+					wrongParticle.start(true, 1000, null, 5)
 
 					missPoint()
 					newLife=true;
@@ -1279,30 +1294,34 @@ var kineticJump = function(){
 					sprite2.canCollide = false
 				}
 				break
-				//				case COLLISION_TYPE.JEWEL:
+				//				case COLLISION_TYPE.milk:
 				//				Coin(yogotarGroup,pointsBar,100,5)
 				//				sprite2.y = game.world.height
 				//				sprite2.visible = false
 				//				sprite2.canCollide = false
-				//				jewelCount ++
-				//				if(jewelCount == nextLevelJewel){
-				//					jewelsParticle.x = jewelText.world.x
-				//					jewelsParticle.y = jewelText.world.y
-				//					jewelsParticle.start(true, 1000, null, 5)
+				//				milkCount ++
+				//				if(milkCount == nextLevelmilk){
+				//					milksParticle.x = milkText.world.x
+				//					milksParticle.y = milkText.world.y
+				//					milksParticle.start(true, 1000, null, 5)
 				//
-				//					nextLevelJewel += (nextLevelJewel-1)
-				//					game.add.tween(jewelPoints.scale).to({x:1.2,y:1.2},300,Phaser.Easing.linear,true).yoyo(true)
+				//					nextLevelmilk += (nextLevelmilk-1)
+				//					game.add.tween(milkPoints.scale).to({x:1.2,y:1.2},300,Phaser.Easing.linear,true).yoyo(true)
 				//				}
 				//
-				//				jewelText.setText(jewelCount+"/"+nextLevelJewel)
+				//				milkText.setText(milkCount+"/"+nextLevelmilk)
 				//
 				//				break
-				case COLLISION_TYPE.JEWEL:
+				case COLLISION_TYPE.milk:
 				if(!yogotarGroup.invensible){
 					yogotarGroup.invensible=true
 					jumpController=false;
 					sprite2.y = game.world.height
 					sprite2.visible = false
+					sound.play("energyCharge2")
+					correctParticle.x = yogotarGroup.world.x
+					correctParticle.y = yogotarGroup.world.y+100
+					correctParticle.start(true, 1000, null, 5)
 					yogotarGroup.spine.setAnimationByName(0,"idle_flying",true)
 					touchGraphic.inputEnabled=false;
 					game.physics.arcade.gravity.y = -700
@@ -1397,7 +1416,8 @@ var kineticJump = function(){
 		createHearts()
 
 		correctParticle = createPart('atlas.game','star')
-		jewelsParticle = createPart('atlas.game','star')
+		milksParticle = createPart('atlas.game','star')
+		wrongParticle = createPart('atlas.game','smoke')
 
 		
 
@@ -1405,6 +1425,10 @@ var kineticJump = function(){
 		
 		buttons.getButton(backgroundSound,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
 
+	}
+	
+	function preload(){
+		game.stage.disableVisibilityChange = false;
 	}
 
 	function render(){
@@ -1417,8 +1441,8 @@ var kineticJump = function(){
         for(var i = 0; i < loseCollision.length; i++){
              game.debug.body(loseCollision.children[i])
         }
-        for(var i = 0; i < jewelGroup.length; i++){
-     	      game.debug.body(jewelGroup.children[i])   
+        for(var i = 0; i < milkGroup.length; i++){
+     	      game.debug.body(milkGroup.children[i])   
         }
 
      	for(var i = 0; i < spidersGroup.length; i++){
@@ -1435,6 +1459,7 @@ var kineticJump = function(){
 		name: "kineticJump",
 		update:update,
 		render:render,
+		preload:preload,
 		getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: createScene,
 		//        render:render

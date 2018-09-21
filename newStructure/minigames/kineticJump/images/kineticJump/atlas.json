@@ -2,7 +2,7 @@
 
 {
 	"filename": "boardGris",
-	"frame": {"x":144,"y":917,"w":119,"h":46},
+	"frame": {"x":222,"y":960,"w":119,"h":46},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":119,"h":46},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "efect",
-	"frame": {"x":353,"y":470,"w":34,"h":69},
+	"frame": {"x":353,"y":565,"w":34,"h":69},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":34,"h":69},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "gema",
-	"frame": {"x":265,"y":917,"w":45,"h":38},
+	"frame": {"x":343,"y":960,"w":45,"h":38},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":45,"h":38},
@@ -56,7 +56,7 @@
 },
 {
 	"filename": "hearts",
-	"frame": {"x":1,"y":917,"w":141,"h":54},
+	"frame": {"x":79,"y":917,"w":141,"h":54},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":141,"h":54},
@@ -65,7 +65,7 @@
 },
 {
 	"filename": "medioTile",
-	"frame": {"x":287,"y":471,"w":62,"h":114},
+	"frame": {"x":287,"y":566,"w":62,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":114},
@@ -73,8 +73,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "milk",
+	"frame": {"x":1,"y":917,"w":76,"h":85},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":0,"w":76,"h":85},
+	"sourceSize": {"w":103,"h":85},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "otrapuntaTile",
-	"frame": {"x":1,"y":973,"w":62,"h":25},
+	"frame": {"x":79,"y":973,"w":62,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":25},
@@ -83,7 +92,7 @@
 },
 {
 	"filename": "puntaTile",
-	"frame": {"x":65,"y":973,"w":62,"h":25},
+	"frame": {"x":143,"y":973,"w":62,"h":25},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":62,"h":25},
@@ -92,7 +101,7 @@
 },
 {
 	"filename": "rope",
-	"frame": {"x":372,"y":294,"w":16,"h":174},
+	"frame": {"x":372,"y":389,"w":16,"h":174},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":15,"w":16,"h":174},
@@ -109,8 +118,17 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "smoke",
+	"frame": {"x":287,"y":294,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
-	"frame": {"x":287,"y":405,"w":64,"h":64},
+	"frame": {"x":287,"y":500,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -119,7 +137,7 @@
 },
 {
 	"filename": "tile",
-	"frame": {"x":287,"y":294,"w":83,"h":109},
+	"frame": {"x":287,"y":389,"w":83,"h":109},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":83,"h":109},
@@ -128,7 +146,7 @@
 },
 {
 	"filename": "tileSpider",
-	"frame": {"x":312,"y":587,"w":58,"h":99},
+	"frame": {"x":287,"y":682,"w":58,"h":99},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":58,"h":99},
@@ -137,7 +155,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":144,"y":965,"w":165,"h":41},
+	"frame": {"x":222,"y":917,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -151,6 +169,6 @@
 	"format": "RGBA8888",
 	"size": {"w":391,"h":1007},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:0c9a99ba53908f5b3895d277caa11bb3:1c5958309257f1430020a06bef0ed3dc:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:c91592d21d3e83fe502e5ee9a9f0f43c:7f5c3cdb9382ecf80882fe725da6d00f:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }
