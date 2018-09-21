@@ -130,8 +130,6 @@ var magicSpell = function(){
 			 file: soundsPath + "cog.mp3"},
 			{	name: "evilLaugh",
 			 file: soundsPath + "evilLaugh.mp3"},
-			{	name: "splash",
-			 file: soundsPath + "splash.mp3"},
 			{	name: "explode",
 			 file: soundsPath + "explosion.mp3"},
 			{   name:"technology",
@@ -455,7 +453,6 @@ var magicSpell = function(){
 	}
 	function attackEnemy(word){
 		dinamita.setAnimationByName(0,"spell_fail",false).onComplete=function(){
-			sound.play("splash")
 			feedBack(word)
 			dinamita.setAnimationByName(0,"idle",true)
 			skelleton.setAnimationByName(0,"attack",false).onComplete=function(){
@@ -476,6 +473,7 @@ var magicSpell = function(){
 					if(lives>0)reset(false,word)
 				})
 			};
+			skelleton.setToSetupPose();
 		}
 		dinamita.setToSetupPose();
 	}
