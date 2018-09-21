@@ -298,13 +298,13 @@ var kineticJump = function(){
 
 	function stopGame(){
 
-		backgroundSound.stop()
+		
 		inputsEnabled = false
 		touchGraphic.inputEnabled=false;
 
 		var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 750)
 		tweenScene.onComplete.add(function(){
-
+			backgroundSound.stop()
 			var resultScreen = sceneloader.getScene("result")
 			resultScreen.setScore(true, numPoints, gameIndex)
 
@@ -351,6 +351,8 @@ var kineticJump = function(){
 		sound.play("wrong")
 
 		lives--;
+		
+		
 		heartsGroup.text.setText('X ' + lives)
 
 		var scaleTween = game.add.tween(heartsGroup.scale).to({x: 0.7,y:0.7}, 200, Phaser.Easing.linear, true)
@@ -363,6 +365,7 @@ var kineticJump = function(){
 		stopTouch = true
 
 		if(lives === 0){
+			touchGraphic.inputEnabled=false;
 			stopGame(false)
 		}
 
@@ -399,7 +402,7 @@ var kineticJump = function(){
 		if(coin.motion)
 			coin.motion.stop()
 
-		coin.reset(obj.centerX,obj.centerY);
+		coin.reset(obj.centerX,obj.centerY-200);
 
 		game.add.tween(coin).to({alpha:1}, 100, Phaser.Easing.linear, true)
 
@@ -421,6 +424,7 @@ var kineticJump = function(){
 		sceneGroup.add(coinsGroup)
 		coinsGroup.add(coinS)
 		gameActive = true
+		jumpController=false;
 		touchGraphic.inputEnabled=true;
 		setRound()
 
@@ -546,10 +550,10 @@ var kineticJump = function(){
 				if(spider.visible){
 					spider.y += delta
 					spider.canCollide = true
-					if(spider.y > game.world.height && spider.giveCoin){
+					if(spider.y > game.world.height+100 && spider.giveCoin){
 						getCoins(spider)
 						correctParticle.x = spider.x
-						correctParticle.y = spider.y-100
+						correctParticle.y = spider.y-200
 						correctParticle.start(true, 1000, null, 5)
 						spider.giveCoin = false
 					}
@@ -644,7 +648,7 @@ var kineticJump = function(){
 		if(firstTouch){
 			if((yogotarGroup.y > game.world.height + 100 || (yogotarGroup.x > game.world.width + 100 || yogotarGroup.x < -100) )){
 				missPoint()
-				wrongParticle.x = yogotarGroup.world.x
+				wrongParticle.x = game.world.centerX
 				wrongParticle.y = yogotarGroup.world.y-100
 				wrongParticle.start(true, 1000, null, 5)
 				newLife=true;
@@ -1077,9 +1081,6 @@ var kineticJump = function(){
 
 		spidersGroup = game.add.group()
 		sceneGroup.add(spidersGroup)
-
-
-
 		milkGroup = game.add.group()
 		sceneGroup.add(milkGroup)
 
@@ -1307,7 +1308,7 @@ var kineticJump = function(){
 
 				break
 				case COLLISION_TYPE.SPIDER:
-				if(!yogotarGroup.invensible){
+				if(!yogotarGroup.invensible && sprite2.visible){
 					yogotarGroup.body.velocity.x = 0
 					yogotarGroup.body.velocity.y = 0
 					sprite2.y = game.world.height+300
@@ -1351,7 +1352,7 @@ var kineticJump = function(){
 				//
 				//				break
 				case COLLISION_TYPE.milk:
-				if(!yogotarGroup.invensible){
+				if(!yogotarGroup.invensible && sprite2.visible){
 					yogotarGroup.invensible=true
 					jumpController=false;
 					sprite2.y = game.world.height
