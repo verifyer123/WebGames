@@ -757,7 +757,7 @@ var dotBlocks = function(){
                 else if(value >=31 && value <=40){
                     block.loadTexture("atlas.game","bloque4")
                 }
-                else if(value >=41 && value <=50){
+                else if(value >=41){
                     block.loadTexture("atlas.game","bloque5") 
                 }
 
@@ -788,7 +788,7 @@ var dotBlocks = function(){
         else if(value >=31 && value <=40){
             block.loadTexture("atlas.game","bloque4")
         }
-        else if(value >=41 && value <=50){
+        else if(value >=41){
             block.loadTexture("atlas.game","bloque5") 
         }
 

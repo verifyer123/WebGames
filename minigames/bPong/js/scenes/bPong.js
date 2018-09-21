@@ -93,6 +93,7 @@ var bPong = function(){
     var lastTree, tileLeft, tileRight
 
     var beerParticle, waterParticle, fireParticle
+    var beerSplash
 
     function loadSounds(){
         sound.decode(assets.sounds)
@@ -521,6 +522,13 @@ var bPong = function(){
                                 player.x = platform.glass.x
 
                                 createTextPart('+'+POINTS_FOR_BEER, platform.glass)
+                                beerSplash.visible = true
+                                beerSplash.x = platform.glass.x
+                                beerSplash.y = platform.glass.y - 20
+                                beerSplash.time = game.time.now + 50
+                                beerSplash.loadTexture("atlas.game","splash1")
+                                beerSplash.index = 1
+                                beerSplash.glass = platform.glass
 
                                 currentPlatform = platform
                                 player.inJump = false
@@ -559,6 +567,22 @@ var bPong = function(){
                 if(treesGroup.children[i].y < -100){
                     treesGroup.children[i].visible = false
                 }
+            }
+        }
+
+        if(beerSplash.visible){
+            if(game.time.now > beerSplash.time){
+                beerSplash.index ++
+                if(beerSplash.index <= 4){
+                    beerSplash.x = beerSplash.glass.x
+                    beerSplash.y = beerSplash.glass.y-20
+                    beerSplash.loadTexture("atlas.game","splash"+beerSplash.index)
+                    beerSplash.time = game.time.now + 50
+                }
+                else{
+                    beerSplash.visible = false
+                }
+                               
             }
         }
 
@@ -859,6 +883,10 @@ var bPong = function(){
 
         createPointsBar()
         createHearts()
+
+        beerSplash = sceneGroup.create(0,0,"atlas.game","splash1")
+        beerSplash.anchor.setTo(0.5,1)
+        beerSplash.visible = true
 
         initGame()
 
