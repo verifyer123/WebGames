@@ -247,7 +247,7 @@ var wordBlast = function () {
                     addPoint(1);
                     if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
                         clearBoard()
-                        chipCounter = 0
+                        
                         speed > 100 ? speed -= 200 : speed = 100
                         //console.log("speed " + speed)
                     }
@@ -560,9 +560,8 @@ var wordBlast = function () {
     }
 
     function fadeOut(obj) {
-
+ 		obj.used = false
         game.add.tween(obj).to({ alpha: 0 }, 200, Phaser.Easing.In, true).onComplete.add(function () {
-            obj.used = false
             obj.chipOff.alpha = 1
             obj.chipOn.alpha = 0
             obj.text.setText("")
@@ -603,18 +602,21 @@ var wordBlast = function () {
             // }
         }
         else {
+			okBtn.inputEnabled=false;
             missPoint(riddleImage)
+			chipCounter = 0
         }
 
         game.time.events.add(1500, function () {
             if (lives !== 0) {
+				okBtn.inputEnabled=true;
                 initGame()
             }
         })
     }
 
     function clearBoard() {
-
+		
         for (var i = 0; i < chipsGroup.length; i++) {
             fadeOut(chipsGroup.children[i])
             if (chipsGroup.children[i].falling)
