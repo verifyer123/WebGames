@@ -649,7 +649,7 @@ var kineticJump = function(){
 			if((yogotarGroup.y > game.world.height + 100 || (yogotarGroup.x > game.world.width + 100 || yogotarGroup.x < -100) )){
 				missPoint()
 				wrongParticle.x = game.world.centerX
-				wrongParticle.y = yogotarGroup.world.y-100
+				wrongParticle.y = yogotarGroup.world.y-200
 				wrongParticle.start(true, 1000, null, 5)
 				newLife=true;
 				gameActive = false
