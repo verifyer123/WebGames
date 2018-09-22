@@ -1315,8 +1315,6 @@ var kineticJump = function(){
 					})
 				}
 
-				
-
 				break
 				case COLLISION_TYPE.SPIDER:
 				if(!yogotarGroup.invensible && sprite2.visible){
