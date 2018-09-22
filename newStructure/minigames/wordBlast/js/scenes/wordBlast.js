@@ -117,6 +117,8 @@ var wordBlast = function () {
     var riddleText;
     var letterCounter;
     var wordIndex;
+	var okOff
+	var BIGGEST_WORD=9
     var option;
     var speed;
     var tutorial = true;
@@ -472,7 +474,7 @@ var wordBlast = function () {
         }
         sceneGroup.add(okBtn);
 
-        var okOff = okBtn.create(board.centerX + 200, board.centerY + 20, "atlas.wordBlast", "okOff");
+        okOff = okBtn.create(board.centerX + 200, board.centerY + 20, "atlas.wordBlast", "okOff");
         okOff.anchor.setTo(0.5);
         okOff.scale.setTo(0.5, 0.5);
         okOff.inputEnabled = true;
@@ -518,14 +520,25 @@ var wordBlast = function () {
 
     function setActualWord() {
 
-        if (gameActive && wordsArray.length > 0) {
+        if (gameActive && wordsArray.length > 0 && wordsArray.length < BIGGEST_WORD) {
 
             var word = ""
             for (var i = 0; i < wordsArray.length; i++) {
                 word += wordsArray[i]
             }
             textWritten.setText(word)
-        }
+        }else if(wordsArray.length>BIGGEST_WORD){
+			 gameActive = false
+			 changeImage(1, okOff.parent)
+			 for (var i = 0; i < chipsGroup.length; i++) {
+                if (chipsGroup.children[i].pressed && !chipsGroup.children[i].isActive && chipsGroup.children[i].used) {
+                    chipsGroup.children[i].used = false
+                    fadeOut(chipsGroup.children[i])
+					chipCounter--
+                }
+            }
+			win("")
+		}
     }
 
     function okPressed(obj) {
