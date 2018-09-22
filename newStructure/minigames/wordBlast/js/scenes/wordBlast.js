@@ -317,9 +317,8 @@ var wordBlast = function () {
     }
 
     function missPoint(obj) {
-
+		
         sound.play("wrong");
-
         particleWrong.x = obj.centerX;
         particleWrong.y = obj.centerY;
         particleWrong.start(true, 1200, null, 10);
@@ -541,13 +540,13 @@ var wordBlast = function () {
             }
 
             for (var i = 0; i < chipsGroup.length; i++) {
-
+				
                 if (chipsGroup.children[i].pressed && !chipsGroup.children[i].isActive && chipsGroup.children[i].used) {
                     chipsGroup.children[i].used = false
                     fadeOut(chipsGroup.children[i])
+					chipCounter--
                 }
             }
-
             if (tutorial) {
                 tutorial = false
                 hand.destroy()
@@ -579,7 +578,8 @@ var wordBlast = function () {
         textWritten.setText("")
         wordIndex = 0
         letterCounter = 0
-        chipCounter = 0
+		chipCounter=0
+       
         game.add.tween(animatedGroup.children[0]).to({ alpha: 0 }, 250, Phaser.Easing.In, true)
 
         for (var i = 0; i < chipsGroup.length; i++) {
@@ -587,11 +587,11 @@ var wordBlast = function () {
                 chipCounter++
             }
         }
-
+		
         if (chipCounter > 14) {
+			chipCounter = 0
             clearBoard()
         }
-
         if (ans === riddleText) {
             addCoin(riddleImage)
             // if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
@@ -604,7 +604,6 @@ var wordBlast = function () {
         else {
 			okBtn.inputEnabled=false;
             missPoint(riddleImage)
-			chipCounter = 0
         }
 
         game.time.events.add(1500, function () {
@@ -616,7 +615,7 @@ var wordBlast = function () {
     }
 
     function clearBoard() {
-		
+		chipCounter=0;
         for (var i = 0; i < chipsGroup.length; i++) {
             fadeOut(chipsGroup.children[i])
             if (chipsGroup.children[i].falling)

@@ -143,9 +143,10 @@ var kineticJump = function(){
 	var webLeft
 	var webRigth
 
-	var yogotarGroup
+	
 	var climbGroup
 	var spidersGroup
+	var yogotarGroup
 	var milkGroup
 	var lastObject
 	var graphicCollisions
@@ -536,11 +537,11 @@ var kineticJump = function(){
 					setSpider()
 				}
 				else{
-					if(milkCount > milk_TO_RANDOM){
+					if(milkCount > milk_TO_RANDOM && !yogotarGroup.invensible){
 						setmilk()
 					}
 					else{
-						createmilk = true
+						if(!yogotarGroup.invensible)createmilk = true
 					}
 				}
 			}
@@ -1057,8 +1058,12 @@ var kineticJump = function(){
 		yogotarGroup.invensible = false
 		yogotarGroup.isFalling = false
 		//yogotarGroup.body.gravity.y = 0
-
-		sceneGroup.add(yogotarGroup)
+		
+		
+		spidersGroup = game.add.group()
+		sceneGroup.add(spidersGroup)
+		
+		
 
 
 		loseCollision = game.add.group()
@@ -1082,8 +1087,7 @@ var kineticJump = function(){
 		collision.body.immovable = true
 		collision.typeCollision = COLLISION_TYPE.WALL_LOSE
 
-		spidersGroup = game.add.group()
-		sceneGroup.add(spidersGroup)
+	
 		milkGroup = game.add.group()
 		sceneGroup.add(milkGroup)
 
@@ -1190,6 +1194,7 @@ var kineticJump = function(){
 		},this)
 
 		sceneGroup.add(touchGraphic)
+		sceneGroup.add(yogotarGroup)
 
 		nextDistance = game.rnd.integerInRange(MIN_DISTANCE_OBJECT,MAX_DISTANCE_OBJECT)
 
