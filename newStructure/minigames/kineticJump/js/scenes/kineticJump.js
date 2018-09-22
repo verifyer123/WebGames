@@ -1333,6 +1333,7 @@ var kineticJump = function(){
 
 					game.physics.arcade.gravity.y = 0
 					game.add.tween(yogotarGroup).to({y:game.world.height+80},1000,Phaser.Easing.linear,true).onComplete.add(function(){
+						floor.alpha=1;
 						gameActive = false
 						restartDie()
 
