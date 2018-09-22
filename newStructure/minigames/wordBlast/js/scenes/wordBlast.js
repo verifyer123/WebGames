@@ -121,7 +121,7 @@ var wordBlast = function () {
 	var BIGGEST_WORD=9
     var option;
     var speed;
-    var tutorial = true;
+    var tutorial;
     var okBtn;
 
     function loadSounds() {
@@ -132,6 +132,7 @@ var wordBlast = function () {
 
         game.stage.backgroundColor = "#ffffff";
         lives = 3;
+		tutorial=true
         gameActive = false;
         wordsArray = [];
 
