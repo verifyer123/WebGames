@@ -9,7 +9,7 @@ var playerData;
                 timestamp:event.data.timestamp
             }
 		} else {
-			if(parent.gameData===undefined){
+			if(parent.gameData===undefined && event.origin!="https://staticxx.facebook.com"){
 				window.parent.postMessage('close','*');
 			}
 			return;
