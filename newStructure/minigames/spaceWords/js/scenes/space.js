@@ -517,7 +517,7 @@ var space = function () {
         board.scale.setTo(0)
         boardGroup.board = board
 
-        var fontStyle = { font: "55px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" }
+        var fontStyle = { font: "50px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" }
 
         var text = new Phaser.Text(sceneGroup.game, board.x, board.y + 10, "", fontStyle)
         text.anchor.setTo(0.5)
