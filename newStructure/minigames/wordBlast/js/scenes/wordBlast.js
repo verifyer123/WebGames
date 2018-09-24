@@ -117,9 +117,11 @@ var wordBlast = function () {
     var riddleText;
     var letterCounter;
     var wordIndex;
+	var okOff
+	var BIGGEST_WORD=9
     var option;
     var speed;
-    var tutorial = true;
+    var tutorial;
     var okBtn;
 
     function loadSounds() {
@@ -130,6 +132,7 @@ var wordBlast = function () {
 
         game.stage.backgroundColor = "#ffffff";
         lives = 3;
+		tutorial=true
         gameActive = false;
         wordsArray = [];
 
@@ -247,7 +250,7 @@ var wordBlast = function () {
                     addPoint(1);
                     if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
                         clearBoard()
-                        chipCounter = 0
+                        
                         speed > 100 ? speed -= 200 : speed = 100
                         //console.log("speed " + speed)
                     }
@@ -317,9 +320,8 @@ var wordBlast = function () {
     }
 
     function missPoint(obj) {
-
+		
         sound.play("wrong");
-
         particleWrong.x = obj.centerX;
         particleWrong.y = obj.centerY;
         particleWrong.start(true, 1200, null, 10);
@@ -473,7 +475,7 @@ var wordBlast = function () {
         }
         sceneGroup.add(okBtn);
 
-        var okOff = okBtn.create(board.centerX + 200, board.centerY + 20, "atlas.wordBlast", "okOff");
+        okOff = okBtn.create(board.centerX + 200, board.centerY + 20, "atlas.wordBlast", "okOff");
         okOff.anchor.setTo(0.5);
         okOff.scale.setTo(0.5, 0.5);
         okOff.inputEnabled = true;
@@ -519,14 +521,25 @@ var wordBlast = function () {
 
     function setActualWord() {
 
-        if (gameActive && wordsArray.length > 0) {
+        if (gameActive && wordsArray.length > 0 && wordsArray.length < BIGGEST_WORD) {
 
             var word = ""
             for (var i = 0; i < wordsArray.length; i++) {
                 word += wordsArray[i]
             }
             textWritten.setText(word)
-        }
+        }else if(wordsArray.length>BIGGEST_WORD){
+			 gameActive = false
+			 changeImage(1, okOff.parent)
+			 for (var i = 0; i < chipsGroup.length; i++) {
+                if (chipsGroup.children[i].pressed && !chipsGroup.children[i].isActive && chipsGroup.children[i].used) {
+                    chipsGroup.children[i].used = false
+                    fadeOut(chipsGroup.children[i])
+					chipCounter--
+                }
+            }
+			win("")
+		}
     }
 
     function okPressed(obj) {
@@ -541,13 +554,13 @@ var wordBlast = function () {
             }
 
             for (var i = 0; i < chipsGroup.length; i++) {
-
+				
                 if (chipsGroup.children[i].pressed && !chipsGroup.children[i].isActive && chipsGroup.children[i].used) {
                     chipsGroup.children[i].used = false
                     fadeOut(chipsGroup.children[i])
+					chipCounter--
                 }
             }
-
             if (tutorial) {
                 tutorial = false
                 hand.destroy()
@@ -560,9 +573,8 @@ var wordBlast = function () {
     }
 
     function fadeOut(obj) {
-
+ 		obj.used = false
         game.add.tween(obj).to({ alpha: 0 }, 200, Phaser.Easing.In, true).onComplete.add(function () {
-            obj.used = false
             obj.chipOff.alpha = 1
             obj.chipOn.alpha = 0
             obj.text.setText("")
@@ -580,7 +592,8 @@ var wordBlast = function () {
         textWritten.setText("")
         wordIndex = 0
         letterCounter = 0
-        chipCounter = 0
+		chipCounter=0
+       
         game.add.tween(animatedGroup.children[0]).to({ alpha: 0 }, 250, Phaser.Easing.In, true)
 
         for (var i = 0; i < chipsGroup.length; i++) {
@@ -588,11 +601,11 @@ var wordBlast = function () {
                 chipCounter++
             }
         }
-
+		
         if (chipCounter > 14) {
+			chipCounter = 0
             clearBoard()
         }
-
         if (ans === riddleText) {
             addCoin(riddleImage)
             // if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
@@ -603,18 +616,20 @@ var wordBlast = function () {
             // }
         }
         else {
+			okBtn.inputEnabled=false;
             missPoint(riddleImage)
         }
 
         game.time.events.add(1500, function () {
             if (lives !== 0) {
+				okBtn.inputEnabled=true;
                 initGame()
             }
         })
     }
 
     function clearBoard() {
-
+		chipCounter=0;
         for (var i = 0; i < chipsGroup.length; i++) {
             fadeOut(chipsGroup.children[i])
             if (chipsGroup.children[i].falling)

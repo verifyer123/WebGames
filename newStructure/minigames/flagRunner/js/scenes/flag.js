@@ -729,80 +729,51 @@ var flag = function () {
 			});
 		});
 	}
+	
 
 	function setCountrys() {
 
-		correctIndex = game.rnd.integerInRange(0, flagList.length - 1);
-		otherIndex = correctIndex;
+		
 		var indexList = [];
+		var recycleList=[];
+		var howMany=0
 		var repeatRandom = false;
 		if (levelCounter < levelChange) {
-			while (otherIndex == correctIndex) {
-				otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-				repeatRandom = checkIfRepeat();
-				if(repeatRandom){
-					otherIndex = correctIndex;
-					repeatRandom = false;
-				}
-			}
-			indexList = [correctIndex, otherIndex];
+			howMany=2;
+			correctIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[0]=flagList.splice(correctIndex,1).toString()
+			otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			robot.flagIndex = localization.getString(localizationData, indexList[0]);
+			indexList[1]=flagList.splice(otherIndex,1).toString()
 		} else {
-			anotherIndex = correctIndex;
-			while (otherIndex == correctIndex) {
-				otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-				while (anotherIndex == correctIndex) {
-					anotherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-				}
-				repeatRandom = checkIfRepeat();
-				if (otherIndex == anotherIndex || repeatRandom) {
-					anotherIndex = correctIndex;
-					otherIndex = correctIndex;
-					repeatRandom = false;
-				}
-			}
-			indexList = [correctIndex, otherIndex, anotherIndex];
+			howMany=3;
+			correctIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[0]=flagList.splice(correctIndex,1).toString()
+			robot.flagIndex = localization.getString(localizationData, indexList[0]);
+			otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[1]=flagList.splice(otherIndex,1).toString()
+			anotherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[2]=flagList.splice(anotherIndex,1).toString()
 		}
-		console.log("" + historialAns);
 		historialAns = indexList;
-		//if (!levelZero) {
+		flagGroup.children[0].children[0].loadTexture('atlas.flag', indexList[0], 0, false);
 		Phaser.ArrayUtils.shuffle(indexList);
-		//}
-
 		for (var i = 0; i < boxesGroup.length; i++) {
-
 			var box = boxesGroup.children[i];
-			box.text.setText(localization.getString(localizationData, flagList[indexList[i]]));
-			box.index = indexList[i];
+			box.text.setText(localization.getString(localizationData, indexList[i]));
+			box.index = localization.getString(localizationData, indexList[i]);
 		}
-
-		//var skinToUse = localization.getString(localizationData,flagList[correctIndex]);
-		flagGroup.children[0].children[0].loadTexture('atlas.flag', flagList[correctIndex], 0, false);
-		//console.log(flagList[correctIndex] + ' skin');
-
+		
+		for(var recovery=0; recovery<howMany; recovery++){
+			flagList.push(indexList[recovery]);
+		}
 		robot.index = 0;
 		robot.anim.setAnimationByName(0, "idle", true);//IDLEBOX
 		//robot.anim.setSkinByName(flagList[correctIndex]);
-		robot.flagIndex = correctIndex;
+		
 
 	}
 
-	function checkIfRepeat(){
-		var repeatProcess = false;
-		for(var h=0; h<historialAns.length; h++){
-			if(historialAns[h] == otherIndex){
-				repeatProcess = true;
-			}
-			if(historialAns[h] == correctIndex){
-				repeatProcess = true;
-			}
-			if(historialAns.length==3){
-				if(historialAns[h] == anotherIndex){
-					repeatProcess = true;
-				}
-			}
-		}
-		return repeatProcess;
-	}
 
 	function deactivateObject(obj) {
 
@@ -893,7 +864,7 @@ var flag = function () {
 					obj.x -= laneSpeed;
 				}
 
-				if (checkOverlap(robot.hitBox, obj.hitBox) && obj.used && robot.active) {
+				if (checkOverlap(robot.hitBox, obj.hitBox,false) && obj.used && robot.active) {
 					obj.setAnimationByName(0, 'hit', false);
 					animationMissPoint();
 					sound.play("explosion");
@@ -922,10 +893,10 @@ var flag = function () {
 		}
 
 		for (var i = 0; i < boxesGroup.length; i++) {
-
+			
 			var box = boxesGroup.children[i]
 
-			if (checkOverlap(robot.hitBox, box)) {
+			if (checkOverlap(robot.hitBox, box, true) && box.alpha==1) {
 				gameActive = false;
 				if (robot.flagIndex == box.index) {
 
@@ -1017,11 +988,16 @@ var flag = function () {
 		});
 	}
 
-	function checkOverlap(spriteA, spriteB) {
+	function checkOverlap(spriteA, spriteB,isRobot) {
 
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
-
+		if(isRobot){
+			boundsB.width=boundsB.width/1.2;
+			boundsB.height=boundsB.height/3;
+			boundsA.width=boundsA.width/1.2;
+			boundsA.height=boundsA.height/1.2;
+		}
 		return Phaser.Rectangle.intersects(boundsA, boundsB);
 
 	}
@@ -1258,7 +1234,7 @@ var flag = function () {
 		for (var i = 0; i < 3; i++) {
 
 			var boxGroup = game.add.group();
-			boxGroup.x = pivotX;
+			boxGroup.x = pivotX+100;
 			boxGroup.y = game.world.height * 0.94;
 			boxGroup.initY = boxGroup.y;
 			boxGroup.scale.setTo(0.7, 0.7);
