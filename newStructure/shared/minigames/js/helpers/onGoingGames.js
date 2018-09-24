@@ -88,7 +88,6 @@ var onGoingGames={
 			{name:'Dusk Defense',url:'duskDefense/',mapUrl:'duskDefense', sceneName:'dusk',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.TARGET},//73
 			{name:'zucaritas',url:'zucaritas/',mapUrl:'zucaritas', sceneName:'zucaritas',subject:'geography', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//74 K
 			{name:'Divisubmarine',url:'diviSubmarine/',mapUrl:'diviSubmarine', sceneName:'divisubmarine',subject:'math', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//75
-			{name:'Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},//77
 			{name:'Space Count',url:'SpaceCount/',mapUrl:'SpaceCount', sceneName:'spaceCount',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.COUNT},//78
 			{name:'Loop Roll',url:'loopRoll/',mapUrl:'loopRoll', sceneName:'loop',subject:'math', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//79 K
 			{name:'Melvin Travel',url:'melvinTravel/',mapUrl:'melvinTravel', sceneName:'melvin',subject:'geography', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//80 K
