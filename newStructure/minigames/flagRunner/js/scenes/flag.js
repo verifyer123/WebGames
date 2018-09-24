@@ -893,7 +893,7 @@ var flag = function () {
 		}
 
 		for (var i = 0; i < boxesGroup.length; i++) {
-
+			
 			var box = boxesGroup.children[i]
 
 			if (checkOverlap(robot.hitBox, box, true) && box.alpha==1) {
@@ -993,10 +993,10 @@ var flag = function () {
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
 		if(isRobot){
-			boundsB.width=boundsB.width/3;
-			boundsB.height=boundsB.height/2;
-			boundsA.width=boundsA.width/2;
-			boundsA.height=boundsA.height/2;
+			boundsB.width=boundsB.width/1.2;
+			boundsB.height=boundsB.height/3;
+			boundsA.width=boundsA.width/1.2;
+			boundsA.height=boundsA.height/1.2;
 		}
 		return Phaser.Rectangle.intersects(boundsA, boundsB);
 
@@ -1234,7 +1234,7 @@ var flag = function () {
 		for (var i = 0; i < 3; i++) {
 
 			var boxGroup = game.add.group();
-			boxGroup.x = pivotX;
+			boxGroup.x = pivotX+100;
 			boxGroup.y = game.world.height * 0.94;
 			boxGroup.initY = boxGroup.y;
 			boxGroup.scale.setTo(0.7, 0.7);
