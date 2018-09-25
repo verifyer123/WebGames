@@ -44,6 +44,20 @@ var wild = function(){
             {   name: "gameLose",
                 //file: soundsPath + "magic.mp3"}
                 file: soundsPath + "gameLose.mp3"}
+		],
+		spritesheets:[
+			{   name: "coin",
+			 file: "images/spines/coins.png",
+			 width: 122,
+			 height: 123,
+			 frames: 12
+			},
+			{   name: "hand",
+			 file: "images/spines/hand.png",
+			 width: 115,
+			 height: 111,
+			 frames: 23
+			},
 		]
     }
 
@@ -70,7 +84,8 @@ var wild = function(){
     ]
 
     var NUM_LIFES = 3
-    
+    var coinsGroup=null
+	var hand,coins
     var lives
 	var sceneGroup = null
     var gameIndex = 25
@@ -83,6 +98,8 @@ var wild = function(){
     var inputsEnabled
     var gameGroup
     var spineObj
+	var tutorial
+	var inputRect
     var roundCounter
     var camara
 
@@ -96,6 +113,7 @@ var wild = function(){
         game.stage.backgroundColor = "#ffffff"
         //gameActive = true
         lives = NUM_LIFES
+		tutorial=true
         timeValue = 4000
         quantNumber = 2
         numPoints = 0
@@ -142,13 +160,44 @@ var wild = function(){
             spineObj.angle = spineObj.angle - 180
         }
 
-        var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY + spineObj.rHeight * 0.5}, duration, Phaser.Easing.Linear.none, false, delay)
-        tween.onComplete.add(function () {
-            missPoint()
-            spineObj.alpha = 0
-        })
+		if(tutorial){
+			var tween = game.add.tween(spineObj).to({x: 10, y: game.world.centerY-380}, duration, Phaser.Easing.Linear.none, false)
+			 tween.onComplete.add(function () {
+				 spineObj.state.timeScale = 0;
+				 hand.x=spineObj.x+game.world.centerX;
+				 hand.y=spineObj.y+game.world.centerY-150;
+				 game.add.tween(hand).to({alpha:1},500,Phaser.Easing.Cubic.In,true).onComplete.add(function(){
+					inputRect.inputEnabled=true; 
+				 });
+			})
+		}else{
+        	var tween = game.add.tween(spineObj).to({x: directions.toX, y: directions.toY + spineObj.rHeight * 0.5}, duration, Phaser.Easing.Linear.none, false, delay)
+			 tween.onComplete.add(function () {
+				 missPoint()
+				 spineObj.alpha = 0
+			 })
+		}
+       
         spineObj.tween = tween
     }
+	
+	function createCoinsAndHand(){
+		coins = game.add.sprite(0, 0, "coin")
+		coins.anchor.setTo(0.5,0.5)
+		coins.scale.setTo(0.5,0.5)
+		coins.animations.add('coin')
+		coins.animations.play('coin', 24, true)
+		coins.alpha = 0
+		sceneGroup.add(coins)
+
+		hand = game.add.sprite(0,0, "hand")
+		hand.animations.add('hand')
+		hand.animations.play('hand', 24, true)
+		hand.alpha = 0
+		sceneGroup.add(hand)
+
+		
+	}
     
     function createSnapsUI() {
 
@@ -168,7 +217,7 @@ var wild = function(){
             sound.play("right")
             createPart("star", spineObj)
             numPoints++
-            addPoint(1)
+            Coin(spineObj,pointsBar,100);
             var tweenSpine = game.add.tween(spineObj).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 400)
             tweenSpine.onComplete.add(function () {
                 startRound()
@@ -177,7 +226,7 @@ var wild = function(){
             roundCounter++
             // addPoint(1)
         } else {
-            createPart("wrong", spineObj)
+            createPart("smoke", spineObj)
             missPoint()
         }
 
@@ -214,11 +263,10 @@ var wild = function(){
         particlesGood.makeParticles('atlas.wild',key);
         particlesGood.minParticleSpeed.setTo(-200, -50);
         particlesGood.maxParticleSpeed.setTo(200, -100);
-        particlesGood.minParticleScale = 0.2;
+        particlesGood.minParticleScale = 0.5;
         particlesGood.maxParticleScale = 1;
         particlesGood.gravity = 150;
         particlesGood.angularDrag = 30;
-
         // particlesGood.x = obj.x;
         particlesGood.y = -obj.height * 2;
         particlesGood.start(true, 1000, null, 4);
@@ -383,6 +431,12 @@ var wild = function(){
         addNumberPart(pointsBar.text,'+' + number,true)		
         
     }
+	function update(){
+		console.log(game.state)
+		if(spineObj && game.stage.disableVisibilityChange){
+		   
+		 }
+	}
     
     function createPointsBar(){
         
@@ -431,89 +485,42 @@ var wild = function(){
             bar.y = 13
             batteryGroup.add(bar)
             batteryGroup.lifes.push(bar)
-        }
-        
-        // var fontStyle = {font: "32px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
-        // var pointsText = new Phaser.Text(sceneGroup.game, 0, 18, "0", fontStyle)
-        // pointsText.x = pivotX
-        // pointsText.y = heartImg.height * 0.15
-        // pointsText.setText('X ' + lives)
-        // heartsGroup.add(pointsText)
-        //
-        // pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
-        
-        // heartsGroup.text = pointsText
-                
+        }        
     }
 
     function onClickPlay(rect) {
-        
         tutoGroup.y = -game.world.height
         inputsEnabled = true
         startRound()
-
     }
     
-    // function update() {
-    //     if (inputsEnabled){
-    //         spineObj.x += 5
-    //         spineObj.y += Math.sin(game.time.now) * 25
-    //     }
-    // }
+	function Coin(objectBorn,objectDestiny,time){
+		//objectBorn= Objeto de donde nacen
+		coins.x=objectBorn.centerX
+		coins.y=objectBorn.centerY
+		game.add.tween(coins).to({alpha:1}, time, Phaser.Easing.Cubic.In, true,100)
+		game.add.tween(coins).to({y:objectBorn.centerY-100},time+500,Phaser.Easing.Cubic.InOut,true).onComplete.add(function(){
+			game.add.tween(coins).to({x:objectDestiny.centerX,y:objectDestiny.centerY},200,Phaser.Easing.Cubic.InOut,true,time)
+			game.add.tween(coins).to({alpha:0}, time+200, Phaser.Easing.Cubic.In, true,200).onComplete.add(function(){
+				coins.x=objectBorn.centerX
+				coins.y=objectBorn.centerY
+				addPoint(1)
+			})
+		})
+	}
 
     function createTutorial(){
         
         tutoGroup = game.add.group()
 		//overlayGroup.scale.setTo(0.8,0.8)
         sceneGroup.add(tutoGroup)
-
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
-        
-        /*var rect = new Phaser.Graphics(game)
-        rect.beginFill(0x000000)
-        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-        rect.alpha = 0.7
-        rect.endFill()
-        rect.inputEnabled = true
-        rect.events.onInputDown.add(function(){
-            onClickPlay(rect)
-            
-        })
-        
-        tutoGroup.add(rect)
-        
-        var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-        plane.anchor.setTo(0.5,0.5)
-		
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.wild','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-        
-        var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-		
-		var inputName = 'movil'
-		
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-		
-		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.wild',inputName)
-        inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-		
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.wild','button')
-		button.anchor.setTo(0.5,0.5)
-		
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
     }
     
 	return {
 		assets: assets,
 		name: "wild",
+		update:update,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 
@@ -541,15 +548,19 @@ var wild = function(){
             rectBot.endFill()
             sceneGroup.add(rectBot)
 
-            var inputRect = new Phaser.Graphics(game)
+            inputRect = new Phaser.Graphics(game)
             inputRect.beginFill(0xffffff)
             inputRect.drawRect(0,0,game.world.width * 2,game.world.height * 2)
             inputRect.endFill()
             inputRect.alpha = 0
             sceneGroup.add(inputRect)
-            inputRect.inputEnabled = true
+            inputRect.inputEnabled = false
             inputRect.events.onInputDown.add(function(){
                 if(inputsEnabled) {
+					if(tutorial){
+						tutorial=false;
+						hand.destroy();
+					}
                     snap(inputRect)
                 }
             })
@@ -590,14 +601,17 @@ var wild = function(){
             }, this);
             
             initialize()
+			
+			
 
             createSnapsUI()
             createBattery(game.world.centerX + background.width * 0.5)
             createPointsBar()
             // createGameObjects()
             createTutorial()
+			createCoinsAndHand()
 
-            buttons.getButton(wildSong,sceneGroup, game.world.centerX * 0.5 + 70 , 30)
+            buttons.getButton(wildSong,sceneGroup, game.world.centerX + 60 , 30)
 		}
 	}
 }()
