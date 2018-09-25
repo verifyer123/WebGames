@@ -145,7 +145,6 @@ var onGoingGames={
 		   {name:'Sweet Emotions',url:'sweetEmotions/',mapUrl:'sweetEmotions', sceneName:'sweetEmotions',subject:'language', review:false,objective:25,demo:false, type:gameTypeEnum.TRACE},//141
 		   {name:'Satellite',url:'satellite/',mapUrl:'satellite', sceneName:'satellite',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//142
 		   {name:'Gourmet Traveller',url:'gourmetTraveller/',mapUrl:'gourmetTraveller', sceneName:'gourmetTraveller',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//143
-		   {name:'Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},//144
 		   {name:'Bee Travel',url:'beeTravel/',mapUrl:'beeTravel', sceneName:'beeTravel',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.TRACE},//145
 		   {name:'Flappitat',url:'flapitat/',mapUrl:'flapitat', sceneName:'flapitat',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//146
 		   {name:'OrbitalOrder',url:'orbitalOrder/',mapUrl:'orbitalOrder', sceneName:'orbitalOrder',subject:'Geography', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//147

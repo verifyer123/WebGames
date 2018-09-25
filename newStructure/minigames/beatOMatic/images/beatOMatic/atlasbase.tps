@@ -4,9 +4,7 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.1</string>
-        <key>fileName</key>
-        <string>/Users/rockdrizt/Yogome/WebGames/newStructure/minigames/beatOMatic/images/beatOMatic/atlasbase.tps</string>
+        <string>4.8.1</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -129,22 +127,6 @@
                 <uint>1</uint>
             </struct>
         </struct>
-        <key>andEngine</key>
-        <struct type="AndEngine">
-            <key>minFilter</key>
-            <enum type="AndEngine::MinFilter">Linear</enum>
-            <key>packageName</key>
-            <string>Texture</string>
-            <key>wrap</key>
-            <struct type="AndEngineWrap">
-                <key>s</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-                <key>t</key>
-                <enum type="AndEngineWrap::Wrap">Clamp</enum>
-            </struct>
-            <key>magFilter</key>
-            <enum type="AndEngine::MagFilter">MagLinear</enum>
-        </struct>
         <key>dataFileNames</key>
         <map type="GFileNameMap">
             <key>data</key>
@@ -236,6 +218,46 @@
                 <rect>111,91,222,182</rect>
                 <key>scale9Paddings</key>
                 <rect>111,91,222,182</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">glitter1.png</key>
+            <key type="filename">glitter3.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,26,51,51</rect>
+                <key>scale9Paddings</key>
+                <rect>25,26,51,51</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">glitter2.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>11,11,21,21</rect>
+                <key>scale9Paddings</key>
+                <rect>11,11,21,21</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">glitter4.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,16,17</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,16,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -436,7 +458,6 @@
                 <false/>
             </struct>
             <key type="filename">star.png</key>
-            <key type="filename">wrong.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -446,19 +467,6 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">top.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>37,41,73,81</rect>
-                <key>scale9Paddings</key>
-                <rect>37,41,73,81</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -481,12 +489,10 @@
             <filename>life_box.png</filename>
             <filename>smoke.png</filename>
             <filename>star.png</filename>
-            <filename>wrong.png</filename>
             <filename>xpcoins.png</filename>
             <filename>background.png</filename>
             <filename>bar.png</filename>
             <filename>meter.png</filename>
-            <filename>top.png</filename>
             <filename>console0.png</filename>
             <filename>console1.png</filename>
             <filename>public1.png</filename>
@@ -494,14 +500,18 @@
             <filename>public2.png</filename>
             <filename>light0.png</filename>
             <filename>light1.png</filename>
-            <filename>speaker0.png</filename>
-            <filename>speaker2.png</filename>
-            <filename>speaker4.png</filename>
-            <filename>speaker1.png</filename>
-            <filename>speaker3.png</filename>
-            <filename>speaker5.png</filename>
             <filename>handDown.png</filename>
             <filename>handUp.png</filename>
+            <filename>glitter1.png</filename>
+            <filename>glitter2.png</filename>
+            <filename>glitter3.png</filename>
+            <filename>glitter4.png</filename>
+            <filename>speaker0.png</filename>
+            <filename>speaker1.png</filename>
+            <filename>speaker2.png</filename>
+            <filename>speaker3.png</filename>
+            <filename>speaker4.png</filename>
+            <filename>speaker5.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
