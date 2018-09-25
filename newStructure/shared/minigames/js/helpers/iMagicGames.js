@@ -49,5 +49,6 @@ var iMagicGames = {
 		{name:'Imagic Word Blast',url:'wordBlast/',mapUrl:'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Kinetic Jump',url:'kineticJump/',mapUrl:'kineticJump', sceneName:'kineticJump',yogotar:"dax",subject:'science', review:false,objective:30,demo:false, type:gameTypeEnum.TAP},
 		{name:'Imagic Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',yogotar:"oof",subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},
+		{name:'Imagic Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',yogotar:"dazzle",subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
 	]
 }
