@@ -203,6 +203,7 @@ var wild = function(){
 
         camara = sceneGroup.create(game.world.centerX,game.world.centerY,'atlas.wild','camaraBox')
         camara.anchor.setTo(0.5, 0.5)
+		
         
     }
     
@@ -489,6 +490,9 @@ var wild = function(){
     function onClickPlay(rect) {
         tutoGroup.y = -game.world.height
         inputsEnabled = true
+		
+		
+		console.log(game.camera)
         startRound()
     }
     
@@ -506,7 +510,7 @@ var wild = function(){
 			})
 		})
 	}
-
+	
     function createTutorial(){
         
         tutoGroup = game.add.group()
