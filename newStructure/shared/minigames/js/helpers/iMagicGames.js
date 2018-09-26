@@ -31,7 +31,7 @@ var iMagicGames = {
 		{name:'Imagic Magnet Ride',url:'magnetRide/',mapUrl:'magnetRide', sceneName:'magnet',subject:'science',yogotar:"oof",review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
 		{name:'Imagic River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability',yogotar:"nao", review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},
 		{name:'Imagic Color Invaders',url:'colorInvaders/',mapUrl:'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},
-		{name:'Imagic Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math',yogotar:"arturius", review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
+		{name:'Imagic Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math',yogotar:"arthurius", review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galacticPool',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Dr Zombie',url:'drZombie/',mapUrl:'drZombie', sceneName:'drzombie',subject:'health' ,yogotar:"theffanie", review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},
 		{name:'Imagic Clash Critters',url:'clashCritters/',mapUrl:'clashCritters', sceneName:'clash',subject:'math',review:true,objective:50,demo:false,type:gameTypeEnum.CHOOSE},
