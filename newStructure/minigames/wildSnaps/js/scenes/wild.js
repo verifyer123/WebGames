@@ -428,13 +428,11 @@ var wild = function(){
             game.add.tween(pointsBar.scale).to({x: 1,y:1}, 200, Phaser.Easing.linear, true)
         })
         
-        addNumberPart(pointsBar.text,'+' + number,true)		
-        
+        addNumberPart(pointsBar.text,'+' + number,true)
     }
 	function update(){
-		console.log(game.state)
-		if(spineObj && game.stage.disableVisibilityChange){
-		   
+		if(!game.onFocus){
+		   pauseUpdate()
 		 }
 	}
     
@@ -516,11 +514,18 @@ var wild = function(){
         sceneGroup.add(tutoGroup)
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
     }
-    
+	function paused(){
+		spineObj.state.timeScale=0;
+	}
+    function resumed(){
+		spineObj.state.timeScale=1;
+	}
 	return {
 		assets: assets,
 		name: "wild",
 		update:update,
+		paused:paused,
+		resumed:resumed,
         preload:preload,getGameData:function () { var games = yogomeGames.getGames(); return games[gameIndex];},
 		create: function(event){
 
