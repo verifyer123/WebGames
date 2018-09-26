@@ -50,7 +50,7 @@ var optimizedGames={
 		{name:'Optimized Climbvoid',url:'climbvoid/',mapUrl:'climbvoid', sceneName:'climbvoid',subject:'creativity', review:false,objective:30,demo:false, type:gameTypeEnum.GRAB},
 		{name:'Optimized Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Optimized Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
-		
+		{name:'Optimized Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 	]
 	
 }

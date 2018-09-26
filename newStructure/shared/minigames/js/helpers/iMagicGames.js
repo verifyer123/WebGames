@@ -50,5 +50,6 @@ var iMagicGames = {
 		{name:'Imagic Kinetic Jump',url:'kineticJump/',mapUrl:'kineticJump', sceneName:'kineticJump',yogotar:"dax",subject:'science', review:false,objective:30,demo:false, type:gameTypeEnum.TAP},
 		{name:'Imagic Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',yogotar:"oof",subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',yogotar:"dazzle",subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
+		{name:'Imagic Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',yogotar:"eagle",subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 	]
 }
