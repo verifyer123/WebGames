@@ -132,11 +132,10 @@ var feather = function(){
     function stopGame(win){
         sound.play("wrong");
         gameActive = false;
-        spaceSong.stop();
                 
         var tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 3750)
         tweenScene.onComplete.add(function(){
-            
+            spaceSong.stop();
             var resultScreen = sceneloader.getScene("result");
             resultScreen.setScore(true, pointsBar.number,gameIndex);       
             sceneloader.show("result");
