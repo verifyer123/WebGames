@@ -116,6 +116,7 @@ var beatOMatic = function(){
     var pivotLigth;
     var glitter = ['glitter1', 'glitter2', 'glitter3', 'glitter4'];
     var clapBar;
+    var appearHand;
     
 	function loadSounds(){
 		sound.decode(assets.sounds);
@@ -135,6 +136,7 @@ var beatOMatic = function(){
         pasTutorial = false;
         pivotLigth = 0;
         win = true;
+        appearHand = false;
         loadSounds();
     }
     
@@ -414,12 +416,12 @@ var beatOMatic = function(){
     
     function theSonidero(){
         
-        speakersGroup = game.add.group()
-        speakersGroup.alpha = 0
-        sceneGroup.add(speakersGroup)
+        speakersGroup = game.add.group();
+        speakersGroup.alpha = 0;
+        sceneGroup.add(speakersGroup);
         
-        speakersAnimGroup = game.add.group()
-        sceneGroup.add(speakersAnimGroup)
+        speakersAnimGroup = game.add.group();
+        sceneGroup.add(speakersAnimGroup);
         
         var space = 0
         var pivotS = 2
@@ -437,7 +439,7 @@ var beatOMatic = function(){
             speakersAnimGroup.add(speakerAnim)
             
             var speaker = speakersGroup.create(-7, 70 + (150 * space), 'atlas.beatOMatic', 'speaker' + s)
-            speaker.inputEnabled = true
+            //speaker.inputEnabled = true
             speaker.events.onInputDown.add(click ,this)
             speaker.number = s
             speaker.active = false
@@ -516,6 +518,7 @@ var beatOMatic = function(){
     function youRock(ans){
         
         gameActive = false;
+        activateButtons(speakersGroup.length,false);
         
         if(ans){
             
@@ -573,20 +576,22 @@ var beatOMatic = function(){
             var time = cue();
             game.time.events.add(time,function(){
                 gameActive = true;
-                game.add.tween(clapBar).to({alpha : 1}, 300, Phaser.Easing.linear, true);
+                game.add.tween(clapBar).to({alpha : 1}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
+                    activateButtons(speakerNumber,true);
+                });
                 if(!win){
                     win = true;
                     theShining();
                 }
-            },this)
-        },this)
+            },this);
+        },this);
     }
 	
     function showMustGoOn(){
         
         for(var s = 0; s < speakerNumber; s++){
-            speakersAnimGroup.children[s].alpha = 1
-            speakersGroup.children[s].active = true
+            speakersAnimGroup.children[s].alpha = 1;
+            speakersGroup.children[s].active = true;
         }
         
     }
@@ -602,7 +607,7 @@ var beatOMatic = function(){
     function cue(){
         
         var delay = 500;
-        beatSong.volume = 0.2;
+        beatSong.volume = 0.1;
         
         for(var i = 0; i < lvl; i++){
             
@@ -642,7 +647,9 @@ var beatOMatic = function(){
             var time = cue();
             game.time.events.add(time,function(){
                 gameActive = true;
-                game.add.tween(clapBar).to({alpha : 1}, 300, Phaser.Easing.linear, true);
+                game.add.tween(clapBar).to({alpha : 1}, 300, Phaser.Easing.linear, true).onComplete.add(function(){
+                    activateButtons(speakerNumber,true);
+                });
                 if(!win){
                     win = true;
                     theShining();
@@ -652,12 +659,24 @@ var beatOMatic = function(){
             },this)
         },this)
     }
+
+    function activateButtons(total,value){
+        for(var b = 0; b < total; b++){
+            speakersGroup.children[b].inputEnabled = value;
+        }
+    }
     
     function handPos(){
+        if(!appearHand){
+            appearHand = true;
+            handsGroup.setAll('x', speakersGroup.children[secuence[pivot]].centerX);
+            handsGroup.setAll('y', speakersGroup.children[secuence[pivot]].centerY);
+        }else{
+            for(var h=0; h<handsGroup.length; h++){
+                game.add.tween(handsGroup.children[h]).to({x: speakersGroup.children[secuence[pivot]].centerX, y:speakersGroup.children[secuence[pivot]].centerY}, 300, Phaser.Easing.linear, true);
+            }
+        }
         
-        handsGroup.setAll('x', speakersGroup.children[secuence[pivot]].centerX) 
-        handsGroup.setAll('y', speakersGroup.children[secuence[pivot]].centerY)  
-            
         speakersGroup.setAll('active', false)
         speakersGroup.children[secuence[pivot]].active = true
         
@@ -667,8 +686,8 @@ var beatOMatic = function(){
         
         if(gameActive && pivot < lvl && obj.active){
    
-            raz.setAnimationByName(0, "good", true)
-            daz.setAnimationByName(0, "good", true)
+            raz.setAnimationByName(0, "good", true);
+            daz.setAnimationByName(0, "good", true);
 
             sound.play('sound' + obj.number)
             game.time.events.add(1000,function(){
@@ -684,6 +703,7 @@ var beatOMatic = function(){
             pivot++
 
             if(pivot === lvl){
+                activateButtons(speakerNumber,false);
                 endTutorial();
             }
             else{
@@ -739,8 +759,8 @@ var beatOMatic = function(){
             game.add.tween(handsGroup).to({y:handsGroup.y - 10}, 400, Phaser.Easing.linear, true).onComplete.add(function(){
                 handsGroup.tween.start();
                 changeImage(1, handsGroup);
-            })
-        })
+            });
+        });
     }
 
     function lightsOn(){
