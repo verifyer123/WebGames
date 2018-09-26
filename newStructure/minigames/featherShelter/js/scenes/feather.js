@@ -87,7 +87,6 @@ var feather = function(){
 
     var background;
     var gameActive = true;
-    var shoot;
     var clouds, house;
     var spaceSong;
     var particleCorrect;   
@@ -112,9 +111,9 @@ var feather = function(){
 
         game.stage.backgroundColor = "#ffffff";
         lives = 3;//1;
-        tutorialNumber = [3,1,0];
+        tutorialNumber = [2,0];
         tutorialIndex = 0;
-        tutorialOperation = ["1+1+1=3", "3-1-1=1", "1-1=0"];
+        tutorialOperation = ["1+1=2", "2-1-1=0"];
         
 
         sceneGroup.alpha = 0;
@@ -333,7 +332,7 @@ var feather = function(){
                     if(index == numberChicks-1 || (index == 9 && numberChicks == 0)){
                         obj.alpha = 1;
                         hand.x = obj.x;
-                        hand.y = obj.y;
+                        hand.y = obj.y - 40;
                         hand.alpha = 1;
                         obj.children[0].inputEnabled = true;
                     }else{
