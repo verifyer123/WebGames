@@ -52,6 +52,7 @@ var optimizedGames={
 		{name:'Optimized Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
 		{name:'Optimized Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 		{name:'Optimized Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},
+		
 	]
 	
 }
