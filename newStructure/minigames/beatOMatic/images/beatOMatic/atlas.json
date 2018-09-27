@@ -37,8 +37,44 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "glitter1",
+	"frame": {"x":944,"y":1081,"w":99,"h":101},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":99,"h":101},
+	"sourceSize": {"w":101,"h":103},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "glitter2",
+	"frame": {"x":237,"y":1236,"w":42,"h":42},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":1,"w":42,"h":42},
+	"sourceSize": {"w":42,"h":43},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "glitter3",
+	"frame": {"x":1087,"y":895,"w":99,"h":101},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1,"y":1,"w":99,"h":101},
+	"sourceSize": {"w":101,"h":102},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
+	"filename": "glitter4",
+	"frame": {"x":513,"y":955,"w":32,"h":33},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":32,"h":33},
+	"sourceSize": {"w":32,"h":33},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "handDown",
-	"frame": {"x":168,"y":1169,"w":102,"h":95},
+	"frame": {"x":1087,"y":998,"w":102,"h":95},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":95},
@@ -47,7 +83,7 @@
 },
 {
 	"filename": "handUp",
-	"frame": {"x":374,"y":1128,"w":102,"h":106},
+	"frame": {"x":237,"y":1128,"w":102,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":102,"h":106},
@@ -56,7 +92,7 @@
 },
 {
 	"filename": "life_box",
-	"frame": {"x":1,"y":1212,"w":140,"h":55},
+	"frame": {"x":341,"y":1171,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -83,7 +119,7 @@
 },
 {
 	"filename": "meter",
-	"frame": {"x":1,"y":1128,"w":320,"h":39},
+	"frame": {"x":513,"y":1041,"w":320,"h":39},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":320,"h":39},
@@ -119,7 +155,7 @@
 },
 {
 	"filename": "smoke",
-	"frame": {"x":272,"y":1169,"w":100,"h":93},
+	"frame": {"x":944,"y":1184,"w":100,"h":93},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
@@ -128,7 +164,7 @@
 },
 {
 	"filename": "speaker0",
-	"frame": {"x":851,"y":919,"w":234,"h":150},
+	"frame": {"x":1,"y":1128,"w":234,"h":150},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":234,"h":150},
@@ -137,7 +173,7 @@
 },
 {
 	"filename": "speaker1",
-	"frame": {"x":965,"y":1071,"w":213,"h":166},
+	"frame": {"x":729,"y":1082,"w":213,"h":166},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":213,"h":166},
@@ -146,7 +182,7 @@
 },
 {
 	"filename": "speaker2",
-	"frame": {"x":513,"y":1041,"w":234,"h":160},
+	"frame": {"x":851,"y":919,"w":234,"h":160},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":234,"h":160},
@@ -155,7 +191,7 @@
 },
 {
 	"filename": "speaker3",
-	"frame": {"x":749,"y":1071,"w":214,"h":159},
+	"frame": {"x":513,"y":1082,"w":214,"h":159},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":214,"h":159},
@@ -182,25 +218,7 @@
 },
 {
 	"filename": "star",
-	"frame": {"x":478,"y":1203,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "top",
-	"frame": {"x":1087,"y":895,"w":146,"h":162},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":146,"h":162},
-	"sourceSize": {"w":146,"h":162},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "wrong",
-	"frame": {"x":544,"y":1203,"w":64,"h":64},
+	"frame": {"x":1188,"y":895,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
@@ -209,7 +227,7 @@
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":1,"y":1169,"w":165,"h":41},
+	"frame": {"x":341,"y":1128,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -217,12 +235,12 @@
 	"pivot": {"x":0.5,"y":0.5}
 }],
 "meta": {
-	"app": "http://www.codeandweb.com/texturepacker",
+	"app": "https://www.codeandweb.com/texturepacker",
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":1268,"h":1268},
+	"size": {"w":1279,"h":1279},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:86f4cb3aa421f16f6c0c992989dd6fdd:92fda713f4aeb45a0417b148fd2a6214:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:a80222e139e9014f95a4bd0dc3afa803:99bc034968f8ed1786b56c9fca0284fb:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

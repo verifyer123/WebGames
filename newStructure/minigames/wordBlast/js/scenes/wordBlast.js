@@ -117,9 +117,11 @@ var wordBlast = function () {
     var riddleText;
     var letterCounter;
     var wordIndex;
+	var okOff
+	var BIGGEST_WORD=9
     var option;
     var speed;
-    var tutorial = true;
+    var tutorial;
     var okBtn;
 
     function loadSounds() {
@@ -130,6 +132,7 @@ var wordBlast = function () {
 
         game.stage.backgroundColor = "#ffffff";
         lives = 3;
+		tutorial=true
         gameActive = false;
         wordsArray = [];
 
@@ -245,6 +248,12 @@ var wordBlast = function () {
             game.add.tween(coin).to({ x: pointsBar.centerX, y: pointsBar.centerY }, 200, Phaser.Easing.Cubic.InOut, true).onComplete.add(function () {
                 game.add.tween(coin).to({ alpha: 0 }, 200, Phaser.Easing.Cubic.In, true).onComplete.add(function () {
                     addPoint(1);
+                    if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
+                        clearBoard()
+                        
+                        speed > 100 ? speed -= 200 : speed = 100
+                        //console.log("speed " + speed)
+                    }
                 })
             })
         })
@@ -311,9 +320,8 @@ var wordBlast = function () {
     }
 
     function missPoint(obj) {
-
+		
         sound.play("wrong");
-
         particleWrong.x = obj.centerX;
         particleWrong.y = obj.centerY;
         particleWrong.start(true, 1200, null, 10);
@@ -444,7 +452,7 @@ var wordBlast = function () {
 
     function createBoard() {
 
-        var fontStyle = { font: "45px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" };
+        var fontStyle = { font: "45px Arial", fontWeight: "bold", fill: "#ffffff", align: "center" };
 
         var board = sceneGroup.create(0, game.world.height, "atlas.wordBlast", "board");
         board.anchor.setTo(0, 1);
@@ -459,13 +467,15 @@ var wordBlast = function () {
 
         okBtn = game.add.group();
         if (!tutorial) {
-            okBtn.alpha = 1;
+            //okBtn.alpha = 1;
+            game.add.tween(okBtn).to({ alpha: 1 }, 600, Phaser.Easing.linear, true);
         } else {
-            okBtn.alpha = 0;
+            //okBtn.alpha = 0;
+            game.add.tween(okBtn).to({ alpha: 0 }, 600, Phaser.Easing.linear, true);
         }
         sceneGroup.add(okBtn);
 
-        var okOff = okBtn.create(board.centerX + 200, board.centerY + 20, "atlas.wordBlast", "okOff");
+        okOff = okBtn.create(board.centerX + 200, board.centerY + 20, "atlas.wordBlast", "okOff");
         okOff.anchor.setTo(0.5);
         okOff.scale.setTo(0.5, 0.5);
         okOff.inputEnabled = true;
@@ -511,14 +521,25 @@ var wordBlast = function () {
 
     function setActualWord() {
 
-        if (gameActive && wordsArray.length > 0) {
+        if (gameActive && wordsArray.length > 0 && wordsArray.length < BIGGEST_WORD) {
 
             var word = ""
             for (var i = 0; i < wordsArray.length; i++) {
                 word += wordsArray[i]
             }
             textWritten.setText(word)
-        }
+        }else if(wordsArray.length>BIGGEST_WORD){
+			 gameActive = false
+			 changeImage(1, okOff.parent)
+			 for (var i = 0; i < chipsGroup.length; i++) {
+                if (chipsGroup.children[i].pressed && !chipsGroup.children[i].isActive && chipsGroup.children[i].used) {
+                    chipsGroup.children[i].used = false
+                    fadeOut(chipsGroup.children[i])
+					chipCounter--
+                }
+            }
+			win("")
+		}
     }
 
     function okPressed(obj) {
@@ -533,13 +554,13 @@ var wordBlast = function () {
             }
 
             for (var i = 0; i < chipsGroup.length; i++) {
-
+				
                 if (chipsGroup.children[i].pressed && !chipsGroup.children[i].isActive && chipsGroup.children[i].used) {
                     chipsGroup.children[i].used = false
                     fadeOut(chipsGroup.children[i])
+					chipCounter--
                 }
             }
-
             if (tutorial) {
                 tutorial = false
                 hand.destroy()
@@ -552,9 +573,8 @@ var wordBlast = function () {
     }
 
     function fadeOut(obj) {
-
+ 		obj.used = false
         game.add.tween(obj).to({ alpha: 0 }, 200, Phaser.Easing.In, true).onComplete.add(function () {
-            obj.used = false
             obj.chipOff.alpha = 1
             obj.chipOn.alpha = 0
             obj.text.setText("")
@@ -572,7 +592,8 @@ var wordBlast = function () {
         textWritten.setText("")
         wordIndex = 0
         letterCounter = 0
-        chipCounter = 0
+		chipCounter=0
+       
         game.add.tween(animatedGroup.children[0]).to({ alpha: 0 }, 250, Phaser.Easing.In, true)
 
         for (var i = 0; i < chipsGroup.length; i++) {
@@ -580,33 +601,35 @@ var wordBlast = function () {
                 chipCounter++
             }
         }
-
+		
         if (chipCounter > 14) {
+			chipCounter = 0
             clearBoard()
         }
-
         if (ans === riddleText) {
             addCoin(riddleImage)
-            if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
-                clearBoard()
-                chipCounter = 0
-                speed > 100 ? speed -= 200 : speed = 100
-                //console.log("speed " + speed)
-            }
+            // if (pointsBar.number !== 0 && pointsBar.number % 5 === 0) {
+            //     clearBoard()
+            //     chipCounter = 0
+            //     speed > 100 ? speed -= 200 : speed = 100
+            //     //console.log("speed " + speed)
+            // }
         }
         else {
+			okBtn.inputEnabled=false;
             missPoint(riddleImage)
         }
 
         game.time.events.add(1500, function () {
             if (lives !== 0) {
+				okBtn.inputEnabled=true;
                 initGame()
             }
         })
     }
 
     function clearBoard() {
-
+		chipCounter=0;
         for (var i = 0; i < chipsGroup.length; i++) {
             fadeOut(chipsGroup.children[i])
             if (chipsGroup.children[i].falling)
@@ -648,16 +671,17 @@ var wordBlast = function () {
     function dropChip() {
 
         if (gameActive) {
-            var chip = selectChip()
-            var color = game.rnd.integerInRange(0, 3)
-            chip.chipOff.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "Off")
-            chip.chipOn.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "On")
-            chip.used = true
-            chip.pressed = false
-            chip.text.alpha = 0
-            chip.alpha = 1
-            chip.text.setText(selectLetter())
-            chip.falling = game.add.tween(chip.children[0]).from({ y: 0 }, speed, Phaser.Easing.linear, true)
+            var chip = selectChip();
+            var color = game.rnd.integerInRange(0, 3);
+            chip.chipOff.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "Off");
+            chip.chipOn.loadTexture("atlas.wordBlast", chipsGroup.colors[color] + "On");
+            chip.used = true;
+            chip.pressed = false;
+            chip.text.alpha = 0;
+            chip.alpha = 1;
+            chip.text.setText(selectLetter());
+            chipsGroup.sendToBack(chip);
+            chip.falling = game.add.tween(chip.children[0]).from({ y: 0 }, speed, Phaser.Easing.linear, true);
             chip.falling.onComplete.add(function () {
                 sound.play("robotWhoosh")
                 chip.text.alpha = 1
@@ -669,8 +693,8 @@ var wordBlast = function () {
                         }
                         else {
                             gameActive = false
-                            clearBoard()
-                            chipCounter = 0
+                            //clearBoard()
+                            //chipCounter = 0
                             win("")
                         }
                     }
@@ -683,10 +707,10 @@ var wordBlast = function () {
 
         var x = game.rnd.integerInRange(0, chipsGroup.length - 1)
         if (chipsGroup.children[x].used)
-            return selectChip()
+            return selectChip();
         else {
             chipCounter++
-            return chipsGroup.children[x]
+            return chipsGroup.children[x];
         }
     }
 
@@ -755,6 +779,7 @@ var wordBlast = function () {
             chip.alpha = 1;
             chip.text.setText(riddleText.charAt(wordIndex));
             wordIndex++;
+            chipsGroup.sendToBack(chip);
             chip.falling = game.add.tween(chip.children[0]).from({ y: 0 }, speed, Phaser.Easing.linear, true);
             chip.falling.onComplete.add(function () {
                 sound.play("robotWhoosh");
@@ -768,17 +793,17 @@ var wordBlast = function () {
     function posHand(obj) {
 
         if (obj) {
-            hand.x = obj.children[0].x
-            hand.y = obj.children[0].y
-            hand.alpha = 1
+            hand.x = obj.children[0].x - 30;
+            hand.y = obj.children[0].y;
         }
         else {
-            hand.x = okBtn.children[0].x
-            hand.y = okBtn.children[0].y
-            hand.alpha = 1
-            okBtn.alpha = 1
+            hand.x = okBtn.children[0].x;
+            hand.y = okBtn.children[0].y;
+            game.add.tween(okBtn).to({ alpha: 1 }, 600, Phaser.Easing.linear, true);
             okBtn.children[0].inputEnabled = true
         }
+        game.add.tween(hand).to({ alpha: 1 }, 600, Phaser.Easing.linear, true);
+        
     }
     //#endregion
 

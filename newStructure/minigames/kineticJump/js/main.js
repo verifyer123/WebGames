@@ -29,7 +29,7 @@ function startGame(){
 
         var fullWidth = 540
         var fullHeight = 960
-		var actualGame = "kineticJump"
+		var actualGame = "KineticJump"
 
         var ratio = document.body.clientWidth / document.body.clientHeight
         var gameHeight = Math.round(fullHeight)
@@ -71,6 +71,7 @@ function startGame(){
 				localization.setLanguage("ES")
 			}
 		}
+		
 		
         window.minigame.game = window.game
     	sceneloader.init(game)

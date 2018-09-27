@@ -274,7 +274,16 @@ var river = function(){
 	function update(){
         
         if(gameActive){
-            
+			for(var i = 0; i < fishGroup.length; i++){
+				if(fishGroup.children[i].x<-100){
+					fishGroup.children[i].kill()
+				}
+			}
+			for(var g = 0; g < trashGroup.length; g++){
+				if(trashGroup.children[g].x<-100){
+					missedTrash(trashGroup.children[g])
+				}
+			}
             if(nao.canMove){
                 if(cursors.up.isDown){
                     if(rowsGroup.tag > 0){
@@ -295,7 +304,7 @@ var river = function(){
             }, this)
             rowsGroup.tile.tilePosition.x -= speed * 0.005
             
-            if(lastObj && lastObj.x <= game.world.width - 310)
+            if(lastObj && lastObj.x <= game.world.width - 210)
                 throwObstacle()
             
             game.physics.arcade.overlap(nao.box2, fishGroup, hitFish, null, this)
@@ -408,7 +417,6 @@ var river = function(){
     }
     
     function createTrash(){
-        
         trashGroup = game.add.group()
         trashGroup.enableBody = true
         trashGroup.physicsBodyType = Phaser.Physics.ARCADE
@@ -416,16 +424,16 @@ var river = function(){
         trashGroup.setAll('anchor.x', 0)
         trashGroup.setAll('anchor.y', 0.5)
         trashGroup.setAll('collected', false)
-        trashGroup.setAll('checkWorldBounds', true)
+        //trashGroup.setAll('checkWorldBounds', true)
         trashGroup.setAll('deltaY', -50)
-        trashGroup.setAll('outOfBoundsKill', true)
+        //trashGroup.setAll('outOfBoundsKill', true)
         trashGroup.setAll('exists', false)
         trashGroup.setAll('visible', false)
         sceneGroup.add(trashGroup)
         
-        trashGroup.forEach(function(obj){
-            obj.events.onOutOfBounds.add(missedTrash, this, true)
-        }, this)
+//        trashGroup.forEach(function(obj){
+//            obj.events.onOutOfBounds.add(missedTrash, this, true)
+//        }, this)
     }
     
     function createFish(){
@@ -453,8 +461,8 @@ var river = function(){
         fishGroup.createMultiple(5, "atlas.river", 'rock')
         fishGroup.setAll('anchor.y', 0.65)
         fishGroup.setAll('collected', false)
-        fishGroup.setAll('checkWorldBounds', true)
-        fishGroup.setAll('outOfBoundsKill', true)
+        //fishGroup.setAll('checkWorldBounds', true)
+        //fishGroup.setAll('outOfBoundsKill', true)
         fishGroup.setAll('exists', false)
         fishGroup.setAll('visible', false)
         sceneGroup.add(fishGroup)
@@ -612,6 +620,7 @@ var river = function(){
     function killObj(obj){
         
         obj.body.velocity.x = 0
+		obj.x=game.world.width+150;
         obj.kill()
     }
     
@@ -694,7 +703,6 @@ var river = function(){
     function throwObstacle(){
         
         var rand = game.rnd.integerInRange(0, 1)
-        
         if(rand === 1){
             
             do {
@@ -757,9 +765,10 @@ var river = function(){
                         })
                     }
                     else{
-                        game.add.tween(hand).to({alpha: 0}, 200, Phaser.Easing.linear, true)
-                        playTuto = true
-                        hitTrashTuto(hand.obj)
+                        game.add.tween(hand).to({alpha: 0}, 200, Phaser.Easing.linear, true).onComplete.add(function(){
+							playTuto = true
+                        	hitTrashTuto(hand.obj)
+						})
                     }
                 }
                 else{
@@ -822,17 +831,16 @@ var river = function(){
     }
     
     function hitTrashTuto(trash){
-    
         if(playTuto && !trash.collected){
             
             playTuto = false
             trash.collected = true
             nao.setAnimationByName(0, "attack", false)
             nao.addAnimationByName(0, "win", true)
-            
-            killObj(trash)
             particleCorrect.x = trash.centerX 
             particleCorrect.y = trash.centerY
+            killObj(trash)
+            
             particleCorrect.start(true, 1200, null, 10)
             sound.play("rightChoice")
             

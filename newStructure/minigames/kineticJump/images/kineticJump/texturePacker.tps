@@ -4,9 +4,9 @@
         <key>fileFormatVersion</key>
         <int>4</int>
         <key>texturePackerVersion</key>
-        <string>4.6.1</string>
+        <string>4.5.0</string>
         <key>fileName</key>
-        <string>/Applications/MAMP/htdocs/WebGames/newStructure/minigames/climbvoid/images/climbvoid/texturePacker.tps</string>
+        <string>/Users/hebersadurni/Documents/GitHub/WebGames/newStructure/minigames/kineticJump/images/kineticJump/texturePacker.tps</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -343,6 +343,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">smoke.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,23,50,47</rect>
+                <key>scale9Paddings</key>
+                <rect>25,23,50,47</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">star.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -395,6 +408,19 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">../../../../../../../../Downloads/milk.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>26,21,52,43</rect>
+                <key>scale9Paddings</key>
+                <rect>26,21,52,43</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
         </map>
         <key>fileList</key>
         <array>
@@ -414,6 +440,8 @@
             <filename>boardGris.png</filename>
             <filename>gema.png</filename>
             <filename>fondo.png</filename>
+            <filename>../../../../../../../../Downloads/milk.png</filename>
+            <filename>smoke.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

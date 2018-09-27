@@ -133,7 +133,6 @@ var result = function(){
 		totalScore = score
 		
 		win = totalScore >= goalScore
-		console.log(win)
 		if(parent.epicModel){
 			currentPlayer = parent.epicModel.getPlayer()
 			mixpanel.people.set({ "MinigamesPlayed": currentPlayer.minigamesPlayed+1 });
@@ -256,13 +255,14 @@ var result = function(){
 		buttonsGroup = game.add.group()
 		sceneGroup.add(buttonsGroup)
 
-		var buttonNames = ['retry','home','share']
+		var buttonNames = ['retry','home']
 
-		var buttonTexts = ['retry','home','share']
+		var buttonTexts = ['retry','home']
 
 		var buttonsLength = buttonNames.length
 
-		var pivotX = game.world.centerX - 125
+		var pivotX = game.world.centerX - 50
+		//125 if 3
 		var pivotY = pivot
 
 		for(var i = 0;i<buttonsLength;i++){
@@ -274,7 +274,7 @@ var result = function(){
 			group.alpha = 0
 			group.x = pivotX
 			group.y = pivotY-100
-
+			
 
 			var button1 = group.create(0,0,'atlas.resultScreenImagic',buttonNames[i] + 'Btn_Imagic')
 			button1.x-=27;
@@ -297,7 +297,7 @@ var result = function(){
 			button1.active = true
 
 
-			if(textToUse.length > 8){
+			if(textToUse.length > 3){
 				retryText.scale.setTo(0.65,0.7)
 				retryText.y+= 4
 			}
@@ -402,7 +402,7 @@ var result = function(){
 		}else if(isImagicCharacter){
 			yogotar.setSkinByName("normal");
 		}else if(gameData.yogotar==null){
-			var anyYogotar=game.rnd.integerInRange(1,yogotar.skeleton.data.skins.length)
+			var anyYogotar=game.rnd.integerInRange(1,yogotar.skeleton.data.skins.length-1)
 			var nameOfChoosenYogotar=yogotar.skeleton.data.skins[anyYogotar].name;
 			console.log(anyYogotar, nameOfChoosenYogotar)
 			yogotar.setSkinByName(nameOfChoosenYogotar);
@@ -788,7 +788,6 @@ var result = function(){
 
 			var wfconfig = {
 				active: function() {
-					console.log("font loaded");
 					createScene()
 				},
 				custom: {

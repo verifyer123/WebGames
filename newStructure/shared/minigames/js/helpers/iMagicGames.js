@@ -31,7 +31,7 @@ var iMagicGames = {
 		{name:'Imagic Magnet Ride',url:'magnetRide/',mapUrl:'magnetRide', sceneName:'magnet',subject:'science',yogotar:"oof",review:true,objective:30,demo:false,type:gameTypeEnum.GRAB},
 		{name:'Imagic River Cleaner',url:'riverCleaner/',mapUrl:'riverCleaner', sceneName:'river',subject:'sustainability',yogotar:"nao", review:true,objective:5,demo:true,type:gameTypeEnum.GRAB},
 		{name:'Imagic Color Invaders',url:'colorInvaders/',mapUrl:'colorInvaders', sceneName:'colorInvaders',subject:'language', review:false,objective:30,demo:false, type:gameTypeEnum.CHOOSE},
-		{name:'Imagic Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math',yogotar:"arturius", review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
+		{name:'Imagic Mathgic Gate',url:'mathgicGate/',mapUrl:'mathgicGate', sceneName:'mathgicGate',subject:'math',yogotar:"arthurius", review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},
 		{name:'Imagic Galactic Pool',url:'galacticPool/',mapUrl:'galacticPool', sceneName:'galacticPool',subject:'geography', review:true,objective:10,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Dr Zombie',url:'drZombie/',mapUrl:'drZombie', sceneName:'drzombie',subject:'health' ,yogotar:"theffanie", review:false,objective:20,demo:true,type:gameTypeEnum.MATCH},
 		{name:'Imagic Clash Critters',url:'clashCritters/',mapUrl:'clashCritters', sceneName:'clash',subject:'math',review:true,objective:50,demo:false,type:gameTypeEnum.CHOOSE},
@@ -48,5 +48,11 @@ var iMagicGames = {
 		{name:'Imagic Symfunny',url:'symfunny/',mapUrl:'symfunny', sceneName:'symfunny',yogotar:"oof",subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Word Blast',url:'wordBlast/',mapUrl:'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Kinetic Jump',url:'kineticJump/',mapUrl:'kineticJump', sceneName:'kineticJump',yogotar:"dax",subject:'science', review:false,objective:30,demo:false, type:gameTypeEnum.TAP},
+		{name:'Imagic Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',yogotar:"oof",subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},
+		{name:'Imagic Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',yogotar:"dazzle",subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
+		{name:'Imagic Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',yogotar:"eagle",subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
+		{name:'Imagic Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',yogotar:"dinamita",subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},
+		{name:'Imagic Minmax Duel',url:'minmaxduel/',mapUrl:'minmaxduel', sceneName:'minmaxduel',yogotar:"eagle",subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
+		
 	]
 }

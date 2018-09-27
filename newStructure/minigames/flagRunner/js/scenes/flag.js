@@ -27,9 +27,9 @@ var flag = function () {
 			"newzealand": "New Zealand",
 			"samoa": "Samoa",
 			"tonga": "Tonga",
-			"tutorial_image": "images/flag/gameTuto_EN.png"
+			/*"tutorial_image_desktop" : "images/flag/tutorial_image_desktop_EN.png",
+			"tutorial_image_movil" : "images/flag/tutorial_image_movil_EN.png"*/
 		},
-
 		"ES": {
 			"moves": "Movimientos extra",
 			"howTo": "¿Cómo jugar?",
@@ -54,7 +54,8 @@ var flag = function () {
 			"newzealand": "Nueva Zelanda",
 			"samoa": "Samoa",
 			"tonga": "Tonga",
-			"tutorial_image": "images/flag/gameTuto_ES.png"
+			/*"tutorial_image_desktop" : "images/flag/tutorial_image_desktop_ES.png",
+			"tutorial_image_movil" : "images/flag/tutorial_image_movil_ES.png"*/
 		}
 	}
 
@@ -68,9 +69,10 @@ var flag = function () {
 
 		],
 		images: [
-			{   name:'tutorial_image',
-				file:"%lang"
-			}
+			/*{
+				name: "tutorial_image",
+				file: "%lang"
+			}*/
 		],
 		sounds: [
 			{
@@ -163,6 +165,8 @@ var flag = function () {
 	var robot;
 	var tagsToUse;
 	var correctIndex;
+	var otherIndex;
+	var anotherIndex;
 	var offsetObjs;
 	var lanesGroup;
 	var boxesGroup;
@@ -183,6 +187,7 @@ var flag = function () {
 	var steps;
 	var directionMove;
 	var tweenHand;
+	var historialAns;
 	var flagList = ['angola', 'argentina', 'france', 'canada', 'china', 'mexico', 'usa', 'spain', 'japan', 'brazil', 'nigeria', 'senegal', 'somalia', 'germany', 'turkey', 'russia', 'australia', 'newzealand', 'samoa', 'tonga'];
 	//#endregion
 	//#region Basic functions
@@ -207,13 +212,13 @@ var flag = function () {
 		moveSideDown = false;
 		steps = 0;
 		directionMove = -1;
+		historialAns = [];
 		loadSounds();
 	}
 
 	function preload() {
-
+		addTutorialImage();
 		game.stage.disableVisibilityChange = false;
-
 	}
 
 	function stopGame(win) {
@@ -442,6 +447,14 @@ var flag = function () {
 	}
 	//#endregion
 	//#region Own functions
+	function addTutorialImage() {
+		var inputName = 'movil';
+		if (game.device.desktop) {
+			inputName = 'desktop';
+		}
+		game.load.image("tutorial_image", "images/flag/" + localization.getLanguage() + "_" + inputName + ".png");
+	}
+
 	function changeHand(step) {
 		hand.x = robot.x;
 		hand.y = robot.y;
@@ -499,7 +512,7 @@ var flag = function () {
 	function tweenHandAnimation(typeAnim) {
 		if (typeAnim == 0) {
 			tweenHand = game.add.tween(hand).to({ x: hand.x + 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
-		} 
+		}
 		// else if (typeAnim == 1) {
 		// 	tweenHand = game.add.tween(hand).to({ x: hand.x - 120 }, 800, Phaser.Easing.Linear.In, true, 0, -1);
 		// } else if (typeAnim == 2) {
@@ -584,7 +597,7 @@ var flag = function () {
 	function restartPlayer() {
 
 		gameActive = false
-		robot.alpha = 0
+		//robot.alpha = 0
 
 		game.time.events.add(1000, function () {
 
@@ -716,54 +729,51 @@ var flag = function () {
 			});
 		});
 	}
+	
 
 	function setCountrys() {
 
-		correctIndex = game.rnd.integerInRange(0, flagList.length - 1);
-		var otherIndex = correctIndex;
-
+		
+		var indexList = [];
+		var recycleList=[];
+		var howMany=0
+		var repeatRandom = false;
 		if (levelCounter < levelChange) {
-			while (otherIndex == correctIndex) {
-				otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-			}
-
-			var indexList = [correctIndex, otherIndex];
+			howMany=2;
+			correctIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[0]=flagList.splice(correctIndex,1).toString()
+			otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			robot.flagIndex = localization.getString(localizationData, indexList[0]);
+			indexList[1]=flagList.splice(otherIndex,1).toString()
 		} else {
-			var anotherIndex = correctIndex;
-			while (otherIndex == correctIndex) {
-				otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-				while(anotherIndex == correctIndex){
-					anotherIndex = game.rnd.integerInRange(0, flagList.length - 1);
-				}
-				if(otherIndex == anotherIndex){
-					anotherIndex = correctIndex;
-					otherIndex = correctIndex;
-				}
-			}
-
-			var indexList = [correctIndex, otherIndex, anotherIndex];
+			howMany=3;
+			correctIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[0]=flagList.splice(correctIndex,1).toString()
+			robot.flagIndex = localization.getString(localizationData, indexList[0]);
+			otherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[1]=flagList.splice(otherIndex,1).toString()
+			anotherIndex = game.rnd.integerInRange(0, flagList.length - 1);
+			indexList[2]=flagList.splice(anotherIndex,1).toString()
 		}
-		//if (!levelZero) {
-			Phaser.ArrayUtils.shuffle(indexList);
-		//}
-
+		historialAns = indexList;
+		flagGroup.children[0].children[0].loadTexture('atlas.flag', indexList[0], 0, false);
+		Phaser.ArrayUtils.shuffle(indexList);
 		for (var i = 0; i < boxesGroup.length; i++) {
-
 			var box = boxesGroup.children[i];
-			box.text.setText(localization.getString(localizationData, flagList[indexList[i]]));
-			box.index = indexList[i];
+			box.text.setText(localization.getString(localizationData, indexList[i]));
+			box.index = localization.getString(localizationData, indexList[i]);
 		}
-
-		//var skinToUse = localization.getString(localizationData,flagList[correctIndex]);
-		flagGroup.children[0].children[0].loadTexture('atlas.flag', flagList[correctIndex], 0, false);
-		//console.log(flagList[correctIndex] + ' skin');
-
+		
+		for(var recovery=0; recovery<howMany; recovery++){
+			flagList.push(indexList[recovery]);
+		}
 		robot.index = 0;
 		robot.anim.setAnimationByName(0, "idle", true);//IDLEBOX
 		//robot.anim.setSkinByName(flagList[correctIndex]);
-		robot.flagIndex = correctIndex;
+		
 
 	}
+
 
 	function deactivateObject(obj) {
 
@@ -825,6 +835,10 @@ var flag = function () {
 		}
 
 		if ((robot.x < 0 && (robot.y > 100 || robot.y < game.height - 100)) || (robot.x > game.width && (robot.y > 100 || robot.y < game.height - 100))) {
+			animationMissPoint();
+			particleWrong.x = robot.x;
+			particleWrong.y = robot.y;
+			particleWrong.start(true, 1000, null, 5);
 			missPoint();
 		}
 		//<<Limitar movimiento en piso izquierdo
@@ -850,13 +864,9 @@ var flag = function () {
 					obj.x -= laneSpeed;
 				}
 
-				if (checkOverlap(robot.hitBox, obj.hitBox) && obj.used && robot.active) {
+				if (checkOverlap(robot.hitBox, obj.hitBox,false) && obj.used && robot.active) {
 					obj.setAnimationByName(0, 'hit', false);
-					if (lives - 1 == 0) {
-						robot.anim.setAnimationByName(0, "lose", false);
-					} else {
-						robot.anim.setAnimationByName(0, "hit", false);
-					}
+					animationMissPoint();
 					sound.play("explosion");
 					particleWrong.x = robot.x;
 					particleWrong.y = robot.y;
@@ -883,10 +893,10 @@ var flag = function () {
 		}
 
 		for (var i = 0; i < boxesGroup.length; i++) {
-
+			
 			var box = boxesGroup.children[i]
 
-			if (checkOverlap(robot.hitBox, box)) {
+			if (checkOverlap(robot.hitBox, box, true) && box.alpha==1) {
 				gameActive = false;
 				if (robot.flagIndex == box.index) {
 
@@ -924,6 +934,18 @@ var flag = function () {
 				}
 				break;
 			}
+		}
+	}
+
+	function animationMissPoint(){
+		if (lives - 1 == 0) {
+			robot.anim.setAnimationByName(0, "lose", false);
+		} else {
+			robot.anim.setAnimationByName(0, "hit", false).onComplete = function(){
+				game.add.tween(robot).to({ alpha: 0 }, 500, "Linear", true).onComplete.add(function(){
+					robot.alpha = 1;
+				})
+			};
 		}
 	}
 
@@ -966,11 +988,16 @@ var flag = function () {
 		});
 	}
 
-	function checkOverlap(spriteA, spriteB) {
+	function checkOverlap(spriteA, spriteB,isRobot) {
 
 		var boundsA = spriteA.getBounds();
 		var boundsB = spriteB.getBounds();
-
+		if(isRobot){
+			boundsB.width=boundsB.width/1.2;
+			boundsB.height=boundsB.height/3;
+			boundsA.width=boundsA.width/1.2;
+			boundsA.height=boundsA.height/1.2;
+		}
 		return Phaser.Rectangle.intersects(boundsA, boundsB);
 
 	}
@@ -1092,7 +1119,7 @@ var flag = function () {
 
 		var hitBoxRobot = new Phaser.Graphics(game);
 		hitBoxRobot.beginFill(0xFFFFFF);
-		hitBoxRobot.drawRect(-30, -30, 60, 60);
+		hitBoxRobot.drawRect(-40, -30, 80, 60);
 		hitBoxRobot.alpha = 0;
 		hitBoxRobot.endFill();
 		robot.add(hitBoxRobot);
@@ -1207,7 +1234,7 @@ var flag = function () {
 		for (var i = 0; i < 3; i++) {
 
 			var boxGroup = game.add.group();
-			boxGroup.x = pivotX;
+			boxGroup.x = pivotX+100;
 			boxGroup.y = game.world.height * 0.94;
 			boxGroup.initY = boxGroup.y;
 			boxGroup.scale.setTo(0.7, 0.7);
@@ -1238,7 +1265,6 @@ var flag = function () {
 	//#endregion
 
 	return {
-
 		assets: assets,
 		name: "flag",
 		update: update,
@@ -1249,7 +1275,6 @@ var flag = function () {
 			return games[gameIndex];
 		},
 		create: function (event) {
-
 			sceneGroup = game.add.group();
 			yogomeGames.mixpanelCall("enterGame", gameIndex, lives, parent.epicModel);
 

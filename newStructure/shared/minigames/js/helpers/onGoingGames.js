@@ -52,16 +52,13 @@ var onGoingGames={
 			{name:'Acorn Numbers',url:'acornNumbers/',mapUrl:'acornNumbers', sceneName:'acorn',subject:'math',review:true,objective:30,demo:true,type:gameTypeEnum.CHOOSE},//34
 			{name:'Popsteroids',url:'popSteroids/',mapUrl:'popSteroids', sceneName:'popScene',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//35
 			{name:'Candy Shapes',url:'candyShapes/',mapUrl:'candyShapes', sceneName:'candy',subject:'math',review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//36
-			{name:'Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//37
 			{name:'Math Circus',url:'mathCircus/',mapUrl:'mathCircus', sceneName:'circus',subject:'math',review:true,objective:20,demo:false,type:gameTypeEnum.CHOOSE},//38
 			{name:'Flight o Clock',url:'flightoclock/',mapUrl:'flightoclock', sceneName:'flightoclock',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//39
 			{name:'Clash Critters',url:'clashCritters/',mapUrl:'clashCritters', sceneName:'clash',subject:'math',review:true,objective:50,demo:false,type:gameTypeEnum.CHOOSE},//40
 			{name:'Math Port',url:'mathPort/',mapUrl:'mathPort', sceneName:'port',subject:'math',review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//41
-			{name:'Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//42
 			{name:'Hungry Toads',url:'hungryToads/',mapUrl:'hungryToads', sceneName:'hungry',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//43
 			{name:'Sky Tap',url:'skyTap/',mapUrl:'skyTap', sceneName:'sky',subject:'math' ,review:true,objective:30,demo:false,type:gameTypeEnum.COUNT},//44
 			{name:'Evening',url:'evening/',mapUrl:'evening', sceneName:'evening',subject:'math', review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//45
-			{name:'Minmax Duel',url:'minmaxduel/',mapUrl:'minmaxduel', sceneName:'minmaxduel',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},//46
 			{name:'Math Invader',url:'mathInvader/',mapUrl:'mathInvader', sceneName:'invader',subject:'math', review:true,objective:30,demo:false,type:gameTypeEnum.SEQUENCE},//47
 			{name:'Locksmath',url:'locksmath/',mapUrl:'locksmath', sceneName:'lock',subject:'math', review:true,objective:50,demo:false,type:gameTypeEnum.MATCH},//48
 			{name:'Lucky Numbers',url:'luckynumber/',mapUrl:'luckynumber', sceneName:'luckynumber',subject:'math', review:true,objective:10,demo:false,type:gameTypeEnum.MATCH},//50
@@ -88,7 +85,6 @@ var onGoingGames={
 			{name:'Dusk Defense',url:'duskDefense/',mapUrl:'duskDefense', sceneName:'dusk',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.TARGET},//73
 			{name:'zucaritas',url:'zucaritas/',mapUrl:'zucaritas', sceneName:'zucaritas',subject:'geography', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//74 K
 			{name:'Divisubmarine',url:'diviSubmarine/',mapUrl:'diviSubmarine', sceneName:'divisubmarine',subject:'math', review:false,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//75
-			{name:'Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},//77
 			{name:'Space Count',url:'SpaceCount/',mapUrl:'SpaceCount', sceneName:'spaceCount',subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.COUNT},//78
 			{name:'Loop Roll',url:'loopRoll/',mapUrl:'loopRoll', sceneName:'loop',subject:'math', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//79 K
 			{name:'Melvin Travel',url:'melvinTravel/',mapUrl:'melvinTravel', sceneName:'melvin',subject:'geography', review:false,objective:3,demo:false,type:gameTypeEnum.CHOOSE},//80 K
@@ -146,7 +142,6 @@ var onGoingGames={
 		   {name:'Sweet Emotions',url:'sweetEmotions/',mapUrl:'sweetEmotions', sceneName:'sweetEmotions',subject:'language', review:false,objective:25,demo:false, type:gameTypeEnum.TRACE},//141
 		   {name:'Satellite',url:'satellite/',mapUrl:'satellite', sceneName:'satellite',subject:'coding', review:false,objective:15,demo:false, type:gameTypeEnum.MATCH},//142
 		   {name:'Gourmet Traveller',url:'gourmetTraveller/',mapUrl:'gourmetTraveller', sceneName:'gourmetTraveller',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//143
-		   {name:'Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},//144
 		   {name:'Bee Travel',url:'beeTravel/',mapUrl:'beeTravel', sceneName:'beeTravel',subject:'sciencie', review:false,objective:15,demo:false, type:gameTypeEnum.TRACE},//145
 		   {name:'Flappitat',url:'flapitat/',mapUrl:'flapitat', sceneName:'flapitat',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//146
 		   {name:'OrbitalOrder',url:'orbitalOrder/',mapUrl:'orbitalOrder', sceneName:'orbitalOrder',subject:'Geography', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//147

@@ -77,7 +77,7 @@ var sceneloader = function(){
 				if(typeof assets.spines == "object"){
 					for(var indexSpine = 0; indexSpine < assets.spines.length; indexSpine++){
 						var currentSpine = assets.spines[indexSpine]
-						console.log(currentSpine.name, currentSpine.file)
+//						console.log(currentSpine.name, currentSpine.file)
 						currentLoader.spine(currentSpine.name, currentSpine.file)
 					}
 				}
@@ -136,7 +136,7 @@ var sceneloader = function(){
 			}
 
 			else{
-				console.warn("Scene with no Assets to preload")
+//				console.warn("Scene with no Assets to preload")
 			}
 
 			saveScene(currentScene)
@@ -150,7 +150,7 @@ var sceneloader = function(){
 		var state = game.state.add(scene.name, scene)
 		sceneList.push(scene)
 
-		console.log("Preloaded scene: "+scene.name)
+//		console.log("Preloaded scene: "+scene.name)
 	}
 
 	function searchSceneByName(sceneName){
@@ -161,7 +161,7 @@ var sceneloader = function(){
 				return currentScene
 			}
 		}
-		console.log("Cannot find scene: "+sceneName)
+//		console.log("Cannot find scene: "+sceneName)
 		return null
 	}
 
