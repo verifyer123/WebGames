@@ -261,18 +261,30 @@ var robo = function(){
 		}
 	}
 	
-	function moveDogAway(){
-		var moveDog = game.add.tween(dog).to({x:game.world.width + 220}, 1200, null, true, 1000)
+	function moveDogAway(correct){
+		if(correct){
+			var moveDog = game.add.tween(dog).to({x:game.world.width + 220}, 1200, null, true, 1000)
+		}else{
+			var moveDog = game.add.tween(dog).to({x:-320}, 1900, null, true, 1000)
+		}
 		var engineLoopEffect = game.add.tween(engine.scale).to({x:1.1, y:0.9}, 300, Phaser.Easing.Sinusoidal.Out, false).yoyo(true)
 		engine.engineLoopEffect = engineLoopEffect
 		engineLoopEffect.loop(true)
 
 		moveDog.onStart.add(function () {
-			leftRieles.callAll("playAnimation")
-			rightRieles.callAll("playAnimation")
-			electricBand.loopFull(1)
-			engine.engineLoopEffect.start()
-			dissapearNumbers()
+			if(correct){
+				leftRieles.callAll("playAnimation")
+				rightRieles.callAll("playAnimation")
+				electricBand.loopFull(1)
+				engine.engineLoopEffect.start()
+				dissapearNumbers()
+			}else{
+				leftRieles.callAll("playAnimation")
+				electricBand.loopFull(1)
+				engine.engineLoopEffect.start()
+				dissapearNumbers()
+				leftRieles.reverse();
+			}
 		})
 		moveDog.onComplete.add(function () {
 			dog.x = -220
@@ -294,7 +306,7 @@ var robo = function(){
 			stopGame(false)
 		}
 		else{
-			moveDogAway()
+			moveDogAway(false)
 		}
 	}
 	
@@ -305,7 +317,7 @@ var robo = function(){
 		dog.setAnimation(["WAKE_UP", "WIN"])
 		addPoint(1)
 
-		moveDogAway()
+		moveDogAway(true)
 	}
 	
 	function checkCorrect(x, y) {
@@ -354,7 +366,6 @@ var robo = function(){
 			if(answer.option)
 				answerCounter++
 		}
-
 		if (answerCounter === engine.answers.length){
 			checkCorrect()
 		}
@@ -661,47 +672,6 @@ var robo = function(){
 
 		tutorialHelper.createTutorialGif(tutoGroup,onClickPlay)
 
-		/*var rect = new Phaser.Graphics(game)
-		rect.beginFill(0x000000)
-		rect.drawRect(0,0,game.world.width *2, game.world.height *2)
-		rect.alpha = 0.7
-		rect.endFill()
-		rect.inputEnabled = true
-		rect.events.onInputDown.add(function(){
-			onClickPlay(rect)
-
-		})
-
-		tutoGroup.add(rect)
-
-		var plane = tutoGroup.create(game.world.centerX, game.world.centerY,'introscreen')
-		plane.scale.setTo(1,1)
-		plane.anchor.setTo(0.5,0.5)
-
-		var tuto = tutoGroup.create(game.world.centerX, game.world.centerY - 50,'atlas.robo','gametuto')
-		tuto.anchor.setTo(0.5,0.5)
-
-		var howTo = tutoGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
-		howTo.anchor.setTo(0.5,0.5)
-		howTo.scale.setTo(0.8,0.8)
-
-		var inputName = 'movil'
-
-		if(game.device.desktop){
-			inputName = 'desktop'
-		}
-
-		//console.log(inputName)
-		var inputLogo = tutoGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.robo',inputName)
-		inputLogo.anchor.setTo(0.5,0.5)
-		inputLogo.scale.setTo(0.7,0.7)
-
-		var button = tutoGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.robo','button')
-		button.anchor.setTo(0.5,0.5)
-
-		var playText = tutoGroup.create(game.world.centerX, button.y,'buttonText')
-		playText.anchor.setTo(0.5,0.5)*/
-
 	}
 
 	function createClock(){
@@ -934,7 +904,7 @@ var robo = function(){
 			sceneGroup.add(correctParticle)
 			engine.correctParticle = correctParticle
 
-			var wrongParticle = createPart("wrong")
+			var wrongParticle = createPart("smoke")
 			wrongParticle.x = engine.x
 			wrongParticle.y = engine.y - 150
 			sceneGroup.add(wrongParticle)
