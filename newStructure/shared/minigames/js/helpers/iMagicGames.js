@@ -51,5 +51,6 @@ var iMagicGames = {
 		{name:'Imagic Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',yogotar:"oof",subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',yogotar:"dazzle",subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',yogotar:"eagle",subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
+		{name:'Imagic Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',yogotar:"oona",subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},
 	]
 }

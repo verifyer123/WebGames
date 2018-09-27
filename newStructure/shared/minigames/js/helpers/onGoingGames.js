@@ -56,7 +56,6 @@ var onGoingGames={
 			{name:'Flight o Clock',url:'flightoclock/',mapUrl:'flightoclock', sceneName:'flightoclock',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//39
 			{name:'Clash Critters',url:'clashCritters/',mapUrl:'clashCritters', sceneName:'clash',subject:'math',review:true,objective:50,demo:false,type:gameTypeEnum.CHOOSE},//40
 			{name:'Math Port',url:'mathPort/',mapUrl:'mathPort', sceneName:'port',subject:'math',review:true,objective:30,demo:false,type:gameTypeEnum.CHOOSE},//41
-			{name:'Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},//42
 			{name:'Hungry Toads',url:'hungryToads/',mapUrl:'hungryToads', sceneName:'hungry',subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//43
 			{name:'Sky Tap',url:'skyTap/',mapUrl:'skyTap', sceneName:'sky',subject:'math' ,review:true,objective:30,demo:false,type:gameTypeEnum.COUNT},//44
 			{name:'Evening',url:'evening/',mapUrl:'evening', sceneName:'evening',subject:'math', review:true,objective:40,demo:false,type:gameTypeEnum.MATCH},//45
