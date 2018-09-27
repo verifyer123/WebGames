@@ -80,7 +80,7 @@ function startGame(){
     function create(){
 
     	preloadScenes([
-            instructions,
+            //instructions,
             minmaxduel,
             result
     	])
