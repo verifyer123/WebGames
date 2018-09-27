@@ -53,5 +53,6 @@ var iMagicGames = {
 		{name:'Imagic Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',yogotar:"eagle",subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
 		{name:'Imagic Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',yogotar:"dinamita",subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},
 		{name:'Imagic Minmax Duel',url:'minmaxduel/',mapUrl:'minmaxduel', sceneName:'minmaxduel',yogotar:"eagle",subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
+		
 	]
 }
