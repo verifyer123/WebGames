@@ -122,7 +122,7 @@ var yogomeGames = function () {
 		addingTime = true
 		addTime()
 
-		console.log('gameIndex sent ' + gameIndex)
+//		console.log('gameIndex sent ' + gameIndex)
 
 		gameLives = lives || 1
 

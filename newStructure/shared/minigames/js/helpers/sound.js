@@ -8,7 +8,7 @@ var sound = function(){
 	}
 
 	function decode(soundStringArray){
-		console.log("Decoding Sounds...")
+//		console.log("Decoding Sounds...")
 		for(var indexSound = 0; indexSound < soundStringArray.length; indexSound++){
 			var currentSoundData = soundStringArray[indexSound]
 			var currentLoadedAudio = game.add.audio(currentSoundData.name)

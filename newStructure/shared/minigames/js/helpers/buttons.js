@@ -14,7 +14,7 @@ var buttons = function () {
 
 		gameSong = song
 
-		console.log(song + ' song')
+//		console.log(song + ' song')
 
 		var button = game.add.group()
 		button.x = posX || game.world.width - 215

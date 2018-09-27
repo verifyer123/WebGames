@@ -133,7 +133,6 @@ var result = function(){
 		totalScore = score
 		
 		win = totalScore >= goalScore
-		console.log(win)
 		if(parent.epicModel){
 			currentPlayer = parent.epicModel.getPlayer()
 			mixpanel.people.set({ "MinigamesPlayed": currentPlayer.minigamesPlayed+1 });
@@ -789,7 +788,6 @@ var result = function(){
 
 			var wfconfig = {
 				active: function() {
-					console.log("font loaded");
 					createScene()
 				},
 				custom: {
