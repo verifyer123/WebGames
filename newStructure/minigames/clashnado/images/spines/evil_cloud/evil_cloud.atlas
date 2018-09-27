@@ -1,0 +1,48 @@
+
+evil_cloud.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal1/cheeks
+  rotate: false
+  xy: 371, 429
+  size: 137, 79
+  orig: 137, 79
+  offset: 0, 0
+  index: -1
+normal1/cloud
+  rotate: false
+  xy: 2, 298
+  size: 367, 210
+  orig: 367, 210
+  offset: 0, 0
+  index: -1
+normal1/eyebrows
+  rotate: false
+  xy: 371, 394
+  size: 126, 33
+  orig: 126, 33
+  offset: 0, 0
+  index: -1
+normal1/thunderbolt_1
+  rotate: false
+  xy: 68, 148
+  size: 65, 148
+  orig: 65, 148
+  offset: 0, 0
+  index: -1
+normal1/thunderbolt_2
+  rotate: false
+  xy: 2, 122
+  size: 64, 174
+  orig: 64, 174
+  offset: 0, 0
+  index: -1
+normal1/thunderbolt_3
+  rotate: false
+  xy: 135, 148
+  size: 64, 148
+  orig: 64, 148
+  offset: 0, 0
+  index: -1

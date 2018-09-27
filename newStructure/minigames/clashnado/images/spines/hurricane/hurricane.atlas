@@ -1,0 +1,153 @@
+
+hurricane.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/storm_dust_1_a
+  rotate: false
+  xy: 2, 4
+  size: 63, 33
+  orig: 63, 33
+  offset: 0, 0
+  index: -1
+normal/storm_dust_1_b
+  rotate: false
+  xy: 67, 15
+  size: 64, 22
+  orig: 64, 22
+  offset: 0, 0
+  index: -1
+normal/storm_dust_1_c
+  rotate: false
+  xy: 158, 24
+  size: 31, 13
+  orig: 31, 13
+  offset: 0, 0
+  index: -1
+normal/storm_dust_2_a
+  rotate: false
+  xy: 337, 133
+  size: 101, 36
+  orig: 101, 36
+  offset: 0, 0
+  index: -1
+normal/storm_dust_2_b
+  rotate: false
+  xy: 448, 395
+  size: 62, 33
+  orig: 62, 33
+  offset: 0, 0
+  index: -1
+normal/storm_dust_2_c
+  rotate: false
+  xy: 345, 2
+  size: 48, 17
+  orig: 48, 17
+  offset: 0, 0
+  index: -1
+normal/storm_eyebrows
+  rotate: false
+  xy: 307, 274
+  size: 130, 71
+  orig: 130, 71
+  offset: 0, 0
+  index: -1
+normal/storm_head
+  rotate: false
+  xy: 2, 39
+  size: 247, 182
+  orig: 247, 182
+  offset: 0, 0
+  index: -1
+normal/storm_helmet
+  rotate: false
+  xy: 2, 223
+  size: 303, 287
+  orig: 303, 287
+  offset: 0, 0
+  index: -1
+normal/storm_jaw
+  rotate: false
+  xy: 307, 423
+  size: 139, 87
+  orig: 139, 87
+  offset: 0, 0
+  index: -1
+normal/storm_pupil_l
+  rotate: false
+  xy: 307, 249
+  size: 25, 23
+  orig: 25, 23
+  offset: 0, 0
+  index: -1
+normal/storm_pupil_r
+  rotate: true
+  xy: 133, 2
+  size: 35, 23
+  orig: 35, 23
+  offset: 0, 0
+  index: -1
+normal/storm_wind_1_a
+  rotate: true
+  xy: 251, 110
+  size: 111, 84
+  orig: 111, 84
+  offset: 0, 0
+  index: -1
+normal/storm_wind_1_b
+  rotate: true
+  xy: 337, 171
+  size: 101, 93
+  orig: 101, 93
+  offset: 0, 0
+  index: -1
+normal/storm_wind_1_c
+  rotate: true
+  xy: 251, 2
+  size: 106, 92
+  orig: 106, 92
+  offset: 0, 0
+  index: -1
+normal/storm_wind_1_d
+  rotate: false
+  xy: 307, 347
+  size: 131, 74
+  orig: 131, 74
+  offset: 0, 0
+  index: -1
+normal/storm_wind_2_a
+  rotate: false
+  xy: 345, 21
+  size: 67, 60
+  orig: 67, 60
+  offset: 0, 0
+  index: -1
+normal/storm_wind_2_b
+  rotate: false
+  xy: 345, 83
+  size: 80, 48
+  orig: 80, 48
+  offset: 0, 0
+  index: -1
+normal/storm_wind_2_c
+  rotate: false
+  xy: 440, 333
+  size: 67, 60
+  orig: 67, 60
+  offset: 0, 0
+  index: -1
+normal/storm_wind_2_d
+  rotate: true
+  xy: 448, 430
+  size: 80, 60
+  orig: 80, 60
+  offset: 0, 0
+  index: -1
+normal/storm_wind_3
+  rotate: true
+  xy: 439, 285
+  size: 46, 63
+  orig: 46, 63
+  offset: 0, 0
+  index: -1
