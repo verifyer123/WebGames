@@ -3,7 +3,7 @@ function loadScript(url, callback){
 	var script = document.createElement("script")
 	script.type = "text/javascript";
 
-	if (script.readyState){  //IE
+	if (script.readyState){
 		script.onreadystatechange = function(){
 			if (script.readyState == "loaded" ||
 				script.readyState == "complete"){
@@ -11,7 +11,7 @@ function loadScript(url, callback){
 				callback();
 			}
 		};
-	} else {  //Others
+	} else {
 		script.onload = function(){
 			callback();
 		};

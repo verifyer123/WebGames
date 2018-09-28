@@ -574,7 +574,6 @@ var upRoar = function(){
 		
 		var randAnimal=3;
 		var correctAnimal=randAnimal;
-		console.log(animals[randAnimal].question)
 		bar.text.text=animals[randAnimal].question+" "+animals[randAnimal].animal;
 		correctAnswer=animals[randAnimal].solution;
 		//btn1.text.text=animals[3].solutionEN;

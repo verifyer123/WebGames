@@ -2,7 +2,7 @@
 
 {
 	"filename": "answer",
-	"frame": {"x":370,"y":202,"w":106,"h":106},
+	"frame": {"x":366,"y":340,"w":106,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":106,"h":106},
@@ -11,7 +11,7 @@
 },
 {
 	"filename": "bar",
-	"frame": {"x":936,"y":254,"w":30,"h":34},
+	"frame": {"x":459,"y":304,"w":30,"h":34},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":30,"h":34},
@@ -20,7 +20,7 @@
 },
 {
 	"filename": "base",
-	"frame": {"x":1,"y":311,"w":541,"h":235},
+	"frame": {"x":1,"y":1,"w":541,"h":235},
 	"rotated": false,
 	"trimmed": true,
 	"spriteSourceSize": {"x":0,"y":7,"w":541,"h":235},
@@ -29,7 +29,7 @@
 },
 {
 	"filename": "button",
-	"frame": {"x":710,"y":427,"w":129,"h":114},
+	"frame": {"x":474,"y":368,"w":129,"h":114},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":129,"h":114},
@@ -38,7 +38,7 @@
 },
 {
 	"filename": "clock",
-	"frame": {"x":478,"y":202,"w":456,"h":98},
+	"frame": {"x":1,"y":238,"w":456,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":456,"h":98},
@@ -47,7 +47,7 @@
 },
 {
 	"filename": "desktop",
-	"frame": {"x":841,"y":427,"w":134,"h":98},
+	"frame": {"x":633,"y":311,"w":134,"h":98},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":134,"h":98},
@@ -55,17 +55,8 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
-	"filename": "gametuto",
-	"frame": {"x":544,"y":1,"w":439,"h":199},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":439,"h":199},
-	"sourceSize": {"w":439,"h":199},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
 	"filename": "life_box",
-	"frame": {"x":544,"y":471,"w":140,"h":55},
+	"frame": {"x":491,"y":311,"w":140,"h":55},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":140,"h":55},
@@ -74,7 +65,7 @@
 },
 {
 	"filename": "margin",
-	"frame": {"x":544,"y":302,"w":164,"h":167},
+	"frame": {"x":200,"y":338,"w":164,"h":167},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":164,"h":167},
@@ -83,7 +74,7 @@
 },
 {
 	"filename": "movil",
-	"frame": {"x":710,"y":302,"w":197,"h":123},
+	"frame": {"x":1,"y":338,"w":197,"h":123},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":123},
@@ -92,7 +83,7 @@
 },
 {
 	"filename": "operacion",
-	"frame": {"x":1,"y":1,"w":367,"h":308},
+	"frame": {"x":544,"y":1,"w":367,"h":308},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":367,"h":308},
@@ -101,7 +92,7 @@
 },
 {
 	"filename": "option",
-	"frame": {"x":370,"y":1,"w":106,"h":106},
+	"frame": {"x":769,"y":311,"w":106,"h":106},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":106,"h":106},
@@ -109,35 +100,26 @@
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
+	"filename": "smoke",
+	"frame": {"x":605,"y":411,"w":100,"h":93},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":100,"h":93},
+	"sourceSize": {"w":100,"h":93},
+	"pivot": {"x":0.5,"y":0.5}
+},
+{
 	"filename": "star",
-	"frame": {"x":478,"y":1,"w":64,"h":64},
+	"frame": {"x":459,"y":238,"w":64,"h":64},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
 	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "wrong",
-	"frame": {"x":478,"y":67,"w":64,"h":64},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":64,"h":64},
-	"sourceSize": {"w":64,"h":64},
-	"pivot": {"x":0.5,"y":0.5}
-},
-{
-	"filename": "x",
-	"frame": {"x":936,"y":202,"w":42,"h":50},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":42,"h":50},
-	"sourceSize": {"w":42,"h":50},
 	"pivot": {"x":0.5,"y":0.5}
 },
 {
 	"filename": "xpcoins",
-	"frame": {"x":370,"y":133,"w":165,"h":41},
+	"frame": {"x":1,"y":463,"w":165,"h":41},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":165,"h":41},
@@ -149,8 +131,8 @@
 	"version": "1.0",
 	"image": "atlas.png",
 	"format": "RGBA8888",
-	"size": {"w":984,"h":547},
+	"size": {"w":912,"h":506},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:1c5ede04cf2da3649d51afedca7717ae:83e923510f25dd7cb5c117eae10a875a:cbce6b53f0f49e0bf15173c25c41f876$"
+	"smartupdate": "$TexturePacker:SmartUpdate:929686c7f9871cd449ec65bb34cbd78b:fa5b3c50a5c59dea2600ed0bc8d98678:cbce6b53f0f49e0bf15173c25c41f876$"
 }
 }

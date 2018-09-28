@@ -283,7 +283,6 @@ var robo = function(){
 				electricBand.loopFull(1)
 				engine.engineLoopEffect.start()
 				dissapearNumbers()
-				leftRieles.reverse();
 			}
 		})
 		moveDog.onComplete.add(function () {
