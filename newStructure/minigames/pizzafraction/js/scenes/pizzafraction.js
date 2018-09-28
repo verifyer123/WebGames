@@ -336,8 +336,6 @@ var pizzafraction = function(){
 		textGlobe.setTextBounds(globe.x,globe.y,globe.width/2,globe.height);
 
 		
-		
-		
 		star = sceneGroup.create(0,0,"star");
 		star.scale.setTo(2);
 		star.anchor.setTo(0.5,0.5);
@@ -634,7 +632,7 @@ var pizzafraction = function(){
 	function onPressBell(bell){
         
         if(!changing){
-           if(!tutorial)sound.play("bell")
+           sound.play("bell")
             if(timer == 0){
                 return
             }
@@ -767,8 +765,8 @@ var pizzafraction = function(){
 		}
 		function newYogotar(){
 			
-			shuffle(fractions);
-			shuffle(characters);
+			Phaser.ArrayUtils.shuffle(fractions);
+			Phaser.ArrayUtils.shuffle(characters);
 			count = 0;
 			for(i=0;i<=numPizzas-1;i++){
 				fractionPizza[i].blendMode = 3;
