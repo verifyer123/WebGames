@@ -66,7 +66,6 @@ function startGame(){
 		if(!parent.gameData){
 			var games = yogomeGames.getObjectGames("custom");
 			var gameName = games["Imagic"+actualGame];
-			console.log(gameName);
 			window.gameData=gameName;
 			if(window.gameData.config.tutorial=="tutorialImagic"){
 				localization.setLanguage("ES")

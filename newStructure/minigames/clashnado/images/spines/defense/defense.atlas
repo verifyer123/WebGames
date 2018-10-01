@@ -1,0 +1,76 @@
+
+defense.png
+size: 512,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal3/body
+  rotate: false
+  xy: 2, 158
+  size: 268, 272
+  orig: 268, 272
+  offset: 0, 0
+  index: -1
+normal3/cheeks
+  rotate: false
+  xy: 272, 373
+  size: 129, 57
+  orig: 129, 57
+  offset: 0, 0
+  index: -1
+normal3/chin
+  rotate: false
+  xy: 2, 99
+  size: 136, 57
+  orig: 136, 57
+  offset: 0, 0
+  index: -1
+normal3/cloud_ball_1
+  rotate: false
+  xy: 403, 399
+  size: 27, 31
+  orig: 27, 31
+  offset: 0, 0
+  index: -1
+normal3/cloud_ball_2
+  rotate: false
+  xy: 272, 333
+  size: 33, 38
+  orig: 33, 38
+  offset: 0, 0
+  index: -1
+normal3/cloud_ball_3
+  rotate: false
+  xy: 140, 118
+  size: 42, 38
+  orig: 42, 38
+  offset: 0, 0
+  index: -1
+normal3/cloud_ball_4
+  rotate: false
+  xy: 2, 22
+  size: 27, 28
+  orig: 27, 28
+  offset: 0, 0
+  index: -1
+normal3/eyebrow_l
+  rotate: false
+  xy: 52, 75
+  size: 33, 22
+  orig: 33, 22
+  offset: 0, 0
+  index: -1
+normal3/eyebrow_r
+  rotate: false
+  xy: 184, 134
+  size: 32, 22
+  orig: 32, 22
+  offset: 0, 0
+  index: -1
+normal3/nose
+  rotate: false
+  xy: 2, 52
+  size: 48, 45
+  orig: 48, 45
+  offset: 0, 0
+  index: -1
