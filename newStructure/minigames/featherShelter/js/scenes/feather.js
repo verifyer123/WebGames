@@ -326,17 +326,17 @@ var feather = function(){
             if(appear){
                 if(!tutorial){
                     obj.alpha = 1;
-                    obj.children[0].inputEnabled = true;
+                    //obj.children[0].inputEnabled = true;
                 }else{
                     if(index == numberChicks-1 || (index == 9 && numberChicks == 0)){
                         obj.alpha = 1;
                         hand.x = obj.x;
                         hand.y = obj.y - 40;
                         hand.alpha = 1;
-                        obj.children[0].inputEnabled = true;
+                        //obj.children[0].inputEnabled = true;
                     }else{
                         obj.alpha = 0.6;
-                        obj.children[0].inputEnabled = false;
+                        //obj.children[0].inputEnabled = false;
                     }
                 }
                 game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true);
@@ -367,12 +367,12 @@ var feather = function(){
         var delay = 0
         for(var i = 0; i < number; i++){
             
-            var chick = getChick()
-            chick.setAnimationByName(0,"RUN",true)
+            var chick = getChick();
+            chick.setAnimationByName(0,"RUN",true);
             
-            goChick(chick,isAdding,delay)
+            goChick(chick,isAdding,delay);
             
-            delay+= 500
+            delay+= 500;
         }
         
         delay+= 1500
@@ -382,12 +382,12 @@ var feather = function(){
             wolf.alpha = 1
             wolf.scale.x = 1
             
-            wolf.setAnimationByName(0,"WALK",true)
-            sound.play("wolf")
+            wolf.setAnimationByName(0,"WALK",true);
+            sound.play("wolf");
             game.add.tween(wolf).to({x:game.world.centerX - 150},1500,"Linear",true).onComplete.add(function(){
-                wolf.setAnimationByName(0,"SIT",false)
-                showButtons(true)
-                gameActive = true
+                wolf.setAnimationByName(0,"SIT",false);
+                showButtons(true);
+                gameActive = true;
                 if(tutorial){
                     tutorialText.setText(tutorialOperation[tutorialIndex-1]);
                     indicateChickTutorial(1, 250);
@@ -398,7 +398,6 @@ var feather = function(){
     }
     
     function showButtons(appear){
-        
         var delay = 0
         for(var i = 0; i < buttonsGroup.length;i++){
             
@@ -406,6 +405,28 @@ var feather = function(){
             popObject(button,delay,appear,i);
             delay+= 100;
         }
+        activateButtons(appear);
+    }
+
+    function activateButtons(show){
+        var totalDelay = (buttonsGroup.length-1)*100
+        game.time.events.add(totalDelay, function(){
+            for(var s = 0; s < buttonsGroup.length;s++){
+                if(show){
+                    if(!tutorial){
+                        buttonsGroup.children[s].children[0].inputEnabled = true;
+                    }else{
+                        if(s == numberChicks-1 || (s == 9 && numberChicks == 0)){
+                            buttonsGroup.children[s].children[0].inputEnabled = true;
+                        }else{
+                            buttonsGroup.children[s].children[0].inputEnabled = false;
+                        }
+                    }
+                }else{
+                    buttonsGroup.children[s].children[0].inputEnabled = false;
+                }
+            }
+        }, this);
     }
     
     function goChick(chick, isAdding, delay){
@@ -693,7 +714,7 @@ var feather = function(){
             
             var image = group.create(0,0,'atlas.feather','numberbutton');
             image.anchor.setTo(0.5,0.5);
-            image.inputEnabled = true;
+            //image.inputEnabled = true;
             image.events.onInputDown.add(inputButton);
             image.number = (i+1);
             

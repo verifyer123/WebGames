@@ -95,6 +95,8 @@ var beatOMatic = function(){
     var heartsGroup = null;
     var pointsBar;
     var coin;
+    var particleCorrect;
+	var particleWrong;
 
     var gameActive;
     var beatSong;
