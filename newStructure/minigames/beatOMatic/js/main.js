@@ -56,21 +56,7 @@ function startGame(){
             
         }
 
-        localization.setLanguage(language)
-
-        if(!parent.gameData){
-			var games = yogomeGames.getObjectGames("custom");
-			var gameName = games["Imagic"+actualGame];
-			console.log(gameName);
-			window.gameData=gameName;
-			if(window.gameData.config.tutorial=="tutorialImagic"){
-				localization.setLanguage("ES")
-			}
-		}else{
-			if(parent.gameData.config.tutorial=="tutorialImagic"){
-				localization.setLanguage("ES")
-			}
-		}
+        localization.setLanguage(language);
 
         window.minigame.game = window.game
     	sceneloader.init(game)

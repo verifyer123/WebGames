@@ -48,11 +48,6 @@ var iMagicGames = {
 		{name:'Imagic Symfunny',url:'symfunny/',mapUrl:'symfunny', sceneName:'symfunny',yogotar:"oof",subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Word Blast',url:'wordBlast/',mapUrl:'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Kinetic Jump',url:'kineticJump/',mapUrl:'kineticJump', sceneName:'kineticJump',yogotar:"dax",subject:'science', review:false,objective:30,demo:false, type:gameTypeEnum.TAP},
-		{name:'Imagic Float and Count',url:'floatAndCount/',mapUrl:'floatAndCount', sceneName:'float',yogotar:"oof",subject:'math', review:true,objective:20,demo:false,type:gameTypeEnum.SEQUENCE},
-		{name:'Imagic Beat O Matic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',yogotar:"dazzle",subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},
-		{name:'Imagic Feather Shelter',url:'featherShelter/',mapUrl:'featherShelter', sceneName:'feather',yogotar:"eagle",subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
-		{name:'Imagic Pizza Fraction',url:'pizzafraction/',mapUrl:'pizzafraction', sceneName:'pizzafraction',yogotar:"dinamita",subject:'math',review:true,objective:25,demo:false,type:gameTypeEnum.MATCH},
-		{name:'Imagic Minmax Duel',url:'minmaxduel/',mapUrl:'minmaxduel', sceneName:'minmaxduel',yogotar:"eagle",subject:'math', review:true,objective:15,demo:false,type:gameTypeEnum.CHOOSE},
 		
 	]
 }
