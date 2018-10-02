@@ -366,33 +366,12 @@ var clashnado = function () {
         return collitionHolder;
     }
 
-    function createBaseAlly( typeElement ) {
-        var newBaseAlly = game.add.spine( COLLIDERSIZE / 2, COLLIDERSIZE, typeElement );
-        newBaseAlly.scale.setTo( 0.45 );
-        newBaseAlly.setAnimationByName( 0, "idle", true );
-        newBaseAlly.setSkinByName( "normal" );
-        newBaseAlly.type = typeElement;
-        switch ( typeElement )
-        {
-            case "gunner":
-                newBaseAlly.activeGroup = alliesGroup.gunners;
-                newBaseAlly.poolGroup = alliesGroup.poolGunners;
-                newBaseAlly.fullLife = 4;
-                break;
-            case "bomb":
-                newBaseAlly.activeGroup = alliesGroup.bombs;
-                newBaseAlly.poolGroup = alliesGroup.poolBombs;
-                newBaseAlly.fullLife = 1;
-                break;
-            case "wall":
-                newBaseAlly.activeGroup = alliesGroup.walls;
-                newBaseAlly.poolGroup = alliesGroup.poolWalls;
-                newBaseAlly.fullLife = 10;
-                break;
-        }
-        newBaseAlly.alive = true;
-        newBaseAlly.lifePoints = newBaseAlly.fullLife;
-        return newBaseAlly;
+    function createSpine( typeElement, ally ) {
+        var newSpine = game.add.spine( COLLIDERSIZE / 2, ally ? COLLIDERSIZE : COLLIDERSIZE / 2, typeElement == "hurricaneHelmet" ? "hurricane" : typeElement );
+        newSpine.scale.setTo( ally ? 0.45 : 0.4 );
+        newSpine.setAnimationByName( 0, typeElement == "hurricaneHelmet" ? "idle_helmet" : "idle", true );
+        newSpine.setSkinByName( "normal" );
+        return newSpine;
     }
 
     function createAlly( type, poolGroup, positionX, positionY ) {
@@ -400,7 +379,29 @@ var clashnado = function () {
         {
             var allyHolder = createCollitionHolder( game.world.centerX - positionX - ( COLLIDERSIZE / 2 ), positionY );
             allyHolder.body.immovable = true;
-            allyHolder.addChild( createBaseAlly( type ) );
+            allyHolder.addChild( createSpine( type, true ) );
+            allyHolder.spine = allyHolder.children[0];
+            allyHolder.type = type;
+            switch ( type )
+            {
+                case "gunner":
+                    allyHolder.activeGroup = alliesGroup.gunners;
+                    allyHolder.poolGroup = alliesGroup.poolGunners;
+                    allyHolder.fullLife = 4;
+                    break;
+                case "bomb":
+                    allyHolder.activeGroup = alliesGroup.bombs;
+                    allyHolder.poolGroup = alliesGroup.poolBombs;
+                    allyHolder.fullLife = 1;
+                    break;
+                case "wall":
+                    allyHolder.activeGroup = alliesGroup.walls;
+                    allyHolder.poolGroup = alliesGroup.poolWalls;
+                    allyHolder.fullLife = 10;
+                    break;
+            }
+            allyHolder.lifePoints = allyHolder.fullLife;
+            allyHolder.alive = true;
             alliesGroup.add( allyHolder );
             return allyHolder;
         }
@@ -413,13 +414,12 @@ var clashnado = function () {
         allyToReset.body.width = 100;
         allyToReset.body.height = 100;
         allyToReset.body.offset.setTo( 0 );
+        allyToReset.alive = true;
+        allyToReset.lifePoints = allyToReset.fullLife;
 
-        allyToReset.children[0].alive = true;
-        allyToReset.children[0].lifePoints = allyToReset.children[0].fullLife;
-
-        allyToReset.children[0].setAnimationByName( 0, "lose", true );
-        allyToReset.children[0].addAnimationByName( 0, "idle", true );
-        // allyToReset.children[0].setAnimationByName( 0, "idle", true );
+        allyToReset.spine.setAnimationByName( 0, "lose", true );
+        allyToReset.spine.addAnimationByName( 0, "idle", true );
+        // allyToReset.spine.setAnimationByName( 0, "idle", true );
         return allyToReset;
     }
 
@@ -447,44 +447,35 @@ var clashnado = function () {
         enemyToSet.attack = attack;
     }
 
-    function createBaseEnemy( typeElement ) {
-        var newBaseEnemy = game.add.spine( COLLIDERSIZE / 2, COLLIDERSIZE / 2, typeElement == "hurricaneHelmet" ? "hurricane" : typeElement );
-        newBaseEnemy.scale.setTo( 0.4 );
-        newBaseEnemy.setAnimationByName( 0, "idle", true );
-        newBaseEnemy.setSkinByName( "normal" );
-        newBaseEnemy.alive = true;
-        newBaseEnemy.type = typeElement;
-        switch ( typeElement )
-        {
-            case "hurricane":
-                newBaseEnemy.activeGroup = enemiesGroup.hurricanes;
-                newBaseEnemy.poolGroup = enemiesGroup.poolHurricanes;
-                setEnemyStats( newBaseEnemy, 2, -100, 2 );
-                break;
-            case "hurricaneHelmet":
-                newBaseEnemy.activeGroup = enemiesGroup.hurricanesHelmet;
-                newBaseEnemy.poolGroup = enemiesGroup.poolHurricanesHelmet;
-                setEnemyStats( newBaseEnemy, 6, -120, 4 );
-                newBaseEnemy.setAnimationByName( 0, "idle_helmet", true );
-                newBaseEnemy.isHelmet = true;
-                break;
-            case "evilCloud":
-                newBaseEnemy.activeGroup = enemiesGroup.evilClouds;
-                newBaseEnemy.poolGroup = enemiesGroup.poolEvilClouds;
-                setEnemyStats( newBaseEnemy, 6, -50, 4 );
-                break;
-        }
-        newBaseEnemy.lifePoints = newBaseEnemy.fullLife;
-        return newBaseEnemy;
-    }
-
     function createEnemy( type, poolGroup ) {
         if ( poolGroup.length == 0 )
         {
-            var newEnemy = createBaseEnemy( type );
             var enemyHolder = createCollitionHolder( game.world.centerX - getValidPosition() - ( COLLIDERSIZE / 2 ), game.world.height + 200 );
-            enemyHolder.body.velocity.y = newEnemy.speed;
-            enemyHolder.addChild( newEnemy );
+            enemyHolder.addChild( createSpine( type, false ) );
+            enemyHolder.spine = enemyHolder.children[0];
+            enemyHolder.alive = true;
+            enemyHolder.type = type;
+            switch ( type )
+            {
+                case "hurricane":
+                    enemyHolder.activeGroup = enemiesGroup.hurricanes;
+                    enemyHolder.poolGroup = enemiesGroup.poolHurricanes;
+                    setEnemyStats( enemyHolder, 2, -100, 2 );
+                    break;
+                case "hurricaneHelmet":
+                    enemyHolder.activeGroup = enemiesGroup.hurricanesHelmet;
+                    enemyHolder.poolGroup = enemiesGroup.poolHurricanesHelmet;
+                    setEnemyStats( enemyHolder, 6, -120, 4 );
+                    enemyHolder.isHelmet = true;
+                    break;
+                case "evilCloud":
+                    enemyHolder.activeGroup = enemiesGroup.evilClouds;
+                    enemyHolder.poolGroup = enemiesGroup.poolEvilClouds;
+                    setEnemyStats( enemyHolder, 6, -50, 4 );
+                    break;
+            }
+            enemyHolder.lifePoints = enemyHolder.fullLife;
+            enemyHolder.body.velocity.y = enemyHolder.speed;
             enemiesGroup.add( enemyHolder );
             return enemyHolder;
         }
@@ -494,11 +485,11 @@ var clashnado = function () {
     function resetEnemy( enemyToReset ) {
         enemyToReset.x = game.world.centerX - getValidPosition() - ( COLLIDERSIZE / 2 );
         enemyToReset.y = game.world.height + 200;
-        enemyToReset.body.velocity.y = enemyToReset.children[0].speed;
-        enemyToReset.children[0].alive = true;
-        enemyToReset.children[0].lifePoints = enemyToReset.children[0].fullLife;
-        enemyToReset.children[0].addAnimationByName( 0, "lose", true );
-        enemyToReset.children[0].addAnimationByName( 0, enemyToReset.children[0].isHelmet ? "idle_helmet" : "idle", true );
+        enemyToReset.body.velocity.y = enemyToReset.speed;
+        enemyToReset.alive = true;
+        enemyToReset.lifePoints = enemyToReset.fullLife;
+        enemyToReset.spine.setAnimationByName( 0, "lose", true );
+        enemyToReset.spine.addAnimationByName( 0, enemyToReset.isHelmet ? "idle_helmet" : "idle", true );
         return enemyToReset;
     }
 
@@ -579,17 +570,12 @@ var clashnado = function () {
     }
 
     function setElementInPool( element ) {
-        var index = getIndexToSetInPool( element, element.activeGroup );
-        element.activeGroup[index].x = -500;
-        element.poolGroup.push( element.activeGroup.splice( index, 1 )[0] );
-    }
-
-    function getIndexToSetInPool( element ) {
         for ( var i = 0; i < element.activeGroup.length; i++ )
         {
-            if ( element === element.activeGroup[i].children[0] )
+            if ( element === element.activeGroup[i] )
             {
-                return i;
+                element.activeGroup[i].x = -500;
+                element.poolGroup.push( element.activeGroup.splice( i, 1 )[0] );
             }
         }
     }
@@ -639,7 +625,7 @@ var clashnado = function () {
         {
             if ( enemiesGroup.hurricanes[i].y < game.world.centerY / 4 )
             {
-                setElementInPool( enemiesGroup.hurricanes[i].children[0] );
+                setElementInPool( enemiesGroup.hurricanes[i] );
             }
         }
 
@@ -647,7 +633,7 @@ var clashnado = function () {
         {
             if ( enemiesGroup.hurricanesHelmet[i].y < game.world.centerY / 4 )
             {
-                setElementInPool( enemiesGroup.hurricanesHelmet[i].children[0] );
+                setElementInPool( enemiesGroup.hurricanesHelmet[i] );
             }
         }
 
@@ -655,7 +641,7 @@ var clashnado = function () {
         {
             if ( enemiesGroup.evilClouds[i].y < game.world.centerY / 4 )
             {
-                setElementInPool( enemiesGroup.evilClouds[i].children[0] );
+                setElementInPool( enemiesGroup.evilClouds[i] );
             }
         }
     }
@@ -679,71 +665,77 @@ var clashnado = function () {
     }
 
     function allyVsEnemy( actualAlly, actualEnemy ) {
-        if ( !actualEnemy.children[0].alive ) return;
-        if ( !actualAlly.children[0].alive )
+        if ( !actualEnemy.alive ) return;
+        if ( !actualAlly.alive )
         {
-            actualEnemy.body.velocity.y = actualEnemy.children[0].speed;
+            actualEnemy.body.velocity.y = actualEnemy.speed;
             return;
         }
-        if ( actualAlly.children[0].lifePoints - actualEnemy.children[0].attack > 0 )
+        if ( actualAlly.lifePoints - actualEnemy.attack > 0 )
         {
-            actualAlly.children[0].lifePoints -= actualEnemy.children[0].attack;
-            setAnimation( actualAlly.children[0], "hit" );
+            actualAlly.lifePoints -= actualEnemy.attack;
+            setAnimation( actualAlly, "hit" );
         }
         else
         {
             actualAlly.actualPlace.available = true;
-            setAnimation( actualAlly.children[0], "lose" );
+            actualAlly.alive = false;
+            setAnimation( actualAlly, "lose" );
         }
-        if ( actualEnemy.children[0].type == "evilCloud" )
-            setAnimation( actualEnemy.children[0], "attack" );
+        if ( actualEnemy.type == "evilCloud" )
+            setAnimation( actualEnemy, "attack" );
         actualEnemy.body.velocity.y = 150;
         game.time.events.add( 400, setBackForNextAttack, { enemy: actualEnemy } );
     }
 
     function bombVsEnemy( bomb, enemy ) {
-        setAnimation( bomb.children[0], "attack" );
-        setAnimation( enemy.children[0], "lose" );
-        bomb.actualPlace.available = true;
-        bomb.body.width = 300;
-        bomb.body.height = 300;
-        bomb.body.offset.setTo( -100 );
+        if ( bomb.alive == true )
+        {
+            setAnimation( bomb, "attack" );
+            bomb.actualPlace.available = true;
+            bomb.body.width = 300;
+            bomb.body.height = 300;
+            bomb.body.offset.setTo( -100 );
+            bomb.alive = false;
+        }
+        if ( enemy.alive == true )
+        {
+            setAnimation( enemy, "lose" );
+            enemy.alive = false;
+        }
     }
 
     function bulletVsEnemy( bullet, enemy ) {
-        setAnimation( enemy.children[0], "hit" );
+        setAnimation( enemy, "hit" );
     }
 
     function setBackForNextAttack() {
-        this.enemy.body.velocity.y = this.enemy.children[0].speed;
+        this.enemy.body.velocity.y = this.enemy.speed;
     }
 
     function setAnimation( elementToSetAnimation, animation ) {
-        if ( !elementToSetAnimation.alive ) return;
         switch ( animation )
         {
             case "lose":
-                elementToSetAnimation.alive = false;
-                elementToSetAnimation.setAnimationByName( 0, animation, false ).onComplete = function () {
+                elementToSetAnimation.spine.setAnimationByName( 0, animation, false ).onComplete = function () {
                     setElementInPool( elementToSetAnimation );
                 };
                 return;
             case "hit":
-                elementToSetAnimation.setAnimationByName( 0, animation, false );
-                elementToSetAnimation.addAnimationByName( 0, "idle", true );
+                elementToSetAnimation.spine.setAnimationByName( 0, animation, false );
+                elementToSetAnimation.spine.addAnimationByName( 0, "idle", true );
                 return;
             case "attack":
                 if ( elementToSetAnimation.type == "bomb" )
                 {
-                    elementToSetAnimation.alive = false;
-                    elementToSetAnimation.setAnimationByName( 0, animation, false ).onComplete = function () {
+                    elementToSetAnimation.spine.setAnimationByName( 0, animation, false ).onComplete = function () {
                         setElementInPool( elementToSetAnimation );
                     };
                 }
                 else
                 {
-                    elementToSetAnimation.setAnimationByName( 0, animation, false );
-                    elementToSetAnimation.addAnimationByName( 0, "idle", true );
+                    elementToSetAnimation.spine.setAnimationByName( 0, animation, false );
+                    elementToSetAnimation.spine.addAnimationByName( 0, "idle", true );
                 }
                 return;
         }
