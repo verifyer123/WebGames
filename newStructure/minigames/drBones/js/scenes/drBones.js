@@ -333,14 +333,14 @@ var drBones = function(){
     var middleX = 0; var middleY = 0;
     var bones = ["humero","femur","radio","costilla","tibia","pelvis"];
     var posBones = {
-                    "0":{"posBkgX":-350, "posBkgY":350, "numPzlPiece": 5, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
-                    "1":{"posBkgX":-150, "posBkgY":-50, "numPzlPiece": 5, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
+                    "0":{"posBkgX":-350, "posBkgY":350, "numPzlPiece": 4, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
+                    "1":{"posBkgX":-150, "posBkgY":-50, "numPzlPiece": 4, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
 
-                    "2":{"posBkgX":-450, "posBkgY":250, "numPzlPiece": 5, "minPosPieceX": 50, "maxPosPieceX": 150,"minPosPieceY": -160, "maxPosPieceY": 50},
+                    "2":{"posBkgX":-750, "posBkgY":-120, "numPzlPiece": 5, "minPosPieceX": -2, "maxPosPieceX": 193,"minPosPieceY": -220, "maxPosPieceY": -300, "posXSp0": -70/*-318*/, "posYSp0": 58/*-705*/, "posXSp1": -43/*-297*/, "posYSp1": 90/*-680*/, "posXSp2": -10/*-260*/, "posYSp2": 160/*-605*/, "posXSp3": -13/*-266*/, "posYSp3": 120/*-650*/, "posXSp4": -12/*-262*/, "posYSp4": 150/*-615*/},
 
-                    "3":{"posBkgX":0,    "posBkgY":250, "numPzlPiece": 5, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
-                    "4":{"posBkgX":-150, "posBkgY":50,  "numPzlPiece": 5, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
-                    "5":{"posBkgX":0,    "posBkgY":150, "numPzlPiece": 5, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300}
+                    "3":{"posBkgX":0,    "posBkgY":250, "numPzlPiece": 4, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
+                    "4":{"posBkgX":-150, "posBkgY":50,  "numPzlPiece": 4, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300},
+                    "5":{"posBkgX":0,    "posBkgY":150, "numPzlPiece": 4, "minPosPieceX": 100, "maxPosPieceX": 300,"minPosPieceY": 100, "maxPosPieceY": 300}
                    };    
     var grpPuzzle = null;/* var grFemur = null; var grRadio = null;
     var grRib = null; var grTibia = null; var grPelvis = null;*/
@@ -354,19 +354,27 @@ var drBones = function(){
         //setBoneToPlay();        
     }
 
-    function createStaticBoard(){
-        setXRay();
+    function createStaticBoard(){        
+        setBackground();        
+
+        /*imgPuzzleBoard.loadTexture("atlas.drBones", bones[2], 0);
+        imgTableXRay.addChild(imgPuzzleBoard);
+        imgPuzzleBoard.x = game.world.centerX - 280;
+        imgPuzzleBoard.y = game.world.centerY - 490;
+        imgPuzzleBoard.alpha = 1;
+        getPuzzle(2);  */
+
         loadSkeletons();
         createDinamicBoard();
     }    
 
     function loadSkeletons(){
-        skeleton = game.add.spine((imgTableXRay.width/2) + 550, game.world.centerY + 150, "skeletonSide");       
+        skeleton = game.add.spine(game.world.centerX + 150/*(imgTableXRay.width/2) + 550*/, game.world.centerY - 210/* + 150*/, "skeletonSide");       
         skeleton.setSkinByName("normal");                
         skeleton.setAnimationByName(0, "WALK", true);
         //skeleton.state.timeScale = 0;
 
-        skeletonF = game.add.spine(imgTableXRay.width/2, game.world.centerY + 135, "skeleton");
+        skeletonF = game.add.spine(game.world.centerX - 270, game.world.centerY - 220, "skeleton");
         skeletonF.setSkinByName("normal");  
         skeletonF.setAnimationByName(0, "IDLE", true);      
         skeletonF.alpha = 0;        
@@ -383,7 +391,7 @@ var drBones = function(){
 
     function setSkeletonOnBoard(){
         //var tweenSk = animateObject(skeleton,game.world.centerX, game.world.centerY + 150, 2000);                
-        var tweenSk = animateObject(skeleton,imgTableXRay.width/2, game.world.centerY + 150, 2000);                
+        var tweenSk = animateObject(skeleton,game.world.centerX - 270, game.world.centerY - 210, 2000);                
         tweenSk.onComplete.add(function(){
             transitionAlpha(skeleton,0,800);
             game.time.events.add(600,function(){
@@ -400,16 +408,21 @@ var drBones = function(){
         var boneToPlay = 2;//game.rnd.integerInRange(0,bones.length - 1);        
         txtBone.text = localizationData[localization.getLanguage()][bones[boneToPlay]];
         
-        animateObject(skeletonF,middleX + posBones[boneToPlay.toString()]["posBkgX"], middleY + posBones[boneToPlay.toString()]["posBkgY"],2500);
+        animateObject(skeletonF, game.world.centerX + posBones[boneToPlay.toString()]["posBkgX"], game.world.centerY + posBones[boneToPlay.toString()]["posBkgY"],2500);
         animScaleObject(skeletonF,2.8,2.8,2500);        
         
         game.time.events.add(2000, function(){
             transitionAlpha(skeletonF,0,1300); 
             imgPuzzleBoard.loadTexture("atlas.drBones", bones[boneToPlay], 0);
-            transitionAlpha(imgPuzzleBoard,1,1300); 
+            imgTableXRay.addChild(imgPuzzleBoard);
+            //imgPuzzleBoard.anchor.setTo(0.5,0.5);
             
+            imgPuzzleBoard.x = game.world.centerX - 280;
+            imgPuzzleBoard.y = game.world.centerY - 490;
+
+            transitionAlpha(imgPuzzleBoard,1,1300);             
             //createPuzzle(5);
-            //getPuzzleGame(boneToPlay); 
+            //getPuzzleGame(boneToPlay);             
             getPuzzle(boneToPlay);                       
         });
     }   
@@ -425,50 +438,53 @@ var drBones = function(){
         //sceneGroup.add(getPuzzle(3,grRib));
         //sceneGroup.add(getPuzzle(4,grTibia));
         //sceneGroup.add(getPuzzle(5,grPelvis));
-    }   
-
-    function getPuzzle(bonePuzzle){
-        grpPuzzle = new Phaser.Group(game);
+    }    
+    
+    function getPuzzle(bonePuzzle){     
         var strIndexToPlay = bonePuzzle.toString();
+        var collSpace = null;
+        var puzzlePiece = null;
 
         for (var i = 0; i < posBones[strIndexToPlay]["numPzlPiece"]; i++){
-            var imgPiece = grpPuzzle.create(0,0,'atlas.drBones',bones[bonePuzzle] + i);
-            imgPiece.x = game.world.centerX + game.rnd.integerInRange(posBones[strIndexToPlay]["minPosPieceX"],posBones[strIndexToPlay]["maxPosPieceX"]);
-            imgPiece.y = game.world.centerY + game.rnd.integerInRange(posBones[strIndexToPlay]["minPosPieceY"],posBones[strIndexToPlay]["maxPosPieceY"]);
-            imgPiece.inputEnabled = true;
-            imgPiece.input.enableDrag();
-            //imgPiece.input.enableSnap(90,90,false,true);
-            imgPiece.events.onDragStop.add(fixLocationDrag);
-            //imgPiece.alpha = 0;
-        }   
-        sceneGroup.add(grpPuzzle);     
+            collSpace = game.add.sprite(middleX + posBones[strIndexToPlay]["posXSp"+i], middleY + posBones[strIndexToPlay]["posYSp"+i],'atlas.drBones', bones[bonePuzzle]+i);
+            collSpace.anchor.setTo(0.5);
+            collSpace.tint = 0xff00ff;            
+
+            puzzlePiece = game.add.sprite(middleX, middleY - 50, collSpace.key, collSpace.frame);
+            puzzlePiece.anchor.x = 0.5;
+            puzzlePiece.inputEnabled = true;
+            puzzlePiece.input.enableDrag();
+            puzzlePiece.originalPosition = puzzlePiece.position.clone();
+
+            game.physics.enable([collSpace, puzzlePiece], Phaser.Physics.ARCADE);
+
+            collSpace.body.setSize(20,20,15,18);
+            puzzlePiece.body.setSize(20,20,15,18);
+            puzzlePiece.body.collideWorldBounds = true;
+
+            puzzlePiece.events.onDragStop.add(onDragStop, this);
+
+            /*puzzlePiece.events.onDragStop.add(function(){
+                if (!game.physics.arcade.collide(collSpace, puzzlePiece, checkPiece, null, this))
+                    puzzlePiece.position.copyFrom(puzzlePiece.originalPosition);
+            });*/
+        }        
+    }
+
+    function onDragStop(obj){
+
     }    
 
-    function fixLocationDrag(item){
-         // Move the items when it is already dropped.
-        console.log("x = " + item.x + " y = " + item.y);
-         if (item.x < 35) {
-            //item.x = 40;
-            //item.input.disableDrag();
-            item.x = 40;  
-            //item.input.enableDrag();          
-        }
-        if (item.x > 435) {
-            //item.input.disableDrag();
-            item.x = 430;
-            //item.input.enableDrag();
-        }
-        if (item.y < 310) {
-            //item.input.disableDrag();
-            item.y = 315;
-            //item.input.enableDrag();
-        }
-        if (item.y > 840){
-            //item.input.disableDrag();
-            item.y = 835;
-            //item.input.enableDrag();
-        }
+    function checkPiece(){
+        console.log("Revisar pieza ");
+        //piece.pos
     }
+
+    function checkOverlap(spriteA, spriteB) {
+        var boundsA = spriteA.getBounds();
+        var boundsB = spriteB.getBounds();    
+        return Phaser.Rectangle.intersects(boundsA, boundsB);    
+    }   
 
     function animScaleObject(objScale, toX, toY, time){  
         var tweenScale = game.add.tween(objScale.scale).to({x: toX, y: toY}, time, Phaser.Easing.linear, true);      
@@ -480,19 +496,21 @@ var drBones = function(){
         return tweenObject;
     }    
 
-    function setXRay(){
-        var grpXRayBoard = new Phaser.Group(game);                
+    function setBackground(){
+        var grpXRayBoard = new Phaser.Group(game); 
+        game.physics.startSystem(Phaser.Physics.ARCADE);               
         
-        imgTableXRay = grpXRayBoard.create(0,0,'XRayTable');
-        imgTableXRay.x = game.world.centerX - imgTableXRay.width * 0.5;
-        imgTableXRay.y = game.world.centerY - imgTableXRay.height * 0.3;
+        imgTableXRay = game.add.sprite(0,0,'XRayTable');//grpXRayBoard.create(0,0,'XRayTable'); 
+        imgTableXRay.anchor.setTo(0.5,0.5);       
+        imgTableXRay.x = game.world.centerX;// - imgTableXRay.width * 0.5;
+        imgTableXRay.y = game.world.centerY + 142;// - imgTableXRay.height * 0.3;        
 
         var imgTxtXRay = grpXRayBoard.create(0,0,'textXRay');
         imgTxtXRay.anchor.setTo(0.5,0.5);
         imgTxtXRay.x = game.world.centerX;
         imgTxtXRay.y = game.world.centerY - 250;
 
-        imgPuzzleBoard = grpXRayBoard.create(game.world.centerX, game.world.centerY + 130, "atlas.drBones", "humero");//75            
+        imgPuzzleBoard = grpXRayBoard.create(game.world.centerX, game.world.centerY, "atlas.drBones", "humero");//75            
         imgPuzzleBoard.anchor.setTo(0.5,0.5);
         imgPuzzleBoard.alpha = 0;
         
@@ -500,12 +518,21 @@ var drBones = function(){
         txtBone = game.add.text(imgTxtXRay.x,imgTxtXRay.y,"",fontBone);
         txtBone.anchor.setTo(0.5,0.5);
 
+        //game.input.addMoveCallback(move, this);
+
         setMaskOnXRayTable(imgTableXRay);
         sceneGroup.add(grpXRayBoard);       
 
         middleX = game.world.centerX;
         middleY = game.world.centerY;
     }  
+
+    var mask;
+
+    function move(pointer, x, y){        
+        mask.x = x - 100;
+        mask.y = y - 100;
+    }
     
     function setMaskOnXRayTable(image){        
         //var mask = game.add.graphics(image.x - image.width * 0.5, image.y - image.height * 0.5);    
@@ -556,6 +583,6 @@ var drBones = function(){
             createParticles();            
 			
 			buttons.getButton(spaceSong,sceneGroup);//Agregar 2 parametros mas para mover en x y y
-		}
+        }        
 	}
 }()
