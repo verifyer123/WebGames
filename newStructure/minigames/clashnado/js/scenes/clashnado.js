@@ -161,9 +161,16 @@ var clashnado = function () {
 
     var gamestate;
 
+    var xPositions = [-187, -67, 60, 187];
+    var yPositions = [207, 314, 421, 542, 649];
+
     var backgroundGroup;
     var levelGroup;
+    var alliesGroup;
+    var bulletsGroup;
+    var enemiesGroup;
     var uiGroup;
+    var cloudCoinGroup;
 
     var weaponBar;
     var gunnerButton;
@@ -173,16 +180,15 @@ var clashnado = function () {
     var water;
     var actualCloud = 0;
 
-    var actualTime = 0;
+    var actualEnemyTime = 0;
     var timeForNextEnemy = 500;
+    var actualCoinTime = 0;
+    var timeForNextCoin = 250;
     var actualDifficultLevel = 0;
     var difficultyUp = 5;
+    var levelEnemy = 1;
 
     var allPositionsGroup;
-
-    var alliesGroup;
-    var alliesBulletsGroup;
-    var enemiesGroup;
 
     var COLLIDERSIZE = 100;
 
@@ -191,24 +197,23 @@ var clashnado = function () {
     //#region Level construction
 
     function levelConstruction() {
-        console.clear();
-        gamestate = keepSendingEnemies;
+        gamestate = updateClashnado;
         startPhysics();
         createGroups();
         createUI();
         createBackground();
         //createTimer();
         createHandTutorial();
-
         createAllAvailablePositions();
 
         enemiesGroup.hurricanes.push( createEnemy( "hurricane", enemiesGroup.poolHurricanes ) );
-        enemiesGroup.hurricanesHelmet.push( createEnemy( "hurricaneHelmet", enemiesGroup.poolHurricanesHelmet ) );
-        enemiesGroup.evilClouds.push( createEnemy( "evilCloud", enemiesGroup.poolEvilClouds ) );
+
+        createCloudCoin();
     }
 
     function startPhysics() {
         game.physics.startSystem( Phaser.Physics.Arcade );
+        game.time.advancedTiming = true;
     }
 
     function createGroups() {
@@ -244,18 +249,25 @@ var clashnado = function () {
         enemiesGroup.poolEvilClouds = [];
         enemiesGroup.enableBody = true;
 
+        bulletsGroup = game.add.group();
+        sceneGroup.add( bulletsGroup );
+        bulletsGroup.activeBullets = [];
+        bulletsGroup.poolBullets = [];
+
         uiGroup = game.add.group();
         sceneGroup.add( uiGroup );
         uiGroup.x = game.world.centerX;
         uiGroup.y = 70;
 
+        cloudCoinGroup = game.add.group();
+        sceneGroup.add( cloudCoinGroup );
     }
 
     function createBaseFontStyle( size ) {
         return fontStyle = { font: size + "px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center" };
     }
 
-    function createButton( xPosition, spriteButton, type, activeGroup, poolGroup ) {
+    function createButton( xPosition, spriteButton, type, activeGroup, poolGroup, cost ) {
         var newButton = uiGroup.create( xPosition, weaponBar.height / 2, "atlas.basegame", spriteButton );
         newButton.anchor.setTo( 0.5 );
         newButton.resetPositionX = xPosition;
@@ -263,6 +275,7 @@ var clashnado = function () {
         newButton.type = type;
         newButton.activeGroup = activeGroup;
         newButton.poolGroup = poolGroup;
+        newButton.cost = cost;
 
         game.physics.enable( newButton, Phaser.Physics.ARCADE );
         newButton.body.width = newButton.width / 2;
@@ -271,8 +284,7 @@ var clashnado = function () {
         newButton.inputEnabled = true;
         newButton.input.enableDrag();
         newButton.events.onDragStop.add( stopDrag, newButton );
-
-        setButtonStatus( newButton, true );
+        setButtonStatus( newButton, false );
         return newButton;
     }
 
@@ -284,6 +296,8 @@ var clashnado = function () {
                 var newAlly = createAlly( actualButton.type, actualButton.poolGroup, actualPosition.correctX, actualPosition.correctY );
                 actualButton.activeGroup.push( newAlly );
                 newAlly.actualPlace = actualPosition;
+                actualCloud.text = Math.floor( actualCloud.text ) - actualButton.cost;
+                enableButtons();
             }
         } ) ) { }
         actualButton.x = actualButton.resetPositionX;
@@ -294,15 +308,13 @@ var clashnado = function () {
         weaponBar = uiGroup.create( 0, 0, "atlas.basegame", "barra-8" );
         weaponBar.anchor.setTo( 0.5, 0 );
 
-        actualCloud = game.add.text( -155, ( weaponBar.height / 2 ) + 5, "250", createBaseFontStyle( "35" ) );
+        actualCloud = game.add.text( -155, ( weaponBar.height / 2 ) + 5, "50", createBaseFontStyle( "35" ) );
         actualCloud.anchor.setTo( 0.5 );
         uiGroup.add( actualCloud );
 
-        gunnerButton = createButton( -50, "tiro-8", "gunner", alliesGroup.gunners, alliesGroup.poolGunners );
-        bombButton = createButton( 70, "bomba-8", "bomb", alliesGroup.bombs, alliesGroup.poolBombs );
-        wallButton = createButton( 190, "defensa-8", "wall", alliesGroup.walls, alliesGroup.poolWalls );
-
-        setButtonStatus( gunnerButton, true );
+        gunnerButton = createButton( -50, "tiro-8", "gunner", alliesGroup.gunners, alliesGroup.poolGunners, 100 );
+        bombButton = createButton( 70, "bomba-8", "bomb", alliesGroup.bombs, alliesGroup.poolBombs, 150 );
+        wallButton = createButton( 190, "defensa-8", "wall", alliesGroup.walls, alliesGroup.poolWalls, 50 );
     }
 
     function createBackground() {
@@ -350,6 +362,22 @@ var clashnado = function () {
         hand.alpha = 0;
     }
 
+    function createAllAvailablePositions() {
+        for ( var i = 0; i < xPositions.length; i++ )
+        {
+            for ( var j = 0; j < yPositions.length; j++ )
+            {
+                allPositionsGroup.allAvailablePositions.push( createCollitionHolder( game.world.centerX - xPositions[i] - ( COLLIDERSIZE / 32 ), yPositions[j] + ( ( COLLIDERSIZE / 2 ) - COLLIDERSIZE / 32 ), true ) );
+                allPositionsGroup.allAvailablePositions[allPositionsGroup.allAvailablePositions.length - 1].correctX = xPositions[i];
+                allPositionsGroup.allAvailablePositions[allPositionsGroup.allAvailablePositions.length - 1].correctY = yPositions[j];
+            }
+        }
+        for ( var i = 0; i < allPositionsGroup.allAvailablePositions.length; i++ )
+        {
+            allPositionsGroup.allAvailablePositions[i].available = true;
+        }
+    }
+
     function createCollitionHolder( createOnPositionX, createOnPositionY, isButton ) {
         var collitionHolder = game.add.graphics( createOnPositionX, createOnPositionY );
         collitionHolder.beginFill( 0xff0000, 0 );
@@ -388,6 +416,8 @@ var clashnado = function () {
                     allyHolder.activeGroup = alliesGroup.gunners;
                     allyHolder.poolGroup = alliesGroup.poolGunners;
                     allyHolder.fullLife = 4;
+                    allyHolder.cooldown = 150;
+                    allyHolder.cooldownRemaining = 0;
                     break;
                 case "bomb":
                     allyHolder.activeGroup = alliesGroup.bombs;
@@ -423,30 +453,6 @@ var clashnado = function () {
         return allyToReset;
     }
 
-    function createAllAvailablePositions() {
-        var xPositions = [-187, -67, 60, 187];
-        var yPositions = [207, 314, 421, 542, 649];
-        for ( var i = 0; i < xPositions.length; i++ )
-        {
-            for ( var j = 0; j < yPositions.length; j++ )
-            {
-                allPositionsGroup.allAvailablePositions.push( createCollitionHolder( game.world.centerX - xPositions[i] - ( COLLIDERSIZE / 32 ), yPositions[j] + ( ( COLLIDERSIZE / 2 ) - COLLIDERSIZE / 32 ), true ) );
-                allPositionsGroup.allAvailablePositions[allPositionsGroup.allAvailablePositions.length - 1].correctX = xPositions[i];
-                allPositionsGroup.allAvailablePositions[allPositionsGroup.allAvailablePositions.length - 1].correctY = yPositions[j];
-            }
-        }
-        for ( var i = 0; i < allPositionsGroup.allAvailablePositions.length; i++ )
-        {
-            allPositionsGroup.allAvailablePositions[i].available = true;
-        }
-    }
-
-    function setEnemyStats( enemyToSet, fullLife, speed, attack ) {
-        enemyToSet.fullLife = fullLife;
-        enemyToSet.speed = speed;
-        enemyToSet.attack = attack;
-    }
-
     function createEnemy( type, poolGroup ) {
         if ( poolGroup.length == 0 )
         {
@@ -460,20 +466,21 @@ var clashnado = function () {
                 case "hurricane":
                     enemyHolder.activeGroup = enemiesGroup.hurricanes;
                     enemyHolder.poolGroup = enemiesGroup.poolHurricanes;
-                    setEnemyStats( enemyHolder, 2, -100, 2 );
+                    setEnemyStats( enemyHolder, 2, -100, 2, 100 );
                     break;
                 case "hurricaneHelmet":
                     enemyHolder.activeGroup = enemiesGroup.hurricanesHelmet;
                     enemyHolder.poolGroup = enemiesGroup.poolHurricanesHelmet;
-                    setEnemyStats( enemyHolder, 6, -120, 4 );
+                    setEnemyStats( enemyHolder, 4, -120, 4, 80 );
                     enemyHolder.isHelmet = true;
                     break;
                 case "evilCloud":
                     enemyHolder.activeGroup = enemiesGroup.evilClouds;
                     enemyHolder.poolGroup = enemiesGroup.poolEvilClouds;
-                    setEnemyStats( enemyHolder, 6, -50, 4 );
+                    setEnemyStats( enemyHolder, 6, -50, 6, 120 );
                     break;
             }
+            enemyHolder.cooldownRemaining = 0;
             enemyHolder.lifePoints = enemyHolder.fullLife;
             enemyHolder.body.velocity.y = enemyHolder.speed;
             enemiesGroup.add( enemyHolder );
@@ -487,29 +494,107 @@ var clashnado = function () {
         enemyToReset.y = game.world.height + 200;
         enemyToReset.body.velocity.y = enemyToReset.speed;
         enemyToReset.alive = true;
-        enemyToReset.lifePoints = enemyToReset.fullLife;
+        enemyToReset.lifePoints = enemyToReset.fullLife * levelEnemy;
+        enemyToReset.cooldownRemaining = 0;
         enemyToReset.spine.setAnimationByName( 0, "lose", true );
         enemyToReset.spine.addAnimationByName( 0, enemyToReset.isHelmet ? "idle_helmet" : "idle", true );
         return enemyToReset;
     }
 
-    function getValidPosition() {
-        var randomPosition = game.rnd.integerInRange( 1, 4 );
-        switch ( randomPosition )
+    function setEnemyStats( enemyToSet, fullLife, speed, attack, cooldown ) {
+        enemyToSet.fullLife = fullLife * levelEnemy;
+        enemyToSet.speed = speed;
+        enemyToSet.attack = attack;
+        enemyToSet.cooldown = cooldown;
+    }
+
+    function createBullet( originPositionX, originPositionY ) {
+        if ( bulletsGroup.poolBullets.length == 0 )
         {
-            case 1:
-                return -187;
-            case 2:
-                return -67;
-            case 3:
-                return 60;
-            case 4:
-                return 187;
+            var newBullet = bulletsGroup.create(
+                originPositionX + ( COLLIDERSIZE / 2 ),
+                originPositionY + ( COLLIDERSIZE / 2 ),
+                "atlas.basegame", "golden_cloud-8" );
+            newBullet.anchor.setTo( 0.5 );
+            newBullet.scale.setTo( 0.5 );
+            game.physics.enable( newBullet, Phaser.Physics.ARCADE );
+            newBullet.speed = 100;
+            newBullet.activeGroup = bulletsGroup.activeBullets;
+            newBullet.poolGroup = bulletsGroup.poolBullets;
+            newBullet.attack = 1;
+            newBullet.tint = 8421504;
+            newBullet.body.velocity.y = newBullet.speed;
+            bulletsGroup.activeBullets.push( newBullet );
+        }
+        else
+        {
+            var oldBullet = bulletsGroup.poolBullets.pop();
+            oldBullet.tint = 16777215;
+            oldBullet.x = originPositionX + ( COLLIDERSIZE / 2 );
+            oldBullet.y = originPositionY + ( COLLIDERSIZE / 2 );
+            oldBullet.body.velocity.y = oldBullet.speed;
+            bulletsGroup.activeBullets.push( oldBullet );
         }
     }
 
+    function createCloudCoin() {
+        var newCoin = cloudCoinGroup.create(
+            game.world.centerX - xPositions[game.rnd.integerInRange( 0, xPositions.length - 1 )],
+            yPositions[game.rnd.integerInRange( 0, yPositions.length - 1 )] + ( COLLIDERSIZE / 2 ),
+            "atlas.basegame", "golden_cloud-8" );
+        newCoin.anchor.setTo( 0.5 );
+        game.physics.enable( newCoin, Phaser.Physics.ARCADE );
+        newCoin.inputEnabled = true;
+        newCoin.events.onInputDown.add( addCloudCoins, newCoin );
+        newCoin.introTween = game.add.tween( newCoin ).from( { y: newCoin.y - 100, alpha: 0 }, 1000, Phaser.Easing.Cubic.Out, true );
+    }
+
+    function setElementInPool( element ) {
+        for ( var i = 0; i < element.activeGroup.length; i++ )
+        {
+            if ( element === element.activeGroup[i] )
+            {
+                element.activeGroup[i].x = -500;
+                element.poolGroup.push( element.activeGroup.splice( i, 1 )[0] );
+            }
+        }
+    }
+
+    function setAnimation( elementToSetAnimation, animation ) {
+        switch ( animation )
+        {
+            case "lose":
+                elementToSetAnimation.spine.setAnimationByName( 0, animation, false ).onComplete = function () {
+                    setElementInPool( elementToSetAnimation );
+                };
+                return;
+            case "hit":
+                elementToSetAnimation.spine.setAnimationByName( 0, animation, false );
+                elementToSetAnimation.spine.addAnimationByName( 0, "idle", true );
+                return;
+            case "attack":
+                if ( elementToSetAnimation.type == "bomb" )
+                {
+                    elementToSetAnimation.spine.setAnimationByName( 0, animation, false ).onComplete = function () {
+                        setElementInPool( elementToSetAnimation );
+                    };
+                }
+                else
+                {
+                    elementToSetAnimation.spine.setAnimationByName( 0, animation, false );
+                    elementToSetAnimation.spine.addAnimationByName( 0, "idle", true );
+                }
+                return;
+        }
+    }
+
+    function getValidPosition() {
+        var randomPosition = game.rnd.integerInRange( 1, 4 );
+        return xPositions[randomPosition - 1];
+    }
+
     function sendNextEnemy() {
-        var nextAttack = game.rnd.integerInRange( 1, 3 );
+        var nextAttack = game.rnd.integerInRange( 1, levelEnemy > 3 ? 3 : levelEnemy );
         switch ( nextAttack )
         {
             case 1:
@@ -524,7 +609,59 @@ var clashnado = function () {
         }
     }
 
+    function addCloudCoins( newCoin ) {
+        newCoin.introTween.stop();
+        grabedTween = game.add.tween( newCoin ).to( { x: game.world.centerX + actualCloud.x - 70, y: actualCloud.y + 60 }, 300, Phaser.Easing.Cubic.Out, true );
+        grabedTween.onComplete.add( function () {
+            actualCloud.text = Math.floor( actualCloud.text ) + 50 > 999 ? 999 : Math.floor( actualCloud.text ) + 50;
+            enableButtons();
+            newCoin.kill();
+        } )
+    }
+
+    function setButtonStatus( buttonToSet, enable ) {
+        buttonToSet.inputEnabled = enable;
+        if ( enable )
+            buttonToSet.tint = 16777215;
+        else
+            buttonToSet.tint = 8421504;
+    }
+
+    function enableButtons() {
+        var actualCloudCoins = Math.floor( actualCloud.text );
+        switch ( true )
+        {
+            case ( actualCloudCoins > 149 ):
+                setButtonStatus( wallButton, true );
+                setButtonStatus( gunnerButton, true );
+                setButtonStatus( bombButton, true );
+                return;
+            case ( actualCloudCoins > 99 ):
+                setButtonStatus( wallButton, true );
+                setButtonStatus( gunnerButton, true );
+                setButtonStatus( bombButton, false );
+                return;
+            case ( actualCloudCoins > 49 ):
+                setButtonStatus( wallButton, true );
+                setButtonStatus( gunnerButton, false );
+                setButtonStatus( bombButton, false );
+                return;
+            case ( actualCloudCoins < 50 ):
+                setButtonStatus( wallButton, false );
+                setButtonStatus( gunnerButton, false );
+                setButtonStatus( bombButton, false );
+                return;
+        }
+    }
+
+    function loseHeart() {
+        missPoint();
+        if ( lives == 0 )
+            gamestate = null;
+    }
+
     function render() {
+        game.debug.text( game.time.fps, 2, 14, "#00ff00" );
         //debugBodys();
     }
 
@@ -569,81 +706,84 @@ var clashnado = function () {
         }
     }
 
-    function setElementInPool( element ) {
-        for ( var i = 0; i < element.activeGroup.length; i++ )
-        {
-            if ( element === element.activeGroup[i] )
-            {
-                element.activeGroup[i].x = -500;
-                element.poolGroup.push( element.activeGroup.splice( i, 1 )[0] );
-            }
-        }
+    //#endregion
+
+    //#region Update
+
+    function updateClashnado() {
+
+        sendEnemiesAndCloudCoins();
+
+        checkAllCollitions();
+
+        checkLimits();
+
+        gunnersAttack();
     }
 
-    //#endregion
-
-    //#region Tweens
-
-
-
-    //#endregion
-
-    //#region Tutorial
-
-
-
-    //#endregion
-
-    //#region Game Logic
-
-    function setButtonStatus( buttonToSet, enable ) {
-        buttonToSet.inputEnabled = enable;
-        if ( enable )
-            buttonToSet.tint = 16777215;
-        else
-            buttonToSet.tint = 8421504;
-    }
-
-    function keepSendingEnemies() {
-
-        actualTime++;
-        if ( actualTime >= timeForNextEnemy )
+    function sendEnemiesAndCloudCoins() {
+        actualEnemyTime++;
+        if ( actualEnemyTime >= timeForNextEnemy )
         {
             sendNextEnemy();
-            actualTime = 0;
+            actualEnemyTime = 0;
             actualDifficultLevel++;
             if ( actualDifficultLevel == difficultyUp )
             {
+                levelEnemy += 0.1;
                 actualDifficultLevel = 0;
                 timeForNextEnemy = timeForNextEnemy != 100 ? timeForNextEnemy - 100 : 100;
             }
         }
 
-        checkAllCollitions();
-
-        for ( var i = 0; i < enemiesGroup.hurricanes.length; i++ )
+        actualCoinTime++;
+        if ( actualCoinTime >= timeForNextCoin )
         {
+            createCloudCoin();
+            actualCoinTime = 0;
+        }
+    }
+
+    function gunnersAttack() {
+        for ( var i = 0; i < alliesGroup.gunners.length; i++ )
+        {
+            alliesGroup.gunners[i].cooldownRemaining--;
+            if ( alliesGroup.gunners[i].cooldownRemaining <= 0 && alliesGroup.gunners[i].alive )
+            {
+                var gunnerOnAttack = alliesGroup.gunners[i];
+                gunnerOnAttack.spine.setAnimationByName( 0, "attack", false );
+                gunnerOnAttack.spine.addAnimationByName( 0, "idle", true );
+                gunnerOnAttack.cooldownRemaining = gunnerOnAttack.cooldown;
+                createBullet( gunnerOnAttack.x, gunnerOnAttack.y );
+            }
+        }
+    }
+
+    function checkLimits() {
+        for ( var i = 0; i < enemiesGroup.hurricanes.length; i++ )
             if ( enemiesGroup.hurricanes[i].y < game.world.centerY / 4 )
             {
                 setElementInPool( enemiesGroup.hurricanes[i] );
+                loseHeart();
             }
-        }
 
         for ( var i = 0; i < enemiesGroup.hurricanesHelmet.length; i++ )
-        {
             if ( enemiesGroup.hurricanesHelmet[i].y < game.world.centerY / 4 )
             {
                 setElementInPool( enemiesGroup.hurricanesHelmet[i] );
+                loseHeart();
             }
-        }
 
         for ( var i = 0; i < enemiesGroup.evilClouds.length; i++ )
-        {
             if ( enemiesGroup.evilClouds[i].y < game.world.centerY / 4 )
             {
                 setElementInPool( enemiesGroup.evilClouds[i] );
+                loseHeart();
             }
-        }
+
+        for ( var i = 0; i < bulletsGroup.activeBullets.length; i++ )
+            if ( bulletsGroup.activeBullets[i].y > game.world.height )
+                setElementInPool( bulletsGroup.activeBullets[i] );
     }
 
     function checkAllCollitions() {
@@ -659,9 +799,9 @@ var clashnado = function () {
         game.physics.arcade.collide( alliesGroup.bombs, enemiesGroup.hurricanesHelmet, bombVsEnemy );
         game.physics.arcade.collide( alliesGroup.bombs, enemiesGroup.evilClouds, bombVsEnemy );
 
-        game.physics.arcade.collide( alliesBulletsGroup, enemiesGroup.hurricanes, bulletVsEnemy );
-        game.physics.arcade.collide( alliesBulletsGroup, enemiesGroup.hurricanesHelmet, bulletVsEnemy );
-        game.physics.arcade.collide( alliesBulletsGroup, enemiesGroup.evilClouds, bulletVsEnemy );
+        game.physics.arcade.collide( bulletsGroup, enemiesGroup.hurricanes, bulletVsEnemy );
+        game.physics.arcade.collide( bulletsGroup, enemiesGroup.hurricanesHelmet, bulletVsEnemy );
+        game.physics.arcade.collide( bulletsGroup, enemiesGroup.evilClouds, bulletVsEnemy );
     }
 
     function allyVsEnemy( actualAlly, actualEnemy ) {
@@ -671,21 +811,27 @@ var clashnado = function () {
             actualEnemy.body.velocity.y = actualEnemy.speed;
             return;
         }
-        if ( actualAlly.lifePoints - actualEnemy.attack > 0 )
+
+        actualEnemy.cooldownRemaining--;
+        if ( actualEnemy.cooldownRemaining <= 0 )
         {
-            actualAlly.lifePoints -= actualEnemy.attack;
-            setAnimation( actualAlly, "hit" );
+            if ( actualAlly.lifePoints - actualEnemy.attack > 0 )
+            {
+                actualAlly.lifePoints -= actualEnemy.attack;
+                setAnimation( actualAlly, "hit" );
+            }
+            else
+            {
+                actualAlly.actualPlace.available = true;
+                actualAlly.alive = false;
+                setAnimation( actualAlly, "lose" );
+            }
+
+            if ( actualEnemy.type == "evilCloud" ) setAnimation( actualEnemy, "attack" );
+
+            actualEnemy.cooldownRemaining = actualEnemy.cooldown;
         }
-        else
-        {
-            actualAlly.actualPlace.available = true;
-            actualAlly.alive = false;
-            setAnimation( actualAlly, "lose" );
-        }
-        if ( actualEnemy.type == "evilCloud" )
-            setAnimation( actualEnemy, "attack" );
-        actualEnemy.body.velocity.y = 150;
-        game.time.events.add( 400, setBackForNextAttack, { enemy: actualEnemy } );
+        actualEnemy.body.velocity.y = actualEnemy.speed;
     }
 
     function bombVsEnemy( bomb, enemy ) {
@@ -700,45 +846,46 @@ var clashnado = function () {
         }
         if ( enemy.alive == true )
         {
+            addCoin( enemy, 3 );
             setAnimation( enemy, "lose" );
             enemy.alive = false;
         }
     }
 
-    function bulletVsEnemy( bullet, enemy ) {
-        setAnimation( enemy, "hit" );
-    }
-
-    function setBackForNextAttack() {
-        this.enemy.body.velocity.y = this.enemy.speed;
-    }
-
-    function setAnimation( elementToSetAnimation, animation ) {
-        switch ( animation )
+    function bulletVsEnemy( actualEnemy, bullet ) {
+        if ( !actualEnemy.alive )
         {
-            case "lose":
-                elementToSetAnimation.spine.setAnimationByName( 0, animation, false ).onComplete = function () {
-                    setElementInPool( elementToSetAnimation );
-                };
-                return;
-            case "hit":
-                elementToSetAnimation.spine.setAnimationByName( 0, animation, false );
-                elementToSetAnimation.spine.addAnimationByName( 0, "idle", true );
-                return;
-            case "attack":
-                if ( elementToSetAnimation.type == "bomb" )
-                {
-                    elementToSetAnimation.spine.setAnimationByName( 0, animation, false ).onComplete = function () {
-                        setElementInPool( elementToSetAnimation );
-                    };
-                }
-                else
-                {
-                    elementToSetAnimation.spine.setAnimationByName( 0, animation, false );
-                    elementToSetAnimation.spine.addAnimationByName( 0, "idle", true );
-                }
-                return;
+            bullet.body.velocity.y = bullet.speed;
+            return;
         }
+        if ( actualEnemy.lifePoints - bullet.attack > 0 )
+        {
+            actualEnemy.lifePoints -= bullet.attack;
+            if ( actualEnemy.isHelmet )
+            {
+                setAnimation( actualEnemy, "hit" );
+                actualEnemy.isHelmet = false;
+            }
+            actualEnemy.body.velocity.y = actualEnemy.speed;
+        }
+        else
+        {
+            switch ( actualEnemy.type )
+            {
+                case "hurricane":
+                    addCoin( actualEnemy, 1 );
+                    break;
+                case "hurricaneHelmet":
+                    addCoin( actualEnemy, 2 );
+                    break;
+                case "evilCloud":
+                    addCoin( actualEnemy, 3 );
+                    break;
+            }
+            actualEnemy.alive = false;
+            setAnimation( actualEnemy, "lose" );
+        }
+        setElementInPool( bullet );
     }
 
     //#endregion
