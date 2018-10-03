@@ -451,9 +451,8 @@ var clashnado = function () {
         allyToReset.lifePoints = allyToReset.fullLife;
         allyToReset.row = getRow( positionX );
 
-        allyToReset.spine.setAnimationByName( 0, "lose", true );
-        allyToReset.spine.addAnimationByName( 0, "idle", true );
-        // allyToReset.spine.setAnimationByName( 0, "idle", true );
+        allyToReset.spine.setToSetupPose();
+        allyToReset.spine.setAnimationByName( 0, "idle", true );
         return allyToReset;
     }
 
@@ -506,7 +505,7 @@ var clashnado = function () {
         enemyToReset.cooldownRemaining = 0;
         getRow( randomPosition ).push( enemyToReset );
         enemyToReset.row = getRow( randomPosition );
-        enemyToReset.spine.setAnimationByName( 0, "lose", true );
+        enemyToReset.spine.setToSetupPose();
         enemyToReset.spine.addAnimationByName( 0, enemyToReset.isHelmet ? "idle_helmet" : "idle", true );
         return enemyToReset;
     }
