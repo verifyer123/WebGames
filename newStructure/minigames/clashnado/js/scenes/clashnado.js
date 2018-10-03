@@ -194,12 +194,17 @@ var clashnado = function () {
 
     var enemyRow1 = [], enemyRow2 = [], enemyRow3 = [], enemyRow4 = [];
 
+    var tutorialPhase = 0;
+    var tutorialPhaseComplete = true;
+    var tutorialCoin;
+    var tutorialPlace;
+
     //#endregion
 
     //#region Level construction
 
     function levelConstruction() {
-        gamestate = updateClashnado;
+        gamestate = tutorialClashnado;
         startPhysics();
         createGroups();
         createUI();
@@ -207,10 +212,6 @@ var clashnado = function () {
         //createTimer();
         createHandTutorial();
         createAllAvailablePositions();
-
-        enemiesGroup.hurricanes.push( createEnemy( "hurricane", enemiesGroup.poolHurricanes ) );
-
-        createCloudCoin();
     }
 
     function startPhysics() {
@@ -556,6 +557,7 @@ var clashnado = function () {
         newCoin.inputEnabled = true;
         newCoin.events.onInputDown.add( addCloudCoins, newCoin );
         newCoin.introTween = game.add.tween( newCoin ).from( { y: newCoin.y - 100, alpha: 0 }, 1000, Phaser.Easing.Cubic.Out, true );
+        return newCoin;
     }
 
     function setElementInPool( element ) {
@@ -752,6 +754,80 @@ var clashnado = function () {
     //#endregion
 
     //#region Update
+
+    function tutorialClashnado() {
+        switch ( tutorialPhase )
+        {
+            case 0:
+                if ( tutorialPhaseComplete )
+                {
+                    tutorialPhaseComplete = false;
+                    enemiesGroup.hurricanes.push( createEnemy( "hurricane", enemiesGroup.poolHurricanes ) );
+                    enemiesGroup.hurricanes[0].y = yPositions[yPositions.length - 1] + COLLIDERSIZE * 2;
+                    enemiesGroup.hurricanes[0].body.velocity.y = 0;
+                    tutorialCoin = createCloudCoin();
+                    hand.x = tutorialCoin.x;
+                    hand.y = tutorialCoin.y + COLLIDERSIZE / 2;
+                    hand.alpha = 1;
+                }
+                if ( actualCloud.text == "100" )
+                {
+                    tutorialPhaseComplete = true;
+                    tutorialPhase = 1;
+                }
+                return;
+            case 1:
+                if ( tutorialPhaseComplete )
+                {
+                    tutorialPhaseComplete = false;
+                    setButtonStatus( wallButton, false );
+                    hand.x = game.world.centerX + gunnerButton.x - 10;
+                    hand.y = gunnerButton.y + 30;
+                    game.add.tween( hand ).to( { x: enemiesGroup.hurricanes[0].x + COLLIDERSIZE / 2, y: hand.y + COLLIDERSIZE * 1.5 }, 1200, Phaser.Easing.Cubic.Out, true ).loop( true );
+                    for ( var i = 0; i < allPositionsGroup.allAvailablePositions.length; i++ )
+                    {
+                        allPositionsGroup.allAvailablePositions[i].available = false;
+                    }
+                    switch ( enemiesGroup.hurricanes[0].x )
+                    {
+                        case 33:
+                            tutorialPlace = 15;
+                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
+                            break;
+                        case 160:
+                            tutorialPlace = 10;
+                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
+                            break;
+                        case 287:
+                            tutorialPlace = 5;
+                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
+                            break;
+                        case 407:
+                            tutorialPlace = 0;
+                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
+                            break;
+                    }
+                }
+                if ( actualCloud.text == "0" )
+                {
+                    hand.alpha = 0;
+                    for ( var i = 0; i < allPositionsGroup.allAvailablePositions.length; i++ )
+                    {
+                        allPositionsGroup.allAvailablePositions[i].available = true;
+                    }
+                    allPositionsGroup.allAvailablePositions[tutorialPlace].available = false;
+                }
+                gunnersAttack();
+                checkAllCollitions();
+                if ( enemiesGroup.hurricanes.length == 0 )
+                {
+                    tutorialPhase = 2;
+                    tutorialPhaseComplete = true;
+                    gamestate = updateClashnado;
+                }
+                return;
+        }
+    }
 
     function updateClashnado() {
 
