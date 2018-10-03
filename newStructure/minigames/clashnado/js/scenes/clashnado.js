@@ -88,12 +88,32 @@ var clashnado = function () {
                     file: soundsPath + "drag.mp3"
                 },
                 {
+                    name: "swallow",
+                    file: soundsPath + "swallow.mp3"
+                },
+                {
+                    name: "swipe",
+                    file: soundsPath + "swipe.mp3"
+                },
+                {
                     name: "gear",
                     file: soundsPath + "gear.mp3"
                 },
                 {
-                    name: "spaceSong",
-                    file: soundsPath + "songs/space_bridge.mp3"
+                    name: "fireExplosion",
+                    file: soundsPath + "fireExplosion.mp3"
+                },
+                {
+                    name: "punchAlly",
+                    file: soundsPath + "punch3.mp3"
+                },
+                {
+                    name: "punchEnemy",
+                    file: soundsPath + "punch2.mp3"
+                },
+                {
+                    name: "backgroundSong",
+                    file: soundsPath + "songs/battleLoop.mp3"
                 }
             ],
         spritesheets:
@@ -216,7 +236,7 @@ var clashnado = function () {
 
     function startPhysics() {
         game.physics.startSystem( Phaser.Physics.Arcade );
-        game.time.advancedTiming = true;
+        //game.time.advancedTiming = true;
     }
 
     function createGroups() {
@@ -406,6 +426,7 @@ var clashnado = function () {
     }
 
     function createAlly( type, poolGroup, positionX, positionY ) {
+        sound.play( "gear" );
         if ( poolGroup.length == 0 )
         {
             var allyHolder = createCollitionHolder( game.world.centerX - positionX - ( COLLIDERSIZE / 2 ), positionY );
@@ -655,6 +676,7 @@ var clashnado = function () {
     }
 
     function addCloudCoins( newCoin ) {
+        sound.play( "swipe" );
         newCoin.introTween.stop();
         grabedTween = game.add.tween( newCoin ).to( { x: game.world.centerX + actualCloud.x - 70, y: actualCloud.y + 60 }, 300, Phaser.Easing.Cubic.Out, true );
         grabedTween.onComplete.add( function () {
@@ -706,7 +728,7 @@ var clashnado = function () {
     }
 
     function render() {
-        game.debug.text( game.time.fps, 2, 14, "#00ff00" );
+        //game.debug.text( game.time.fps, 2, 14, "#00ff00" );
         //debugBodys();
     }
 
@@ -788,25 +810,22 @@ var clashnado = function () {
                     {
                         allPositionsGroup.allAvailablePositions[i].available = false;
                     }
-                    switch ( enemiesGroup.hurricanes[0].x )
+                    switch ( true )
                     {
-                        case 33:
-                            tutorialPlace = 15;
-                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
-                            break;
-                        case 160:
-                            tutorialPlace = 10;
-                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
-                            break;
-                        case 287:
-                            tutorialPlace = 5;
-                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
-                            break;
-                        case 407:
+                        case enemyRow1.length > 0:
                             tutorialPlace = 0;
-                            allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
+                            break;
+                        case enemyRow2.length > 0:
+                            tutorialPlace = 5;
+                            break;
+                        case enemyRow3.length > 0:
+                            tutorialPlace = 10;
+                            break;
+                        case enemyRow4.length > 0:
+                            tutorialPlace = 15;
                             break;
                     }
+                    allPositionsGroup.allAvailablePositions[tutorialPlace].available = true;
                 }
                 if ( actualCloud.text == "0" )
                 {
@@ -869,6 +888,7 @@ var clashnado = function () {
             alliesGroup.gunners[i].cooldownRemaining--;
             if ( alliesGroup.gunners[i].cooldownRemaining <= 0 && alliesGroup.gunners[i].alive && alliesGroup.gunners[i].row.length > 0 )
             {
+                sound.play( "shoot" );
                 var gunnerOnAttack = alliesGroup.gunners[i];
                 gunnerOnAttack.spine.setAnimationByName( 0, "attack", false );
                 gunnerOnAttack.spine.addAnimationByName( 0, "idle", true );
@@ -932,11 +952,13 @@ var clashnado = function () {
         {
             if ( actualAlly.lifePoints - actualEnemy.attack > 0 )
             {
+                sound.play( "punchEnemy" );
                 actualAlly.lifePoints -= actualEnemy.attack;
                 setAnimation( actualAlly, "hit" );
             }
             else
             {
+                sound.play( "swallow" );
                 actualAlly.actualPlace.available = true;
                 actualAlly.alive = false;
                 setAnimation( actualAlly, "lose" );
@@ -952,6 +974,7 @@ var clashnado = function () {
     function bombVsEnemy( bomb, enemy ) {
         if ( bomb.alive == true )
         {
+            sound.play( "fireExplosion" );
             setAnimation( bomb, "attack" );
             bomb.actualPlace.available = true;
             bomb.body.width = 300;
@@ -974,6 +997,7 @@ var clashnado = function () {
             bullet.body.velocity.y = bullet.speed;
             return;
         }
+        sound.play( "punchAlly" );
         if ( actualEnemy.lifePoints - bullet.attack > 0 )
         {
             actualEnemy.lifePoints -= bullet.attack;
@@ -986,6 +1010,7 @@ var clashnado = function () {
         }
         else
         {
+            sound.play( "pop" );
             switch ( actualEnemy.type )
             {
                 case "hurricane":
@@ -1228,7 +1253,7 @@ var clashnado = function () {
 
             sceneGroup = game.add.group();
 
-            spaceSong = game.add.audio( 'spaceSong' );
+            spaceSong = game.add.audio( 'backgroundSong' );
             game.sound.setDecodedCallback( spaceSong, function () {
                 spaceSong.loopFull( 0.6 );
             }, this );
