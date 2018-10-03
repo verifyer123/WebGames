@@ -78,6 +78,14 @@ var drumsAndFroots = function(){
             {
                 name:"sam",
 				file:"images/spines/sam/sam.json"
+            },
+            {
+                name:"background",
+				file:"images/spines/background/background.json"
+            },
+            {
+                name:"people",
+				file:"images/spines/people/people.json"
 			}
 		]
     }
@@ -85,7 +93,6 @@ var drumsAndFroots = function(){
     var lives = null;
     var sceneGroup = null;
     var gameIndex = 190;
-    var tutoGroup;
     var heartsGroup = null;
     var pointsBar;
     var coin;
@@ -113,6 +120,8 @@ var drumsAndFroots = function(){
     var glitter = ['glitter1', 'glitter2', 'glitter3', 'glitter4'];
     var clapBar;
     var appearHand;
+    var background;
+    var public;
     
 	function loadSounds(){
 		sound.decode(assets.sounds);
@@ -137,7 +146,10 @@ var drumsAndFroots = function(){
     }
     
     function preload(){
-        game.stage.disableVisibilityChange = false
+        game.stage.disableVisibilityChange = false;
+        game.load.image('introscreen',"images/drumsAndFroots/introscreen.png")
+		game.load.image('howTo',"images/drumsAndFroots/how" + localization.getLanguage() + ".png")
+		game.load.image('buttonText',"images/drumsAndFroots/play" + localization.getLanguage() + ".png")
     }
 
     function stopGame(win){
@@ -145,26 +157,13 @@ var drumsAndFroots = function(){
 		sound.play("gameLose");
         gameActive = false;
         		
-        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300)
+        tweenScene = game.add.tween(sceneGroup).to({alpha: 0}, 500, Phaser.Easing.Cubic.In, true, 1300);
 		tweenScene.onComplete.add(function(){
             beatSong.stop();
 			var resultScreen = sceneloader.getScene("result");
-			resultScreen.setScore(true, pointsBar.number,gameIndex);			
+			resultScreen.setScore(true, pointsBar.number,gameIndex,KELLOGS_ENUM.SAM,1.4);			
             sceneloader.show("result");
 		});
-    }
-
-    function createTutorial(){
-        
-        tutoGroup = game.add.group();
-        sceneGroup.add(tutoGroup);
-
-        tutorialHelper.createTutorialGif(tutoGroup,onClickPlay);
-    }
-
-    function onClickPlay() {
-        tutoGroup.y = -game.world.height;
-        initTutorial();
     }
 
     function update(){
@@ -337,6 +336,15 @@ var drumsAndFroots = function(){
 	function createBackground(){
         
         sceneGroup.add(game.add.tileSprite(0, 0, game.world.width, game.world.height, 'atlas.drumsAndFroots', "background"));
+
+        background = game.add.spine(game.world.centerX, game.world.centerY - 140, "background");
+        background.setAnimationByName(0, "idle", true);
+        background.setSkinByName("normal");
+        sceneGroup.add(background);
+
+        var cam = sceneGroup.create(game.world.centerX, -30,  'atlas.drumsAndFroots', "camera");
+        cam.scale.setTo(1.2,1.2);
+        cam.anchor.setTo(0.5, 0);
         
         var light = sceneGroup.create(game.world.width, -100, "light");
         light.scale.setTo(1,2);
@@ -352,7 +360,6 @@ var drumsAndFroots = function(){
     }
     
     function scenario(){
-        
         sam = game.add.spine(game.world.centerX, game.world.centerY + 350, "sam");
         sam.setAnimationByName(0, "idle", true);
         sam.setSkinByName("normal");
@@ -367,16 +374,11 @@ var drumsAndFroots = function(){
             var shadow = sceneGroup.create(game.world.centerX, game.world.centerY + 140, 'atlas.drumsAndFroots', 'light' + c)
             shadow.anchor.setTo(c, 0.1)
         }
-        
-        var aux = - 1
-        
-        for(var c = 0; c < 3; c++){
-            
-            var public = sceneGroup.create(game.world.centerX + (230 * aux), game.world.height + 40, 'atlas.drumsAndFroots', 'public' + c)
-            public.anchor.setTo(0.5, 1)
-            aux++
-            publicTweens[c] = game.add.tween(public).to({y:public.y + 30}, game.rnd.integerInRange(300, 400), Phaser.Easing.linear, true, 0, -1).yoyo(true,0)
-        }
+
+        public = game.add.spine(game.world.centerX, game.world.height + 50, "people");
+        public.setAnimationByName(0, "idle", true);
+        public.setSkinByName("normal");
+        sceneGroup.add(public);
     }
     
     function clapMeter(){
@@ -459,8 +461,8 @@ var drumsAndFroots = function(){
                     sound.stop('sound' + obj.number)
                 },this)
                
-                speakersAnimGroup.children[obj.number].setAnimationByName(0, "play", true)
-                speakersAnimGroup.children[obj.number].addAnimationByName(0, "idle", true)
+                speakersAnimGroup.children[obj.number].setAnimationByName(0, "play", true);
+                speakersAnimGroup.children[obj.number].addAnimationByName(0, "idle", true);
                 particleCorrect.x = speakersAnimGroup.children[obj.number].x 
                 particleCorrect.y = speakersAnimGroup.children[obj.number].y 
                 particleCorrect.start(true, 1000, null, 8)  
@@ -497,6 +499,8 @@ var drumsAndFroots = function(){
         if(ans){
             
             playAll('play', true);
+            background.setAnimationByName(0, "play", true);
+            public.setAnimationByName(0, "play", true);
             beatSong.volume = 0;
             game.time.events.add(200,function(){
                 beatSong.volume = 0.6;
@@ -517,6 +521,8 @@ var drumsAndFroots = function(){
             }
             else{
                 playAll('idle', false);
+                background.setAnimationByName(0, "idle", true);
+                public.setAnimationByName(0, "idle", true);
                 beatSong.stop();
                 for(var p = 0; p < publicTweens.length; p++){
                     publicTweens[p].stop();
@@ -542,6 +548,8 @@ var drumsAndFroots = function(){
         showMustGoOn();
         
         playAll('idle', true);
+        background.setAnimationByName(0, "idle", true);
+        public.setAnimationByName(0, "idle", true);
         sam.setAnimationByName(0, "idle", true);
         game.add.tween(meter.scale).to({x:pump}, 300, Phaser.Easing.linear, true);
 
@@ -611,9 +619,6 @@ var drumsAndFroots = function(){
         
         pivot = 0;
         pump = 0;
-        
-        playAll('idle', true);
-        sam.setAnimationByName(0, "idle", true);
 
         game.time.events.add(500,function(){
             var time = cue();
@@ -691,7 +696,9 @@ var drumsAndFroots = function(){
         pasTutorial = true
         handsGroup.destroy()
         
-        playAll('play', true)
+        playAll('play', true);
+        background.setAnimationByName(0, "play", true);
+        public.setAnimationByName(0, "play", true);
         beatSong.volume = 0
         game.time.events.add(200,function(){
             beatSong.volume = 0.6;
@@ -767,7 +774,60 @@ var drumsAndFroots = function(){
                 theShining();
             }
         }, this);
-    } 
+    }
+
+    function createOverlay(){
+        
+        overlayGroup = game.add.group()
+        sceneGroup.add(overlayGroup)
+        
+        var rect = new Phaser.Graphics(game)
+        rect.beginFill(0x000000)
+        rect.drawRect(0,0,game.world.width *2, game.world.height *2)
+        rect.alpha = 0.7
+        rect.endFill()
+        rect.inputEnabled = true
+        rect.events.onInputDown.add(function(){
+            rect.inputEnabled = false
+			sound.play("pop")
+            game.add.tween(overlayGroup).to({alpha:0},500,Phaser.Easing.linear,true).onComplete.add(function(){
+                // onClickPlay
+				overlayGroup.y = -game.world.height
+				initTutorial();
+            })
+            
+        })
+        
+        overlayGroup.add(rect)
+        
+        var plane = overlayGroup.create(game.world.centerX, game.world.centerY,'introscreen')
+		plane.scale.setTo(1,1)
+        plane.anchor.setTo(0.5,0.5)
+		
+        var tuto = overlayGroup.create(game.world.centerX, game.world.centerY - 50,"tutorial_image");
+        tuto.scale.setTo(0.8,0.8);
+		tuto.anchor.setTo(0.5,0.5)
+        
+        var howTo = overlayGroup.create(game.world.centerX,game.world.centerY - 235,'howTo')
+		howTo.anchor.setTo(0.5,0.5)
+		howTo.scale.setTo(0.8,0.8)
+		
+		var inputName = 'movil'
+		
+		if(game.device.desktop){
+			inputName = 'desktop'
+		}
+		
+		var inputLogo = overlayGroup.create(game.world.centerX ,game.world.centerY + 125,'atlas.drumsAndFroots',inputName)
+        inputLogo.anchor.setTo(0.5,0.5)
+		inputLogo.scale.setTo(0.7,0.7)
+		
+		var button = overlayGroup.create(game.world.centerX, inputLogo.y + inputLogo.height * 1.5,'atlas.drumsAndFroots','button')
+		button.anchor.setTo(0.5,0.5)
+		
+		var playText = overlayGroup.create(game.world.centerX, button.y,'buttonText')
+		playText.anchor.setTo(0.5,0.5)
+    }
     
 	return {
 		
@@ -807,10 +867,11 @@ var drumsAndFroots = function(){
             createHearts();
 			createPointsBar();
             initCoin();
-            createTutorial();
             createParticles();
 			
-			buttons.getButton(beatSong,sceneGroup);
+            buttons.getButton(beatSong,sceneGroup);
+            
+            createOverlay();
 		}
 	}
 }()

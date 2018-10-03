@@ -207,6 +207,32 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">button.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>32,29,65,57</rect>
+                <key>scale9Paddings</key>
+                <rect>32,29,65,57</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">camera.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,32,50,65</rect>
+                <key>scale9Paddings</key>
+                <rect>25,32,50,65</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">console0.png</key>
             <key type="filename">console1.png</key>
             <struct type="IndividualSpriteSettings">
@@ -218,6 +244,19 @@
                 <rect>111,91,222,182</rect>
                 <key>scale9Paddings</key>
                 <rect>111,91,222,182</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">desktop.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>34,24,67,49</rect>
+                <key>scale9Paddings</key>
+                <rect>34,24,67,49</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -324,6 +363,45 @@
                 <rect>80,10,160,19</rect>
                 <key>scale9Paddings</key>
                 <rect>80,10,160,19</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">movil.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>44,28,88,55</rect>
+                <key>scale9Paddings</key>
+                <rect>44,28,88,55</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">playEN.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>22,8,43,16</rect>
+                <key>scale9Paddings</key>
+                <rect>22,8,43,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">playES.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,8,49,15</rect>
+                <key>scale9Paddings</key>
+                <rect>24,8,49,15</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -512,6 +590,12 @@
             <filename>speaker3.png</filename>
             <filename>speaker4.png</filename>
             <filename>speaker5.png</filename>
+            <filename>desktop.png</filename>
+            <filename>movil.png</filename>
+            <filename>playES.png</filename>
+            <filename>playEN.png</filename>
+            <filename>button.png</filename>
+            <filename>camera.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>
