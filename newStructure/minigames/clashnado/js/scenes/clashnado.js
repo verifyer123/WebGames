@@ -347,7 +347,8 @@ var clashnado = function () {
         water = game.add.tileSprite( 0, game.world.centerY + 70, game.world.width, game.world.height / 2, "atlas.basegame", "tile agua-8" );
         backgroundGroup.add( water );
 
-        border = backgroundGroup.create( game.world.centerX, game.world.centerY + 80, "atlas.basegame", "orilla-8" );
+        border = game.add.tileSprite( game.world.centerX, game.world.centerY + 80, game.world.width, 60, "atlas.basegame", "orilla-8" );
+        backgroundGroup.add( border );
         border.anchor.setTo( 0.5 );
 
         playground = backgroundGroup.create( 0, weaponBar.height + 80, "atlas.basegame", "cuadricula-8" );
@@ -1243,7 +1244,7 @@ var clashnado = function () {
         assets: assets,
         name: "clashnado",
         update: update,
-        render: render,
+        //render: render,
         preload: preload,
         getGameData: function () {
             var games = yogomeGames.getGames();

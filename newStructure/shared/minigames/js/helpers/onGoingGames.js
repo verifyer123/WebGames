@@ -217,5 +217,6 @@ var onGoingGames={
 		{name:'Mambo Jump O',url:'mamboJumpO/',mapUrl:'mamboJumpO', sceneName:'mamboJumpO',subject:'creativity',review:false,objective:25,demo:false,type:gameTypeEnum.MATCH},//220
 		{name:'Ani Marathon',url:'aniMarathon/',mapUrl:'aniMarathon', sceneName:'aniMarathon',subject:'language',review:false,objective:25,demo:false,type:gameTypeEnum.CHOOSE},//221
 		{name:'Circulead',url:'circulead/',mapUrl:'circulead', sceneName:'circulead',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},//222
+		{name:'Clashnado',url:'clashnado/',mapUrl:'clashnado', sceneName:'clashnado',subject:'geography',review:false,objective:25,demo:false,type:gameTypeEnum.COUNT},//223
 	]
 }
