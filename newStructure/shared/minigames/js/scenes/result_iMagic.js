@@ -82,6 +82,7 @@ var result = function(){
 	var whiteFade
 	var iconsGroup
 	var buttonsActive
+	var savedScore=0;
 	var isImagicCharacter
 	var currentPlayer
 	//var haveCoupon
@@ -117,12 +118,18 @@ var result = function(){
 		if(parent.gameData){
             gameData = parent.gameData;
 			player.name="Masciosare Ex...";
-			player.totalScore=500;
+			player.totalScore=0;
+			if(savedScore==0){
+				savedScore=player.totalScore;
+			}
         }else{
             gameData = window.gameData;
 			player.name=playerData.player;
 			player.totalScore=playerData.coins;
 			playerData.coins=score;
+			if(savedScore==0){
+				savedScore=player.totalScore;
+			}
 			comunicationScript.finalMessage(playerData)
         }
 
@@ -404,7 +411,6 @@ var result = function(){
 		}else if(gameData.yogotar==null){
 			var anyYogotar=game.rnd.integerInRange(1,yogotar.skeleton.data.skins.length-1)
 			var nameOfChoosenYogotar=yogotar.skeleton.data.skins[anyYogotar].name;
-			console.log(anyYogotar, nameOfChoosenYogotar)
 			yogotar.setSkinByName(nameOfChoosenYogotar);
 		}
 
@@ -416,6 +422,8 @@ var result = function(){
 		var pivotText = game.world.centerX - 170
 
 		var numberAdd = 0
+		var totalAdd = 0
+		var temporalTotal=0
 		var delay = 1000
 		playerTotalScoreContainer = game.add.group()
 		sceneGroup.add(playerTotalScoreContainer)
@@ -461,26 +469,31 @@ var result = function(){
 		var coinContainer_star = coinsToStarsContainer.create(-coinsToStarsContainer.width/4-10,0,'atlas.resultScreenImagic','coinImagic')
 		coinContainer_star.anchor.setTo(0.5,0.5)
 		coinContainer_star.scale.setTo(0.9,0.9)
-
-
+		
+		savedScore=totalScore+savedScore;
+		
 		for(var i = 0; i < totalScore;i++){
 
 			game.time.events.add(delay,function(){
-
 				numberAdd++
 				coinsToStarsContainer.text.setText(' = ' + numberAdd)
 				coinsToStarsContainer.scale.setTo(1,1)
-				lengthOfTotal=numberAdd+player.totalScore.toString();
-				playerTotalScoreContainer.text.setText(numberAdd+player.totalScore);
-				playerTotalScoreContainer.scale.setTo(1,1)
 				var indexCheck = numberAdd - 1
-				playerTotalScoreContainer.text.x=totalScoreImage.x-(lengthOfTotal.length/2);
 				sound.play("point")
 				if(indexCheck % 25 == 0){
 					createPart('coinImagic',coinsToStarsContainer.text)
 				}
 			})
 			delay+= valueChange
+		}
+		for(var j = 0; j < savedScore; j++){
+			game.time.events.add(delay,function(){
+				totalAdd++;
+				lengthOfTotal=totalAdd+player.totalScore.toString();
+				playerTotalScoreContainer.text.setText(totalAdd+temporalTotal);
+				playerTotalScoreContainer.scale.setTo(1,1)
+				playerTotalScoreContainer.text.x=totalScoreImage.x-(lengthOfTotal.length/2);
+			})
 		}
 		if(totalScore > 99){
 			coinsToStarsContainer.text.scale.setTo(0.8,0.8)
