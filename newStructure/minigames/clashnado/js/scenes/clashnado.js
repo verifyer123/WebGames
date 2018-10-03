@@ -429,7 +429,7 @@ var clashnado = function () {
                 case "wall":
                     allyHolder.activeGroup = alliesGroup.walls;
                     allyHolder.poolGroup = alliesGroup.poolWalls;
-                    allyHolder.fullLife = 10;
+                    allyHolder.fullLife = 40;
                     break;
             }
             allyHolder.lifePoints = allyHolder.fullLife;
@@ -570,6 +570,17 @@ var clashnado = function () {
         }
     }
 
+    function removeFromRow( element ) {
+        for ( var i = 0; i < element.row.length; i++ )
+        {
+            if ( element === element.row[i] )
+            {
+                element.row.splice( i, 1 );
+                return;
+            }
+        }
+    }
+
     function setAnimation( elementToSetAnimation, animation ) {
         switch ( animation )
         {
@@ -623,7 +634,6 @@ var clashnado = function () {
         {
             rowToKill[i].alive = false;
             setAnimation( rowToKill[i], "lose" );
-            //setElementInPool( row[i] );
         }
     }
 
@@ -877,9 +887,9 @@ var clashnado = function () {
         if ( enemy.alive == true )
         {
             addCoin( enemy, 3 );
-            enemy.row.pop();
-            setAnimation( enemy, "lose" );
             enemy.alive = false;
+            removeFromRow( enemy );
+            setAnimation( enemy, "lose" );
         }
     }
 
@@ -914,7 +924,7 @@ var clashnado = function () {
                     break;
             }
             actualEnemy.alive = false;
-            actualEnemy.row.pop();
+            removeFromRow( actualEnemy );
             setAnimation( actualEnemy, "lose" );
         }
         setElementInPool( bullet );
