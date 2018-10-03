@@ -192,6 +192,8 @@ var clashnado = function () {
 
     var COLLIDERSIZE = 100;
 
+    var enemyRow1 = [], enemyRow2 = [], enemyRow3 = [], enemyRow4 = [];
+
     //#endregion
 
     //#region Level construction
@@ -432,6 +434,7 @@ var clashnado = function () {
             }
             allyHolder.lifePoints = allyHolder.fullLife;
             allyHolder.alive = true;
+            allyHolder.row = getRow( positionX );
             alliesGroup.add( allyHolder );
             return allyHolder;
         }
@@ -446,6 +449,7 @@ var clashnado = function () {
         allyToReset.body.offset.setTo( 0 );
         allyToReset.alive = true;
         allyToReset.lifePoints = allyToReset.fullLife;
+        allyToReset.row = getRow( positionX );
 
         allyToReset.spine.setAnimationByName( 0, "lose", true );
         allyToReset.spine.addAnimationByName( 0, "idle", true );
@@ -456,7 +460,8 @@ var clashnado = function () {
     function createEnemy( type, poolGroup ) {
         if ( poolGroup.length == 0 )
         {
-            var enemyHolder = createCollitionHolder( game.world.centerX - getValidPosition() - ( COLLIDERSIZE / 2 ), game.world.height + 200 );
+            var randomPosition = getValidPosition();
+            var enemyHolder = createCollitionHolder( game.world.centerX - randomPosition - ( COLLIDERSIZE / 2 ), game.world.height + 200 );
             enemyHolder.addChild( createSpine( type, false ) );
             enemyHolder.spine = enemyHolder.children[0];
             enemyHolder.alive = true;
@@ -483,6 +488,8 @@ var clashnado = function () {
             enemyHolder.cooldownRemaining = 0;
             enemyHolder.lifePoints = enemyHolder.fullLife;
             enemyHolder.body.velocity.y = enemyHolder.speed;
+            getRow( randomPosition ).push( enemyHolder );
+            enemyHolder.row = getRow( randomPosition );
             enemiesGroup.add( enemyHolder );
             return enemyHolder;
         }
@@ -490,12 +497,15 @@ var clashnado = function () {
     }
 
     function resetEnemy( enemyToReset ) {
-        enemyToReset.x = game.world.centerX - getValidPosition() - ( COLLIDERSIZE / 2 );
+        var randomPosition = getValidPosition();
+        enemyToReset.x = game.world.centerX - randomPosition - ( COLLIDERSIZE / 2 );
         enemyToReset.y = game.world.height + 200;
         enemyToReset.body.velocity.y = enemyToReset.speed;
         enemyToReset.alive = true;
         enemyToReset.lifePoints = enemyToReset.fullLife * levelEnemy;
         enemyToReset.cooldownRemaining = 0;
+        getRow( randomPosition ).push( enemyToReset );
+        enemyToReset.row = getRow( randomPosition );
         enemyToReset.spine.setAnimationByName( 0, "lose", true );
         enemyToReset.spine.addAnimationByName( 0, enemyToReset.isHelmet ? "idle_helmet" : "idle", true );
         return enemyToReset;
@@ -591,6 +601,30 @@ var clashnado = function () {
     function getValidPosition() {
         var randomPosition = game.rnd.integerInRange( 1, 4 );
         return xPositions[randomPosition - 1];
+    }
+
+    function getRow( position ) {
+        switch ( position )
+        {
+            case -187:
+                return enemyRow1;
+            case -67:
+                return enemyRow2;
+            case 60:
+                return enemyRow3;
+            case 187:
+                return enemyRow4;
+        }
+    }
+
+    function killAllRow( row ) {
+        var rowToKill = row.splice( 0, row.length );
+        for ( var i = 0; i < rowToKill.length; i++ )
+        {
+            rowToKill[i].alive = false;
+            setAnimation( rowToKill[i], "lose" );
+            //setElementInPool( row[i] );
+        }
     }
 
     function sendNextEnemy() {
@@ -748,7 +782,7 @@ var clashnado = function () {
         for ( var i = 0; i < alliesGroup.gunners.length; i++ )
         {
             alliesGroup.gunners[i].cooldownRemaining--;
-            if ( alliesGroup.gunners[i].cooldownRemaining <= 0 && alliesGroup.gunners[i].alive )
+            if ( alliesGroup.gunners[i].cooldownRemaining <= 0 && alliesGroup.gunners[i].alive && alliesGroup.gunners[i].row.length > 0 )
             {
                 var gunnerOnAttack = alliesGroup.gunners[i];
                 gunnerOnAttack.spine.setAnimationByName( 0, "attack", false );
@@ -760,30 +794,26 @@ var clashnado = function () {
     }
 
     function checkLimits() {
-        for ( var i = 0; i < enemiesGroup.hurricanes.length; i++ )
-            if ( enemiesGroup.hurricanes[i].y < game.world.centerY / 4 )
-            {
-                setElementInPool( enemiesGroup.hurricanes[i] );
-                loseHeart();
-            }
 
-        for ( var i = 0; i < enemiesGroup.hurricanesHelmet.length; i++ )
-            if ( enemiesGroup.hurricanesHelmet[i].y < game.world.centerY / 4 )
-            {
-                setElementInPool( enemiesGroup.hurricanesHelmet[i] );
-                loseHeart();
-            }
-
-        for ( var i = 0; i < enemiesGroup.evilClouds.length; i++ )
-            if ( enemiesGroup.evilClouds[i].y < game.world.centerY / 4 )
-            {
-                setElementInPool( enemiesGroup.evilClouds[i] );
-                loseHeart();
-            }
+        checkLimitOfEnemyType( enemiesGroup.hurricanes );
+        checkLimitOfEnemyType( enemiesGroup.hurricanesHelmet );
+        checkLimitOfEnemyType( enemiesGroup.evilClouds );
 
         for ( var i = 0; i < bulletsGroup.activeBullets.length; i++ )
             if ( bulletsGroup.activeBullets[i].y > game.world.height )
                 setElementInPool( bulletsGroup.activeBullets[i] );
+    }
+
+    function checkLimitOfEnemyType( groupToCheck ) {
+        for ( var i = 0; i < groupToCheck.length; i++ )
+        {
+            if ( groupToCheck[i].alive && groupToCheck[i].y < game.world.centerY / 4 )
+            {
+                groupToCheck[i].alive = false;
+                loseHeart();
+                killAllRow( groupToCheck[i].row );
+            }
+        }
     }
 
     function checkAllCollitions() {
@@ -847,6 +877,7 @@ var clashnado = function () {
         if ( enemy.alive == true )
         {
             addCoin( enemy, 3 );
+            enemy.row.pop();
             setAnimation( enemy, "lose" );
             enemy.alive = false;
         }
@@ -883,6 +914,7 @@ var clashnado = function () {
                     break;
             }
             actualEnemy.alive = false;
+            actualEnemy.row.pop();
             setAnimation( actualEnemy, "lose" );
         }
         setElementInPool( bullet );
