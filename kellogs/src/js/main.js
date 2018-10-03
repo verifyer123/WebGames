@@ -80,5 +80,9 @@ var APP = {
       url : "frootMath/",
       index : 8
     },
+    "DrumsAndFroots" : {
+      url : "drumsAndFroots/",
+      index : 9
+    },
   }
 }

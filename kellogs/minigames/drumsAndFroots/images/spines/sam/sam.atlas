@@ -1,0 +1,265 @@
+
+sam.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal/rayos_0
+  rotate: false
+  xy: 2, 722
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_1
+  rotate: false
+  xy: 2, 420
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_10
+  rotate: false
+  xy: 908, 420
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_11
+  rotate: false
+  xy: 1210, 722
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_12
+  rotate: false
+  xy: 908, 118
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_2
+  rotate: false
+  xy: 304, 722
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_3
+  rotate: false
+  xy: 2, 118
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_4
+  rotate: false
+  xy: 304, 420
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_5
+  rotate: false
+  xy: 606, 722
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_6
+  rotate: false
+  xy: 304, 118
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_7
+  rotate: false
+  xy: 606, 420
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_8
+  rotate: false
+  xy: 908, 722
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/rayos_9
+  rotate: false
+  xy: 606, 118
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+normal/sam_arm1_a
+  rotate: true
+  xy: 1210, 120
+  size: 52, 81
+  orig: 52, 81
+  offset: 0, 0
+  index: -1
+normal/sam_arm2_a
+  rotate: false
+  xy: 90, 74
+  size: 68, 42
+  orig: 68, 42
+  offset: 0, 0
+  index: -1
+normal/sam_body
+  rotate: false
+  xy: 1210, 529
+  size: 141, 191
+  orig: 141, 191
+  offset: 0, 0
+  index: -1
+normal/sam_foot1
+  rotate: true
+  xy: 1642, 805
+  size: 94, 64
+  orig: 94, 64
+  offset: 0, 0
+  index: -1
+normal/sam_foot2
+  rotate: false
+  xy: 2, 58
+  size: 86, 58
+  orig: 86, 58
+  offset: 0, 0
+  index: -1
+normal/sam_forearm1_a
+  rotate: false
+  xy: 160, 79
+  size: 61, 37
+  orig: 61, 37
+  offset: 0, 0
+  index: -1
+normal/sam_forearm2_a
+  rotate: false
+  xy: 37, 16
+  size: 44, 40
+  orig: 44, 40
+  offset: 0, 0
+  index: -1
+normal/sam_hand1_a
+  rotate: false
+  xy: 1708, 825
+  size: 72, 68
+  orig: 72, 68
+  offset: 0, 0
+  index: -1
+normal/sam_hand2_a
+  rotate: false
+  xy: 1642, 746
+  size: 55, 57
+  orig: 55, 57
+  offset: 0, 0
+  index: -1
+normal/sam_hand2_b
+  rotate: true
+  xy: 1293, 125
+  size: 47, 42
+  orig: 47, 42
+  offset: 0, 0
+  index: -1
+normal/sam_head_a
+  rotate: false
+  xy: 1210, 174
+  size: 127, 161
+  orig: 127, 161
+  offset: 0, 0
+  index: -1
+normal/sam_head_b
+  rotate: true
+  xy: 1708, 895
+  size: 127, 162
+  orig: 127, 162
+  offset: 0, 0
+  index: -1
+normal/sam_head_c
+  rotate: true
+  xy: 1872, 895
+  size: 127, 162
+  orig: 127, 162
+  offset: 0, 0
+  index: -1
+normal/sam_head_d
+  rotate: false
+  xy: 1512, 736
+  size: 128, 163
+  orig: 128, 163
+  offset: 0, 0
+  index: -1
+normal/sam_leg1
+  rotate: false
+  xy: 1846, 851
+  size: 19, 42
+  orig: 19, 42
+  offset: 0, 0
+  index: -1
+normal/sam_leg2
+  rotate: false
+  xy: 1333, 488
+  size: 18, 39
+  orig: 18, 39
+  offset: 0, 0
+  index: -1
+normal/sam_mouth_a
+  rotate: true
+  xy: 1210, 337
+  size: 190, 121
+  orig: 190, 121
+  offset: 0, 0
+  index: -1
+normal/sam_mouth_b
+  rotate: true
+  xy: 1353, 530
+  size: 190, 120
+  orig: 190, 120
+  offset: 0, 0
+  index: -1
+normal/sam_mouth_c
+  rotate: false
+  xy: 1512, 901
+  size: 194, 121
+  orig: 194, 121
+  offset: 0, 0
+  index: -1
+normal/sam_shin1
+  rotate: true
+  xy: 1782, 827
+  size: 22, 42
+  orig: 22, 42
+  offset: 0, 0
+  index: -1
+normal/sam_shin2
+  rotate: true
+  xy: 223, 95
+  size: 21, 39
+  orig: 21, 39
+  offset: 0, 0
+  index: -1
+normal/sam_tail1
+  rotate: true
+  xy: 1475, 662
+  size: 58, 22
+  orig: 58, 22
+  offset: 0, 0
+  index: -1
+normal/sam_tail2
+  rotate: false
+  xy: 1782, 851
+  size: 62, 42
+  orig: 62, 42
+  offset: 0, 0
+  index: -1
+normal/sam_tail3
+  rotate: false
+  xy: 2, 2
+  size: 33, 54
+  orig: 33, 54
+  offset: 0, 0
+  index: -1

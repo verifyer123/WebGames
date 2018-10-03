@@ -1,0 +1,48 @@
+
+speaker.png
+size: 1024,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/speaker_blue
+  rotate: false
+  xy: 575, 6
+  size: 130, 137
+  orig: 130, 137
+  offset: 0, 0
+  index: -1
+normal2/speaker_green
+  rotate: false
+  xy: 707, 6
+  size: 130, 137
+  orig: 130, 137
+  offset: 0, 0
+  index: -1
+normal2/speaker_orange
+  rotate: true
+  xy: 289, 3
+  size: 140, 141
+  orig: 140, 141
+  offset: 0, 0
+  index: -1
+normal2/speaker_red
+  rotate: false
+  xy: 2, 2
+  size: 141, 141
+  orig: 141, 141
+  offset: 0, 0
+  index: -1
+normal2/speaker_white
+  rotate: true
+  xy: 145, 3
+  size: 140, 142
+  orig: 140, 142
+  offset: 0, 0
+  index: -1
+normal2/speaker_yellow
+  rotate: true
+  xy: 432, 3
+  size: 140, 141
+  orig: 140, 141
+  offset: 0, 0
+  index: -1

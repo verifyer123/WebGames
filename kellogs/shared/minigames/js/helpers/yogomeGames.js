@@ -216,7 +216,8 @@ var yogomeGames = function () {
             {name:'Puzzoole',url:urlSet + 'puzzoole/',mapUrl:urlMap + 'puzzoole', sceneName:'puzzoole',subject:'sciencie', review:false,objective:20,demo:false, type:gameTypeEnum.MATCH},//186
             {name:'Motion Slip',url:urlSet + 'motionSlip/',mapUrl:urlMap + 'motionSlip', sceneName:'motionSlip',subject:'creativity', review:false,objective:20,demo:false, type:gameTypeEnum.CHOOSE},//187
             {name:'Syncphony',url:urlSet + 'syncphony/',mapUrl:urlMap + 'syncphony', sceneName:'syncphony',subject:'creativity', review:false,objective:25,demo:false, type:gameTypeEnum.MATCH},//188
-            {name:'Orbiturn',url:urlSet + 'orbiturn/',mapUrl:urlMap + 'orbiturn', sceneName:'orbiturn',subject:'math', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//189
+			{name:'Orbiturn',url:urlSet + 'orbiturn/',mapUrl:urlMap + 'orbiturn', sceneName:'orbiturn',subject:'math', review:false,objective:30,demo:false, type:gameTypeEnum.MATCH},//189
+			{name:'drumsAndFroots',url:urlSet + 'drumsAndFroots/',mapUrl:urlMap + 'drumsAndFroots', sceneName:'drumsAndFroots',subject:'creativity', review:false,objective:10,demo:false, type:gameTypeEnum.SEQUENCE},//190	
 		]
 
 		for(var gIndex = 0; gIndex < games.length; gIndex++){
