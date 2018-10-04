@@ -317,9 +317,14 @@ var clashnado = function () {
         newButton.body.offset.setTo( newButton.width / 4, newButton.height / 4 );
         newButton.inputEnabled = true;
         newButton.input.enableDrag();
+        newButton.events.onDragStart.add( startDrag, this );
         newButton.events.onDragStop.add( stopDrag, newButton );
         setButtonStatus( newButton, false );
         return newButton;
+    }
+
+    function startDrag( actualButton ) {
+        uiGroup.bringToTop( actualButton );
     }
 
     function stopDrag( actualButton ) {
@@ -349,6 +354,9 @@ var clashnado = function () {
         gunnerButton = createButton( -50, "tiro-8", "gunner", alliesGroup.gunners, alliesGroup.poolGunners, 100 );
         bombButton = createButton( 70, "bomba-8", "bomb", alliesGroup.bombs, alliesGroup.poolBombs, 150 );
         wallButton = createButton( 190, "defensa-8", "wall", alliesGroup.walls, alliesGroup.poolWalls, 50 );
+        uiGroup.add( gunnerButton );
+        uiGroup.add( bombButton );
+        uiGroup.add( wallButton );
     }
 
     function createBackground() {
