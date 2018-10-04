@@ -740,7 +740,7 @@ var clashnado = function () {
     function stopEnemyGroup( enemyGroup ) {
         for ( i = 0; i < enemyGroup.length; i++ )
         {
-            enemiesGroup[i].body.velocity = 0;
+            enemyGroup[i].body.velocity.y = 0;
         }
     }
 
