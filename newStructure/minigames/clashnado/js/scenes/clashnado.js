@@ -224,6 +224,16 @@ var clashnado = function () {
     //#region Level construction
 
     function levelConstruction() {
+        startPhysics();
+        createGroups();
+        createUI();
+        createBackground();
+        //createTimer();
+        createHandTutorial();
+        createAllAvailablePositions();
+
+        cleanAllArrays();
+        lives = 3;
         gamestate = tutorialClashnado;
         tutorialPhase = 0;
         tutorialPhaseComplete = true;
@@ -233,14 +243,6 @@ var clashnado = function () {
         actualCoinTime = 0;
         actualDifficultLevel = 0;
         levelEnemy = 1;
-
-        startPhysics();
-        createGroups();
-        createUI();
-        createBackground();
-        //createTimer();
-        createHandTutorial();
-        createAllAvailablePositions();
     }
 
     function startPhysics() {
@@ -684,10 +686,11 @@ var clashnado = function () {
     }
 
     function addCloudCoins( newCoin ) {
+        if ( lives == 0 ) return;
         sound.play( "swipe" );
-        newCoin.introTween.stop();
         grabedTween = game.add.tween( newCoin ).to( { x: game.world.centerX + actualCloud.x - 70, y: actualCloud.y + 60 }, 300, Phaser.Easing.Cubic.Out, true );
         grabedTween.onComplete.add( function () {
+            if ( lives == 0 ) return;
             actualCloud.text = Math.floor( actualCloud.text ) + 50 > 999 ? 999 : Math.floor( actualCloud.text ) + 50;
             enableButtons();
             newCoin.kill();
@@ -735,7 +738,27 @@ var clashnado = function () {
         {
             gamestate = null;
             stopAllEnemies();
+            setButtonStatus( gunnerButton, false );
+            setButtonStatus( bombButton, false );
+            setButtonStatus( wallButton, false );
         }
+    }
+
+    function cleanAllArrays() {
+        cleanArray( enemyRow1 );
+        cleanArray( enemyRow2 );
+        cleanArray( enemyRow3 );
+        cleanArray( enemyRow4 );
+        cleanArray( enemiesGroup.hurricanes );
+        cleanArray( enemiesGroup.hurricanesHelmet );
+        cleanArray( enemiesGroup.evilClouds );
+        cleanArray( alliesGroup.gunners );
+        cleanArray( alliesGroup.bombs );
+        cleanArray( alliesGroup.walls );
+    }
+
+    function cleanArray( arrayToClean ) {
+        arrayToClean.splice( 0, arrayToClean.length );
     }
 
     function stopAllEnemies() {
