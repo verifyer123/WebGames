@@ -36,10 +36,10 @@ var clashnado = function () {
             ],
         images:
             [
-                // {
-                //     name: "tutorial_image",
-                //     file: "images/clashnado/gametuto.png"
-                // },
+                {
+                    name: "tutorial_image",
+                    file: "images/clashnado/gametuto.png"
+                }
                 // {
                 //     name: "background",
                 //     file: "images/clashnado/fondo.png"
