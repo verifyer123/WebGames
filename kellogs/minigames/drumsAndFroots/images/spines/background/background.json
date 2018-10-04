@@ -1,0 +1,126 @@
+{
+"skeleton": { "hash": "bGDuv9VXfE9np2kh/cFzzURnGKA", "spine": "3.2.01", "width": 0, "height": 0, "images": "" },
+"bones": [
+	{ "name": "root" },
+	{ "name": "bg", "parent": "root", "y": 130 }
+],
+"slots": [
+	{ "name": "bg", "bone": "bg", "attachment": "bg_color_1" }
+],
+"skins": {
+	"default": {},
+	"normal": {
+		"bg": {
+			"bg_0": { "name": "normal2/bg_0", "y": -0.94, "width": 513, "height": 257 },
+			"bg_1": { "name": "normal2/bg_1", "y": -0.94, "width": 513, "height": 257 },
+			"bg_2": { "name": "normal2/bg_2", "y": -0.94, "width": 513, "height": 257 },
+			"bg_3": { "name": "normal2/bg_3", "y": -0.94, "width": 513, "height": 257 },
+			"bg_4": { "name": "normal2/bg_4", "y": -0.94, "width": 513, "height": 257 },
+			"bg_5": { "name": "normal2/bg_5", "y": -0.94, "width": 513, "height": 257 },
+			"bg_6": { "name": "normal2/bg_6", "y": -0.94, "width": 513, "height": 257 },
+			"bg_7": { "name": "normal2/bg_7", "y": -0.94, "width": 513, "height": 257 },
+			"bg_color_1": { "name": "normal2/bg_color_1", "y": -1.89, "width": 513, "height": 257 },
+			"bg_color_2": { "name": "normal2/bg_color_2", "y": -0.94, "width": 513, "height": 257 },
+			"bg_color_3": { "name": "normal2/bg_color_3", "y": -0.94, "width": 513, "height": 257 }
+		}
+	}
+},
+"animations": {
+	"idle": {
+		"slots": {
+			"bg": {
+				"attachment": [
+					{ "time": 0, "name": "bg_7" },
+					{ "time": 0.1, "name": "bg_6" },
+					{ "time": 0.1666, "name": "bg_5" },
+					{ "time": 0.2333, "name": "bg_4" },
+					{ "time": 0.3, "name": "bg_3" },
+					{ "time": 0.3666, "name": "bg_2" },
+					{ "time": 0.4333, "name": "bg_1" },
+					{ "time": 0.5, "name": "bg_0" },
+					{ "time": 0.5666, "name": "bg_1" },
+					{ "time": 0.6333, "name": "bg_2" },
+					{ "time": 0.7, "name": "bg_3" },
+					{ "time": 0.7666, "name": "bg_4" },
+					{ "time": 0.8333, "name": "bg_5" },
+					{ "time": 0.9, "name": "bg_6" },
+					{ "time": 0.9666, "name": "bg_7" }
+				]
+			}
+		},
+		"bones": {
+			"bg": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 0.9666, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 0.9666, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{
+						"time": 0,
+						"x": 1,
+						"y": 1,
+						"curve": [ 0.083, 0.23, 0.573, 1.64 ]
+					},
+					{
+						"time": 0.5,
+						"x": 1.005,
+						"y": 1.005,
+						"curve": [ 0.083, 0.23, 0.573, 1.64 ]
+					},
+					{ "time": 0.9666, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 0.9666 }
+		]
+	},
+	"play": {
+		"slots": {
+			"bg": {
+				"attachment": [
+					{ "time": 0, "name": "bg_7" },
+					{ "time": 0.0333, "name": "bg_color_1" },
+					{ "time": 0.0666, "name": "bg_color_2" },
+					{ "time": 0.1, "name": "bg_color_3" },
+					{ "time": 0.1333, "name": "bg_color_1" },
+					{ "time": 0.2, "name": "bg_color_2" },
+					{ "time": 0.2666, "name": "bg_color_3" },
+					{ "time": 0.3666, "name": "bg_color_1" },
+					{ "time": 0.4666, "name": "bg_color_2" },
+					{ "time": 0.5666, "name": "bg_color_3" },
+					{ "time": 0.7, "name": "bg_color_1" },
+					{ "time": 0.8333, "name": "bg_color_2" },
+					{ "time": 0.9666, "name": "bg_color_3" },
+					{ "time": 1.1, "name": "bg_7" }
+				]
+			}
+		},
+		"bones": {
+			"bg": {
+				"rotate": [
+					{ "time": 0, "angle": 0, "curve": "stepped" },
+					{ "time": 1.1, "angle": 0 }
+				],
+				"translate": [
+					{ "time": 0, "x": 0, "y": 0, "curve": "stepped" },
+					{ "time": 1.1, "x": 0, "y": 0 }
+				],
+				"scale": [
+					{ "time": 0, "x": 1, "y": 1, "curve": "stepped" },
+					{ "time": 1.1, "x": 1, "y": 1 }
+				]
+			}
+		},
+		"drawOrder": [
+			{ "time": 0 },
+			{ "time": 1.1 }
+		]
+	}
+}
+}

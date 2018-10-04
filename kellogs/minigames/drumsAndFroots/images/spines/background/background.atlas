@@ -1,0 +1,83 @@
+
+background.png
+size: 2048,2048
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+normal2/bg_0
+  rotate: false
+  xy: 2, 1038
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_1
+  rotate: false
+  xy: 2, 779
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_2
+  rotate: false
+  xy: 517, 1038
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_3
+  rotate: false
+  xy: 2, 520
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_4
+  rotate: false
+  xy: 517, 779
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_5
+  rotate: false
+  xy: 1032, 1038
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_6
+  rotate: false
+  xy: 2, 261
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_7
+  rotate: false
+  xy: 517, 520
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_color_1
+  rotate: false
+  xy: 1032, 779
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_color_2
+  rotate: true
+  xy: 1547, 782
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
+normal2/bg_color_3
+  rotate: false
+  xy: 2, 2
+  size: 513, 257
+  orig: 513, 257
+  offset: 0, 0
+  index: -1
