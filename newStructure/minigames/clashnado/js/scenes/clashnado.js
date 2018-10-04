@@ -556,14 +556,12 @@ var clashnado = function () {
             newBullet.activeGroup = bulletsGroup.activeBullets;
             newBullet.poolGroup = bulletsGroup.poolBullets;
             newBullet.attack = 1;
-            newBullet.tint = 8421504;
             newBullet.body.velocity.y = newBullet.speed;
             bulletsGroup.activeBullets.push( newBullet );
         }
         else
         {
             var oldBullet = bulletsGroup.poolBullets.pop();
-            oldBullet.tint = 16777215;
             oldBullet.x = originPositionX + ( COLLIDERSIZE / 2 );
             oldBullet.y = originPositionY + ( COLLIDERSIZE / 2 );
             oldBullet.body.velocity.y = oldBullet.speed;
@@ -727,7 +725,23 @@ var clashnado = function () {
     function loseHeart() {
         missPoint();
         if ( lives == 0 )
+        {
             gamestate = null;
+            stopAllEnemies();
+        }
+    }
+
+    function stopAllEnemies() {
+        stopEnemyGroup( enemiesGroup.hurricanes );
+        stopEnemyGroup( enemiesGroup.hurricanesHelmet );
+        stopEnemyGroup( enemiesGroup.evilClouds );
+    }
+
+    function stopEnemyGroup( enemyGroup ) {
+        for ( i = 0; i < enemyGroup.length; i++ )
+        {
+            enemiesGroup[i].body.velocity = 0;
+        }
     }
 
     function render() {
@@ -1057,7 +1071,7 @@ var clashnado = function () {
         game.stage.backgroundColor = "#ffffff";
 
         levelConstruction();
-        lives = 5;
+        lives = 3;
         loadSounds();
 
     }
