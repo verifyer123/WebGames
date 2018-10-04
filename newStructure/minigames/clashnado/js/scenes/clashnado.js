@@ -227,6 +227,13 @@ var clashnado = function () {
         gamestate = tutorialClashnado;
         tutorialPhase = 0;
         tutorialPhaseComplete = true;
+
+        actualEnemyTime = 0;
+        timeForNextEnemy = 500;
+        actualCoinTime = 0;
+        actualDifficultLevel = 0;
+        levelEnemy = 1;
+
         startPhysics();
         createGroups();
         createUI();
