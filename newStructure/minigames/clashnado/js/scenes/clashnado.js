@@ -225,6 +225,8 @@ var clashnado = function () {
 
     function levelConstruction() {
         gamestate = tutorialClashnado;
+        tutorialPhase = 0;
+        tutorialPhaseComplete = true;
         startPhysics();
         createGroups();
         createUI();
@@ -1055,9 +1057,7 @@ var clashnado = function () {
         game.stage.backgroundColor = "#ffffff";
 
         levelConstruction();
-
         lives = 5;
-
         loadSounds();
 
     }
