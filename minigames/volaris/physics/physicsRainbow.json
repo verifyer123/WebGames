@@ -1,9 +1,0 @@
-{
-	"PhysicsKeyHere": [
-		{
-			"dencity": 2, "friction": 0, "bounce": 0,
-			"filters": {"categoryBits": 1, "maskBits": 655535},
-			"shape": [ 69,0 , 98,1 , 99,51 , 73,82 , 74,156 , 17,144 , 15,76 , 36,29 ]
-		}
-	]
-}
