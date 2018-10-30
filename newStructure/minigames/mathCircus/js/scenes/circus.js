@@ -1,23 +1,21 @@
 var soundsPath = "../../shared/minigames/sounds/"
 
 var circus = function(){
-    
     var localizationData = {
-		"EN":{
+    	"EN":{
             "howTo":"How to Play?",
             "moves":"Moves left",
-			"stop":"Stop!"
-		},
+    		"stop":"Stop!"
+    	},
 
-		"ES":{
+    	"ES":{
             "moves":"Movimientos extra",
             "howTo":"¿Cómo jugar?",
             "stop":"¡Detener!"
-		}
-	}
-    
+    	}
+    }
 
-	var assets = {
+    var assets = {
         atlases: [
             {   
                 name: "atlas.circus",
@@ -32,49 +30,49 @@ var circus = function(){
 
         ],
         images: [
-			{   name:"background",
-				file: "images/circus/fondo.png"},
+    		{   name:"background",
+    			file: "images/circus/fondo.png"},
             {   name:"background2",
                 file: "images/circus/fondoG.png"},
             {   name:"tutorial_image",
-				file: "images/circus/tutorial_image.png"},
-		],
-		jsons: [
-			{
-				name: 'pickedEnergy', 
-				file: 'particles/battle/pickedEnergy/specialBar1.json'
-			},
-			{
-				name: 'fireFloor', 
-				file: 'particles/battle/fireFloor/fireFloor1.json'
-			}
-		],
-		sounds: [
+    			file: "images/circus/tutorial_image.png"},
+    	],
+    	jsons: [
+    		{
+    			name: 'pickedEnergy', 
+    			file: 'particles/battle/pickedEnergy/specialBar1.json'
+    		},
+    		{
+    			name: 'fireFloor', 
+    			file: 'particles/battle/fireFloor/fireFloor1.json'
+    		}
+    	],
+    	sounds: [
             {	name: "magic",
-				file: soundsPath + "magic.mp3"},
+    			file: soundsPath + "magic.mp3"},
             {	name: "cut",
-				file: soundsPath + "cut.mp3"},
+    			file: soundsPath + "cut.mp3"},
             {	name: "wrong",
-				file: soundsPath + "wrong.mp3"},
+    			file: soundsPath + "wrong.mp3"},
             {	name: "explosion",
-				file: soundsPath + "laserexplode.mp3"},
-			{	name: "pop",
-				file: soundsPath + "pop.mp3"},
-			{	name: "shoot",
-				file: soundsPath + "shoot.mp3"},
-			{	name: "gameLose",
-				file: soundsPath + "gameLose.mp3"},
-			{	name: "flesh",
-				file: soundsPath + "flesh.mp3"},
-			{	name: "punch",
-				file: soundsPath + "punch1.mp3"},
+    			file: soundsPath + "laserexplode.mp3"},
+    		{	name: "pop",
+    			file: soundsPath + "pop.mp3"},
+    		{	name: "shoot",
+    			file: soundsPath + "shoot.mp3"},
+    		{	name: "gameLose",
+    			file: soundsPath + "gameLose.mp3"},
+    		{	name: "flesh",
+    			file: soundsPath + "flesh.mp3"},
+    		{	name: "punch",
+    			file: soundsPath + "punch1.mp3"},
             {	name: "spaceSong",
-				file: soundsPath + "songs/circus_gentlejammers.mp3"},
+    			file: soundsPath + "songs/circus_gentlejammers.mp3"},
             {   name: "cheers",
                 file: "sounds/cheers2seg.mp3"},
             {   name: "cheersOver",
                 file: "sounds/lose2seg.mp3"}
-		],
+    	],
         spritesheets: [
             {   name: "coin",
                 file: "images/circus/coin.png",
@@ -90,16 +88,16 @@ var circus = function(){
            }
         ],
         spines:[
-			{
-				name:"yogotar",
-				file:"images/spines/skeleton.json"
-			}
-		]
+    		{
+    			name:"yogotar",
+    			file:"images/spines/skeleton.json"
+    		}
+    	]
     }
         
     var gameIndex = 38;    
     var lives = null;
-	var sceneGroup = null;
+    var sceneGroup = null;
     var tutoGroup;
     var heartsGroup = null;
     var pointsBar;
@@ -108,45 +106,44 @@ var circus = function(){
     var particleWrong;
     var hand;
 
-	var background,backgroundPeople,floor;
-	var base, buttonsGroup, yogotar;
+    var background,backgroundPeople,floor;
+    var base, buttonsGroup, yogotar;
     var gameActive = true;
-	var shoot;
+    var shoot;
     var spaceSong;
-	var timerGroup;
-	var numLimit, timeToUse;
-	var clickLatch = false;
+    var timerGroup;
+    var numLimit, timeToUse;
+    var clickLatch = false;
     var speed;
     var number2;
-	var numberOptions = [3,4,6];
+    var numberOptions = [3,4,6];
     var levelZero;
     var glitGroup;
     var pivot;
     var glitter = ['flash_1', 'flash_2', 'flash_3'];
-	
-	function loadSounds(){
-		sound.decode(assets.sounds);
-	}
 
-	function initialize(){
+    function loadSounds(){
+    	sound.decode(assets.sounds);
+    }
+
+    function initialize(){
         game.stage.backgroundColor = "#ffffff";
         lives = 3;
-		numLimit = 5;
-		timeToUse = 5000;
+    	numLimit = 5;
+    	timeToUse = 5000;
         speed = 5;
         number2 = 0;
         levelZero = true;
         pivot = 0;
         
-		loadSounds();
-	}
+    	loadSounds();
+    }
 
     function preload(){
         game.stage.disableVisibilityChange = false;
     }
 
     function stopGame(win){
-        
         loseGame();
 
         gameActive = false;
@@ -181,12 +178,10 @@ var circus = function(){
     }
 
     function createTutorial(){
-
         tutoGroup = game.add.group();
         sceneGroup.add(tutoGroup);
 
         tutorialHelper.createTutorialGif(tutoGroup,onClickPlay);
-
     }
 
     function onClickPlay(){
@@ -203,11 +198,9 @@ var circus = function(){
                 glitGroup.children[iPhoto].x -= speed * 0.2;
             }
         }
-
     }
 
-    function createPointsBar(){
-        
+    function createPointsBar(){    
         pointsBar = game.add.group();
         pointsBar.x = game.world.width;
         pointsBar.y = 0;
@@ -215,7 +208,7 @@ var circus = function(){
         
         var pointsImg = pointsBar.create(-10,10,'atlas.circus','xpcoins');
         pointsImg.anchor.setTo(1,0);
-    
+
         var fontStyle = {font: "35px VAGRounded", fontWeight: "bold", fill: "#ffffff", align: "center"}
         var pointsText = new Phaser.Text(sceneGroup.game, 0, 0, "0", fontStyle);
         pointsText.x = -pointsImg.width * 0.45;
@@ -225,12 +218,10 @@ var circus = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
         pointsBar.text = pointsText;
-        pointsBar.number = 0;
-        
+        pointsBar.number = 0;  
     }
 
     function addPoint(number){
-        
         sound.play("magic");
         pointsBar.number+=number;
         pointsBar.text.setText(pointsBar.number);
@@ -251,7 +242,6 @@ var circus = function(){
     }
 
     function addCoin(obj){
-        
         coin.x = obj.centerX;
         coin.y = obj.centerY;
         var time = 300;
@@ -267,8 +257,7 @@ var circus = function(){
         })
     }
 
-    function createCoin(){
-        
+    function createCoin(){ 
        coin = game.add.sprite(0, 0, "coin");
        coin.anchor.setTo(0.5);
        coin.scale.setTo(0.8);
@@ -292,8 +281,7 @@ var circus = function(){
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
     }
 
-    function createHearts(){
-        
+    function createHearts(){ 
         heartsGroup = game.add.group();
         heartsGroup.y = 10;
         sceneGroup.add(heartsGroup);
@@ -316,12 +304,10 @@ var circus = function(){
         
         pointsText.setShadow(3, 3, 'rgba(0,0,0,0.5)', 0);
         
-        heartsGroup.text = pointsText;
-                
+        heartsGroup.text = pointsText;         
     }
 
     function missPoint(){
-        
         sound.play("wrong");
                 
         lives--;
@@ -337,7 +323,6 @@ var circus = function(){
         }
         
         addNumberPart(heartsGroup.text,'-1',true);
-        
     }
 
     function createPart(key){
@@ -355,7 +340,6 @@ var circus = function(){
     }
 
     function createBackground(){
-        
         background = game.add.tileSprite(0,0,game.world.width, 236,'background');
         sceneGroup.add(background);
 
@@ -367,7 +351,6 @@ var circus = function(){
     }
 
     function createBase(){
-        
         base = game.add.group();
         base.x = game.world.centerX;
         base.y = game.world.height - 25;
@@ -397,7 +380,6 @@ var circus = function(){
     }
 
     function createButtons(){
-        
         buttonsGroup = game.add.group();
         sceneGroup.add(buttonsGroup);
         
@@ -414,7 +396,6 @@ var circus = function(){
             
             var buttonImage = button.create(0,0,'atlas.circus','btn');
             buttonImage.anchor.setTo(0.5,0.5);
-            //buttonImage.inputEnabled = true;
             buttonImage.tint = 0x909090;
             buttonImage.events.onInputDown.add(inputButton);
             
@@ -429,11 +410,9 @@ var circus = function(){
         }
     }
 
-    function showButtons(appear){
-        
+    function showButtons(appear){  
         var delay = 0;
         for(var i = 0; i < buttonsGroup.length;i++){
-            
             var button = buttonsGroup.children[i];
             if(appear){
                 popObject(button,delay,appear);
@@ -441,12 +420,10 @@ var circus = function(){
                 popObject(button,delay,appear);
             }
             
-            delay+= 100;
-            
+            delay+= 100; 
         }
         
         if(appear){
-            
             setOperation();
             
             game.time.events.add(delay,function(){
@@ -460,7 +437,6 @@ var circus = function(){
     }
 
     function createTimer(){
-        
         timerGroup = game.add.group();
         timerGroup.alpha = 0;
         sceneGroup.add(timerGroup);
@@ -472,19 +448,19 @@ var circus = function(){
         timeBar.anchor.setTo(0, 0.5);
         timeBar.scale.setTo(11.5, 0.65);
         timerGroup.timeBar = timeBar;
-   }
-    
+    }
+
     function stopTimer(){
         timerGroup.tweenTiempo.stop();
         game.add.tween(timerGroup.timeBar.scale).to({x:11.5}, 100, Phaser.Easing.Linear.Out, true, 100);
-   }
-    
+    }
+
     function startTimer(time){
-        
         timerGroup.tweenTiempo = game.add.tween(timerGroup.timeBar.scale).to({x:0}, time, Phaser.Easing.Linear.Out, true, 100);
         timerGroup.tweenTiempo.onComplete.add(function(){
             gameActive = false;
             stopTimer();
+            
             for(var i = 0; i < buttonsGroup.length; i++){
                 var btn = buttonsGroup.children[i];
                 if(btn.number !== result){
@@ -497,6 +473,7 @@ var circus = function(){
             particleWrong.y = yogotar.y - yogotar.height/2;
             particleWrong.start(true, 1000, null, 5);
             missPoint();
+           
             if(lives > 0){
                 yogotar.setAnimationByName(0,"hit",false).onComplete = function(){
                     speed = 5;
@@ -505,38 +482,36 @@ var circus = function(){
                 game.time.events.add(1800, restartScene);
             }
         });
+       
         for(var b=0; b<buttonsGroup.length; b++){
             buttonsGroup.children[b].children[0].inputEnabled = true;
         }
     }
 
     function popObject(obj,delay,appear){
-        
-        game.time.events.add(delay,function(){
-            
+        game.time.events.add(delay,function(){  
             sound.play("cut");
-			if(appear){
-
-				obj.alpha = 1;
+    		
+            if(appear){
+    			obj.alpha = 1;
             	game.add.tween(obj.scale).from({x:0, y:0},250,Phaser.Easing.linear,true);
-			}else{
-				game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
-					obj.scale.setTo(1,1);
-					obj.alpha = 0;
-				})
-			}
-        },this)
+    		}else{
+    			game.add.tween(obj.scale).to({x:0,y:0},250,"Linear",true).onComplete.add(function(){
+    				obj.scale.setTo(1,1);
+    				obj.alpha = 0;
+    			})
+    		}
+        }, this)
     }
-	
-	function setOperation(){
-		
-		var number1 = numberOptions[game.rnd.integerInRange(0, numberOptions.length - 1)];
-		number2 = getRand(number2);
-		
-		base.text.setText(number1 + ' X ' + number2);
-		result = number1 * number2;
-		
-		var index =  game.rnd.integerInRange(0,2);
+
+    function setOperation(){
+    	var number1 = numberOptions[game.rnd.integerInRange(0, numberOptions.length - 1)];
+    	number2 = getRand(number2);
+    	
+    	base.text.setText(number1 + ' X ' + number2);
+    	result = number1 * number2;
+    	
+    	var index =  game.rnd.integerInRange(0,2);
         buttonsGroup.children[index].number = result;
         game.time.events.add(600, function(){
             if(levelZero){
@@ -548,72 +523,69 @@ var circus = function(){
             }
         }, this);
         
-		for(var i = 0; i < buttonsGroup.length;i++){
-			
-			var button = buttonsGroup.children[i];
-			if(i !== index){
+    	for(var i = 0; i < buttonsGroup.length;i++){
+    		var button = buttonsGroup.children[i];
+    		
+            if(i !== index){
                 do{
                     var number1 = game.rnd.integerInRange(2, numLimit);
                     var number3 = game.rnd.integerInRange(2, numLimit);
                     var opt = number1 * number3;
                 }while(checkExist(opt))
                 
-				buttonsGroup.children[i].number = opt;
-			}
-			
-			button.text.setText(button.number);
-		}
-		
-		popObject(button.text,0,true);
-	}
-    
+    			buttonsGroup.children[i].number = opt;
+    		}
+    		button.text.setText(button.number);
+    	}
+    	popObject(button.text,0,true);
+    }
+
     function checkExist(opt){
-        
         for(var i = 0; i < buttonsGroup.length; i++){
-            
             if(buttonsGroup.children[i].number === opt){
                 return true;
             }
         }
         return false;
     }
-    
+
     function getRand(opt){
         var x = game.rnd.integerInRange(2, numLimit);
+        
         if(x === opt)
             return getRand(opt);
         else
             return x;     
     }
 
-	function inputButton(obj){
-		
-		if(!gameActive){
-			return;
-		}
-		
+    function inputButton(obj){
+    	if(!gameActive){
+    		return;
+    	}
+    	
         if(!levelZero){
             stopTimer();
         }
-		var parent = obj.parent;
-		
-		sound.play("pop");
-		
-		game.add.tween(parent.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0,true);
+    	var parent = obj.parent;
+    	
+    	sound.play("pop");
+    	
+    	game.add.tween(parent.scale).to({x:0.6,y:0.6},100,"Linear",true,0,0,true);
         
         for(var i = 0; i < buttonsGroup.length; i++){
             var btn = buttonsGroup.children[i];
             buttonsGroup.children[i].children[0].inputEnabled = false;
+            
             if(btn.number !== result){
                 game.add.tween(btn.scale).to({x:0,y:0},250,"Linear",true);
             }
         }
-		
-		gameActive = false;
-		
-		if(parent.number == result){
+    	
+    	gameActive = false;
+    	
+    	if(parent.number == result){
             if(!levelZero){
-		        addCoin(yogotar);
+    	        addCoin(yogotar);
             }else{
                 game.add.tween(hand).to( { alpha: 0 }, 300, Phaser.Easing.Bounce.In, true, 0, 0);
             }
@@ -621,15 +593,15 @@ var circus = function(){
             particleCorrect.x = yogotar.x;
             particleCorrect.y = yogotar.y - yogotar.height/2;
             particleCorrect.start(true, 1400, null, 5);
-			speed = 0;
-			yogotar.setAnimationByName(0,"win",false).onComplete = function(){
+    		speed = 0;
+    		yogotar.setAnimationByName(0,"win",false).onComplete = function(){
                 speed = 5;
             }
-			yogotar.addAnimationByName(0,"idle",true);
-			game.time.events.add(1800, restartScene);
-		}else{
+    		yogotar.addAnimationByName(0,"idle",true);
+    		game.time.events.add(1800, restartScene);
+    	}else{
             sound.play("cheersOver");
-			particleWrong.x = yogotar.x;
+    		particleWrong.x = yogotar.x;
             particleWrong.y = yogotar.y - yogotar.height/2;
             particleWrong.start(true, 1400, null, 5);
             speed = 0;
@@ -643,12 +615,10 @@ var circus = function(){
                 yogotar.addAnimationByName(0,"idle",true);
                 game.time.events.add(1800, restartScene);
             }
-		}
-		
-	}
-	
-	function restartScene(){
+    	}
+    }
 
+    function restartScene(){
         if(levelZero){
             levelZero = false;
             game.add.tween(timerGroup).to({alpha:1},300,"Linear",true);
@@ -656,15 +626,14 @@ var circus = function(){
                 buttonsGroup.children[i].children[0].tint = 0xffffff;
             }
         }
-		
-		showButtons(false);
-		game.add.tween(base.text).to({alpha:0},300,"Linear",true,200);
-		
-		game.time.events.add(1000,function(){
-			showButtons(true);
-		})
-		
-	}
+    	
+    	showButtons(false);
+    	game.add.tween(base.text).to({alpha:0},300,"Linear",true,200);
+    	
+    	game.time.events.add(1000,function(){
+    		showButtons(true);
+    	})
+    }
 
     function createParticles(){
         particleCorrect = createPart("star");
@@ -674,8 +643,7 @@ var circus = function(){
         sceneGroup.add(particleWrong);
     }
 
-    function createFlashes(){
-           
+    function createFlashes(){    
         glitGroup = game.add.group();
         glitGroup.x = backgroundPeople.x;
         glitGroup.y = backgroundPeople.y;
@@ -691,12 +659,12 @@ var circus = function(){
         
         takePhotosFlashes();
     }
-    
+
     function takePhotosFlashes(){
         glitGroup.children[pivot].alpha = 1;
         glitGroup.children[pivot].x = game.rnd.integerInRange(0, backgroundPeople.width);
         glitGroup.children[pivot].y = game.rnd.integerInRange(15, backgroundPeople.height - 80);
-    
+
         game.time.events.add(150,function(){
             game.add.tween(glitGroup.children[pivot]).to({ alpha: 0 }, 1000, Phaser.Easing.linear, true);
             
@@ -713,19 +681,19 @@ var circus = function(){
 
         }, this);
     }
-	
-	return {
-		assets: assets,
-		name: "circus",
-		update: update,
+
+    return {
+    	assets: assets,
+    	name: "circus",
+    	update: update,
         preload:preload,
         getGameData:function () { 
             var games = yogomeGames.getGames(); 
             return games[gameIndex];
         },
-		create: function(event){
+    	create: function(event){
             
-			sceneGroup = game.add.group(); 
+    		sceneGroup = game.add.group(); 
             yogomeGames.mixpanelCall("enterGame",gameIndex,lives,parent.epicModel); 
 
             game.onPause.add(function(){
@@ -740,23 +708,22 @@ var circus = function(){
             game.sound.setDecodedCallback(spaceSong, function(){
                 spaceSong.loopFull(0.6);
             }, this);
-			
-			createBackground();
+    		
+    		createBackground();
             initialize();
 
             createFlashes();
-			createBase();
-			createButtons();
-			createTimer();
+    		createBase();
+    		createButtons();
+    		createTimer();
             
             createHearts();           			
             createPointsBar();
             createCoin();
             createParticles();
             createTutorial();
-			
-			buttons.getButton(spaceSong,sceneGroup);
-            
-		},
-	}
+    		
+    		buttons.getButton(spaceSong,sceneGroup);  
+    	},
+    }
 }()
