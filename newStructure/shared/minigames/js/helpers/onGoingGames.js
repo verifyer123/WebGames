@@ -19,7 +19,7 @@ var onGoingGames={
 	},
 
 	minigames:[
-		{name:'cuentaContactos',url:'cuentaContactos/',mapUrl:'cuentaContactos', sceneName:'cuentaContactos',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
+		{name:'beatOMatic',url:'beatOMatic/',mapUrl:'beatOMatic', sceneName:'beatOMatic',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
 		{name:'Addition Dojo',url:'additiondojo/',mapUrl:'AdditionDojo', sceneName:'dojo',subject:'math',review:false,objective:15,demo:false,type:gameTypeEnum.COUNT},
 		{name:'Water Morphosis',url:'waterMorph/',mapUrl:'waterMorph', sceneName:'water',subject:'science',review:false,objective:40,demo:false,type:gameTypeEnum.MATCH},
 		{name:'Ice Cream Numbers',url:'numberIce/',mapUrl:'numberIce', sceneName:'ice',subject:'math',review:false,objective:10,demo:false,type:gameTypeEnum.COUNT},
