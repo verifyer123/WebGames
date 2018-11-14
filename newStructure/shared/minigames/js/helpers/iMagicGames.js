@@ -48,6 +48,6 @@ var iMagicGames = {
 		{name:'Imagic Symfunny',url:'symfunny/',mapUrl:'symfunny', sceneName:'symfunny',yogotar:"oof",subject:'creativity', review:false,objective:15,demo:false,type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Word Blast',url:'wordBlast/',mapUrl:'wordBlast', sceneName:'wordBlast',subject:'language', review:false,objective:20,demo:false, type:gameTypeEnum.SEQUENCE},
 		{name:'Imagic Kinetic Jump',url:'kineticJump/',mapUrl:'kineticJump', sceneName:'kineticJump',yogotar:"dax",subject:'science', review:false,objective:30,demo:false, type:gameTypeEnum.TAP},
-		
+		{name:'Imagic Flappy',url:'iMagic/',mapUrl:'iMagic', sceneName:'imagic',yogotar:"dax",subject:'math', review:false,objective:3,demo:false,type:gameTypeEnum.TAP},
 	]
 }
