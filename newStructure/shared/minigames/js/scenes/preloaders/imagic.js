@@ -10,7 +10,11 @@ var preloaderIntro = function(){
 		images: [
 			{
 			name: "tileStars",
-			file: "../../shared/minigames/images/preloaders/imagic/stars.png"}
+			file: "../../shared/minigames/images/preloaders/imagic/stars.png"
+			},
+			{
+			name: "logo",
+			file: "../../shared/minigames/images/preloaders/imagic/logo.png"},
 		],
 		sounds: [
 
@@ -36,7 +40,7 @@ var preloaderIntro = function(){
 			var background = sceneGroup.create(0,0,'logoAtlas', 'background');
 			background.scale.setTo(2,1);
 			
-			var logo = sceneGroup.create(game.world.centerX, game.world.centerY-100, 'logoAtlas', 'logo')
+			var logo = sceneGroup.create(game.world.centerX, game.world.centerY-100, 'logo')
 			logo.scale.setTo(1, 1)
 			logo.anchor.setTo(0.5, 0.5)
 			
